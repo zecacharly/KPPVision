@@ -1,0 +1,280 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using System.Drawing;
+using System.Xml.Serialization;
+using System.ComponentModel;
+using KPP.Core.Debug;
+using KPP.Controls.Winforms.ImageEditorObjs;
+using System.Numerics;
+
+
+
+namespace VisionModule {
+
+
+    public class LineSegmentConverter : ExpandableObjectConverter {
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext context) {
+            return true;
+        }
+
+        //public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context) {
+        //    StandardValuesCollection coll = new StandardValuesCollection(new Test[] { new TestImpl() });
+        //    return coll;
+        //}
+
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) {
+            //if (true) {
+
+            //}
+            return true;
+            //return sourceType == typeof(string);
+        }
+
+        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType) {
+            if (value is LineSegment2D) {
+                LineSegment2D newline = (LineSegment2D)value;
+                return new LineSegment2D(newline.P1,newline.P2);
+            } 
+
+            
+
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) {
+            //ResultReference resrefinst = context.Instance as ResultReference;
+
+            //if (resrefinst == null) {
+            //    return value;
+            //}
+            //if (resrefinst.ResultOutput == null) {
+            //    return value;
+            //}
+            //var converter = TypeDescriptor.GetConverter(resrefinst.ResultOutput.GetType());
+            //if (converter.CanConvertFrom(value.GetType())) {
+            //    object newObject = converter.ConvertFrom(value);
+            //    value = newObject;
+            //}
+
+
+            return value;
+        }
+    }
+
+
+    [ProcessingFunction("Points 2 Line", "Measurement")]
+    public class ProcessingFunctionPoints2Line: ProcessingFunctionBase {
+
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionPoints2Line));
+
+       
+
+        #region Pre-Processing
+
+        private LineSegment2D _ExteriorLine = new LineSegment2D(new Point(50,0),new Point(0,0));
+        //[XmlIgnore]
+        [DisplayName("Exterior Line Segment"), Category("Post-Processing"), Description("Exterior Line for angle calculation"), ReadOnly(false)]
+        [TypeConverter(typeof(LineSegmentConverter))]
+        [AcceptType(typeof(LineSegment2D)),AcceptDrop(true)]
+        public LineSegment2D ExteriorLine {
+            get { return _ExteriorLine; }
+            set { _ExteriorLine = value; }
+        }
+
+        ResultReference _Point1;
+        [AcceptDrop(true)]
+        [Category("Pre-Processing"), Description("Point 1"), DisplayName("Point 1"), AcceptType(typeof(PointF))]
+        public ResultReference Point1 { 
+            get{
+                return _Point1;
+            }
+            set {
+                _Point1 = value;
+            }
+        }
+
+        ResultReference _Point2;
+        [AcceptDrop(true)]
+        [Category("Pre-Processing"), Description("Point 2"), DisplayName("Point 2"),AcceptType(typeof(PointF))]
+        public ResultReference Point2 {
+            get {
+                return _Point2;
+            }
+            set {
+                _Point2 = value;
+            }
+        }
+       
+
+        [TypeConverter(typeof(ExpandableObjectConverter)), DisplayName("Contour"), Category("Pre-Processing"), Browsable(false)]
+        [XmlIgnore]        
+        public override ContourPreProc ContourPreProc1 {
+            get;
+            set;
+        }
+
+
+
+
+        [TypeConverter(typeof(ExpandableObjectConverter)), DisplayName("Image"), Category("Pre-Processing"), Browsable(false)]
+        [XmlIgnore]        
+        public override ImagePreProc ImagePreProc1 {
+            get;
+            set;
+        }
+
+
+
+
+        #endregion
+
+
+
+        #region Post Processing
+
+
+        
+        
+
+
+
+
+        private LineSegment2D _Line= new LineSegment2D();
+        [XmlIgnore]
+        [DisplayName("Line Segment"), Category("Post-Processing"), Description("Line from the 2 points"), ReadOnly(true)]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        [AllowDrag(true),UseInRef(true), UseInResultInput(true)]
+        public LineSegment2D Line {
+            get { return _Line; }
+            set { _Line = value; }
+        }
+
+
+        private PointF _LineCenter;
+        [XmlIgnore]
+        [DisplayName("Segment Center"), Category("Post-Processing"), Description("Center point of line segment"), ReadOnly(true)]
+        [AllowDrag(true), UseInRef(true), UseInResultInput(true)]
+        public PointF LineCenter {
+            get {
+
+                if (_Line.Length > 0) {
+                    PointF mid = new PointF((_Line.P1.X + _Line.P2.X) / 2, (_Line.P1.Y + _Line.P2.Y) / 2);
+                    return mid;
+                }
+
+
+                return new PointF(0, 0);
+            }
+
+        }
+
+
+        private Double _LineAngle=-1;
+        [XmlIgnore]
+        [DisplayName("Segment Angle"), Category("Post-Processing"), Description("Exterior Angle of line segment"), ReadOnly(true)]
+        [AllowDrag(true), UseInRef(true), UseInResultInput(true)]
+        public Double LineAngle {
+            get {
+                return _LineAngle;
+            }
+            set {
+                if (_LineAngle!=value) {
+                    _LineAngle = value;
+                }
+            }
+        }
+
+       
+        
+        #endregion
+
+        public override bool Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
+            try {
+                base.Process(ImageIn, ImageOut, RoiRegion);
+                Line = new LineSegment2D();
+                Pass = false;
+                if (Point1==null || Point2==null ) {
+                    return Pass;
+                }
+
+                Point1.UpdateValue();
+                Point2.UpdateValue();
+
+                if (!(Point1.ResultOutput is PointF) || !(Point2.ResultOutput is PointF)) {
+                    return Pass;
+                }
+
+                PointF point1 = (PointF)Point1.ResultOutput;
+                PointF point2 = (PointF)Point2.ResultOutput;
+                //PointF point3 = (PointF)Point3.ReferenceValue;
+
+
+                Line = new LineSegment2D(new Point((int)point1.X,(int)point1.Y), new Point((int)point2.X,(int)point2.Y));
+
+                if (Line.Length > 0 && ExteriorLine.Length > 0) {
+
+
+
+                    Double theangle = Math.Round(Line.GetExteriorAngleDegree(ExteriorLine), 3);
+
+                    LineAngle = theangle;
+                }
+
+                //base.IdentRegion = new Image<Gray, byte>(new Size(Math.Abs(Line.P1.X - Line.P2.X), Math.Abs(Line.P1.Y - Line.P2.Y)));
+                //CvInvoke.cvLine(base.IdentRegion, Line.P1, Line.P2, new MCvScalar(255), 0, Emgu.CV.CvEnum.LINE_TYPE.CV_AA, 0);
+                    
+
+                //KPPMath.FindCircle(point1, point2, point3, out _Center, out _Rad);
+
+                //Distance = Math.Round(Math.Sqrt(Math.Pow(point2.X - point1.X, 2) + Math.Pow(point2.Y - point1.Y,2)),3);
+                //DistanceX = Math.Round(Math.Abs(point1.X-point2.X), 3);
+                //DistanceY = Math.Round(Math.Abs(point1.Y - point2.Y), 3);
+
+                switch (ResultsInROI) {
+                    case OutputResultType.orContours:
+                        break;
+                    case OutputResultType.orResults:
+                        ImageOut.Draw(new Cross2DF(point1,10,10), new Bgr(Color.Yellow), AnnotationSize);
+                        ImageOut.Draw(new Cross2DF(point2, 10, 10), new Bgr(Color.Yellow), AnnotationSize);
+                        ImageOut.Draw(new Cross2DF(LineCenter, 10, 10), new Bgr(Color.Yellow), AnnotationSize);
+
+
+                        //ImageOut.Draw(new LineSegment2D(new Point((int)point1.X, (int)point1.Y), new Point((int)point2.X, (int)point2.Y)), new Bgr(Color.Green), AnnotationSize);
+                        //ImageOut.Draw(new LineSegment2D(new Point((int)point1.X, (int)point1.Y), new Point((int)point2.X, (int)point1.Y)), new Bgr(Color.Yellow), AnnotationSize);
+                        
+                        ImageOut.Draw(Line,new Bgr(Color.Green), AnnotationSize);
+                                                
+                        
+                        break;
+                    case OutputResultType.orNone:
+                        break;
+                    case OutputResultType.orPreProcessing:
+                        break;
+                    default:
+                        break;
+                }
+                
+
+
+
+                 
+            } catch (Exception exp) {
+                
+                log.Error( exp);
+            }
+
+
+
+           return Pass;
+
+
+        }
+
+
+    }
+
+
+}
