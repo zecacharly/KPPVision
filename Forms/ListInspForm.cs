@@ -55,7 +55,7 @@ namespace VisionModule {
 
         private VisionProject _SelectedProject = null;
 
-        public VisionProject SelectedProject {
+        internal VisionProject SelectedProject {
             get { return _SelectedProject; }
             set {
                 _SelectedProject = value;

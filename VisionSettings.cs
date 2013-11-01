@@ -27,7 +27,7 @@ namespace VisionModule {
     /// <summary>
     /// Defined types of messages: Success/Warning/Error.
     /// </summary>
-    public enum TypeOfMessage {
+    internal enum TypeOfMessage {
         Success,
         Warning,
         Error,
