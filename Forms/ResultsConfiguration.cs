@@ -105,7 +105,7 @@ namespace VisionModule {
                 SimpleDropSink sink1 = (SimpleDropSink)__listInputs.DropSink;
                 sink1.CanDropOnSubItem = true;
                 sink1.FeedbackColor = Color.IndianRed;
-                AcessManagement..OnAcesslevelChanged += new AcessManagement..AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
+                AcessManagement.OnAcesslevelChanged += new AcessManagement.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
             } catch (Exception exp) {
 
                 log.Error(exp);
@@ -349,7 +349,7 @@ namespace VisionModule {
        
 
         private void Bt_enabledChanged(object sender, EventArgs e) {
-            if ((sender as Button).Enabled && KPPVision.AcessLevel == Acesslevel.User) {
+            if ((sender as Button).Enabled && AcessManagement.AcessLevel == AcessManagement.Acesslevel.User) {
                 (sender as Button).Enabled = false;
             }
         }

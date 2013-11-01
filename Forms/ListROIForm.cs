@@ -608,7 +608,7 @@ namespace VisionModule {
 
         private void __RoiProcList_KeyUp(object sender, KeyEventArgs e) {
 
-            if (e.KeyCode == Keys.Delete && KPPVision.AcessLevel == Acesslevel.Admin) {
+            if (e.KeyCode == Keys.Delete && AcessManagement.AcessLevel == AcessManagement.Acesslevel.Admin) {
                 __btRemoveProc_Click(sender, null);
             }
         }

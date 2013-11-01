@@ -189,11 +189,11 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\ExposurePropertySet.Designer.cs" />
-    <Compile Include="Forms\MainForm.cs">
+    <Compile Include="Forms\VisionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Forms\VisionForm.designer.cs">
+      <DependentUpon>VisionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ImageContainerForm.cs">
       <SubType>Form</SubType>
@@ -363,11 +363,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CustomTextBox.resx" />
     <EmbeddedResource Include="Forms\ExposurePropertySet.resx" />
-    <EmbeddedResource Include="Forms\MainForm.pt-PT.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\VisionForm.pt-PT.resx">
+      <DependentUpon>VisionForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\VisionForm.resx">
+      <DependentUpon>VisionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageContainerForm.pt-PT.resx">
       <DependentUpon>ImageContainerForm.cs</DependentUpon>

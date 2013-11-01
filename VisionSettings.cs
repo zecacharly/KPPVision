@@ -719,12 +719,12 @@ namespace VisionModule {
        
 
 
-        private MainForm RunningForm = null;
+        private VisionForm RunningForm = null;
 
         public KPPVision() {
             DebugController.ActiveDebugController = new DebugController(Path.Combine(Application.StartupPath, "app.log"));
 
-            RunningForm = new MainForm();
+            RunningForm = new VisionForm();
             RunningForm.Show();
             
         }

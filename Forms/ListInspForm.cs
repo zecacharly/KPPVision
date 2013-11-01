@@ -561,7 +561,7 @@ namespace VisionModule {
         private void __listinspections_KeyUp(object sender, KeyEventArgs e) {
             try {
                 if (e.KeyCode == Keys.Delete) {
-                    if (__listinspections.SelectedIndex > -1 && KPPVision.AcessLevel == Acesslevel.Admin) {
+                    if (__listinspections.SelectedIndex > -1 && AcessManagement.AcessLevel ==AcessManagement.Acesslevel.Admin) {
 
                         SelectedProject.SelectedRequest.RemoveInspection(__listinspections.SelectedObject as Inspection);
 
@@ -863,7 +863,7 @@ namespace VisionModule {
             try {
                 if (e.KeyCode == Keys.Delete) {
                     if (__ListRequests.SelectedIndex > -1) {
-                        if (KPPVision.AcessLevel == Acesslevel.Admin) {
+                        if (AcessManagement.AcessLevel == AcessManagement.Acesslevel.Admin) {
                             SelectedProject.RemoveRequest(SelectedProject.SelectedRequest);
                         }
 

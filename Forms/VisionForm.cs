@@ -41,7 +41,7 @@ using KPPAutomationCore;
 namespace VisionModule {
 
 
-    public partial class MainForm : DockContent {
+    public partial class VisionForm : DockContent {
         
         //protected override CreateParams CreateParams {
         //    get {
@@ -56,7 +56,7 @@ namespace VisionModule {
             return this.Name;
         }
 
-        private static KPPLogger log = new KPPLogger(typeof(MainForm));
+        private static KPPLogger log = new KPPLogger(typeof(VisionForm));
 
         public VisionProject SelectedProject = null;
         //  Request _SelectedProject.SelectedRequest = null;
@@ -166,7 +166,7 @@ namespace VisionModule {
 
         }
 
-        public MainForm() {
+        public VisionForm() {
 
             switch (StaticObjects.Language) {
                 case LanguageName.Unk:
@@ -611,11 +611,11 @@ namespace VisionModule {
 
 
 
-                KPPVision.OnAcesslevelChanged += new KPPVision.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
-                KPPVision.AcessLevel = AcessManagement.Acesslevel.User;
+                AcessManagement.OnAcesslevelChanged += new AcessManagement.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
+                AcessManagement.AcessLevel = AcessManagement.Acesslevel.User;
 
                 if (SetAdmin) {
-                    KPPVision.AcessLevel = AcessManagement.Acesslevel.Admin;
+                    AcessManagement.AcessLevel = AcessManagement.Acesslevel.Admin;
                 }
 
             } catch (Exception exp) {
@@ -1859,7 +1859,7 @@ namespace VisionModule {
                     lockToolStripMenuItem.Checked = ROISelected.Locked;
                     __toolROI.Enabled = true;
                     _ListROIForm.__RoiProcList.Enabled = true;
-                    if (KPPVision.AcessLevel == AcessManagement.Acesslevel.Admin) {
+                    if (AcessManagement.AcessLevel == AcessManagement.Acesslevel.Admin) {
                         _ListROIForm.__propertyGridFunction.Enabled = true; 
                     }
                     _ListROIForm.__cbProcFunc.Enabled = true;
