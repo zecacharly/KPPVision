@@ -13,6 +13,7 @@ using DejaVu;
 using KPP.Core.Debug;
 using System.Threading;
 using System.Globalization;
+using KPPAutomationCore;
 
 namespace VisionModule {
 
@@ -104,16 +105,16 @@ namespace VisionModule {
                 SimpleDropSink sink1 = (SimpleDropSink)__listInputs.DropSink;
                 sink1.CanDropOnSubItem = true;
                 sink1.FeedbackColor = Color.IndianRed;
-                KPPVision.OnAcesslevelChanged += new KPPVision.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
+                AcessManagement..OnAcesslevelChanged += new AcessManagement..AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
             } catch (Exception exp) {
 
                 log.Error(exp);
             }
         }
 
-        void StaticObjects_OnAcesslevelChanged(Acesslevel NewLevel) {
+        void StaticObjects_OnAcesslevelChanged(AcessManagement.Acesslevel NewLevel) {
 
-            Boolean state = (NewLevel == Acesslevel.Admin);
+            Boolean state = (NewLevel == AcessManagement.Acesslevel.Admin);
 
             __btAddResult.Enabled = state;
             __BtAddInput.Enabled = state;
@@ -121,15 +122,15 @@ namespace VisionModule {
             __BtRemoveInput.Enabled = state;
 
             switch (NewLevel) {
-                case Acesslevel.Admin:
+                case AcessManagement.Acesslevel.Admin:
                     __listInputs.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     
                     break;
-                case Acesslevel.User:
+                case AcessManagement.Acesslevel.User:
                     __listInputs.CellEditActivation = ObjectListView.CellEditActivateMode.None;
 
                     break;
-                case Acesslevel.NotSet:
+                case AcessManagement.Acesslevel.NotSet:
                     break;
                 default:
                     break;

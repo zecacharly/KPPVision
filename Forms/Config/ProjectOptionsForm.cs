@@ -11,6 +11,7 @@ using KPP.Core.Debug;
 using BrightIdeasSoftware;
 using System.Threading;
 using System.Globalization;
+using KPPAutomationCore;
 
 namespace VisionModule {
     public partial class ProjectOptionsForm : Form {
@@ -113,12 +114,12 @@ namespace VisionModule {
        
 
         private void ProjectOptionsForm_Load(object sender, EventArgs e) {
-            KPPVision.OnAcesslevelChanged += new KPPVision.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
-            StaticObjects_OnAcesslevelChanged(KPPVision.AcessLevel);
+            AcessManagement.OnAcesslevelChanged += new AcessManagement.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
+            StaticObjects_OnAcesslevelChanged(AcessManagement.AcessLevel);
         }
 
-        void StaticObjects_OnAcesslevelChanged(Acesslevel NewLevel) {
-            Boolean state = NewLevel == Acesslevel.Admin;
+        void StaticObjects_OnAcesslevelChanged(AcessManagement.Acesslevel NewLevel) {
+            Boolean state = NewLevel ==AcessManagement.Acesslevel.Admin;
 
             olvLoadOnStart.IsVisible = state;
             olvProjID.IsVisible = state;

@@ -468,6 +468,10 @@
       <Project>{DC8D7883-FB3F-4964-9F0D-B3B0B5907DD3}</Project>
       <Name>IOModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KPPAutomationCore\KPPAutomationCore.csproj">
+      <Project>{96625E2E-382E-412F-A3BB-95A773F3B8D8}</Project>
+      <Name>KPPAutomationCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\1379595514_navigate-right.png" />

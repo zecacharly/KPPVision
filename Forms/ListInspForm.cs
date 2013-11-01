@@ -18,6 +18,7 @@ using BrightIdeasSoftware;
 using DejaVu;
 using System.Threading;
 using System.Globalization;
+using KPPAutomationCore;
 
 
 
@@ -80,11 +81,11 @@ namespace VisionModule {
             sink1.FeedbackColor = Color.Green;
             __listRoi.KeyDown += new KeyEventHandler(__listRoi_KeyDown);
 
-            KPPVision.OnAcesslevelChanged += new KPPVision.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
+            AcessManagement.OnAcesslevelChanged += new AcessManagement.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
         }
 
-        void StaticObjects_OnAcesslevelChanged(Acesslevel NewLevel) {
-            Boolean state = NewLevel == Acesslevel.Admin;
+        void StaticObjects_OnAcesslevelChanged(AcessManagement.Acesslevel NewLevel) {
+            Boolean state = NewLevel == AcessManagement.Acesslevel.Admin;
 
             __contextRequest.Enabled = state;
             __propertyGridinsp.Enabled = state;
@@ -92,21 +93,21 @@ namespace VisionModule {
             __contextROI.Enabled = state;
 
             switch (NewLevel) {
-                case Acesslevel.Admin:
+                case AcessManagement.Acesslevel.Admin:
                     __listinspections.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     __listRoi.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     __ListRequests.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     __ListAuxROIS.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     
                     break;
-                case Acesslevel.User:
+                case AcessManagement.Acesslevel.User:
                     __listinspections.CellEditActivation = ObjectListView.CellEditActivateMode.None;
                     __listRoi.CellEditActivation = ObjectListView.CellEditActivateMode.None;
                     __ListRequests.CellEditActivation = ObjectListView.CellEditActivateMode.None;
                     __ListAuxROIS.CellEditActivation = ObjectListView.CellEditActivateMode.None;
 
                     break;
-                case Acesslevel.NotSet:
+                case AcessManagement.Acesslevel.NotSet:
                     break;
                 default:
                     break;

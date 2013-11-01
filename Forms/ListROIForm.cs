@@ -17,6 +17,7 @@ using System.Diagnostics;
 using DejaVu;
 using System.Threading;
 using System.Globalization;
+using KPPAutomationCore;
 
 namespace VisionModule {
 
@@ -629,29 +630,29 @@ namespace VisionModule {
             KeyPad.BringToFront();
             KeyPad.TheGrid = __propertyGridFunction;
 
-            KPPVision.OnAcesslevelChanged += new KPPVision.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
+            AcessManagement.OnAcesslevelChanged += new AcessManagement.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
         }
 
-        void StaticObjects_OnAcesslevelChanged(Acesslevel NewLevel) {
+        void StaticObjects_OnAcesslevelChanged(AcessManagement.Acesslevel NewLevel) {
 
-            Boolean state = NewLevel == Acesslevel.Admin;
+            Boolean state = NewLevel == AcessManagement.Acesslevel.Admin;
 
             __cbProcFunc.Enabled = state;
             __btRemoveProc.Enabled = state;
 
-            state = (NewLevel == Acesslevel.Admin || NewLevel == Acesslevel.Man);
+            state = (NewLevel == AcessManagement.Acesslevel.Admin || NewLevel == AcessManagement.Acesslevel.Man);
 
             __propertyGridFunction.Enabled = state;
             
 
             switch (NewLevel) {
-                case Acesslevel.Admin:
+                case AcessManagement.Acesslevel.Admin:
                     __RoiProcList.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     break;
-                case Acesslevel.User:
+                case AcessManagement.Acesslevel.User:
                     __RoiProcList.CellEditActivation = ObjectListView.CellEditActivateMode.None;
                     break;
-                case Acesslevel.NotSet:
+                case AcessManagement.Acesslevel.NotSet:
                     break;
                 default:
                     break;

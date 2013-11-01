@@ -16,6 +16,7 @@ using IOModule;
 using System.Resources;
 using System.Globalization;
 using System.Threading;
+using KPPAutomationCore;
 
 
 
@@ -611,36 +612,6 @@ namespace VisionModule {
 
     
 
-    public class UserDef {
-
-        private Acesslevel m_Level = Acesslevel.NotSet;
-
-        public Acesslevel Level {
-            get { return m_Level; }
-            set { m_Level = value; }
-        }
-
-        private String m_Pass = "";
-
-        public String Pass {
-            get { return m_Pass; }
-            set { m_Pass = value; }
-        }
-
-
-        public UserDef(String pass, Acesslevel level) {
-            Pass = pass;
-            Level = level;
-        }
-
-        public UserDef() {
-
-        }
-    }
-        
-
-    
-
 
 
     internal sealed class ProcessingFunctionDefinition {
@@ -743,29 +714,9 @@ namespace VisionModule {
         }
     }
 
-    public enum Acesslevel { Admin, User, NotSet, Man }
-
     public class KPPVision {
 
-        internal delegate void AcesslevelChanged(Acesslevel NewLevel);
-        internal static event AcesslevelChanged OnAcesslevelChanged;
-
-
-
-
-        private static Acesslevel _acessLevel = Acesslevel.NotSet;
-
-        public static Acesslevel AcessLevel {
-            get { return _acessLevel; }
-            set {
-                if (_acessLevel != value) {
-                    _acessLevel = value;
-                    if (OnAcesslevelChanged != null) {
-                        OnAcesslevelChanged(value);
-                    }
-                }
-            }
-        }
+       
 
 
         private MainForm RunningForm = null;
@@ -775,7 +726,7 @@ namespace VisionModule {
 
             RunningForm = new MainForm();
             RunningForm.Show();
-            AcessLevel = Acesslevel.Admin;
+            
         }
 
         public KPPVision(String LoadProjectName)

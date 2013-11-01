@@ -35,6 +35,7 @@ using IOModule;
 using VisionModule.Properties;
 using System.Resources;
 using System.Globalization;
+using KPPAutomationCore;
 
 
 namespace VisionModule {
@@ -611,10 +612,10 @@ namespace VisionModule {
 
 
                 KPPVision.OnAcesslevelChanged += new KPPVision.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
-                KPPVision.AcessLevel = Acesslevel.User;
+                KPPVision.AcessLevel = AcessManagement.Acesslevel.User;
 
                 if (SetAdmin) {
-                    KPPVision.AcessLevel = Acesslevel.Admin;
+                    KPPVision.AcessLevel = AcessManagement.Acesslevel.Admin;
                 }
 
             } catch (Exception exp) {
@@ -711,9 +712,9 @@ namespace VisionModule {
         }
 
 
-        void StaticObjects_OnAcesslevelChanged(Acesslevel NewLevel) {
+        void StaticObjects_OnAcesslevelChanged(AcessManagement.Acesslevel NewLevel) {
 
-            Boolean state=(NewLevel == Acesslevel.Admin || NewLevel==Acesslevel.Man);
+            Boolean state = (NewLevel == AcessManagement.Acesslevel.Admin || NewLevel == AcessManagement.Acesslevel.Man);
             _ImageContainer.__roicontainer.Enabled = state;
             _ListInspForm.__propertyGridinsp.Enabled = state;
             _ImageContainer.__roicontainer.Enabled = state;
@@ -723,13 +724,13 @@ namespace VisionModule {
             __btConfig.Enabled = state;
             
             switch (NewLevel) {
-                case Acesslevel.Admin:
+                case AcessManagement.Acesslevel.Admin:
                    
                     break;
-                case Acesslevel.Man:
+                case AcessManagement.Acesslevel.Man:
                 
                     break;
-                case Acesslevel.User:
+                case AcessManagement.Acesslevel.User:
                 
                     break;
                 default:
@@ -1858,7 +1859,7 @@ namespace VisionModule {
                     lockToolStripMenuItem.Checked = ROISelected.Locked;
                     __toolROI.Enabled = true;
                     _ListROIForm.__RoiProcList.Enabled = true;
-                    if (KPPVision.AcessLevel == Acesslevel.Admin) {
+                    if (KPPVision.AcessLevel == AcessManagement.Acesslevel.Admin) {
                         _ListROIForm.__propertyGridFunction.Enabled = true; 
                     }
                     _ListROIForm.__cbProcFunc.Enabled = true;
