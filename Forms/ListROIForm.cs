@@ -608,7 +608,7 @@ namespace VisionModule {
 
         private void __RoiProcList_KeyUp(object sender, KeyEventArgs e) {
 
-            if (e.KeyCode == Keys.Delete && AcessManagement.AcessLevel == AcessManagement.Acesslevel.Admin) {
+            if (e.KeyCode == Keys.Delete && AcessManagement.AcessLevel == Acesslevel.Admin) {
                 __btRemoveProc_Click(sender, null);
             }
         }
@@ -633,26 +633,26 @@ namespace VisionModule {
             AcessManagement.OnAcesslevelChanged += new AcessManagement.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
         }
 
-        void StaticObjects_OnAcesslevelChanged(AcessManagement.Acesslevel NewLevel) {
+        void StaticObjects_OnAcesslevelChanged(Acesslevel NewLevel) {
 
-            Boolean state = NewLevel == AcessManagement.Acesslevel.Admin;
+            Boolean state = NewLevel == Acesslevel.Admin;
 
             __cbProcFunc.Enabled = state;
             __btRemoveProc.Enabled = state;
 
-            state = (NewLevel == AcessManagement.Acesslevel.Admin || NewLevel == AcessManagement.Acesslevel.Man);
+            state = (NewLevel == Acesslevel.Admin || NewLevel == Acesslevel.Man);
 
             __propertyGridFunction.Enabled = state;
             
 
             switch (NewLevel) {
-                case AcessManagement.Acesslevel.Admin:
+                case Acesslevel.Admin:
                     __RoiProcList.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     break;
-                case AcessManagement.Acesslevel.User:
+                case Acesslevel.User:
                     __RoiProcList.CellEditActivation = ObjectListView.CellEditActivateMode.None;
                     break;
-                case AcessManagement.Acesslevel.NotSet:
+                case Acesslevel.NotSet:
                     break;
                 default:
                     break;

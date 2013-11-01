@@ -115,11 +115,11 @@ namespace VisionModule {
 
         private void ProjectOptionsForm_Load(object sender, EventArgs e) {
             AcessManagement.OnAcesslevelChanged += new AcessManagement.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
-            StaticObjects_OnAcesslevelChanged(AcessManagement.AcessLevel);
+            
         }
 
-        void StaticObjects_OnAcesslevelChanged(AcessManagement.Acesslevel NewLevel) {
-            Boolean state = NewLevel ==AcessManagement.Acesslevel.Admin;
+        void StaticObjects_OnAcesslevelChanged(Acesslevel NewLevel) {
+            Boolean state = NewLevel ==Acesslevel.Admin;
 
             olvLoadOnStart.IsVisible = state;
             olvProjID.IsVisible = state;

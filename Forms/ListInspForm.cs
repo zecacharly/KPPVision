@@ -84,8 +84,8 @@ namespace VisionModule {
             AcessManagement.OnAcesslevelChanged += new AcessManagement.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
         }
 
-        void StaticObjects_OnAcesslevelChanged(AcessManagement.Acesslevel NewLevel) {
-            Boolean state = NewLevel == AcessManagement.Acesslevel.Admin;
+        void StaticObjects_OnAcesslevelChanged(Acesslevel NewLevel) {
+            Boolean state = NewLevel == Acesslevel.Admin;
 
             __contextRequest.Enabled = state;
             __propertyGridinsp.Enabled = state;
@@ -93,21 +93,21 @@ namespace VisionModule {
             __contextROI.Enabled = state;
 
             switch (NewLevel) {
-                case AcessManagement.Acesslevel.Admin:
+                case Acesslevel.Admin:
                     __listinspections.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     __listRoi.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     __ListRequests.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     __ListAuxROIS.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     
                     break;
-                case AcessManagement.Acesslevel.User:
+                case Acesslevel.User:
                     __listinspections.CellEditActivation = ObjectListView.CellEditActivateMode.None;
                     __listRoi.CellEditActivation = ObjectListView.CellEditActivateMode.None;
                     __ListRequests.CellEditActivation = ObjectListView.CellEditActivateMode.None;
                     __ListAuxROIS.CellEditActivation = ObjectListView.CellEditActivateMode.None;
 
                     break;
-                case AcessManagement.Acesslevel.NotSet:
+                case Acesslevel.NotSet:
                     break;
                 default:
                     break;
@@ -561,7 +561,7 @@ namespace VisionModule {
         private void __listinspections_KeyUp(object sender, KeyEventArgs e) {
             try {
                 if (e.KeyCode == Keys.Delete) {
-                    if (__listinspections.SelectedIndex > -1 && AcessManagement.AcessLevel ==AcessManagement.Acesslevel.Admin) {
+                    if (__listinspections.SelectedIndex > -1 && AcessManagement.AcessLevel == Acesslevel.Admin) {
 
                         SelectedProject.SelectedRequest.RemoveInspection(__listinspections.SelectedObject as Inspection);
 
@@ -863,7 +863,7 @@ namespace VisionModule {
             try {
                 if (e.KeyCode == Keys.Delete) {
                     if (__ListRequests.SelectedIndex > -1) {
-                        if (AcessManagement.AcessLevel == AcessManagement.Acesslevel.Admin) {
+                        if (AcessManagement.AcessLevel == Acesslevel.Admin) {
                             SelectedProject.RemoveRequest(SelectedProject.SelectedRequest);
                         }
 

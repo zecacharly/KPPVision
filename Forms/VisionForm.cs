@@ -318,7 +318,7 @@ namespace VisionModule {
 
                 SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_1"), TypeOfMessage.Success);
 
-                dockFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config\\DockPanel.config");
+                dockFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config\\VisionDockPanel.config");
 
 
 
@@ -448,49 +448,60 @@ namespace VisionModule {
 
                 StaticObjects.InputItemSelectorControl = _inputselector;
 
-                ICImagingControl getcameras = new ICImagingControl();
-
-                List<String> camnames = new List<string>();
-                foreach (Device camera in getcameras.Devices) {
-
-                    camnames.Add(camera);
 
 
-                }
+                try {
 
-                getcameras.Dispose();
+                    ICImagingControl getcameras = new ICImagingControl();
 
-                foreach (String name in camnames) {
-                    ICImagingControl newcam = new ICImagingControl();
+                    List<String> camnames = new List<string>();
+                    foreach (Device camera in getcameras.Devices) {
 
-                    if (newcam.LiveVideoRunning) {
-                        newcam.LiveStop();
+                        camnames.Add(camera);
+
+
                     }
-                    
-                    newcam.DeviceLostExecutionMode = EventExecutionMode.MultiThreaded;
-                    newcam.ImageAvailableExecutionMode = EventExecutionMode.MultiThreaded;
-                    newcam.LiveDisplay = false;
-                    newcam.Device = name;
-                    //newcam.MemoryCurrentGrabberColorformat = ICImagingControlColorformats.ICY800;
-                    newcam.ImageRingBufferSize = 1;                    
-                    
-                    ICSCameraInterface.ICSCameras.Add(new ICScamera(newcam));
-                }
 
-                StaticObjects.isLoading = true;
-                using (UndoRedoManager.StartInvisible("Init")) {
+                    getcameras.Dispose();
 
-                    StaticObjects.CaptureSources.Add(new FileCapture());
-                    StaticObjects.CaptureSources.Add(new InspectionCapture());
-                    StaticObjects.CaptureSources.Add(new PythonRemoteCapture());
-                    StaticObjects.CaptureSources.Add(new ICSCameraCapture());
-                    StaticObjects.CaptureSources.Add(new CVCameraCapture());
-                    //StaticObjects.CaptureSources.Add(new RemoteCameraCapture());
-                    StaticObjects.CaptureSources.Add(new DirectShowCameraCapture());                                       
-                    StaticObjects.CaptureSources.Add(new uEyeCamera());                  
+                    foreach (String name in camnames) {
+                        ICImagingControl newcam = new ICImagingControl();
+
+                        if (newcam.LiveVideoRunning) {
+                            newcam.LiveStop();
+                        }
+
+                        newcam.DeviceLostExecutionMode = EventExecutionMode.MultiThreaded;
+                        newcam.ImageAvailableExecutionMode = EventExecutionMode.MultiThreaded;
+                        newcam.LiveDisplay = false;
+                        newcam.Device = name;
+                        //newcam.MemoryCurrentGrabberColorformat = ICImagingControlColorformats.ICY800;
+                        newcam.ImageRingBufferSize = 1;
+
+                        ICSCameraInterface.ICSCameras.Add(new ICScamera(newcam));
+                    }
+
+                    StaticObjects.isLoading = true;
+                    using (UndoRedoManager.StartInvisible("Init")) {
+
+
+                        StaticObjects.CaptureSources.Add(new FileCapture());
+                        StaticObjects.CaptureSources.Add(new InspectionCapture());
+                        StaticObjects.CaptureSources.Add(new PythonRemoteCapture());
+                        StaticObjects.CaptureSources.Add(new ICSCameraCapture());
+                        StaticObjects.CaptureSources.Add(new CVCameraCapture());
+                        //StaticObjects.CaptureSources.Add(new RemoteCameraCapture());
+                        StaticObjects.CaptureSources.Add(new DirectShowCameraCapture());
+                        StaticObjects.CaptureSources.Add(new uEyeCamera());
+                    }
+
 
 
                     UndoRedoManager.Commit();
+                }
+                catch (Exception exp) {
+
+                    log.Error(exp);
                 }
                 StaticObjects.isLoading = false;
                 
@@ -612,11 +623,8 @@ namespace VisionModule {
 
 
                 AcessManagement.OnAcesslevelChanged += new AcessManagement.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
-                AcessManagement.AcessLevel = AcessManagement.Acesslevel.User;
 
-                if (SetAdmin) {
-                    AcessManagement.AcessLevel = AcessManagement.Acesslevel.Admin;
-                }
+                StaticObjects_OnAcesslevelChanged(AcessManagement.AcessLevel);
 
             } catch (Exception exp) {
                 log.Error(exp);
@@ -712,9 +720,9 @@ namespace VisionModule {
         }
 
 
-        void StaticObjects_OnAcesslevelChanged(AcessManagement.Acesslevel NewLevel) {
+        void StaticObjects_OnAcesslevelChanged(Acesslevel NewLevel) {
 
-            Boolean state = (NewLevel == AcessManagement.Acesslevel.Admin || NewLevel == AcessManagement.Acesslevel.Man);
+            Boolean state = (NewLevel == Acesslevel.Admin || NewLevel == Acesslevel.Man);
             _ImageContainer.__roicontainer.Enabled = state;
             _ListInspForm.__propertyGridinsp.Enabled = state;
             _ImageContainer.__roicontainer.Enabled = state;
@@ -724,13 +732,13 @@ namespace VisionModule {
             __btConfig.Enabled = state;
             
             switch (NewLevel) {
-                case AcessManagement.Acesslevel.Admin:
+                case Acesslevel.Admin:
                    
                     break;
-                case AcessManagement.Acesslevel.Man:
+                case Acesslevel.Man:
                 
                     break;
-                case AcessManagement.Acesslevel.User:
+                case Acesslevel.User:
                 
                     break;
                 default:
@@ -1859,7 +1867,7 @@ namespace VisionModule {
                     lockToolStripMenuItem.Checked = ROISelected.Locked;
                     __toolROI.Enabled = true;
                     _ListROIForm.__RoiProcList.Enabled = true;
-                    if (AcessManagement.AcessLevel == AcessManagement.Acesslevel.Admin) {
+                    if (AcessManagement.AcessLevel == Acesslevel.Admin) {
                         _ListROIForm.__propertyGridFunction.Enabled = true; 
                     }
                     _ListROIForm.__cbProcFunc.Enabled = true;
@@ -2990,7 +2998,7 @@ namespace VisionModule {
 
                     
 
-                    dockFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Config\\DockPanel.config");
+                    
                     //if (File.Exists(configFile) == false) {
                     __dockPanel1.SaveAsXml(dockFile);
                     //}

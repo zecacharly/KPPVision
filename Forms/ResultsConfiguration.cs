@@ -112,9 +112,9 @@ namespace VisionModule {
             }
         }
 
-        void StaticObjects_OnAcesslevelChanged(AcessManagement.Acesslevel NewLevel) {
+        void StaticObjects_OnAcesslevelChanged(Acesslevel NewLevel) {
 
-            Boolean state = (NewLevel == AcessManagement.Acesslevel.Admin);
+            Boolean state = (NewLevel == Acesslevel.Admin);
 
             __btAddResult.Enabled = state;
             __BtAddInput.Enabled = state;
@@ -122,15 +122,15 @@ namespace VisionModule {
             __BtRemoveInput.Enabled = state;
 
             switch (NewLevel) {
-                case AcessManagement.Acesslevel.Admin:
+                case Acesslevel.Admin:
                     __listInputs.CellEditActivation = ObjectListView.CellEditActivateMode.DoubleClick;
                     
                     break;
-                case AcessManagement.Acesslevel.User:
+                case Acesslevel.User:
                     __listInputs.CellEditActivation = ObjectListView.CellEditActivateMode.None;
 
                     break;
-                case AcessManagement.Acesslevel.NotSet:
+                case Acesslevel.NotSet:
                     break;
                 default:
                     break;
@@ -349,7 +349,7 @@ namespace VisionModule {
        
 
         private void Bt_enabledChanged(object sender, EventArgs e) {
-            if ((sender as Button).Enabled && AcessManagement.AcessLevel == AcessManagement.Acesslevel.User) {
+            if ((sender as Button).Enabled && AcessManagement.AcessLevel == Acesslevel.User) {
                 (sender as Button).Enabled = false;
             }
         }

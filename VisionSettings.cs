@@ -17,6 +17,8 @@ using System.Resources;
 using System.Globalization;
 using System.Threading;
 using KPPAutomationCore;
+using WeifenLuo.WinFormsUI.Docking;
+
 
 
 
@@ -716,8 +718,16 @@ namespace VisionModule {
 
     public class KPPVision {
 
+        private Boolean m_Enabled = false;
+        [XmlAttribute]
+        public Boolean Enabled {
+            get { return m_Enabled; }
+            set { m_Enabled = value; }
+        }
+
         private String m_StartupProject = "";
         [XmlAttribute]
+        [DisplayName("Startup project")]
         public String StartupProject {
             get { return m_StartupProject; }
             set { m_StartupProject = value; }
@@ -726,6 +736,7 @@ namespace VisionModule {
 
         private VisionForm m_ModuleForm = null;
         [XmlIgnore]
+        [Browsable(false)]
         public VisionForm ModuleForm {
             get { return m_ModuleForm; }
             internal set { m_ModuleForm = value; }
@@ -733,9 +744,10 @@ namespace VisionModule {
 
         private Boolean m_ModuleStarted = false;
         [XmlIgnore]
+        
         public Boolean ModuleStarted {
             get { return m_ModuleStarted; }
-            set { m_ModuleStarted = value; }
+            internal set { m_ModuleStarted = value; }
         }
 
         public KPPVision() {
@@ -755,12 +767,19 @@ namespace VisionModule {
 
         }
 
-
-        public void StartModule() {
+        public Boolean StartModule() {
             if (!ModuleStarted) {
-                ModuleForm = new VisionForm();
-                ModuleForm.Show(); 
-                ModuleStarted=true;
+                ModuleForm = new VisionForm();                
+                ModuleStarted = true;
+            }
+
+            return ModuleStarted;
+        }
+
+
+        public void StartModule(DockPanel dockingpanel) {
+            if (StartModule()) {            
+                ModuleForm.Show(dockingpanel);                 
             }
         }
     }
