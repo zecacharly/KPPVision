@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace VisionModule {
-    public partial class InspImageCtrl : UserControl {
+    internal partial class InspImageCtrl : UserControl {
 
         private Image _img = null;
 

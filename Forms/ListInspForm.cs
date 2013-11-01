@@ -29,7 +29,7 @@ namespace VisionModule {
 
 
 
-    public partial class ListInspForm : DockContent{
+    internal partial class ListInspForm : DockContent{
 
         private static KPPLogger log = new KPPLogger(typeof(ListInspForm));
 

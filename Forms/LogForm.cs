@@ -14,7 +14,7 @@ using System.Globalization;
 
 
 namespace VisionModule {
-    public partial class LogForm : DockContent {
+    internal partial class LogForm : DockContent {
         private static KPPLogger log = new KPPLogger(typeof(LogForm));
         public LogForm() {
             switch (StaticObjects.Language) {

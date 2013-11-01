@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace VisionModule.Forms {
-    public partial class CustomTextBox : UserControl {
+    internal partial class CustomTextBox : UserControl {
         public CustomTextBox() {
             InitializeComponent();
         }

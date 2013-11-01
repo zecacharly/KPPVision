@@ -19,7 +19,7 @@ using System.Threading;
 using System.Globalization;
 
 namespace VisionModule {
-    public partial class ImageContainerForm : DockContent {
+    internal partial class ImageContainerForm : DockContent {
         public ImageContainerForm() {
             switch (StaticObjects.Language) {
                 case LanguageName.Unk:

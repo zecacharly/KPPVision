@@ -23,7 +23,7 @@ namespace VisionModule {
 
 
 
-    public partial class ListROIForm : DockContent {
+    internal partial class ListROIForm : DockContent {
 
         private static KPPLogger log = new KPPLogger(typeof(ListROIForm));
 

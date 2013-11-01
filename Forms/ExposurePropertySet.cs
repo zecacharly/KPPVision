@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
 namespace VisionModule {
-    public partial class ExposurePropertySet : UserControl {
+    internal partial class ExposurePropertySet : UserControl {
         public int BarValue;
         public bool _BtPressed = false;
         public IWindowsFormsEditorService _wfes;    

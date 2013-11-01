@@ -10,7 +10,7 @@ using System.Reflection;
 
 
 namespace VisionModule {
-    public partial class KeyPadControl : UserControl {
+    internal partial class KeyPadControl : UserControl {
         public KeyPadControl() {
             InitializeComponent();
             

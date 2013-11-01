@@ -10,7 +10,7 @@ using System.Threading;
 using System.Globalization;
 
 namespace VisionModule {
-    public partial class InputSelector : UserControl {
+    internal partial class InputSelector : UserControl {
         public InputSelector() {
             switch (StaticObjects.Language) {
                 case LanguageName.Unk:

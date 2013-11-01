@@ -14,7 +14,7 @@ using System.ComponentModel.Design.Serialization;
 
 namespace VisionModule {
 
-    public partial class OutputResultConfForm : Form {
+    internal partial class OutputResultConfForm : Form {
     
         public OutputResultConfForm() {
             

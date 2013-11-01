@@ -716,16 +716,33 @@ namespace VisionModule {
 
     public class KPPVision {
 
-       
+        private String m_StartupProject = "";
+        [XmlAttribute]
+        public String StartupProject {
+            get { return m_StartupProject; }
+            set { m_StartupProject = value; }
+        }
 
 
-        private VisionForm RunningForm = null;
+        private VisionForm m_ModuleForm = null;
+        [XmlIgnore]
+        public VisionForm ModuleForm {
+            get { return m_ModuleForm; }
+            internal set { m_ModuleForm = value; }
+        }
+
+        private Boolean m_ModuleStarted = false;
+        [XmlIgnore]
+        public Boolean ModuleStarted {
+            get { return m_ModuleStarted; }
+            set { m_ModuleStarted = value; }
+        }
 
         public KPPVision() {
             DebugController.ActiveDebugController = new DebugController(Path.Combine(Application.StartupPath, "app.log"));
 
-            RunningForm = new VisionForm();
-            RunningForm.Show();
+            
+           
             
         }
 
@@ -736,6 +753,15 @@ namespace VisionModule {
         public KPPVision(int LoadProjectID)
             : this() {
 
+        }
+
+
+        public void StartModule() {
+            if (!ModuleStarted) {
+                ModuleForm = new VisionForm();
+                ModuleForm.Show(); 
+                ModuleStarted=true;
+            }
         }
     }
 

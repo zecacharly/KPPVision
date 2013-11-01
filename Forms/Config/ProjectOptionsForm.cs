@@ -14,7 +14,7 @@ using System.Globalization;
 using KPPAutomationCore;
 
 namespace VisionModule {
-    public partial class ProjectOptionsForm : Form {
+    internal partial class ProjectOptionsForm : Form {
 
         public VisionProjects _projsconf = null;
         public String _projsfile = "";

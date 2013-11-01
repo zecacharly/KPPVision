@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace VisionModule {
-    public partial class __InspectionsForm : Form {
+    internal partial class __InspectionsForm : Form {
         public __InspectionsForm() {
             InitializeComponent();
         }

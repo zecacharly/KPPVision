@@ -9,7 +9,7 @@ using VisionModule;
 
 namespace VisionModule
 {
-    public partial class SplashScreenForm : Form
+    internal partial class SplashScreenForm : Form
     {
         delegate void StringParameterDelegate(string Text);
         delegate void StringParameterWithStatusDelegate(string Text, TypeOfMessage tom);

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using DejaVu;
 
 namespace VisionModule {
-    public partial class UndoRedoControl :UserControl{
+    internal partial class UndoRedoControl :UserControl{
 
         //public ToolStripComboBox newconmbo = new ToolStripComboBox();
 

@@ -13,7 +13,7 @@ using System.Threading;
 using System.Globalization;
 
 namespace VisionModule {
-    public partial class ConfigurationsForm : Form {
+    internal partial class ConfigurationsForm : Form {
 
         private static KPPLogger log = new KPPLogger(typeof(ConfigurationsForm));
 

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
 namespace VisionModule {
-    public partial class PropertySetForm : Form {
+    internal partial class PropertySetForm : Form {
         public int BarValue;
         public bool _BtPressed=false;
         public IWindowsFormsEditorService _wfes;       

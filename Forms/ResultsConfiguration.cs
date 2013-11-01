@@ -17,7 +17,7 @@ using KPPAutomationCore;
 
 namespace VisionModule {
 
-    public partial class ResultsConfiguration : DockContent {
+    internal partial class ResultsConfiguration : DockContent {
         private static KPPLogger log = new KPPLogger(typeof(ResultsConfiguration));
 
         public ResultsConfiguration() {

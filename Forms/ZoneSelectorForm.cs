@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace VisionModule.Forms {
-    public partial class ZoneSelectorForm : Form {
+    internal partial class ZoneSelectorForm : Form {
         public ZoneSelectorForm() {
             InitializeComponent();
         }

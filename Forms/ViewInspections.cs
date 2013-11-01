@@ -12,7 +12,7 @@ using System.Threading;
 using System.Globalization;
 
 namespace VisionModule {
-    public partial class ViewInspections : DockContent {
+    internal partial class ViewInspections : DockContent {
 
 
 

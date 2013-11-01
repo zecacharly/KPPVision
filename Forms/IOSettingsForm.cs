@@ -15,7 +15,7 @@ using System.Threading;
 using System.Globalization;
 
 namespace VisionModule {
-    public partial class IOSettingsForm : Form {
+    internal partial class IOSettingsForm : Form {
 
         private static KPPLogger log = new KPPLogger(typeof(IOSettingsForm));
 

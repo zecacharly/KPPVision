@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
 namespace VisionModule {
-    public partial class BitmapOutProperty : Form {
+    internal partial class BitmapOutProperty : Form {
         public IWindowsFormsEditorService _wfes; 
 
         public BitmapOutProperty() {

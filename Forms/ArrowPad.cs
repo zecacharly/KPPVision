@@ -11,7 +11,7 @@ using System.Reflection;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace VisionModule {
-    public partial class ArrowPadControl : UserControl {
+    internal partial class ArrowPadControl : UserControl {
         public ArrowPadControl() {
             InitializeComponent();
                 

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace VisionModule {
-    public partial class InspectionOptionsForm : DockContent {
+    internal partial class InspectionOptionsForm : DockContent {
         public InspectionOptionsForm() {
             InitializeComponent();
         }

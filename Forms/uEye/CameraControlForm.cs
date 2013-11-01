@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace VisionModule {
-    public partial class CameraControlForm : Form {
+    internal partial class CameraControlForm : Form {
         
         private Timer m_UpdateTimer = new Timer();
         private uEye.Camera m_Camera;

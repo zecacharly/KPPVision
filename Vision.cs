@@ -48,7 +48,7 @@ namespace VisionModule {
         // picked-out
         //UserControl contextcontrol = StaticObjects.InputItemSelectorControl;
         private static KPPLogger log = new KPPLogger(typeof(InputReferenceSelector));
-        public OutputResultConfForm form = new OutputResultConfForm();
+        internal OutputResultConfForm form = new OutputResultConfForm();
 
         IWindowsFormsEditorService edSvc;
         // this is a string array for drop-down list
