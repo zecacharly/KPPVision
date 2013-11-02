@@ -293,7 +293,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="CustomTypes.cs" />
     <Compile Include="ROI\Area Functions\BlobAnalysis.cs" />
     <Compile Include="ROI\Area Functions\ProcessingFunctionAreaAnalysis.cs" />
     <Compile Include="ROI\BitmapOutProperty.cs">

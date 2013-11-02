@@ -14,6 +14,7 @@ using Emgu.CV.Cvb;
 using System.Collections;
 using System.Windows.Forms;
 using System.IO;
+using KPPAutomationCore;
 
 
 

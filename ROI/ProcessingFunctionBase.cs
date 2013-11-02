@@ -20,6 +20,7 @@ using System.Drawing.Design;
 using DejaVu;
 using System.Windows.Forms.DataVisualization.Charting;
 using KPP.Core.Debug;
+using KPPAutomationCore;
 
 
 
@@ -367,6 +368,22 @@ namespace VisionModule {
             return Pass;
 
 
+        }
+
+
+    }
+
+
+    public class Customconverter<T> : ExpandableObjectConverter {
+
+        public override object ConvertTo(ITypeDescriptorContext context,
+                                 System.Globalization.CultureInfo culture,
+                                 object value, Type destType) {
+            if (destType == typeof(string) && value is BlobInfo) {
+                T blob = (T)value;
+                return "";
+            }
+            return base.ConvertTo(context, culture, value, destType);
         }
 
 

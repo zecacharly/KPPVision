@@ -17,6 +17,7 @@ using System.Drawing.Design;
 using KPP.Controls.Winforms.ImageEditorObjs;
 using System.Diagnostics;
 using DejaVu;
+using KPPAutomationCore;
 
 
 
