@@ -40,7 +40,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.@__btCreateEmpty = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.@__EditEmptyFile = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.@__listfiles = new System.Windows.Forms.ListBox();
@@ -151,7 +151,7 @@
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.button3);
             this.groupBox4.Controls.Add(this.@__btCreateEmpty);
-            this.groupBox4.Controls.Add(this.textBox1);
+            this.groupBox4.Controls.Add(this.@__EditEmptyFile);
             this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.@__listfiles);
@@ -199,11 +199,12 @@
             resources.ApplyResources(this.@__btCreateEmpty, "__btCreateEmpty");
             this.@__btCreateEmpty.Name = "__btCreateEmpty";
             this.@__btCreateEmpty.UseVisualStyleBackColor = true;
+            this.@__btCreateEmpty.Click += new System.EventHandler(this.@__btCreateEmpty_Click_1);
             // 
-            // textBox1
+            // __EditEmptyFile
             // 
-            resources.ApplyResources(this.textBox1, "textBox1");
-            this.textBox1.Name = "textBox1";
+            resources.ApplyResources(this.@__EditEmptyFile, "__EditEmptyFile");
+            this.@__EditEmptyFile.Name = "__EditEmptyFile";
             // 
             // label2
             // 
@@ -529,7 +530,7 @@
         private System.Windows.Forms.TextBox __textFiles;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button __btCreateEmpty;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox __EditEmptyFile;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;

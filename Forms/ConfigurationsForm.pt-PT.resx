@@ -139,8 +139,15 @@
   <data name="button3.Text" xml:space="preserve">
     <value>Limpar</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="__btCreateEmpty.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="__btCreateEmpty.Text" xml:space="preserve">
     <value>Criar</value>
+  </data>
+  <data name="__EditEmptyFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 20</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>97, 13</value>
@@ -153,6 +160,9 @@
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Ficheiros disponiveis</value>
+  </data>
+  <data name="__listfiles.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="__btRemove.Text" xml:space="preserve">
     <value>Remover</value>
@@ -169,7 +179,6 @@
   <data name="__tabProjectsConf.Text" xml:space="preserve">
     <value>Projectos</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="groupBox3.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -178,6 +187,9 @@
   </data>
   <data name="groupBox2.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Servidor TCP</value>
   </data>
   <data name="__olvname.Text" xml:space="preserve">
     <value>Nome</value>
@@ -190,9 +202,6 @@
   </data>
   <data name="olvColumn9.Text" xml:space="preserve">
     <value>Ativo</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Servidor TCP</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Configurações</value>

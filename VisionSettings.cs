@@ -79,7 +79,7 @@ namespace VisionModule {
         public VisionSettings() {
             Name = "Vision Settings";
             Servers = new List<TCPServer>();
-
+            ProjectFile = "";
         }
 
         #region Read Operations
@@ -718,6 +718,13 @@ namespace VisionModule {
 
     public class KPPVision {
 
+        private String m_ModuleName = "New vision module";
+        [XmlAttribute,DisplayName("Module Name")]
+        public String ModuleName {
+            get { return m_ModuleName; }
+            set { m_ModuleName = value; }
+        }
+
         private Boolean m_Enabled = false;
         [XmlAttribute]
         public Boolean Enabled {
@@ -750,6 +757,14 @@ namespace VisionModule {
             internal set { m_ModuleStarted = value; }
         }
 
+        public void StopModule() {
+            if (ModuleStarted) {
+                ModuleForm.Form1_FormClosing(this, new FormClosingEventArgs(CloseReason.UserClosing, false));
+                ModuleStarted = false;
+            }
+            
+        }
+
         public KPPVision() {
             DebugController.ActiveDebugController = new DebugController(Path.Combine(Application.StartupPath, "app.log"));
 
@@ -777,10 +792,15 @@ namespace VisionModule {
         }
 
 
+
         public void StartModule(DockPanel dockingpanel) {
             if (StartModule()) {            
                 ModuleForm.Show(dockingpanel);                 
             }
+        }
+
+        public override string ToString() {
+            return ModuleName;
         }
     }
 

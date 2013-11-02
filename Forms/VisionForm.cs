@@ -2955,7 +2955,7 @@ namespace VisionModule {
                 if (e != null) {
                     if (e.CloseReason == CloseReason.UserClosing) {
 
-
+                        _silentexit = true;
                     }
                 }
                 if (!_silentexit) {
@@ -2981,11 +2981,7 @@ namespace VisionModule {
                     if (SelectedProject != null) {
                         SelectedProject.Dispose();
                     }
-                    //TODO Loading project
-                    //if (_appconfig != null) {
-
-                    //    _appconfig.WriteConfigurationFile(_appfile);
-                    //}
+                    
                     
 
 

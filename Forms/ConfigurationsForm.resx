@@ -183,6 +183,9 @@
   <data name="__btRemove.Size" type="System.Drawing.Size, System.Drawing">
     <value>92, 43</value>
   </data>
+  <data name="&gt;&gt;__btExit.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="__olvPin.Text" xml:space="preserve">
     <value>GPIO Number</value>
   </data>
@@ -221,9 +224,6 @@
   </data>
   <data name="button1.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
-  </data>
-  <data name="&gt;&gt;olvColumn2.Type" xml:space="preserve">
-    <value>BrightIdeasSoftware.OLVColumn, ObjectListView, Version=2.5.1.14799, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel2.Name" xml:space="preserve">
     <value>tableLayoutPanel2</value>
@@ -300,6 +300,9 @@
   <data name="__olvPin.Width" type="System.Int32, mscorlib">
     <value>120</value>
   </data>
+  <data name="__textFiles.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
     <value>736, 158</value>
   </data>
@@ -330,8 +333,8 @@
   <data name="&gt;&gt;button1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;__btExit.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>666, 361</value>
   </data>
   <data name="textBox1.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -365,6 +368,9 @@
   </data>
   <data name="__btExit.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
+  </data>
+  <data name="__EditEmptyFile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 167</value>
   </data>
   <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
@@ -447,6 +453,9 @@
   <data name="&gt;&gt;__Serialserverconflist.Name" xml:space="preserve">
     <value>__Serialserverconflist</value>
   </data>
+  <data name="&gt;&gt;__EditEmptyFile.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
   <data name="&gt;&gt;__listfiles.Type" xml:space="preserve">
     <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -470,9 +479,6 @@
   </data>
   <data name="__btAddDir.Size" type="System.Drawing.Size, System.Drawing">
     <value>92, 47</value>
-  </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>666, 361</value>
   </data>
   <data name="&gt;&gt;__tabConf.Name" xml:space="preserve">
     <value>__tabConf</value>
@@ -506,6 +512,9 @@
   </data>
   <data name="&gt;&gt;__listdirs.ZOrder" xml:space="preserve">
     <value>12</value>
+  </data>
+  <data name="&gt;&gt;__EditEmptyFile.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -542,6 +551,9 @@
   </data>
   <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="olvColumn4.Width" type="System.Int32, mscorlib">
+    <value>100</value>
   </data>
   <data name="&gt;&gt;__tooladdServer.Name" xml:space="preserve">
     <value>__tooladdServer</value>
@@ -645,6 +657,9 @@
   <data name="resource.Text" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
+  <data name="&gt;&gt;__EditEmptyFile.Name" xml:space="preserve">
+    <value>__EditEmptyFile</value>
+  </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
@@ -735,6 +750,9 @@
   <data name="&gt;&gt;button3.Parent" xml:space="preserve">
     <value>groupBox4</value>
   </data>
+  <data name="__EditEmptyFile.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
   <data name="__tabProjectsConf.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
   </data>
@@ -743,9 +761,6 @@
   </data>
   <data name="&gt;&gt;__btSave.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="&gt;&gt;__iolist.Parent" xml:space="preserve">
-    <value>groupBox3</value>
   </data>
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
@@ -783,8 +798,8 @@
   <data name="&gt;&gt;__btRemove.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="__Serialserverconflist.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+  <data name="&gt;&gt;olvColumn2.Type" xml:space="preserve">
+    <value>BrightIdeasSoftware.OLVColumn, ObjectListView, Version=2.5.1.14799, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4</value>
   </data>
   <data name="__tabProjectsConf.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -804,8 +819,14 @@
   <data name="&gt;&gt;__tooladdServer.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;__EditEmptyFile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;__toolremoveServer.Name" xml:space="preserve">
     <value>__toolremoveServer</value>
+  </data>
+  <data name="__Serialserverconflist.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
   <data name="&gt;&gt;olvColumn3.Type" xml:space="preserve">
     <value>BrightIdeasSoftware.OLVColumn, ObjectListView, Version=2.5.1.14799, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4</value>
@@ -851,9 +872,6 @@
   </data>
   <data name="__tabProjectsConf.Text" xml:space="preserve">
     <value>Projects</value>
-  </data>
-  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
   </data>
   <data name="__iolist.EmptyListMsg" xml:space="preserve">
     <value />
@@ -939,8 +957,8 @@
   <data name="&gt;&gt;__listfiles.Parent" xml:space="preserve">
     <value>groupBox4</value>
   </data>
-  <data name="&gt;&gt;__textFiles.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -948,8 +966,8 @@
   <data name="&gt;&gt;__btSave.Parent" xml:space="preserve">
     <value>tableLayoutPanel1</value>
   </data>
-  <data name="__serverconflist.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12pt</value>
+  <data name="&gt;&gt;__btExit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 19</value>
@@ -993,9 +1011,6 @@
   <data name="__btRemove.TabIndex" type="System.Int32, mscorlib">
     <value>14</value>
   </data>
-  <data name="&gt;&gt;__btExit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;olvColumn4.Type" xml:space="preserve">
     <value>BrightIdeasSoftware.OLVColumn, ObjectListView, Version=2.5.1.14799, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4</value>
   </data>
@@ -1023,11 +1038,11 @@
   <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
     <value>677, 443</value>
   </data>
+  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>11</value>
-  </data>
-  <data name="&gt;&gt;olvColumn5.Type" xml:space="preserve">
-    <value>BrightIdeasSoftware.OLVColumn, ObjectListView, Version=2.5.1.14799, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4</value>
   </data>
   <data name="&gt;&gt;olvColumn9.Name" xml:space="preserve">
     <value>olvColumn9</value>
@@ -1041,14 +1056,17 @@
   <data name="__state.Width" type="System.Int32, mscorlib">
     <value>100</value>
   </data>
-  <data name="__textFiles.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
+  <data name="__serverconflist.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
   </data>
-  <data name="tableLayoutPanel2.ColumnCount" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="&gt;&gt;olvColumn5.Type" xml:space="preserve">
+    <value>BrightIdeasSoftware.OLVColumn, ObjectListView, Version=2.5.1.14799, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4</value>
   </data>
-  <data name="olvColumn4.Width" type="System.Int32, mscorlib">
-    <value>100</value>
+  <data name="&gt;&gt;__textFiles.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;__iolist.Parent" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
   <data name="__serverconflist.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>

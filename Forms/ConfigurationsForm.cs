@@ -165,9 +165,13 @@ namespace VisionModule {
 
         private void __listdirs_SelectedIndexChanged(object sender, EventArgs e) {
             if (__listdirs.SelectedIndex>=0) {
+                __listfiles.Enabled = true;
+                __btCreateEmpty.Enabled = true;
                 UpdateAvaibleFiles((String)__listdirs.SelectedItem);
             }
             else {
+                __listfiles.Enabled = false;
+                __btCreateEmpty.Enabled = false;
                 __listfiles.Items.Clear();
             }
         }
@@ -200,6 +204,12 @@ namespace VisionModule {
         private void button3_Click(object sender, EventArgs e) {
             _appsettings.ProjectFile = "";
             __textFiles.Text = "";
+        }
+
+        private void __btCreateEmpty_Click_1(object sender, EventArgs e) {
+            VisionProjects newprojects = new VisionProjects();
+            newprojects.WriteConfigurationFile(__listdirs.SelectedItem.ToString() + "/" + __EditEmptyFile.Text);
+            UpdateAvaibleFiles((String)__listdirs.SelectedItem);
         }
     }
 }
