@@ -1230,6 +1230,12 @@ namespace VisionModule {
             this.Camtype = CameraTypes.uEye;
         }
 
+        public uEyeCamera() {
+
+            this.CameraName = "uEye camera input";
+            this.Camtype = CameraTypes.uEye;
+        }
+
         public override void Dispose() {
             if (Camera != null) {                
                 //Camera.Stop();
@@ -2736,6 +2742,14 @@ namespace VisionModule {
             this.Camtype = CameraTypes.DirectShow;
         }
 
+        public DirectShowCameraCapture(){
+            // CamIndex = -1;
+            this.id = ++DirectShowCameraCapture.Globalid;
+            this.CameraName = "Direct Show input";
+            this.Camtype = CameraTypes.DirectShow;
+        }
+
+
         public override void Dispose() {
             if (_Camera != null) {
                 _Camera.Stop();
@@ -3198,6 +3212,11 @@ namespace VisionModule {
 
         public PythonRemoteCapture(VisionProject selectedproject)
             : base(selectedproject) {
+            this.CameraName = "Python Remote Camera";
+            this.Camtype = CameraTypes.Remote;
+        }
+
+        public PythonRemoteCapture() {
             this.CameraName = "Python Remote Camera";
             this.Camtype = CameraTypes.Remote;
         }
