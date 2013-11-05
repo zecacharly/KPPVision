@@ -614,8 +614,8 @@ namespace VisionModule {
         
 
         #endregion
-
-       
+        [XmlIgnore,Browsable(false)]
+        public VisionProject SelectedProject = null;
 
         private int _UseIO =-1;
         [XmlAttribute]

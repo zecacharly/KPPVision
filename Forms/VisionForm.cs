@@ -1997,7 +1997,7 @@ namespace VisionModule {
 
                             int i = 0;
                             foreach (Inspection _inspect in _request.Inspections) {
-
+                                _inspect.SelectedProject = SelectedProject;
                                 //StaticObjects.InspectionReferences.Add(new InspectionReference(_request, _inspect));
                                 _inspect.PropertyChanged += new PropertyChangedEventHandler(_inspect_PropertyChanged);
                                 _inspect.ROIList.OnItemAdded += new DejaVu.Collections.Generic.UndoRedoList<ROI>.ItemAdded(ROIList_OnItemAdded);

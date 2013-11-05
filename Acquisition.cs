@@ -62,7 +62,11 @@ namespace VisionModule {
         // Displays the UI for value selection.
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
             Box1.Items.Clear();
-            Box1.Items.AddRange(BaseCapture.CaptureSources.ToArray());
+
+            // TODO dynamic captures selection
+
+            String[] captures = new String[] { "File", "Inspection", " ICSCamera" };
+            Box1.Items.AddRange(captures);
             //Box1.Items.Add(new CameraInfo("Select File", CameraInfo.CameraTypes.File));
             Box1.Height = Box1.PreferredHeight;
 
@@ -86,7 +90,7 @@ namespace VisionModule {
                (IWindowsFormsEditorService)provider.
                GetService(typeof
                (IWindowsFormsEditorService));
-            BaseCapture caminfo;
+            
             if (edSvc != null) {
 
                 
@@ -96,97 +100,54 @@ namespace VisionModule {
                     return value;
                 }
                 else {
-                    caminfo = (BaseCapture)Box1.SelectedItem;
+                    String caminfo = (String)Box1.SelectedItem;
 
-                    if (caminfo is FileCapture) {
+                    if (caminfo =="File") {
 
 
-
-                        FileCapture selefilecapture = (FileCapture)caminfo;
-                        if (selefilecapture.CameraName == "Add file location") {
-
-                            FileCapture newfilecap = new FileCapture("New file location",caminfo.SelectedProject);
+                            FileCapture newfilecap = new FileCapture("New file location",((Inspection)context.Instance).SelectedProject);
 
                             return newfilecap;
 
-                        }
-                        else {
-                            return selefilecapture;
-                        }
-
-
-                        //FileCapture newfileCap = (FileCapture);
-
+                      
                     }
-                    else if (caminfo is InspectionCapture) {
-                        InspectionCapture seleinspcapture = (InspectionCapture)caminfo;
-                        if (seleinspcapture.CameraName == "Select Inspection") {
+                    else if (caminfo =="Inspection") {
 
-                            InspectionCapture newfilecap = new InspectionCapture(caminfo.SelectedProject);
+
+                        InspectionCapture newfilecap = new InspectionCapture(((Inspection)context.Instance).SelectedProject);
                             //newfilecap.OnCaptureInspectionNameChanged += new InspectionCapture.CaptureInspectionNameChanged(newInspcap_OnCaptureInspectionNameChanged); ;
 
                             return newfilecap;
 
-                        }
-                        else {
-                            return seleinspcapture;
-                        }
+                      
                     } 
-                    else if (caminfo is ICSCameraCapture) {
-                        if (CamSource!=null) {
-                            if (caminfo.CameraName!=CamSource.CameraName) {
-                                return new ICSCameraCapture(caminfo.SelectedProject);
-                            }
-                        } else {
-                            return new ICSCameraCapture(caminfo.SelectedProject);
-                        }
+                    else if (caminfo =="Inspection") {
+                        
+                         return new ICSCameraCapture(((Inspection)context.Instance).SelectedProject);
+                         
                     }
-                    else if (caminfo is CVCameraCapture) {
-                        if (CamSource != null) {
-                            if (caminfo.CameraName != CamSource.CameraName) {
-                                return new CVCameraCapture(caminfo.SelectedProject);
-                            }
-                        }
-                        else {
-                            return new CVCameraCapture(caminfo.SelectedProject);
-                        }
+                    else if (caminfo == "CVCamera") {
+                        return new CVCameraCapture(((Inspection)context.Instance).SelectedProject);                                                 
                     }
-                    #region old
-                    //else if (caminfo is RemoteCameraCapture) {
+                    //else if (caminfo is PythonRemoteCapture) {
                     //    if (CamSource != null) {
                     //        return (BaseCapture)Box1.SelectedItem;
                     //    }
                     //    else {
-                    //        return new RemoteCameraCapture();
+                    //        return new PythonRemoteCapture(caminfo.SelectedProject);
                     //    }
-                    //} 
-                    #endregion
-                    else if (caminfo is PythonRemoteCapture) {
-                        if (CamSource != null) {
-                            return (BaseCapture)Box1.SelectedItem;
-                        }
-                        else {
-                            return new PythonRemoteCapture(caminfo.SelectedProject);
-                        }
-                    }
-                    else if (caminfo is DirectShowCameraCapture) {
-                        if (CamSource != null) {
-                            return (BaseCapture)Box1.SelectedItem;
-                        }
-                        else {
-                            return new DirectShowCameraCapture(caminfo.SelectedProject);
-                        }
-                    } else if (caminfo is uEyeCamera) {
-                        if (CamSource != null) {
-                            return (BaseCapture)Box1.SelectedItem;
-                        } else {
-                            return new uEyeCamera(caminfo.SelectedProject);
-                        }
+                    //}
+                    else if (caminfo=="DirectShowCamera") {
+                        return new DirectShowCameraCapture(((Inspection)context.Instance).SelectedProject);                        
+                    } else if (caminfo == "uEyeCamera") {
+
+                        return new uEyeCamera(((Inspection)context.Instance).SelectedProject);
+                        
                     }
 
                     
                     else {
-                        return (BaseCapture)Box1.SelectedItem;
+                        return value;
                     }
                 }
 
@@ -2237,33 +2198,20 @@ namespace VisionModule {
             set {
                 if (value != _FileLoc.Value) {
 
-                    FileCapture thefilecap = null;
-                    foreach (BaseCapture item in BaseCapture.CaptureSources) {
-                        if (item is FileCapture) {
-                            if (((FileCapture)item).FileLoc == value) {
-                                thefilecap = (FileCapture)item;
-                                break;
-                            }
-                        }
-                    }
-                    bool fileexists = true;
+
                     if (!UndoRedoManager.IsCommandStarted) {
-                        fileexists = File.Exists(value);    
-                    }
-                    
-                    if (fileexists || this.CameraName == "Add file location") {
-                        if (!UndoRedoManager.IsCommandStarted) {
 
-                            using (UndoRedoManager.Start(this.CameraName + " File location changed to: " + value)) {
-                                _FileLoc.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                        } else {
+                        using (UndoRedoManager.Start(this.CameraName + " File location changed to: " + value)) {
                             _FileLoc.Value = value;
+                            UndoRedoManager.Commit();
                         }
-
-                        
                     }
+                    else {
+                        _FileLoc.Value = value;
+                    }
+
+
+
                 }
             }
         }
@@ -3272,7 +3220,7 @@ namespace VisionModule {
         //    set { _LogImages = value; }
         //}
 
-        internal static List<BaseCapture> CaptureSources = new List<BaseCapture>();
+        //internal static List<BaseCapture> CaptureSources = new List<BaseCapture>();
 
 
         
@@ -3335,7 +3283,7 @@ namespace VisionModule {
         }
 
         private VisionProject m_SelectedProject = null;
-
+        [XmlIgnore]
         public virtual VisionProject SelectedProject {
             get { return m_SelectedProject; }
             set { m_SelectedProject = value; }
