@@ -130,56 +130,27 @@
   <data name="&gt;&gt;__refImagetool.Name" xml:space="preserve">
     <value>__refImagetool</value>
   </data>
-  <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>174, 6</value>
-  </data>
   <data name="&gt;&gt;_lastcaptureimages.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="blueChannelToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="toolStripZoomOut.Size" type="System.Drawing.Size, System.Drawing">
     <value>36, 36</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tabControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="toolStripSeparator6.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 39</value>
   </data>
-  <data name="toolStripZoomAll.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-</value>
+  <data name="&gt;&gt;toolStripSeparator8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;__toolZoomOut.Name" xml:space="preserve">
+    <value>__toolZoomOut</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator2.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -193,13 +164,10 @@
   <data name="redChannelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>177, 22</value>
   </data>
-  <data name="toolStripZoomAll.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
   <data name="toolStripZoomOut.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAAaZSURBVFhHxVZpTFRXFH5iKonWHyhWxVhTtUqNkUpJQEij
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAaZSURBVFhHxVZpTFRXFH5iKonWHyhWxVhTtUqNkUpJQEij
         dam1sbExNdRoMi4ouBZr3XdFRpaRpYzsywjIIsomyCBDB5gBBARBVoVhQMAF21pbq21/fD3nOpiYIiC1
         9iZf7rvvLt8592xXkgbfhtDWjwlyQi6hkdBq6tXUnyQ4Dv74vneuZiIzMzPYzLaFbJ0LDh87Abm3L457
         eGKDqxs+srPDEJqndXUE59clyDg6KM/c3BwrV69BVq4Wjc1GGG/fQced++i6243Ou/fF9+2ueyi7VgW3
@@ -233,7 +201,7 @@
   <data name="toolStripZoomIn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAAaTSURBVFhHxVZ5TJRHHP2EVBKtf3jVK9ZUrVJiJFoSENJo
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAaTSURBVFhHxVZ5TJRHHP2EVBKtf3jVK9ZUrVJiJFoSENJo
         UWttbGxMDTWarIoI3ljrrXiArLCsCLLc1wrIIXIKsshSkF1QQC6BBYRlOURF7WGrolZffzMcSoosUmsn
         efl253pv5neNIAy+DaGlXxDEhExCDaGx66ug7wmC5eC373/lGkZkYGAA0zlzIVq/AU7HnCF298BxF1fY
         2TvgczMzDKFxmldFsHlXQsbTRllGRkZYtWYt0jJzUFOvg67lNlpvt6Ptzj3cutPOf7e03UXh9VI4bNoM
@@ -267,24 +235,20 @@
   <data name="&gt;&gt;__setCurrentToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;greenChannelToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;toolStripZoomIn.Name" xml:space="preserve">
+    <value>toolStripZoomIn</value>
   </data>
   <data name="__toolZoomFit.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
+  </data>
+  <data name="greenChannelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 22</value>
   </data>
   <data name="__roicontainer.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
   </data>
   <data name="&gt;&gt;__toolZoomIn.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="newImageFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>Choose image file</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="toolStripZoomIn.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
   </data>
   <data name="__OpentoolStrip.ToolTipText" xml:space="preserve">
     <value>Open Image</value>
@@ -313,6 +277,7 @@
   <data name="toolStripButton5.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="toolStripZoomFit.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
   </data>
@@ -331,7 +296,7 @@
   <data name="__toolZoomIn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAAaTSURBVFhHxVZ5TJRHHP2EVBKtf3jVK9ZUrVJiJFoSENJo
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAaTSURBVFhHxVZ5TJRHHP2EVBKtf3jVK9ZUrVJiJFoSENJo
         UWttbGxMDTWarIoI3ljrrXiArLCsCLLc1wrIIXIKsshSkF1QQC6BBYRlOURF7WGrolZffzMcSoosUmsn
         efl253pv5neNIAy+DaGlXxDEhExCDaGx66ug7wmC5eC373/lGkZkYGAA0zlzIVq/AU7HnCF298BxF1fY
         2TvgczMzDKFxmldFsHlXQsbTRllGRkZYtWYt0jJzUFOvg67lNlpvt6Ptzj3cutPOf7e03UXh9VI4bNoM
@@ -365,11 +330,8 @@
   <data name="&gt;&gt;__roicontainer.Name" xml:space="preserve">
     <value>__roicontainer</value>
   </data>
-  <data name="&gt;&gt;toolStripSeparator9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;toolStripZoomIn.Name" xml:space="preserve">
-    <value>toolStripZoomIn</value>
+  <data name="$this.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;tabPage2.Name" xml:space="preserve">
     <value>tabPage2</value>
@@ -387,7 +349,10 @@
     <value>originalToolStripMenuItem</value>
   </data>
   <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 20</value>
+    <value>712, 212</value>
+  </data>
+  <data name="ImagetoolStrip.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
   </data>
   <data name="toolStripSeparator2.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 39</value>
@@ -404,9 +369,6 @@
   <data name="&gt;&gt;saveImageOptionsToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="__toolZoomIn.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
   <data name="&gt;&gt;__toolZoomFit.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -418,6 +380,9 @@
   </data>
   <data name="&gt;&gt;blueChannelToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;__toolZoomOut.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="tabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -432,7 +397,7 @@
     <value>Magenta</value>
   </data>
   <data name="&gt;&gt;__roicontainer.Parent" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
+    <value>$this</value>
   </data>
   <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
     <value>2</value>
@@ -476,14 +441,23 @@
   <data name="&gt;&gt;toolStripSeparator8.Name" xml:space="preserve">
     <value>toolStripSeparator8</value>
   </data>
+  <data name="&gt;&gt;toolStripSeparator6.Name" xml:space="preserve">
+    <value>toolStripSeparator6</value>
+  </data>
   <data name="toolStripZoomOut.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator7.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="toolStripZoomAll.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="__refImagetool.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="toolStripZoomFit.Size" type="System.Drawing.Size, System.Drawing">
     <value>36, 36</value>
@@ -497,11 +471,11 @@
   <data name="greenChannelToolStripMenuItem.Text" xml:space="preserve">
     <value>Green channel</value>
   </data>
-  <data name="_saveFileDialog1.Filter" xml:space="preserve">
-    <value>Image Files|*.BMP;*.JPG;*.JPEG</value>
+  <data name="&gt;&gt;toolStripZoomIn.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="originalToolStripMenuItem.Text" xml:space="preserve">
-    <value>Original</value>
+  <data name="newImageFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Choose image file</value>
   </data>
   <data name="__mainspliter.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -510,7 +484,7 @@
     <value>toolStripSeparator2</value>
   </data>
   <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 20</value>
+    <value>712, 212</value>
   </data>
   <data name="_lastcaptureimages.Size" type="System.Drawing.Size, System.Drawing">
     <value>186, 22</value>
@@ -537,7 +511,7 @@
     <value>Magenta</value>
   </data>
   <data name="__roicontainer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>714, 606</value>
+    <value>730, 644</value>
   </data>
   <data name="toolStripZoomAll.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -548,7 +522,7 @@
   <data name="__toolZoomFit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAAYsSURBVFhHtZZ5bJNlHMenbIuiosxEJCTGPyBCQiQgpyFG
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAYsSURBVFhHtZZ5bJNlHMenbIuiosxEJCTGPyBCQiQgpyFG
         QBOiAYNowo1TIQhEQQSWMRwKuzjc6Lh20DHo7rK1tCsrXY+ta9f12NWWdlvbnd3BHDAY14B9/T0VzCZ9
         EYS9ySd9+76/5/v9vk9/z/s0IGDoEUxfFxM/DBNMm3n4Pd6kq5WBo99G8PhpCJo4E4GT52DE+3Px4tSP
         8MIHHyNg+jwEzJiPgJkLiE8QMOsB7JxdY/eohtWyMS9OmevTCJo0E8ETpiFw9FgwDyLEX4LEl9+ZjKnR
@@ -590,7 +564,7 @@
   <data name="__toolZoomOut.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAAaZSURBVFhHxVZpTFRXFH5iKonWHyhWxVhTtUqNkUpJQEij
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAaZSURBVFhHxVZpTFRXFH5iKonWHyhWxVhTtUqNkUpJQEij
         dam1sbExNdRoMi4ouBZr3XdFRpaRpYzsywjIIsomyCBDB5gBBARBVoVhQMAF21pbq21/fD3nOpiYIiC1
         9iZf7rvvLt8592xXkgbfhtDWjwlyQi6hkdBq6tXUnyQ4Dv74vneuZiIzMzPYzLaFbJ0LDh87Abm3L457
         eGKDqxs+srPDEJqndXUE59clyDg6KM/c3BwrV69BVq4Wjc1GGG/fQced++i6243Ou/fF9+2ueyi7VgW3
@@ -621,17 +595,17 @@
         ISZNfh+fLluJ0e+MY29/Y+Q9AvFNpBBaCHGm6Hit3t7bYX8DyfXGhS1Ek+4AAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
-    <value>__mainspliter.Panel1</value>
+  <data name="refeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 22</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator3.Name" xml:space="preserve">
     <value>toolStripSeparator3</value>
   </data>
-  <data name="refeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>186, 22</value>
+  <data name="toolStripSeparator9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>174, 6</value>
   </data>
   <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="__roicontainer" Row="0" RowSpan="2" Column="0" ColumnSpan="2" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,47,77778,Percent,52,22222" /&gt;&lt;Rows Styles="Percent,44,93464,Percent,55,06536" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="__roicontainer" Row="0" RowSpan="2" Column="0" ColumnSpan="2" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,47,77778,Percent,52,22222" /&gt;&lt;Rows Styles="Percent,44,93464,Percent,55,06536,Absolute,20,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -652,22 +626,28 @@
     <value>Magenta</value>
   </data>
   <data name="ImagetoolStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>720, 39</value>
+    <value>736, 39</value>
   </data>
   <data name="&gt;&gt;tabPage2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>720, 612</value>
+  <data name="&gt;&gt;tabPage1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;__toolZoomOriginal.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;toolStripZoomAll.Name" xml:space="preserve">
+    <value>toolStripZoomAll</value>
+  </data>
+  <data name="&gt;&gt;toolStripSeparator9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="tabPage1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
   <data name="&gt;&gt;__mainspliter.Panel1.Parent" xml:space="preserve">
     <value>__mainspliter</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>__mainspliter.Panel1</value>
   </data>
   <data name="&gt;&gt;__mainspliter.ZOrder" xml:space="preserve">
     <value>0</value>
@@ -702,17 +682,11 @@
   <data name="&gt;&gt;tabControl1.Name" xml:space="preserve">
     <value>tabControl1</value>
   </data>
-  <data name="toolStripZoomIn.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;tabControl1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;__roicontainer.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="__mainspliter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>720, 612</value>
+    <value>736, 650</value>
   </data>
   <data name="toolStripZoomOut.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
@@ -723,11 +697,8 @@
   <data name="&gt;&gt;__mainspliter.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;toolStripSeparator6.Name" xml:space="preserve">
-    <value>toolStripSeparator6</value>
-  </data>
-  <data name="&gt;&gt;toolStripZoomAll.Name" xml:space="preserve">
-    <value>toolStripZoomAll</value>
+  <data name="$this.AutoScrollMinSize" type="System.Drawing.Size, System.Drawing">
+    <value>736, 689</value>
   </data>
   <data name="&gt;&gt;originalToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -738,8 +709,8 @@
   <data name="blueChannelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>177, 22</value>
   </data>
-  <data name="__addrectROI.Text" xml:space="preserve">
-    <value>Insert rectangle ROI</value>
+  <data name="toolStripZoomAll.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
   </data>
   <data name="&gt;&gt;toolStripSeparator6.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -759,13 +730,13 @@
   <data name="&gt;&gt;ImagetoolStrip.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="redChannelToolStripMenuItem.Text" xml:space="preserve">
-    <value>Red channel</value>
+  <data name="&gt;&gt;__openFileDialog.Name" xml:space="preserve">
+    <value>__openFileDialog</value>
   </data>
   <data name="__addrectROI.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAACFSURBVFhH7ZaxDYAwEAMzABAWSViBTZiG/AxUrMYmIL+U
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAACFSURBVFhH7ZaxDYAwEAMzABAWSViBTZiG/AxUrMYmIL+U
         hp43hSNFSnf2pXFKOjLwBwN5sXWs+zEUu3K1+8sLBlhgenc8ptrOubQtSgZYYHoIpImE95Jggp2gJKr5
         m+Ns/DcrgLMVQAZkQAZkQAZkgG6APkjok4w+Svsyps1y1h4Utxt4AKZeu3XE2eieAAAAAElFTkSuQmCC
 </value>
@@ -776,14 +747,14 @@
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ImageContainerForm</value>
   </data>
-  <data name="&gt;&gt;toolStripZoomIn.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="__OpentoolStrip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 36</value>
+  <data name="__addrectROI.Text" xml:space="preserve">
+    <value>Insert rectangle ROI</value>
   </data>
   <data name="toolStripZoomFit.ToolTipText" xml:space="preserve">
     <value>Zomm Fit</value>
+  </data>
+  <data name="&gt;&gt;__mainspliter.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;redChannelToolStripMenuItem.Name" xml:space="preserve">
     <value>redChannelToolStripMenuItem</value>
@@ -800,9 +771,6 @@
   <data name="&gt;&gt;toolStripSeparator9.Name" xml:space="preserve">
     <value>toolStripSeparator9</value>
   </data>
-  <data name="&gt;&gt;__mainspliter.Name" xml:space="preserve">
-    <value>__mainspliter</value>
-  </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 39</value>
   </data>
@@ -812,19 +780,22 @@
   <data name="&gt;&gt;tabPage2.Parent" xml:space="preserve">
     <value>tabControl1</value>
   </data>
+  <data name="saveImageOptionsToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="toolStripButton5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAAblSURBVFhHrVYJUFVlGL1liGszhkOGIIoCIruKLCKL7DwE
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAblSURBVFhHrVYJUFVlGL1liGszhkOGIIoCIruKLCKL7DwE
         HmBlhjOkjuZkqWXN2CiDNSON6KjpZGaSY1pNNeO4oLiBu+KCC24oKIpghBsBLk88feeOlx5vQZx8M2fu
         u/96/vN95/uvopj8jh8/biOYd+LEiRwNpaWlOcTp06fNcPbs2ZzLly/nVFRUtILvGi5dupSjoays7A3T
         /czejx075n3y5Em8CGQDlJeXdwRJzyVw6tSpiXJSvAguXLgAOXFH8NVzCZw5c2aVyApjSChw+PBhFZoy
         hw4dAnHw4EGUlJRA5FXn8HnlyhVrKHwugXPnzp0SwBj79u3Dtm3bUFBQoCojOYItW7Zg8+bN2LRpk9rH
         MJBQcXGx+qQqlZWVbSB5Ug+gk1USEsfXZeIjTjbGnj17sH37dhQWFqrtkifYunVrKwn+56n379+vYvfu
-        3SgqKjIjIISfCin39giE8yTGuHjxInbu3KluTiLsO3r0qKqGRoJq7N27t/X0JLBr1y41J65evdoGQmCC
+        3SgqKjIjIGSfCin39giE8yTGuHjxInbu3KluTiLsO3r0qKqGRoJq7N27t/X0JLBr1y41J65evdoGQmCC
         VQKy+GzTZGIoSGDHjh3qogcOHFA34wlJiJsR/M98YB/HEefPn0dVVVUbXLt2bYVVArL5HxInGIMx52Ia
         CSpBMCRaXlAJQiOjjZfagevXr7eBKHLMIgFJjleks8pUMjpAk1QjQTUskdBU0ggcOXLEjIAQenDz5s1u
-        ZiSko6+c4qlIBGNwEcor9UG1mwbmAcF+zaJ8p0PEyipphuPGjRtmqK6uDrFEINU0XnynBQnGUzuZcTi0
+        ZiSko6/E8qlIBGNwEcor9UG1mwbmAcF+zaJ8p0PEyipphuPGjRtmqK6uDrFEINU0XnynBQnGUzuZcTi0
         UDAcBPtIgG6gIiQgG7aBtM2wRGCBabyoBH3NUzIXOhIKbkqbUin+pz0tENhgRkBOu8dULjqCvqcVKa1G
         wDQpqYKmBHODTtHKM10kMTfFlTYEJAFfE5b3TJlyMmNPAjyVVmgYEs33VEizJHOF4DjWC7qAxE0JyPiW
         2tpa+1YSIr2XBZZqMlIF5oKl/vbaqCZJ0NI1NTVmkH5dKwFZaOKLbtDeeEsbmrbJ/PmtBET67zsy6SWP
@@ -844,7 +815,7 @@
         woULkZWVhYEDB+ZYJSCy5zH2rIaZmZlYnPclli2IwIpvorByYSxW5SXgx0U65C9Kxk+LU7F2sR5r8/TI
         z03B6q+TsDI7AcvnxGDJ7EjkfRKG3GnBmDsrC+np6WplZL2R8P5ulYCjo+NcYXhbSuXf4tM6qWZ/ycRb
         EsNacUdtUFBQDSHl+KbISVQ/g/rOdvbLQTi2lnMlnFyjTgoP16wXJ/xglUD37t3ftLGx8RN4d+7c2UPg
-        LtYcJHAR9O/SpUu/rl27Ogr6Chy6dev2loZnbY4cI3CW8QM4V9Zw41qyppfAV/qcjAn8C8dtx1UN2Wd+
+        LtYcJHAR9O/SpUu/rl27Ogr6Chy6dev2loZnbY4cI3CW8QM4V9Zw41qyppfAV/qcjAn8C37Ox0+poEx4
         AAAAAElFTkSuQmCC
 </value>
   </data>
@@ -857,14 +828,14 @@
   <data name="tabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
-  <data name="toolStripZoomAll.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="toolStripButton5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 36</value>
   </data>
   <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;tabPage1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>736, 650</value>
   </data>
   <data name="&gt;&gt;__toolZoomOriginal.Name" xml:space="preserve">
     <value>__toolZoomOriginal</value>
@@ -923,7 +894,7 @@
   <data name="toolStripZoomFit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAAYsSURBVFhHtZZ5bJNlHMenbIuiosxEJCTGPyBCQiQgpyFG
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAYsSURBVFhHtZZ5bJNlHMenbIuiosxEJCTGPyBCQiQgpyFG
         QBOiAYNowo1TIQhEQQSWMRwKuzjc6Lh20DHo7rK1tCsrXY+ta9f12NWWdlvbnd3BHDAY14B9/T0VzCZ9
         EYS9ySd9+76/5/v9vk9/z/s0IGDoEUxfFxM/DBNMm3n4Pd6kq5WBo99G8PhpCJo4E4GT52DE+3Px4tSP
         8MIHHyNg+jwEzJiPgJkLiE8QMOsB7JxdY/eohtWyMS9OmevTCJo0E8ETpiFw9FgwDyLEX4LEl9+ZjKnR
@@ -953,8 +924,8 @@
         RU5ErkJggg==
 </value>
   </data>
-  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
-    <value>tableLayoutPanel1</value>
+  <data name="redChannelToolStripMenuItem.Text" xml:space="preserve">
+    <value>Red channel</value>
   </data>
   <data name="toolStripSeparator4.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 39</value>
@@ -965,8 +936,8 @@
   <data name="toolStripSeparator7.Size" type="System.Drawing.Size, System.Drawing">
     <value>137, 6</value>
   </data>
-  <data name="blueChannelToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;__mainspliter.Panel2.Parent" xml:space="preserve">
+    <value>__mainspliter</value>
   </data>
   <data name="__OpentoolStrip.Text" xml:space="preserve">
     <value>toolStripButton6</value>
@@ -977,7 +948,7 @@
   <data name="toolStripZoomAll.Size" type="System.Drawing.Size, System.Drawing">
     <value>36, 36</value>
   </data>
-  <data name="saveImageOptionsToolStripMenuItem.Enabled" type="System.Boolean, mscorlib">
+  <data name="toolStripZoomIn.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="toolStripZoomOut.ToolTipText" xml:space="preserve">
@@ -988,9 +959,6 @@
   </data>
   <data name="__toolZoomOriginal.Size" type="System.Drawing.Size, System.Drawing">
     <value>36, 36</value>
-  </data>
-  <data name="__refImagetool.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>720, 651</value>
@@ -1010,8 +978,8 @@
   <data name="__OpentoolStrip.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
-  <data name="&gt;&gt;__toolZoomOut.Name" xml:space="preserve">
-    <value>__toolZoomOut</value>
+  <data name="_saveFileDialog1.Filter" xml:space="preserve">
+    <value>Image Files|*.BMP;*.JPG;*.JPEG</value>
   </data>
   <data name="&gt;&gt;__refImagetool.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1025,6 +993,9 @@
   <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="&gt;&gt;__toolZoomOriginal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;blueChannelToolStripMenuItem.Name" xml:space="preserve">
     <value>blueChannelToolStripMenuItem</value>
   </data>
@@ -1037,8 +1008,8 @@
   <data name="refeToolStripMenuItem.Text" xml:space="preserve">
     <value>Reference Image</value>
   </data>
-  <data name="&gt;&gt;__mainspliter.Panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="tabPage2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="__addrectROI.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
     <value>None</value>
@@ -1046,11 +1017,11 @@
   <data name="&gt;&gt;__addrectROI.Name" xml:space="preserve">
     <value>__addrectROI</value>
   </data>
-  <data name="&gt;&gt;__toolZoomOut.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="originalToolStripMenuItem.Text" xml:space="preserve">
+    <value>Original</value>
   </data>
   <data name="tabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 46</value>
+    <value>720, 238</value>
   </data>
   <data name="toolStripZoomIn.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 7pt</value>
@@ -1058,16 +1029,16 @@
   <data name="&gt;&gt;__mainspliter.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;__mainspliter.Panel2.Parent" xml:space="preserve">
-    <value>__mainspliter</value>
+  <data name="&gt;&gt;greenChannelToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="toolStripButton5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>45, 36</value>
+  <data name="&gt;&gt;__roicontainer.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="__toolZoomOriginal.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAAbLSURBVFhHxVZ5TJRHFP+EVqrVP/CoF9a0WrXGaGxJQEhj
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAbLSURBVFhHxVZ5TJRHFP+EVqrVP/CoF9a0WrXGaGxJQEhj
         61FrY2NjaqzRZFFA8CzWeqHiAbJyrAiCyw0rKIfIKcoCS8HdBZQb5VBgWRDwoE2sralt//j1vdnFxFQB
         rbWT/DLfzLzv/d68efPeSNLLtyH06ycEOSGf0ExoN/dq6o8RHF5eff9/rmMiCwsLzJ33EWQbXOB1xBty
         /0Ac9fGFq5s7Pra1xRBaJ7kGwupXZch4UlRoZWWFNeuckJtfjOZWI4y376Drzn303O1F99374vt2zz1c
@@ -1099,8 +1070,8 @@
         9DvjOdpfG3mfQeyJNEIbIdF8O15ptD9L2d+Tjo7Dcva9zgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="greenChannelToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 22</value>
+  <data name="__OpentoolStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 36</value>
   </data>
   <data name="&gt;&gt;__OpentoolStrip.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -1108,8 +1079,43 @@
   <data name="&gt;&gt;toolStripButton5.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;toolStripSeparator8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripSeparator, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="toolStripZoomAll.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
+  <data name="&gt;&gt;__mainspliter.Name" xml:space="preserve">
+    <value>__mainspliter</value>
   </data>
   <data name="toolStripSeparator5.Size" type="System.Drawing.Size, System.Drawing">
     <value>6, 39</value>
@@ -1120,11 +1126,11 @@
   <data name="&gt;&gt;tabPage1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="ImagetoolStrip.TabIndex" type="System.Int32, mscorlib">
-    <value>19</value>
+  <data name="toolStripZoomIn.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
   </data>
-  <data name="&gt;&gt;__openFileDialog.Name" xml:space="preserve">
-    <value>__openFileDialog</value>
+  <data name="__toolZoomIn.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
   </data>
   <metadata name="_saveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>122, 17</value>

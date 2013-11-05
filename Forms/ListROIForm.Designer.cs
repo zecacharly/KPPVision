@@ -32,15 +32,15 @@
             this._olvInspName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnProcPOS = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnFuncType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.label1 = new System.Windows.Forms.Label();
             this.@__btProcROI = new System.Windows.Forms.Button();
             this.@__propertyGridFunction = new System.Windows.Forms.PropertyGrid();
             this.@__btAddProc = new System.Windows.Forms.Button();
-            this.@__cbProcFunc = new KPPCustomControls.KPPComboBox();
-            this.@__btRemoveProc = new System.Windows.Forms.Button();
-            this.@__btProcFunc = new System.Windows.Forms.Button();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.@__btProcFunc = new System.Windows.Forms.Button();
+            this.@__btRemoveProc = new System.Windows.Forms.Button();
+            this.@__cbProcFunc = new KPPCustomControls.KPPComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.@__tabrois.SuspendLayout();
             this.@__tabROIProc.SuspendLayout();
             this.@__grpROIProc.SuspendLayout();
@@ -51,22 +51,22 @@
             // 
             // __tabrois
             // 
-            resources.ApplyResources(this.@__tabrois, "__tabrois");
             this.@__tabrois.Controls.Add(this.@__tabROIProc);
+            resources.ApplyResources(this.@__tabrois, "__tabrois");
             this.@__tabrois.Name = "__tabrois";
             this.@__tabrois.SelectedIndex = 0;
             // 
             // __tabROIProc
             // 
-            resources.ApplyResources(this.@__tabROIProc, "__tabROIProc");
             this.@__tabROIProc.Controls.Add(this.@__grpROIProc);
+            resources.ApplyResources(this.@__tabROIProc, "__tabROIProc");
             this.@__tabROIProc.Name = "__tabROIProc";
             this.@__tabROIProc.UseVisualStyleBackColor = true;
             // 
             // __grpROIProc
             // 
-            resources.ApplyResources(this.@__grpROIProc, "__grpROIProc");
             this.@__grpROIProc.Controls.Add(this.tableLayoutPanel1);
+            resources.ApplyResources(this.@__grpROIProc, "__grpROIProc");
             this.@__grpROIProc.Name = "__grpROIProc";
             this.@__grpROIProc.TabStop = false;
             // 
@@ -85,7 +85,6 @@
             // 
             // __RoiProcList
             // 
-            resources.ApplyResources(this.@__RoiProcList, "__RoiProcList");
             this.@__RoiProcList.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.@__RoiProcList.AllColumns.Add(this._olvInspName);
             this.@__RoiProcList.AllColumns.Add(this.olvColumnProcPOS);
@@ -96,6 +95,7 @@
             this._olvInspName,
             this.olvColumnProcPOS,
             this.olvColumnFuncType});
+            resources.ApplyResources(this.@__RoiProcList, "__RoiProcList");
             this.@__RoiProcList.FullRowSelect = true;
             this.@__RoiProcList.GridLines = true;
             this.@__RoiProcList.HideSelection = false;
@@ -103,7 +103,6 @@
             this.@__RoiProcList.LabelEdit = true;
             this.@__RoiProcList.MultiSelect = false;
             this.@__RoiProcList.Name = "__RoiProcList";
-            this.@__RoiProcList.OverlayText.Text = resources.GetString("resource.Text");
             this.@__RoiProcList.ShowGroups = false;
             this.@__RoiProcList.ShowItemToolTips = true;
             this.@__RoiProcList.ShowSortIndicators = false;
@@ -130,11 +129,6 @@
             this.olvColumnFuncType.AspectName = "FunctionType";
             resources.ApplyResources(this.olvColumnFuncType, "olvColumnFuncType");
             // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
             // __btProcROI
             // 
             resources.ApplyResources(this.@__btProcROI, "__btProcROI");
@@ -157,26 +151,10 @@
             this.@__btAddProc.UseVisualStyleBackColor = true;
             this.@__btAddProc.Click += new System.EventHandler(this.@__btAddProc_Click);
             // 
-            // __cbProcFunc
+            // label2
             // 
-            resources.ApplyResources(this.@__cbProcFunc, "__cbProcFunc");
-            this.@__cbProcFunc.DefaultText = "Nada Selecionado";
-            this.@__cbProcFunc.Name = "__cbProcFunc";
-            this.@__cbProcFunc.Objects = null;
-            this.@__cbProcFunc.Load += new System.EventHandler(this.@__cbProcFunc_Load);
-            // 
-            // __btRemoveProc
-            // 
-            resources.ApplyResources(this.@__btRemoveProc, "__btRemoveProc");
-            this.@__btRemoveProc.Name = "__btRemoveProc";
-            this.@__btRemoveProc.UseVisualStyleBackColor = true;
-            this.@__btRemoveProc.Click += new System.EventHandler(this.@__btRemoveProc_Click);
-            // 
-            // __btProcFunc
-            // 
-            resources.ApplyResources(this.@__btProcFunc, "__btProcFunc");
-            this.@__btProcFunc.Name = "__btProcFunc";
-            this.@__btProcFunc.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
             // 
             // tableLayoutPanel2
             // 
@@ -185,10 +163,31 @@
             this.tableLayoutPanel2.Controls.Add(this.@__btRemoveProc, 1, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
-            // label2
+            // __btProcFunc
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
+            resources.ApplyResources(this.@__btProcFunc, "__btProcFunc");
+            this.@__btProcFunc.Name = "__btProcFunc";
+            this.@__btProcFunc.UseVisualStyleBackColor = true;
+            // 
+            // __btRemoveProc
+            // 
+            resources.ApplyResources(this.@__btRemoveProc, "__btRemoveProc");
+            this.@__btRemoveProc.Name = "__btRemoveProc";
+            this.@__btRemoveProc.UseVisualStyleBackColor = true;
+            this.@__btRemoveProc.Click += new System.EventHandler(this.@__btRemoveProc_Click);
+            // 
+            // __cbProcFunc
+            // 
+            resources.ApplyResources(this.@__cbProcFunc, "__cbProcFunc");
+            this.@__cbProcFunc.DefaultText = "Nada Selecionado";
+            this.@__cbProcFunc.Name = "__cbProcFunc";
+            this.@__cbProcFunc.Objects = null;
+            this.@__cbProcFunc.Load += new System.EventHandler(this.@__cbProcFunc_Load);
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // ListROIForm
             // 
@@ -214,7 +213,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
         public System.Windows.Forms.Button __btProcROI;
         public System.Windows.Forms.TabControl __tabrois;
         public System.Windows.Forms.GroupBox __grpROIProc;
@@ -231,5 +229,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         public System.Windows.Forms.Button __btProcFunc;
         public System.Windows.Forms.Button __btRemoveProc;
+        private System.Windows.Forms.Label label1;
     }
 }

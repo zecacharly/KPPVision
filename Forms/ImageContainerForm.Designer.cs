@@ -26,12 +26,6 @@ namespace VisionModule {
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImageContainerForm));
-            this.@__mainspliter = new System.Windows.Forms.SplitContainer();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.@__roicontainer = new KPP.Controls.Winforms.ImageEditor();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -65,87 +59,9 @@ namespace VisionModule {
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.@__addrectROI = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            ((System.ComponentModel.ISupportInitialize)(this.@__mainspliter)).BeginInit();
-            this.@__mainspliter.Panel1.SuspendLayout();
-            this.@__mainspliter.Panel2.SuspendLayout();
-            this.@__mainspliter.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.@__roicontainer = new KPP.Controls.Winforms.ImageEditor();
             this.ImagetoolStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // __mainspliter
-            // 
-            resources.ApplyResources(this.@__mainspliter, "__mainspliter");
-            this.@__mainspliter.Name = "__mainspliter";
-            // 
-            // __mainspliter.Panel1
-            // 
-            resources.ApplyResources(this.@__mainspliter.Panel1, "__mainspliter.Panel1");
-            this.@__mainspliter.Panel1.Controls.Add(this.tableLayoutPanel1);
-            // 
-            // __mainspliter.Panel2
-            // 
-            resources.ApplyResources(this.@__mainspliter.Panel2, "__mainspliter.Panel2");
-            this.@__mainspliter.Panel2.Controls.Add(this.tabControl1);
-            this.@__mainspliter.Panel2Collapsed = true;
-            // 
-            // tableLayoutPanel1
-            // 
-            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
-            this.tableLayoutPanel1.Controls.Add(this.@__roicontainer, 0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // __roicontainer
-            // 
-            resources.ApplyResources(this.@__roicontainer, "__roicontainer");
-            this.@__roicontainer.Active = false;
-            this.@__roicontainer.AllowDrop = true;
-            this.@__roicontainer.BackColor = System.Drawing.Color.AliceBlue;
-            this.@__roicontainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tableLayoutPanel1.SetColumnSpan(this.@__roicontainer, 2);
-            this.@__roicontainer.GridSpace = 10;
-            this.@__roicontainer.ImageSize = new System.Drawing.Size(0, 0);
-            this.@__roicontainer.MouseGuidesColor = System.Drawing.Color.LightGray;
-            this.@__roicontainer.MouseGuidesThickness = 1;
-            this.@__roicontainer.Multiselect = false;
-            this.@__roicontainer.Name = "__roicontainer";
-            this.@__roicontainer.ReferenceRectangleDisplacement = new System.Drawing.Point(0, 0);
-            this.@__roicontainer.ReferenceRectangleSize = new System.Drawing.Size(0, 0);
-            this.tableLayoutPanel1.SetRowSpan(this.@__roicontainer, 2);
-            this.@__roicontainer.ShowGrid = false;
-            this.@__roicontainer.ShowMouseGuides = false;
-            this.@__roicontainer.ShowReferenceRectangle = false;
-            this.@__roicontainer.OnSelectedShapesChanged += new KPP.Controls.Winforms.OnSelectedShapesChangedHandler(this.@__roicontainer_OnSelectedShapesChanged);
-            this.@__roicontainer.OnShapeSizeChanging += new KPP.Controls.Winforms.OnShapeSizeChangingHandler(this.@__roicontainer_OnShapeSizeChanging);
-            this.@__roicontainer.OnShapeLocationChanging += new KPP.Controls.Winforms.OnShapeLocationChangingHandler(this.@__roicontainer_OnShapeLocationChanging);
-            this.@__roicontainer.OnShapeSizeChanged += new KPP.Controls.Winforms.ImageEditorObjs.OnShapeSizeChangedHandler(this.@__roicontainer_OnShapeSizeChanged);
-            this.@__roicontainer.OnShapeLocationChanged += new KPP.Controls.Winforms.ImageEditorObjs.OnShapeLocationChangedHandler(this.@__roicontainer_OnShapeLocationChanged);
-            this.@__roicontainer.BackgroundImageChanged += new System.EventHandler(this.@__roicontainer_BackgroundImageChanged);
-            this.@__roicontainer.DragDrop += new System.Windows.Forms.DragEventHandler(this.@__roicontainer_DragDrop);
-            this.@__roicontainer.DragOver += new System.Windows.Forms.DragEventHandler(this.@__roicontainer_DragOver);
-            this.@__roicontainer.DragLeave += new System.EventHandler(this.@__roicontainer_DragLeave);
-            this.@__roicontainer.MouseHover += new System.EventHandler(this.@__roicontainer_MouseHover);
-            // 
-            // tabControl1
-            // 
-            resources.ApplyResources(this.tabControl1, "tabControl1");
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            // 
-            // tabPage1
-            // 
-            resources.ApplyResources(this.tabPage1, "tabPage1");
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            resources.ApplyResources(this.tabPage2, "tabPage2");
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // toolStripSeparator1
             // 
@@ -358,11 +274,41 @@ namespace VisionModule {
             resources.ApplyResources(this.toolStripSeparator6, "toolStripSeparator6");
             this.toolStripSeparator6.Name = "toolStripSeparator6";
             // 
+            // __roicontainer
+            // 
+            resources.ApplyResources(this.@__roicontainer, "__roicontainer");
+            this.@__roicontainer.Active = false;
+            this.@__roicontainer.AllowDrop = true;
+            this.@__roicontainer.BackColor = System.Drawing.Color.AliceBlue;
+            this.@__roicontainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.@__roicontainer.GridSpace = 10;
+            this.@__roicontainer.ImageSize = new System.Drawing.Size(0, 0);
+            this.@__roicontainer.MouseGuidesColor = System.Drawing.Color.LightGray;
+            this.@__roicontainer.MouseGuidesThickness = 1;
+            this.@__roicontainer.Multiselect = false;
+            this.@__roicontainer.Name = "__roicontainer";
+            this.@__roicontainer.ReferenceRectangleDisplacement = new System.Drawing.Point(0, 0);
+            this.@__roicontainer.ReferenceRectangleSize = new System.Drawing.Size(0, 0);
+            this.@__roicontainer.ShowGrid = false;
+            this.@__roicontainer.ShowMouseGuides = false;
+            this.@__roicontainer.ShowReferenceRectangle = false;
+            this.@__roicontainer.ShowRulers = false;
+            this.@__roicontainer.OnSelectedShapesChanged += new KPP.Controls.Winforms.OnSelectedShapesChangedHandler(this.@__roicontainer_OnSelectedShapesChanged);
+            this.@__roicontainer.OnShapeSizeChanging += new KPP.Controls.Winforms.OnShapeSizeChangingHandler(this.@__roicontainer_OnShapeSizeChanging);
+            this.@__roicontainer.OnShapeLocationChanging += new KPP.Controls.Winforms.OnShapeLocationChangingHandler(this.@__roicontainer_OnShapeLocationChanging);
+            this.@__roicontainer.OnShapeSizeChanged += new KPP.Controls.Winforms.ImageEditorObjs.OnShapeSizeChangedHandler(this.@__roicontainer_OnShapeSizeChanged);
+            this.@__roicontainer.OnShapeLocationChanged += new KPP.Controls.Winforms.ImageEditorObjs.OnShapeLocationChangedHandler(this.@__roicontainer_OnShapeLocationChanged);
+            this.@__roicontainer.BackgroundImageChanged += new System.EventHandler(this.@__roicontainer_BackgroundImageChanged);
+            this.@__roicontainer.DragDrop += new System.Windows.Forms.DragEventHandler(this.@__roicontainer_DragDrop);
+            this.@__roicontainer.DragOver += new System.Windows.Forms.DragEventHandler(this.@__roicontainer_DragOver);
+            this.@__roicontainer.DragLeave += new System.EventHandler(this.@__roicontainer_DragLeave);
+            this.@__roicontainer.MouseHover += new System.EventHandler(this.@__roicontainer_MouseHover);
+            // 
             // ImageContainerForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.@__mainspliter);
+            this.Controls.Add(this.@__roicontainer);
             this.Controls.Add(this.ImagetoolStrip);
             this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight)
                         | WeifenLuo.WinFormsUI.Docking.DockAreas.Document)));
@@ -370,12 +316,6 @@ namespace VisionModule {
             this.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.Document;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ImageContainerForm_FormClosing);
             this.Load += new System.EventHandler(this.ImageContainerForm_Load);
-            this.@__mainspliter.Panel1.ResumeLayout(false);
-            this.@__mainspliter.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.@__mainspliter)).EndInit();
-            this.@__mainspliter.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
             this.ImagetoolStrip.ResumeLayout(false);
             this.ImagetoolStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -418,11 +358,6 @@ namespace VisionModule {
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         public System.Windows.Forms.ToolStripMenuItem __refImagetool;
         public System.Windows.Forms.ToolStripMenuItem __setCurrentToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        public System.Windows.Forms.SplitContainer __mainspliter;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         public ImageEditor __roicontainer;
         
 

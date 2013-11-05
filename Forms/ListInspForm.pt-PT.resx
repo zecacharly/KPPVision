@@ -117,6 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="__propertyGridinsp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>388, 194</value>
+  </data>
+  <data name="tabPage3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>394, 200</value>
+  </data>
   <data name="tabPage3.Text" xml:space="preserve">
     <value>Configuração da inspecção</value>
   </data>
@@ -142,16 +149,6 @@
   <data name="__olvNopart.Width" type="System.Int32, mscorlib">
     <value>120</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="__tooladdROI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 24</value>
-  </data>
-  <data name="__toolRemoveRoi.Size" type="System.Drawing.Size, System.Drawing">
-    <value>146, 24</value>
-  </data>
-  <data name="__contextROI.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 52</value>
-  </data>
   <data name="tabPage2.Text" xml:space="preserve">
     <value>ROI's da inspecção</value>
   </data>
@@ -161,23 +158,26 @@
   <data name="tabPage4.Text" xml:space="preserve">
     <value>ROI's Auxiliares</value>
   </data>
+  <data name="__tabsInspconf.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 351</value>
+  </data>
+  <data name="__tabsInspconf.Size" type="System.Drawing.Size, System.Drawing">
+    <value>402, 226</value>
+  </data>
   <data name="olvColumn2.Text" xml:space="preserve">
     <value>Nome</value>
   </data>
-  <data name="__tooladdRequest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 24</value>
+  <data name="__ListRequests.Size" type="System.Drawing.Size, System.Drawing">
+    <value>388, 136</value>
   </data>
-  <data name="__toolremoveRequest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 24</value>
-  </data>
-  <data name="__toolRequestSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 24</value>
-  </data>
-  <data name="__contextRequest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 76</value>
+  <data name="Requeststab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>394, 142</value>
   </data>
   <data name="Requeststab.Text" xml:space="preserve">
     <value>Pedidos</value>
+  </data>
+  <data name="__tabsRequest.Size" type="System.Drawing.Size, System.Drawing">
+    <value>402, 168</value>
   </data>
   <data name="_olvInspName.Text" xml:space="preserve">
     <value>Nome</value>
@@ -185,20 +185,32 @@
   <data name="olvColumnInsppos.Text" xml:space="preserve">
     <value>Posição</value>
   </data>
-  <data name="__tooladdInspection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 24</value>
+  <data name="__listinspections.Size" type="System.Drawing.Size, System.Drawing">
+    <value>388, 136</value>
   </data>
-  <data name="__toolremoveInspection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 24</value>
-  </data>
-  <data name="__toolInspSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 24</value>
-  </data>
-  <data name="__contextInspection.Size" type="System.Drawing.Size, System.Drawing">
-    <value>168, 76</value>
+  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>394, 142</value>
   </data>
   <data name="tabPage1.Text" xml:space="preserve">
     <value>Inspecção</value>
+  </data>
+  <data name="__tabsInsp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 177</value>
+  </data>
+  <data name="__tabsInsp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>402, 168</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>408, 602</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>410, 604</value>
+  </data>
+  <data name="$this.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.AutoScrollMinSize" type="System.Drawing.Size, System.Drawing">
+    <value>410, 604</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Configurações da Inspecção</value>

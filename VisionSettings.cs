@@ -423,11 +423,8 @@ namespace VisionModule {
         /// 
         /// </summary>
         public VisionProjects() {
-            Name = "Project Settings";
-                       
-            Projects = new List<VisionProject>();
-        
-          
+            Name = "Project Settings";                       
+            Projects = new List<VisionProject>();          
         }
 
 

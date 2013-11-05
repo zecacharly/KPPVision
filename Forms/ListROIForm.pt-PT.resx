@@ -130,15 +130,27 @@
   <data name="__RoiProcList.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 103</value>
   </data>
+  <data name="__RoiProcList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 144</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 20</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Funções de Processamento</value>
   </data>
   <data name="__btProcROI.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="__btProcROI.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 472</value>
+  </data>
+  <data name="__btProcROI.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 24</value>
   </data>
   <data name="__btProcROI.Text" xml:space="preserve">
     <value>Processar ROI</value>
@@ -147,10 +159,13 @@
     <value>3, 303</value>
   </data>
   <data name="__propertyGridFunction.Size" type="System.Drawing.Size, System.Drawing">
-    <value>318, 179</value>
+    <value>278, 163</value>
   </data>
   <data name="__btAddProc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="__btAddProc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 23</value>
   </data>
   <data name="__btAddProc.Text" xml:space="preserve">
     <value>Adicionar ao ROI</value>
@@ -161,11 +176,17 @@
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 80</value>
   </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 20</value>
+  </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Funções no ROI</value>
   </data>
   <data name="__btProcFunc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="__btProcFunc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 24</value>
   </data>
   <data name="__btProcFunc.Text" xml:space="preserve">
     <value>Processar função</value>
@@ -173,18 +194,54 @@
   <data name="__btRemoveProc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
+  <data name="__btRemoveProc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>145, 3</value>
+  </data>
+  <data name="__btRemoveProc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 24</value>
+  </data>
   <data name="__btRemoveProc.Text" xml:space="preserve">
     <value>Remover Função</value>
   </data>
   <data name="tableLayoutPanel2.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 250</value>
   </data>
+  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>284, 30</value>
+  </data>
+  <data name="__cbProcFunc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>278, 23</value>
+  </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>284, 499</value>
+  </data>
+  <data name="__grpROIProc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>290, 518</value>
+  </data>
+  <data name="__tabROIProc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>296, 524</value>
+  </data>
   <data name="__tabROIProc.Text" xml:space="preserve">
     <value>Processamento do ROI</value>
+  </data>
+  <data name="__tabrois.Size" type="System.Drawing.Size, System.Drawing">
+    <value>304, 550</value>
+  </data>
+  <data name="$this.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.AutoScrollMinSize" type="System.Drawing.Size, System.Drawing">
+    <value>300, 550</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>321, 503</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Regiões de interesse</value>

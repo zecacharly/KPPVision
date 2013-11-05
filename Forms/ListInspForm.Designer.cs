@@ -83,9 +83,9 @@
             // 
             // panel1
             // 
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.tableLayoutPanel1);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // tableLayoutPanel1
@@ -98,17 +98,17 @@
             // 
             // __tabsInspconf
             // 
-            resources.ApplyResources(this.@__tabsInspconf, "__tabsInspconf");
             this.@__tabsInspconf.Controls.Add(this.tabPage3);
             this.@__tabsInspconf.Controls.Add(this.tabPage2);
             this.@__tabsInspconf.Controls.Add(this.tabPage4);
+            resources.ApplyResources(this.@__tabsInspconf, "__tabsInspconf");
             this.@__tabsInspconf.Name = "__tabsInspconf";
             this.@__tabsInspconf.SelectedIndex = 0;
             // 
             // tabPage3
             // 
-            resources.ApplyResources(this.tabPage3, "tabPage3");
             this.tabPage3.Controls.Add(this.@__propertyGridinsp);
+            resources.ApplyResources(this.tabPage3, "tabPage3");
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
@@ -120,14 +120,13 @@
             // 
             // tabPage2
             // 
-            resources.ApplyResources(this.tabPage2, "tabPage2");
             this.tabPage2.Controls.Add(this.@__listRoi);
+            resources.ApplyResources(this.tabPage2, "tabPage2");
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // __listRoi
             // 
-            resources.ApplyResources(this.@__listRoi, "__listRoi");
             this.@__listRoi.AllColumns.Add(this.@__olvROIName);
             this.@__listRoi.AllColumns.Add(this.@__olvROIPos);
             this.@__listRoi.AllColumns.Add(this.olvColumnPrePos);
@@ -141,13 +140,13 @@
             this.@__olvNopart});
             this.@__listRoi.ContextMenuStrip = this.@__contextROI;
             this.@__listRoi.CopySelectionOnControlC = false;
+            resources.ApplyResources(this.@__listRoi, "__listRoi");
             this.@__listRoi.FullRowSelect = true;
             this.@__listRoi.GridLines = true;
             this.@__listRoi.HideSelection = false;
             this.@__listRoi.IsSimpleDropSink = true;
             this.@__listRoi.MultiSelect = false;
             this.@__listRoi.Name = "__listRoi";
-            this.@__listRoi.OverlayText.Text = resources.GetString("resource.Text");
             this.@__listRoi.ShowCommandMenuOnRightClick = true;
             this.@__listRoi.ShowGroups = false;
             this.@__listRoi.ShowItemToolTips = true;
@@ -186,11 +185,11 @@
             // 
             // __contextROI
             // 
-            resources.ApplyResources(this.@__contextROI, "__contextROI");
             this.@__contextROI.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.@__tooladdROI,
             this.@__toolRemoveRoi});
             this.@__contextROI.Name = "__contextAddInsp";
+            resources.ApplyResources(this.@__contextROI, "__contextROI");
             // 
             // __tooladdROI
             // 
@@ -208,27 +207,26 @@
             // 
             // tabPage4
             // 
-            resources.ApplyResources(this.tabPage4, "tabPage4");
             this.tabPage4.Controls.Add(this.@__ListAuxROIS);
+            resources.ApplyResources(this.tabPage4, "tabPage4");
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // __ListAuxROIS
             // 
-            resources.ApplyResources(this.@__ListAuxROIS, "__ListAuxROIS");
             this.@__ListAuxROIS.AllColumns.Add(this.olvColumn1);
             this.@__ListAuxROIS.AllowDrop = true;
             this.@__ListAuxROIS.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
             this.@__ListAuxROIS.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumn1});
             this.@__ListAuxROIS.CopySelectionOnControlC = false;
+            resources.ApplyResources(this.@__ListAuxROIS, "__ListAuxROIS");
             this.@__ListAuxROIS.FullRowSelect = true;
             this.@__ListAuxROIS.GridLines = true;
             this.@__ListAuxROIS.HideSelection = false;
             this.@__ListAuxROIS.IsSimpleDropSink = true;
             this.@__ListAuxROIS.MultiSelect = false;
             this.@__ListAuxROIS.Name = "__ListAuxROIS";
-            this.@__ListAuxROIS.OverlayText.Text = resources.GetString("resource.Text1");
             this.@__ListAuxROIS.ShowCommandMenuOnRightClick = true;
             this.@__ListAuxROIS.ShowGroups = false;
             this.@__ListAuxROIS.ShowItemToolTips = true;
@@ -244,26 +242,25 @@
             // olvColumn1
             // 
             this.olvColumn1.AspectName = "Name";
-            resources.ApplyResources(this.olvColumn1, "olvColumn1");
             this.olvColumn1.IsEditable = false;
+            resources.ApplyResources(this.olvColumn1, "olvColumn1");
             // 
             // __tabsRequest
             // 
-            resources.ApplyResources(this.@__tabsRequest, "__tabsRequest");
             this.@__tabsRequest.Controls.Add(this.Requeststab);
+            resources.ApplyResources(this.@__tabsRequest, "__tabsRequest");
             this.@__tabsRequest.Name = "__tabsRequest";
             this.@__tabsRequest.SelectedIndex = 0;
             // 
             // Requeststab
             // 
-            resources.ApplyResources(this.Requeststab, "Requeststab");
             this.Requeststab.Controls.Add(this.@__ListRequests);
+            resources.ApplyResources(this.Requeststab, "Requeststab");
             this.Requeststab.Name = "Requeststab";
             this.Requeststab.UseVisualStyleBackColor = true;
             // 
             // __ListRequests
             // 
-            resources.ApplyResources(this.@__ListRequests, "__ListRequests");
             this.@__ListRequests.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.@__ListRequests.AllColumns.Add(this.olvColumn2);
             this.@__ListRequests.AllColumns.Add(this.olvColumn3);
@@ -272,6 +269,7 @@
             this.olvColumn2,
             this.olvColumn3});
             this.@__ListRequests.ContextMenuStrip = this.@__contextRequest;
+            resources.ApplyResources(this.@__ListRequests, "__ListRequests");
             this.@__ListRequests.FullRowSelect = true;
             this.@__ListRequests.GridLines = true;
             this.@__ListRequests.HideSelection = false;
@@ -279,7 +277,6 @@
             this.@__ListRequests.LabelEdit = true;
             this.@__ListRequests.MultiSelect = false;
             this.@__ListRequests.Name = "__ListRequests";
-            this.@__ListRequests.OverlayText.Text = resources.GetString("resource.Text2");
             this.@__ListRequests.ShowCommandMenuOnRightClick = true;
             this.@__ListRequests.ShowGroups = false;
             this.@__ListRequests.ShowItemToolTips = true;
@@ -305,12 +302,12 @@
             // 
             // __contextRequest
             // 
-            resources.ApplyResources(this.@__contextRequest, "__contextRequest");
             this.@__contextRequest.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.@__tooladdRequest,
             this.@__toolremoveRequest,
             this.@__toolRequestSettings});
             this.@__contextRequest.Name = "__contextAddInsp";
+            resources.ApplyResources(this.@__contextRequest, "__contextRequest");
             // 
             // __tooladdRequest
             // 
@@ -335,21 +332,20 @@
             // 
             // __tabsInsp
             // 
-            resources.ApplyResources(this.@__tabsInsp, "__tabsInsp");
             this.@__tabsInsp.Controls.Add(this.tabPage1);
+            resources.ApplyResources(this.@__tabsInsp, "__tabsInsp");
             this.@__tabsInsp.Name = "__tabsInsp";
             this.@__tabsInsp.SelectedIndex = 0;
             // 
             // tabPage1
             // 
-            resources.ApplyResources(this.tabPage1, "tabPage1");
             this.tabPage1.Controls.Add(this.@__listinspections);
+            resources.ApplyResources(this.tabPage1, "tabPage1");
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // __listinspections
             // 
-            resources.ApplyResources(this.@__listinspections, "__listinspections");
             this.@__listinspections.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.@__listinspections.AllColumns.Add(this._olvInspName);
             this.@__listinspections.AllColumns.Add(this.olvColumnInsppos);
@@ -361,6 +357,7 @@
             this.olvColumnInsppos,
             this.olvColumnIONum});
             this.@__listinspections.ContextMenuStrip = this.@__contextInspection;
+            resources.ApplyResources(this.@__listinspections, "__listinspections");
             this.@__listinspections.FullRowSelect = true;
             this.@__listinspections.GridLines = true;
             this.@__listinspections.HideSelection = false;
@@ -368,7 +365,6 @@
             this.@__listinspections.LabelEdit = true;
             this.@__listinspections.MultiSelect = false;
             this.@__listinspections.Name = "__listinspections";
-            this.@__listinspections.OverlayText.Text = resources.GetString("resource.Text3");
             this.@__listinspections.ShowGroups = false;
             this.@__listinspections.ShowItemToolTips = true;
             this.@__listinspections.ShowSortIndicators = false;
@@ -406,12 +402,12 @@
             // 
             // __contextInspection
             // 
-            resources.ApplyResources(this.@__contextInspection, "__contextInspection");
             this.@__contextInspection.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.@__tooladdInspection,
             this.@__toolremoveInspection,
             this.@__toolInspSettings});
             this.@__contextInspection.Name = "__contextAddInsp";
+            resources.ApplyResources(this.@__contextInspection, "__contextInspection");
             // 
             // __tooladdInspection
             // 

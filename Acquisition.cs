@@ -3283,7 +3283,7 @@ namespace VisionModule {
         }
 
         private VisionProject m_SelectedProject = null;
-        [XmlIgnore]
+        [XmlIgnore,Browsable(false)]
         public virtual VisionProject SelectedProject {
             get { return m_SelectedProject; }
             set { m_SelectedProject = value; }
