@@ -946,28 +946,28 @@ namespace VisionModule {
         private void __listRoi_CellEditStarting(object sender, CellEditEventArgs e) {
             try {
                 // Ignore edit events for other columns 
-                if (e.Column != olvColumnPrePos)
-                    return;
-                ComboBox cb = new ComboBox();
-                cb.Bounds = e.CellBounds;
-                cb.Font = ((ObjectListView)sender).Font;
-                cb.DropDownStyle = ComboBoxStyle.DropDownList;
-                cb.Items.AddRange(StaticObjects.ReferencePoints.ToArray());
-                int i = 0;
-                for (; i < cb.Items.Count; i++) {
-                    if (((ReferencePoint)cb.Items[i]).ReferencePointName == SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.referencePoint.ReferencePointName) {
-                        break;
-                    }
-                }
+                //if (e.Column != olvColumnPrePos)
+                //    return;
+                //ComboBox cb = new ComboBox();
+                //cb.Bounds = e.CellBounds;
+                //cb.Font = ((ObjectListView)sender).Font;
+                //cb.DropDownStyle = ComboBoxStyle.DropDownList;
+                //cb.Items.AddRange(StaticObjects.ReferencePoints.ToArray());
+                //int i = 0;
+                //for (; i < cb.Items.Count; i++) {
+                //    if (((ReferencePoint)cb.Items[i]).ReferencePointName == SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.referencePoint.ReferencePointName) {
+                //        break;
+                //    }
+                //}
 
-                if (i >= cb.Items.Count) {
-                    i = -1;
-                }
-                cb.SelectedIndex = i;
-                if (cb.SelectedIndex < 0) {
-                    cb.SelectedIndex = 0;
-                }
-                e.Control = cb;
+                //if (i >= cb.Items.Count) {
+                //    i = -1;
+                //}
+                //cb.SelectedIndex = i;
+                //if (cb.SelectedIndex < 0) {
+                //    cb.SelectedIndex = 0;
+                //}
+                //e.Control = cb;
             } catch (Exception exp) {
 
                 log.Error(exp);

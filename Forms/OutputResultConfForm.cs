@@ -16,23 +16,7 @@ namespace VisionModule {
 
     internal partial class OutputResultConfForm : Form {
     
-        public OutputResultConfForm() {
-            
-            //TODO
-            //switch (StaticObjects.Language) {
-            //    case LanguageName.Unk:
-            //        break;
-            //    case LanguageName.PT:
-            //        Thread.CurrentThread.CurrentUICulture = new CultureInfo("pt-PT");
-
-            //        break;
-            //    case LanguageName.EN:
-            //        Thread.CurrentThread.CurrentUICulture = new CultureInfo("de");
-
-            //        break;
-            //    default:
-            //        break;
-            //}
+        public OutputResultConfForm() {                      
             InitializeComponent();
         }
 
@@ -64,8 +48,8 @@ namespace VisionModule {
                     
                 }
 
-                if (ResultRef == null) {                    
-                    ResultRef = new ResultReference(newid);
+                if (ResultRef == null) {
+                    ResultRef = new ResultReference(SelectedProject,newid);
                 } else {
                     if (ResultRef.ResultReferenceID != null) {
                         if (ResultRef.ResultReferenceID.GetType() != acceptType) {

@@ -561,13 +561,13 @@ namespace VisionModule {
         void UpdatePrePosFunction(ROI theroi) {
             try {
 
-                if (StaticObjects.ReferencePoints.Find(name => name.ReferencePointName == theroi.referencePoint.ReferencePointName) == null) {
-                    ReferencePoint thepoint = StaticObjects.ReferencePoints[0];
+                //if (StaticObjects.ReferencePoints.Find(name => name.ReferencePointName == theroi.referencePoint.ReferencePointName) == null) {
+                //    ReferencePoint thepoint = StaticObjects.ReferencePoints[0];
 
-                    theroi.referencePoint = thepoint;
+                //    theroi.referencePoint = thepoint;
 
 
-                }
+                //}
 
             } catch (Exception exp) {
 

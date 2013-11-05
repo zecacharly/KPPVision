@@ -336,7 +336,7 @@ namespace VisionModule {
 
                                         if (droppedObject.DraggedProperty == "CircleCenter" || droppedObject.DraggedProperty == "CirclePt1" || droppedObject.DraggedProperty == "CirclePt2" || droppedObject.DraggedProperty == "CirclePt3") {
 
-                                            ResultReference newresref = new ResultReference(roiPoint);
+                                            ResultReference newresref = new ResultReference(SelectedProject,roiPoint);
 
                                             CircleInfoProp.SetValue(CircleInfoObject, newresref, null);
 
@@ -348,7 +348,7 @@ namespace VisionModule {
                                             if (angle < 0) {
                                                 angle = 360 + angle;
                                             }
-                                            ResultReference newresref = new ResultReference(Math.Round(angle, 0));
+                                            ResultReference newresref = new ResultReference(SelectedProject,Math.Round(angle, 0));
                                             CircleInfoObject.CircleAngleStart = newresref;
                                         } else if (droppedObject.DraggedProperty == "CircleAngleEnd") {
                                             LineSegment2D horizontline = new LineSegment2D((Point)CircleInfoObject.CircleCenter.ResultOutput, new Point(((Point)CircleInfoObject.CircleCenter.ResultOutput).X + 20, ((Point)CircleInfoObject.CircleCenter.ResultOutput).Y));
@@ -358,7 +358,7 @@ namespace VisionModule {
                                             if (angle < 0) {
                                                 angle = 360 + angle;
                                             }
-                                            ResultReference newresref = new ResultReference(Math.Round(angle, 0));
+                                            ResultReference newresref = new ResultReference(SelectedProject,Math.Round(angle, 0));
                                             CircleInfoObject.CircleAngleEnd = newresref;
                                         } else if (droppedObject.DraggedProperty == "MainCircleRad") {
 
@@ -368,7 +368,7 @@ namespace VisionModule {
                                                 double y1 = Math.Abs(roiPoint.Y - ((Point)CircleInfoObject.CircleCenter.ResultOutput).Y);
                                                 double dist = Math.Round(Math.Sqrt((x1 * x1) + (y1 * y1)), 3);
 
-                                                ResultReference newresref = new ResultReference(dist);
+                                                ResultReference newresref = new ResultReference(SelectedProject,dist);
                                                 CircleInfoObject.MainCircleRad = newresref;
                                             }
                                         }

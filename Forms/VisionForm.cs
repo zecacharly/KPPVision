@@ -478,12 +478,12 @@ namespace VisionModule {
 
                         BaseCapture.CaptureSources.Add(new FileCapture());
                         BaseCapture.CaptureSources.Add(new InspectionCapture());
-                        BaseCapture.CaptureSources.Add(new PythonRemoteCapture());
+                        BaseCapture.CaptureSources.Add(new PythonRemoteCapture(this.SelectedProject));
                         BaseCapture.CaptureSources.Add(new ICSCameraCapture());
                         BaseCapture.CaptureSources.Add(new CVCameraCapture());
                         //StaticObjects.CaptureSources.Add(new RemoteCameraCapture());
-                        BaseCapture.CaptureSources.Add(new DirectShowCameraCapture());
-                        BaseCapture.CaptureSources.Add(new uEyeCamera());
+                        BaseCapture.CaptureSources.Add(new DirectShowCameraCapture(this.SelectedProject));
+                        BaseCapture.CaptureSources.Add(new uEyeCamera(this.SelectedProject));
                     }
 
 
@@ -2094,16 +2094,16 @@ namespace VisionModule {
                                         _roi.PropertyChanged += new PropertyChangedEventHandler(_roi_PropertyChanged);
                                         _roi.ProcessingFunctions.OnItemAdded += new DejaVu.Collections.Generic.UndoRedoList<ProcessingFunctionBase>.ItemAdded(ProcessingFunctions_OnItemAdded);
 
-                                        if (_roi.referencePoint != null) {
-                                            ReferencePoint newrefpoint = StaticObjects.ReferencePoints.Find(name => name.ReferencePointName == _roi.referencePoint.ReferencePointName);
-                                            if (newrefpoint != null) {
+                                        //if (_roi.referencePoint != null) {
+                                        //    ReferencePoint newrefpoint = StaticObjects.ReferencePoints.Find(name => name.ReferencePointName == _roi.referencePoint.ReferencePointName);
+                                        //    if (newrefpoint != null) {
 
-                                                using (UndoRedoManager.StartInvisible("Init")) {
-                                                    _roi.referencePoint = newrefpoint;
-                                                    UndoRedoManager.Commit();
-                                                }
-                                            }
-                                        }
+                                        //        using (UndoRedoManager.StartInvisible("Init")) {
+                                        //            _roi.referencePoint = newrefpoint;
+                                        //            UndoRedoManager.Commit();
+                                        //        }
+                                        //    }
+                                        //}
 
 
                                         if (_inspect.CaptureSource is InspectionCapture) {
@@ -2122,12 +2122,12 @@ namespace VisionModule {
 
 
                                         foreach (ProcessingFunctionBase item in _roi.ProcessingFunctions) {
-                                            if (item is ProcessingFunctionPrePos) {
-                                                ((ProcessingFunctionPrePos)item).OnNewPrepos += new ProcessingFunctionPrePos.NewPrepos(Form1_OnNewPrepos); //+= new ProcessingFunctionPrePos.NewPrepos(Form1_OnNewPrepos);
-                                                ReferencePoint newrefpoint = new ReferencePoint(((ProcessingFunctionPrePos)item).FunctionName);
-                                                StaticObjects.ReferencePoints.Add(newrefpoint);
+                                            //if (item is ProcessingFunctionPrePos) {
+                                            //    ((ProcessingFunctionPrePos)item).OnNewPrepos += new ProcessingFunctionPrePos.NewPrepos(Form1_OnNewPrepos); //+= new ProcessingFunctionPrePos.NewPrepos(Form1_OnNewPrepos);
+                                            //    ReferencePoint newrefpoint = new ReferencePoint(((ProcessingFunctionPrePos)item).FunctionName);
+                                            //    StaticObjects.ReferencePoints.Add(newrefpoint);
 
-                                            }
+                                            //}
                                             item.OnFunctionNameChanged += new ProcessingFunctionBase.FunctionNameChanged(proc_OnFunctionNameChanged);
                                             item.OnUpdateResultImage += new ProcessingFunctionBase.UpdateResultImage(proc_OnUpdateResultImage);
 
@@ -2205,7 +2205,9 @@ namespace VisionModule {
 
 
 
-                        StaticObjects.SelectedProject = SelectedProject;
+                        _ListInspForm.SelectedProject = SelectedProject;
+                        _ListROIForm.SelectedProject = SelectedProject;
+                        _ImageContainer.SelectedProject = SelectedProject;
 
 
                        
@@ -2339,10 +2341,10 @@ namespace VisionModule {
                 }
             }
 
-            ReferencePoint therefpoint = StaticObjects.ReferencePoints.Find(refname => refname.ReferencePointName == OldValue);
-            if (therefpoint != null) {
-                therefpoint.ReferencePointName = NewName;
-            }
+            //ReferencePoint therefpoint = StaticObjects.ReferencePoints.Find(refname => refname.ReferencePointName == OldValue);
+            //if (therefpoint != null) {
+            //    therefpoint.ReferencePointName = NewName;
+            //}
             _ListInspForm.__listRoi.RefreshObjects(SelectedProject.SelectedRequest.SelectedInspection.ROIList);
 
 
@@ -2779,11 +2781,11 @@ namespace VisionModule {
 
 
         void Form1_OnNewPrepos(ProcessingFunctionPrePos PrePosFunction) {
-            ReferencePoint therefpoint = StaticObjects.ReferencePoints.Find(name => name.ReferencePointName == PrePosFunction.FunctionName);
-            if (therefpoint != null) {
-                therefpoint.OffsetX = PrePosFunction.XOffset;
-                therefpoint.OffsetY = PrePosFunction.YOffset;
-            }
+            //ReferencePoint therefpoint = StaticObjects.ReferencePoints.Find(name => name.ReferencePointName == PrePosFunction.FunctionName);
+            //if (therefpoint != null) {
+            //    therefpoint.OffsetX = PrePosFunction.XOffset;
+            //    therefpoint.OffsetY = PrePosFunction.YOffset;
+            //}
         }
 
         void item_OnPrePosisionOffsetChanged() {
