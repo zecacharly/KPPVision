@@ -700,9 +700,10 @@ namespace VisionModule {
             set {
                 if (_CaptureSource.Value != value && value != null) {
 
-                    if (_CaptureSource.Value != null) {                 
-
+                    if (_CaptureSource.Value != null) {
+                        _CaptureSource.Value.Dispose();
                     }
+
                     if(!UndoRedoManager.IsCommandStarted){
                         using (UndoRedoManager.Start(_inspectName.Value + ": Capture Source changed to:" + value.Camtype)) {
                             _CaptureSource.Value = value;

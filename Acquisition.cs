@@ -65,7 +65,7 @@ namespace VisionModule {
 
             // TODO dynamic captures selection
 
-            String[] captures = new String[] { "File", "Inspection", " ICSCamera" };
+            String[] captures = new String[] { "File", "Inspection", " ICSCamera", "CVCamera", "DirectShowCamera", "uEyeCamera" };
             Box1.Items.AddRange(captures);
             //Box1.Items.Add(new CameraInfo("Select File", CameraInfo.CameraTypes.File));
             Box1.Height = Box1.PreferredHeight;
