@@ -22,11 +22,15 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using VisionModule.Forms;
+using System.Windows.Forms.Design;
+using System.Drawing.Design;
 
 
 
 
 namespace VisionModule {
+
 
 
 
@@ -724,54 +728,6 @@ namespace VisionModule {
     public class KPPVision {
 
 
-        public static class StaticObjects {
-
-
-
-            static public Form InputsConfiguration;
-            static public Boolean isLoading = false;
-            static public Boolean isRemote = false;
-
-            internal static List<ReferencePoint> ReferencePoints = new List<ReferencePoint>();
-
-            internal static List<PropertyGrid> Grids = new List<PropertyGrid>();
-      
-            internal static UserControl InputItemSelectorControl;
-
-   
-
-            //[Serializable]
-            //public class SendImageObject {
-
-            //    private String _RequestName;
-            //    public String RequestName {
-            //        get { return _RequestName; }
-            //        set { _RequestName = value; }
-            //    }
-
-            //    private String _InspectionName;
-
-            //    public String InspectionName {
-            //        get { return _InspectionName; }
-            //        set { _InspectionName = value; }
-            //    }
-
-            //    private Image<Bgr, Byte> _ImageToSend;
-
-            //    public Image<Bgr, Byte> ImageToSend {
-            //        get { return _ImageToSend; }
-            //        set { _ImageToSend = value; }
-            //    }
-            //    public SendImageObject() {
-
-            //    }
-            //}
-
-          
-
-
-        }
-
 
         private int m_modelID = -1;
         [XmlAttribute, DisplayName("Module ID"),ReadOnly(true)]
@@ -794,13 +750,13 @@ namespace VisionModule {
             set { m_Enabled = value; }
         }
 
-        private String m_StartupProject = "";
-        [XmlAttribute]
-        [DisplayName("Startup project")]
-        public String StartupProject {
-            get { return m_StartupProject; }
-            set { m_StartupProject = value; }
-        }
+        //private String m_StartupProject = "";
+        //[XmlAttribute]
+        //[DisplayName("Startup project")]
+        //public String StartupProject {
+        //    get { return m_StartupProject; }
+        //    set { m_StartupProject = value; }
+        //}
 
 
         private VisionForm m_ModuleForm = null;

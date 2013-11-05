@@ -80,7 +80,7 @@ namespace VisionModule {
         ConfigurationsForm _ConfigurationsForm = new ConfigurationsForm();
         ListInspForm _ListInspForm = new ListInspForm();
         ImageContainerForm _ImageContainer = new ImageContainerForm();
-        LogForm _LogForm = new LogForm();
+        //LogForm _LogForm = new LogForm();
         ResultsConfiguration _ResultsConfiguration = new ResultsConfiguration();
         ViewInspections _viewinspections = new ViewInspections();
         ListROIForm _ListROIForm = new ListROIForm();
@@ -218,8 +218,8 @@ namespace VisionModule {
                 return _ImageContainer;
             else if (persistString == typeof(ListROIForm).ToString())
                 return _ListROIForm;
-            else if (persistString == typeof(LogForm).ToString())
-                return _LogForm;
+            //else if (persistString == typeof(LogForm).ToString())
+            //    return _LogForm;
             else if (persistString == typeof(ViewInspections).ToString())
                 return _viewinspections;
             else if (persistString == typeof(ResultsConfiguration).ToString())
@@ -298,7 +298,7 @@ namespace VisionModule {
                 //__toolStriplevels.Items.AddRange(new String[]{"Admin","Man"});
                 //__toolStriplevels.SelectedIndexChanged += new EventHandler(__toolStriplevels_SelectedIndexChanged);
                  
-                DebugController.ActiveDebugController.OnDebugMessage += new OnDebugMessageHandler(ActiveDebugController_OnDebugMessage);
+                
                 _ProjectOptionsForm.TopMost = true;
                               
                 ArrowPad = new ArrowPadControl();
@@ -371,7 +371,7 @@ namespace VisionModule {
                     _ListROIForm.Show(__dockPanel1);
                     _ListInspForm.Show(__dockPanel1);
                     _ListROIForm.AutoScroll = true;
-                    _LogForm.Show(__dockPanel1);
+                    //_LogForm.Show(__dockPanel1);
                     _ResultsConfiguration.Show(__dockPanel1);
                     _viewinspections.Show(__dockPanel1);
                     _ImageContainer.Show(__dockPanel1);                    
@@ -396,10 +396,10 @@ namespace VisionModule {
                     _ResultsConfiguration.AutoScroll = true;
                 }
 
-                if (_LogForm.Visible == false) {
-                    _LogForm.Show(__dockPanel1);
-                    _LogForm.AutoScroll = true;
-                }
+                //if (_LogForm.Visible == false) {
+                //    _LogForm.Show(__dockPanel1);
+                //    _LogForm.AutoScroll = true;
+                //}
                 
                
 
@@ -439,61 +439,67 @@ namespace VisionModule {
                 
                 _ListROIForm.__RoiProcList.MouseClick += new MouseEventHandler(__RoiProcList_MouseClick);
                 _ListROIForm.OnControlRightClick += __RoiProcList_MouseClick;
+
+
+                #region old cameras init
+
+
+                //try {
+
+                //    ICImagingControl getcameras = new ICImagingControl();
+
+                //    List<String> camnames = new List<string>();
+                //    foreach (Device camera in getcameras.Devices) {
+
+                //        camnames.Add(camera);
+
+
+                //    }
+
+                //    getcameras.Dispose();
+
+                //    foreach (String name in camnames) {
+                //        ICImagingControl newcam = new ICImagingControl();
+
+                //        if (newcam.LiveVideoRunning) {
+                //            newcam.LiveStop();
+                //        }
+
+                //        newcam.DeviceLostExecutionMode = EventExecutionMode.MultiThreaded;
+                //        newcam.ImageAvailableExecutionMode = EventExecutionMode.MultiThreaded;
+                //        newcam.LiveDisplay = false;
+                //        newcam.Device = name;
+                //        //newcam.MemoryCurrentGrabberColorformat = ICImagingControlColorformats.ICY800;
+                //        newcam.ImageRingBufferSize = 1;
+
+                //        ICSCameraInterface.ICSCameras.Add(new ICScamera(newcam));
+                //        BaseCapture.CaptureSources.Add(new ICSCameraCapture());
+                //    }
+
+                //}
+                //catch (Exception exp) {
+
+                //    log.Error(exp);
+                //}
+                //using (UndoRedoManager.StartInvisible("Init")) {
+
+
+                //    BaseCapture.CaptureSources.Add(new FileCapture());
+                //    BaseCapture.CaptureSources.Add(new InspectionCapture());
+                //    BaseCapture.CaptureSources.Add(new PythonRemoteCapture(this.SelectedProject));
+
+                //    BaseCapture.CaptureSources.Add(new CVCameraCapture());
+                //    //StaticObjects.CaptureSources.Add(new RemoteCameraCapture());
+                //    BaseCapture.CaptureSources.Add(new DirectShowCameraCapture(this.SelectedProject));
+                //    BaseCapture.CaptureSources.Add(new uEyeCamera(this.SelectedProject));
+                //    UndoRedoManager.Commit();
+                //}
+
+
+
+
                 
-
-                try {
-
-                    ICImagingControl getcameras = new ICImagingControl();
-
-                    List<String> camnames = new List<string>();
-                    foreach (Device camera in getcameras.Devices) {
-
-                        camnames.Add(camera);
-
-
-                    }
-
-                    getcameras.Dispose();
-
-                    foreach (String name in camnames) {
-                        ICImagingControl newcam = new ICImagingControl();
-
-                        if (newcam.LiveVideoRunning) {
-                            newcam.LiveStop();
-                        }
-
-                        newcam.DeviceLostExecutionMode = EventExecutionMode.MultiThreaded;
-                        newcam.ImageAvailableExecutionMode = EventExecutionMode.MultiThreaded;
-                        newcam.LiveDisplay = false;
-                        newcam.Device = name;
-                        //newcam.MemoryCurrentGrabberColorformat = ICImagingControlColorformats.ICY800;
-                        newcam.ImageRingBufferSize = 1;
-
-                        ICSCameraInterface.ICSCameras.Add(new ICScamera(newcam));
-                    }
-
-                   
-                    using (UndoRedoManager.StartInvisible("Init")) {
-
-
-                        BaseCapture.CaptureSources.Add(new FileCapture());
-                        BaseCapture.CaptureSources.Add(new InspectionCapture());
-                        BaseCapture.CaptureSources.Add(new PythonRemoteCapture(this.SelectedProject));
-                        BaseCapture.CaptureSources.Add(new ICSCameraCapture());
-                        BaseCapture.CaptureSources.Add(new CVCameraCapture());
-                        //StaticObjects.CaptureSources.Add(new RemoteCameraCapture());
-                        BaseCapture.CaptureSources.Add(new DirectShowCameraCapture(this.SelectedProject));
-                        BaseCapture.CaptureSources.Add(new uEyeCamera(this.SelectedProject));
-                    }
-
-
-
-                    UndoRedoManager.Commit();
-                }
-                catch (Exception exp) {
-
-                    log.Error(exp);
-                }
+                #endregion
                 
                 
 
@@ -1550,36 +1556,6 @@ namespace VisionModule {
         }
 
 
-        void ActiveDebugController_OnDebugMessage(object sender, DebugMessageArgs e) {
-            if (InvokeRequired) {
-                BeginInvoke(new MethodInvoker(delegate { ActiveDebugController_OnDebugMessage(sender, e); }));
-            }
-            else {
-
-                switch (e.MessageType) {
-                    case MessageType.Debug:
-                        break;
-                    case MessageType.Error:
-                        _LogForm.__tabControlLog.SelectedTab = _LogForm.__tabexceptions;
-                        _LogForm.TimeChangeColor.Enabled = true;
-                        _LogForm.Show();
-                        break;
-                    case MessageType.Fatal:
-                        break;
-                    case MessageType.Information:
-                        break;
-                    case MessageType.Status:
-                        break;
-                    case MessageType.Warning:
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-
-        }
-
 
         protected Point TranslateZoomMousePosition(Point coordinates, Image theimage) {
             // test to make sure our image is not null
@@ -1677,7 +1653,7 @@ namespace VisionModule {
 
         void _newinsp_OnCameraSourceChanged(BaseCapture NewCapture) {
             try {
-                
+                _ListInspForm.__propertyGridinsp.Refresh();
                 
             }
             catch (Exception exp) {
@@ -2295,7 +2271,9 @@ namespace VisionModule {
             itemAdded.ROIList.OnUndoList += new DejaVu.Collections.Generic.UndoRedoList<ROI>.UndoList(ROIList_OnUndoList);
 
 
-            itemAdded.CaptureSource.OnAcquisitionAttributesChanged += new BaseCapture.AcquisitionAttributesChanged(CaptureSource_OnAcquisitionAttributesChanged);
+            if (itemAdded.CaptureSource!=null) {
+                itemAdded.CaptureSource.OnAcquisitionAttributesChanged += new BaseCapture.AcquisitionAttributesChanged(CaptureSource_OnAcquisitionAttributesChanged); 
+            }
 
             itemAdded.OnROIRemoved += new Inspection.ROIRemoved(_newinsp_OnROIRemoved);
 
@@ -2921,7 +2899,7 @@ namespace VisionModule {
             _ListROIForm.DockPanel = null;
             _ListInspForm.DockPanel = null;
             _ImageContainer.DockPanel = null;
-            _LogForm.DockPanel = null;
+            
 
 
 
