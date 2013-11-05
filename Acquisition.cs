@@ -28,8 +28,7 @@ using AForge.Video.DirectShow;
 using System.Reflection;
 using uEye.Types;
 using VisionModule.Forms;
-//using uEye.Types;
-
+using KPPAutomationCore;
 namespace VisionModule {
 
 
@@ -63,7 +62,7 @@ namespace VisionModule {
         // Displays the UI for value selection.
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
             Box1.Items.Clear();
-            Box1.Items.AddRange(StaticObjects.CaptureSources.ToArray());
+            Box1.Items.AddRange(BaseCapture.CaptureSources.ToArray());
             //Box1.Items.Add(new CameraInfo("Select File", CameraInfo.CameraTypes.File));
             Box1.Height = Box1.PreferredHeight;
 
@@ -206,6 +205,8 @@ namespace VisionModule {
     }
 
 
+
+
     public class DirectShowSelector : System.Drawing.Design.UITypeEditor {
         // this is a container for strings, which can be 
         // picked-out
@@ -300,13 +301,14 @@ namespace VisionModule {
         // Displays the UI for value selection.
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
 
+            
             if (!(context.Instance is InspectionCapture)) {
                 return value;
             }
 
             InspectionCapture inspcap = (InspectionCapture)(context.Instance);
 
-
+            //inspcap.InspectionSource.
 
             ZoneSelectorForm zoneform = new ZoneSelectorForm();
 
@@ -338,79 +340,6 @@ namespace VisionModule {
             edSvc.CloseDropDown();
         }
     }
-
-
-    //public class ZoneSelector : System.Drawing.Design.UITypeEditor {
-    //    // this is a container for strings, which can be 
-    //    // picked-out
-    //    ListBox Box1 = new ListBox();
-    //    IWindowsFormsEditorService edSvc;
-    //    // this is a string array for drop-down list
-    //    //internal static List<CameraInfo> RemoteCameras = new List<CameraInfo>();
-
-
-
-    //    public ZoneSelector() {
-    //        Box1.BorderStyle = BorderStyle.None;
-    //        // add event handler for drop-down box when item 
-    //        // will be selected
-    //        Box1.Click += new EventHandler(Box1_Click);
-    //    }
-
-    //    public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) {
-    //        return UITypeEditorEditStyle.DropDown;
-    //    }
-
-    //    // Displays the UI for value selection.
-    //    public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
-
-    //        if (!(context.Instance is BaseCapture)) {
-    //            return "";
-    //        }
-
-    //        //ICSCameraCapture ICSCamSource = (ICSCameraCapture)(context.Instance);
-
-
-    //        Box1.Items.Clear();
-
-
-            
-    //        Box1.Items.Add(Rectangle.Empty);
-    //        if (StaticObjects.SelectedProject.SelectedRequest.SelectedInspection.SelectedROI!=null) {
-    //            Box1.Items.Add(StaticObjects.SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ROIShape.ShapeEfectiveBounds);
-    //        }
-
-
-    //        Box1.Height = Box1.PreferredHeight;
-
-
-    //        // window.
-    //        edSvc =
-    //           (IWindowsFormsEditorService)provider.
-    //           GetService(typeof
-    //           (IWindowsFormsEditorService));
-
-    //        if (edSvc != null) {
-
-
-    //            edSvc.DropDownControl(Box1);
-    //            if (Box1.SelectedItem == null) {
-    //                return value;
-    //            } else {
-    //                return Box1.SelectedItem;
-    //            }
-
-    //        }
-    //        return value;
-    //    }
-
-
-
-    //    private void Box1_Click(object sender, EventArgs e) {
-
-    //        edSvc.CloseDropDown();
-    //    }
-    //}
 
 
     public class ICSCameraSelector : System.Drawing.Design.UITypeEditor {
@@ -945,7 +874,7 @@ namespace VisionModule {
             set {
                 if (_PixelClock.Value != value) {
 
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(this.CameraName + " Pixel Clock changed to:" + value)) {
 
                             if (Camera != null) {
@@ -979,7 +908,7 @@ namespace VisionModule {
             set {
                 if (_Framerate.Value != value) {
 
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(this.CameraName + " Framerate changed to:" + value)) {
 
                             if (Camera != null) {
@@ -1013,7 +942,7 @@ namespace VisionModule {
             set {
                 if (_AOI.Value != value) {
 
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(this.CameraName + " AOI changed to:" + value)) {
                             
                             if (Camera != null && value!=null) {
@@ -1069,7 +998,7 @@ namespace VisionModule {
             set {
                 if (_exposure.Value != value) {
 
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(this.CameraName + " Exposure changed to:" + value)) {
 
                             if (Camera != null) {
@@ -1541,21 +1470,21 @@ namespace VisionModule {
                     _CameraName.Value = camera.Name;
                     
                     if (camera.Zoominterface != null) {
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Zoom", "browsable", true);
+                        this.ChangeAttributeValue<BrowsableAttribute>("Zoom", "browsable", true);
                         _maxzoom = camera.Zoominterface.RangeMax;
                         _minzoom = camera.Zoominterface.RangeMin;
                     }
                     else {
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Zoom", "browsable", false);
+                        this.ChangeAttributeValue<BrowsableAttribute>("Zoom", "browsable", false);
                     }
 
                     if (camera.Irisinterface!= null) {
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Iris", "browsable", true);
+                        this.ChangeAttributeValue<BrowsableAttribute>("Iris", "browsable", true);
                         _maxiris= camera.Irisinterface.RangeMax;
                         _miniris = camera.Irisinterface.RangeMin;
                     }
                     else {
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Iris", "browsable", false);
+                        this.ChangeAttributeValue<BrowsableAttribute>("Iris", "browsable", false);
                     }
 
                     if (camera.Gaininterface != null) {
@@ -1566,41 +1495,42 @@ namespace VisionModule {
 
 
                     if (camera.Focusinterface!=null) {
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Focus", "browsable", true);
+                        this.ChangeAttributeValue<BrowsableAttribute>("Focus", "browsable", true);
                         _maxfocus = camera.Focusinterface.RangeMax;
                         _minfocus = camera.Focusinterface.RangeMin;
                     }
                     else {
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Focus", "browsable", false);
+                        this.ChangeAttributeValue<BrowsableAttribute>("Focus", "browsable", false);
                     }
 
                     if (camera.Greenbalanceinterface != null) {
                         _MinGreenBalance = camera.Greenbalanceinterface.RangeMin;
                         _MaxGreenBalance = camera.Greenbalanceinterface.RangeMax;
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "GreenBalance", "browsable", true);                        
+                        this.ChangeAttributeValue<BrowsableAttribute>("GreenBalance", "browsable", true);                        
                     } else {
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "GreenBalance", "browsable", false);
+                        this.ChangeAttributeValue<BrowsableAttribute>("GreenBalance", "browsable", false);
                     }
 
                     if (camera.Redbalanceinterface!= null) {
                         _MinRedBalance = camera.Redbalanceinterface.RangeMin;
                         _MaxRedBalance = camera.Redbalanceinterface.RangeMax;
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "RedBalance", "browsable", true);
+                        this.ChangeAttributeValue<BrowsableAttribute>("RedBalance", "browsable", true);
                     } else {
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "RedBalance", "browsable", false);
+                        this.ChangeAttributeValue<BrowsableAttribute>("RedBalance", "browsable", false);
                     }
 
                     if (camera.Bluebalanceinterface!= null) {
                         _MinBlueBalance = camera.Bluebalanceinterface.RangeMin;
                         _MaxBlueBalance = camera.Bluebalanceinterface.RangeMax;
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "BlueBalance", "browsable", true);
+                        this.ChangeAttributeValue<BrowsableAttribute>("BlueBalance", "browsable", true);
                     } else {
-                        StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "BlueBalance", "browsable", false);
+                        this.ChangeAttributeValue<BrowsableAttribute>("BlueBalance", "browsable", false);
                     }
 
-                    StaticObjects.RefreshpropertyGrid(StaticObjects.Grids[0]);                   
+                    
                     _maxexposure = 100;
                     _minexposure = 1;
+                    base.UpdateAttributes();
 
 
                 }
@@ -1683,44 +1613,44 @@ namespace VisionModule {
             if (_ICSCamera==null) {
                 return;
             }
-            base.UpdateAttributes();
+            
             if (_ICSCamera.Zoominterface != null) {
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Zoom", "browsable", true);                
+                this.ChangeAttributeValue<BrowsableAttribute>("Zoom", "browsable", true);                
             } else {
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Zoom", "browsable", false);
+                this.ChangeAttributeValue<BrowsableAttribute>("Zoom", "browsable", false);
             }
 
             if (_ICSCamera.Irisinterface != null) {
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Iris", "browsable", true);                
+                this.ChangeAttributeValue<BrowsableAttribute>("Iris", "browsable", true);                
             } else {
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Iris", "browsable", false);
+                this.ChangeAttributeValue<BrowsableAttribute>("Iris", "browsable", false);
             }
 
             if (_ICSCamera.Focusinterface != null) {
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Focus", "browsable", true);                
+                this.ChangeAttributeValue<BrowsableAttribute>("Focus", "browsable", true);                
             } else {
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "Focus", "browsable", false);
+                this.ChangeAttributeValue<BrowsableAttribute>("Focus", "browsable", false);
             }
 
-            if (_ICSCamera.Greenbalanceinterface != null) {                                
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "GreenBalance", "browsable", true);
+            if (_ICSCamera.Greenbalanceinterface != null) {
+                this.ChangeAttributeValue<BrowsableAttribute>("GreenBalance", "browsable", true);
             } else {
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "GreenBalance", "browsable", false);
+                this.ChangeAttributeValue<BrowsableAttribute>("GreenBalance", "browsable", false);
             }
 
-            if (_ICSCamera.Redbalanceinterface != null) {                                
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "RedBalance", "browsable", true);
+            if (_ICSCamera.Redbalanceinterface != null) {
+                this.ChangeAttributeValue<BrowsableAttribute>("RedBalance", "browsable", true);
             } else {
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "RedBalance", "browsable", false);
+                this.ChangeAttributeValue<BrowsableAttribute>("RedBalance", "browsable", false);
             }
 
-            if (_ICSCamera.Bluebalanceinterface != null) {                
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "BlueBalance", "browsable", true);
+            if (_ICSCamera.Bluebalanceinterface != null) {
+                this.ChangeAttributeValue<BrowsableAttribute>("BlueBalance", "browsable", true);
             } else {
-                StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "BlueBalance", "browsable", false);
+                this.ChangeAttributeValue<BrowsableAttribute>("BlueBalance", "browsable", false);
             }
 
-            StaticObjects.RefreshpropertyGrid(StaticObjects.Grids[0]);  
+            base.UpdateAttributes();
         }
 
         readonly UndoRedo<String> _CameraName = new UndoRedo<string>("Capture from IC Imaging Camera");
@@ -1736,7 +1666,7 @@ namespace VisionModule {
 
                 if (_CameraName.Value!=value) {
 
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
 
                         using (UndoRedoManager.Start(this.CameraName + " Camera changed to: "+value)) {
                             SetCamera(value);
@@ -1792,7 +1722,7 @@ namespace VisionModule {
                     if (value >= _miniris && value <= _maxiris) {
 
                         
-                            if (!StaticObjects.isLoading) {
+                            if (!UndoRedoManager.IsCommandStarted) {
                                 using (UndoRedoManager.Start(this.CameraName + " Iris changed to:" + value)) {
                                     _iris.Value = value;
                                     UndoRedoManager.Commit();
@@ -1824,7 +1754,7 @@ namespace VisionModule {
                     if (value >= _mingain && value <= _maxgain) {
 
 
-                        if (!StaticObjects.isLoading) {
+                        if (!UndoRedoManager.IsCommandStarted) {
                             using (UndoRedoManager.Start(this.CameraName + " Gain changed to:" + value)) {
                                 _gain.Value = value;
                                 UndoRedoManager.Commit();
@@ -1856,7 +1786,7 @@ namespace VisionModule {
                     if (value >= _MinRedBalance && value <= _MaxRedBalance) {
 
 
-                        if (!StaticObjects.isLoading) {
+                        if (UndoRedoManager.IsCommandStarted) {
                             using (UndoRedoManager.Start(this.CameraName + " Red White balance changed to:" + value)) {
                                 _RedBalance.Value = value;
                                 UndoRedoManager.Commit();
@@ -1888,7 +1818,7 @@ namespace VisionModule {
                     if (value >= _MinBlueBalance && value <= _MaxBlueBalance) {
 
 
-                        if (!StaticObjects.isLoading) {
+                        if (!UndoRedoManager.IsCommandStarted) {
                             using (UndoRedoManager.Start(this.CameraName + " Blue White balance changed to:" + value)) {
                                 _BlueBalance.Value = value;
                                 UndoRedoManager.Commit();
@@ -1917,7 +1847,7 @@ namespace VisionModule {
                     if (value >= _MinGreenBalance && value <= _MaxGreenBalance) {
 
 
-                        if (!StaticObjects.isLoading) {
+                        if (!UndoRedoManager.IsCommandStarted) {
                             using (UndoRedoManager.Start(this.CameraName + " Green White balance changed to:" + value)) {
                                 _GreenBalance.Value = value;
                                 UndoRedoManager.Commit();
@@ -1943,7 +1873,7 @@ namespace VisionModule {
                 if (_PixelFormat.Value != value) {
 
 
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(this.CameraName + " PixelFormat changed to:" + value)) {
                             _PixelFormat.Value = value;
                             UndoRedoManager.Commit();
@@ -1984,7 +1914,7 @@ namespace VisionModule {
                     if (value >= _minzoom && value <= _maxzoom) {
 
                         if (value > _minfocus && value < _maxfocus) {
-                            if (!StaticObjects.isLoading) {
+                            if (!UndoRedoManager.IsCommandStarted) {
                                 using (UndoRedoManager.Start(this.CameraName + " Zoom changed to:" + value)) {
                                     _zoom.Value = value;
                                     UndoRedoManager.Commit();
@@ -2014,7 +1944,7 @@ namespace VisionModule {
                 if (_focus.Value != value) {
 
                     if (value > _minfocus && value < _maxfocus) {
-                        if (!StaticObjects.isLoading) {
+                        if (!UndoRedoManager.IsCommandStarted) {
                             using (UndoRedoManager.Start(this.CameraName + " Focus changed to:" + value)) {
                                 _focus.Value = value;
                                 UndoRedoManager.Commit();
@@ -2042,7 +1972,7 @@ namespace VisionModule {
 
                     if (value > _minexposure && value < _maxexposure) {
 
-                        if (!StaticObjects.isLoading) {
+                        if (!UndoRedoManager.IsCommandStarted) {
                             using (UndoRedoManager.Start(this.CameraName + " Exposure changed to:" + value)) {
                                 _exposure.Value = value;
                                 UndoRedoManager.Commit();
@@ -2299,7 +2229,7 @@ namespace VisionModule {
                 if (value != _FileLoc.Value) {
 
                     FileCapture thefilecap = null;
-                    foreach (BaseCapture item in StaticObjects.CaptureSources) {
+                    foreach (BaseCapture item in BaseCapture.CaptureSources) {
                         if (item is FileCapture) {
                             if (((FileCapture)item).FileLoc == value) {
                                 thefilecap = (FileCapture)item;
@@ -2308,12 +2238,12 @@ namespace VisionModule {
                         }
                     }
                     bool fileexists = true;
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         fileexists = File.Exists(value);    
                     }
                     
                     if (fileexists || this.CameraName == "Add file location") {
-                        if (!StaticObjects.isLoading) {
+                        if (!UndoRedoManager.IsCommandStarted) {
 
                             using (UndoRedoManager.Start(this.CameraName + " File location changed to: " + value)) {
                                 _FileLoc.Value = value;
@@ -2473,7 +2403,7 @@ namespace VisionModule {
             set {
                 if (_InspectionSource.Value != value) {
 
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(this.CameraName + " Inspection source changed to:" + value)) {
                             _InspectionSource.Value = value;
                             UndoRedoManager.Commit();
@@ -2680,7 +2610,7 @@ namespace VisionModule {
 
                 if (_CameraName.Value != value) {
 
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
 
                         using (UndoRedoManager.Start(this.CameraName + " Camera changed to: " + value)) {
                             SetCamera(value);
@@ -2708,7 +2638,7 @@ namespace VisionModule {
             set {
                 if (_exposure.Value != value) {
 
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(this.CameraName + " Exposure changed to:" + value)) {
                             _exposure.Value = value;
                             UndoRedoManager.Commit();
@@ -2835,7 +2765,7 @@ namespace VisionModule {
             set {
                 if (_exposure.Value != value) {
 
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(this.CameraName + " Exposure changed to:" + value)) {
                             _exposure.Value = value;
                             UndoRedoManager.Commit();
@@ -3315,6 +3245,9 @@ namespace VisionModule {
         //    set { _LogImages = value; }
         //}
 
+        internal static List<BaseCapture> CaptureSources = new List<BaseCapture>();
+
+
         
         public virtual void UpdateSource() {
 
@@ -3350,8 +3283,13 @@ namespace VisionModule {
             }
         }
 
-        public virtual void UpdateAttributes() {
+        internal delegate void AcquisitionAttributesChanged();
+        internal event AcquisitionAttributesChanged OnAcquisitionAttributesChanged;
 
+        public virtual void UpdateAttributes() {
+            if (OnAcquisitionAttributesChanged!=null) {
+                OnAcquisitionAttributesChanged();
+            }
         }
 
         public virtual Image<Bgr, Byte> GetImage(Boolean FullImage) {
@@ -3399,7 +3337,7 @@ namespace VisionModule {
         }
 
         public virtual void Dispose() {
-         
+            OnAcquisitionAttributesChanged = null;
         }
     }
 

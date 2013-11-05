@@ -10,6 +10,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using KPP.Core.Debug;
 using System.Threading;
 using System.Globalization;
+using KPPAutomationCore;
 
 namespace VisionModule {
     internal partial class ViewInspections : DockContent {
@@ -19,7 +20,7 @@ namespace VisionModule {
         private static KPPLogger log = new KPPLogger(typeof(ViewInspections));
 
         public ViewInspections() {
-            switch (StaticObjects.Language) {
+            switch (LanguageSettings.Language) {
                 case LanguageName.Unk:
                     break;
                 case LanguageName.PT:

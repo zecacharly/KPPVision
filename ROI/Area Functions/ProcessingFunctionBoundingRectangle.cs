@@ -244,11 +244,11 @@ namespace VisionModule {
                                     if ((currentContour.Area > base.ContourPreProc1.MinArea) && (currentContour.Area < base.ContourPreProc1.MaxArea)) {
 
 
-                                        if (ResultsInROI == OutputResultType.orContours && !StaticObjects.isRemote)
+                                        if (ResultsInROI == OutputResultType.orContours)
                                             ImageOut.Draw(currentContour, new Bgr(Color.Blue), 1);
 
 
-                                        if (ResultsInROI == OutputResultType.orResults && !StaticObjects.isRemote){
+                                        if (ResultsInROI == OutputResultType.orResults){
                                             ImageOut.Draw(currentContour, new Bgr(Color.Green), 1);
                                             
                                             ImageOut.Draw(currentContour.GetMinAreaRect(), new Bgr(Color.Salmon), 1);
@@ -307,7 +307,7 @@ namespace VisionModule {
                      
 
 
-                            if (ResultsInROI == OutputResultType.orResults && !StaticObjects.isRemote) {
+                            if (ResultsInROI == OutputResultType.orResults) {
                                 ImageOut.Draw(new Cross2DF(CenterPoint, 15F, 15f), new Bgr(Color.Yellow), AnnotationSize);
                                 ImageOut.Draw(BoundingRectangle, new Bgr(Color.Yellow), 1);
                             }
@@ -325,7 +325,7 @@ namespace VisionModule {
                             RectangleCornerDownL = new PointF(RectangleCornerUpL.X, RectangleCornerUpL.Y+BoundingRectangle.Height);
                             RectangleCornerDownR = new PointF(RectangleCornerUpL.X + BoundingRectangle.Width, RectangleCornerUpL.Y+BoundingRectangle.Height);
 
-                            if (ResultsInROI == OutputResultType.orResults && !StaticObjects.isRemote) {
+                            if (ResultsInROI == OutputResultType.orResults) {
                                 ImageOut.ROI = Rectangle.Empty;
                                 ImageOut.Draw(new Cross2DF(RectangleCornerUpL, 15F, 15f), new Bgr(Color.Red), AnnotationSize);
                                 ImageOut.Draw(new Cross2DF(RectangleCornerUpR, 15F, 15f), new Bgr(Color.Red), AnnotationSize);

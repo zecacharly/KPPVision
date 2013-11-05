@@ -57,7 +57,7 @@ namespace VisionModule {
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
             try {
                 ListRefPoints.Items.Clear();
-                ListRefPoints.Items.AddRange(StaticObjects.ReferencePoints.ToArray());
+               // ListRefPoints.Items.AddRange(StaticObjects.ReferencePoints.ToArray());
                 ListRefPoints.Height = ListRefPoints.PreferredHeight;
 
                 // Uses the IWindowsFormsEditorService to 
@@ -170,7 +170,7 @@ namespace VisionModule {
                 if (_ROIPos.Value != value && value > 0) {
                     int oldval=_ROIPos.Value;
 
-                    if (!StaticObjects.isLoading && !UndoRedoManager.IsCommandStarted) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(this.Name + " Position changed to:" + value)) {
                             _ROIPos.Value = value;
                             UndoRedoManager.Commit();
@@ -248,7 +248,7 @@ namespace VisionModule {
             set {
                 if (_name.Value != value) {
 
-                    if (!StaticObjects.isLoading && !UndoRedoManager.IsCommandStarted) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(this.Name + " Name changed to:" + value)) {
                             _name.Value = value;
                             UndoRedoManager.Commit();

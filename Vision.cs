@@ -34,7 +34,7 @@ using System.Xml;
 using System.Xml.Schema;
 using AForge.Video.DirectShow;
 using System.Resources;
-//using System.Windows;
+using KPPAutomationCore;
 
 
 
@@ -111,7 +111,7 @@ namespace VisionModule {
 
             if (edSvc != null) {
 
-                form.SelectedProject = StaticObjects.SelectedProject;
+               // form.SelectedProject = StaticObjects.SelectedProject;
                 form.acceptType = resultType;
                 form.ResultRef = (value as ResultReference);
                 if (edSvc.ShowDialog(form)== DialogResult.OK) {
@@ -156,287 +156,8 @@ namespace VisionModule {
         }
     }
 
-    public delegate void RefreshPropertyGrid(PropertyGrid Grid);
-
-    public enum LanguageName { Unk, PT, EN }    
-
-
-    internal static class StaticObjects {
-
-
-        private static LanguageName _Language = LanguageName.PT;
-
-        internal static LanguageName Language {
-            get { return _Language; }
-            set {
-                if (_Language != value) {
-                    _Language = value;
-                    switch (value) {
-                        case LanguageName.Unk:
-                            break;
-                        case LanguageName.PT:
-                            break;
-                        case LanguageName.EN:
-
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        }
-
-        private static KPPLogger log = new KPPLogger(typeof(StaticObjects));
-
-        internal static event RefreshPropertyGrid OnRefreshPropertyGrid;
-        
-        static public Form InputsConfiguration;
-        static public Boolean isLoading = false;
-        static public Boolean isRemote = false;
-        //static public Boolean isRPI = false;
-        internal static List<ReferencePoint> ReferencePoints = new List<ReferencePoint>();
-
-        internal static List<PropertyGrid> Grids = new List<PropertyGrid>();
-
-        //internal static List<InspectionReference> InspectionReferences = new List<InspectionReference>();
-        
-        static Boolean _RunningMono = false;
-
-        internal static Boolean RunningMono {
-            get { return _RunningMono; }
-           
-        }
-
-
-        internal static string GetResourceText(this Object from, String ResVar) {
-            return GetResourceText(from, "VisionModule.Resources.Language.Res", ResVar);
-        }
-
-        internal static string GetResourceText(this Object from, String ResLocation, String ResVar) {
-            try {
-                //ComponentResourceManager resources = new ComponentResourceManager();
-                ResourceManager res_man = new ResourceManager(ResLocation, from.GetType().Assembly);
-                return res_man.GetString(ResVar, Thread.CurrentThread.CurrentUICulture);
-            }
-            catch (Exception exp) {
-
-                return "Error getting resource";
-            }
-        }
-
-
-        internal static object GetDefaultValue(this Object obj) {
-            if (obj==null) {
-                return null;
-            }
-
-            Type t = obj.GetType();
-
-            //return t.GetMethod("GetDefaultGeneric").MakeGenericMethod(t).Invoke(obj, null);
-
-            if (t.IsValueType) {
-                return Activator.CreateInstance(t);
-            } else {
-                return null;
-            }
-        }
-
-        internal static int RoundUp(this int num, int multiple) {
-            if (multiple == 0)
-                return 0;
-            int add = multiple / Math.Abs(multiple);
-            return ((num + multiple - add) / multiple) * multiple;
-        }
-
-
-        internal static int NextEven(this int num) {
-            if ((num & 1) == 0) {
-                // It's even
-            } else {
-                num++;
-            }
-
-            return num;
-        }
-
-       
-        
-
-        //internal static HistogramViewer histogramViewer=null;
-
-        //internal static HistogramBox histbox = null;
-
-        static StaticObjects() {
-            _RunningMono = CheckRunningMono();
-
-        }
-
-        internal static UserControl InputItemSelectorControl;
-
-        static bool CheckRunningMono() {
-            Type t = Type.GetType("Mono.Runtime");
-            if (t != null)
-                return true;
-
-            return false;
-        }
-        //internal static TCPServerClient ServerClient;
-
-        internal static void RefreshpropertyGrid(PropertyGrid grid) {
-            if (OnRefreshPropertyGrid!=null) {
-                OnRefreshPropertyGrid(grid);
-            }
-        }
-
-             
-
-       internal static string ImageToBase64String(Image image) {
-            using (MemoryStream stream = new MemoryStream()) {
-                image.Save(stream, image.RawFormat);
-                return Convert.ToBase64String(stream.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Creates a new image from the given base64 encoded string.
-        /// </summary>
-        /// <param name="base64String">The encoded image data as a string.</param>
-        internal static Image ImageFromBase64String(string base64String) {
-            using (MemoryStream stream = new MemoryStream(
-                Convert.FromBase64String(base64String)))
-            using (Image sourceImage = Image.FromStream(stream)) {
-                return new Bitmap(sourceImage);
-            }
-        }
-
-
-        static public void ChangeAttributeValue<T>(object selectedObject, string propertyName, string field, bool newval) {
-
-            try {
-
-
-
-
-                PropertyDescriptor descriptor = TypeDescriptor.GetProperties(selectedObject.GetType())[propertyName];
-                //ReadOnlyAttribute attribute = (ReadOnlyAttribute)
-                //                              descriptor.Attributes[typeof(ReadOnlyAttribute)];
-
-                if (descriptor==null) {
-                    return;
-                }
-                object attribute = descriptor.Attributes[typeof(T)];
-
-                if (attribute==null) {
-                    return;
-                }
-                T attrval = (T)attribute;
-
-                FieldInfo fieldToChange = attrval.GetType().GetField(field,
-                                                 System.Reflection.BindingFlags.NonPublic
-                                                 | System.Reflection.BindingFlags.Instance
-                                                 );
-
-                if (fieldToChange==null) {
-                    return;
-                }
-                fieldToChange.SetValue(attrval, newval);
-
-            } catch (Exception exp) {
-                log.Error(exp);
-               
-            }
-
-        }
-
-        //static public TCPServerConnection Server;
-        
-
-        static public VisionProject SelectedProject;
-
-        [Serializable]
-        public class SendImageObject {
-
-            private String _RequestName;
-            public String RequestName {
-                get { return _RequestName; }
-                set { _RequestName = value; }
-            }
-
-            private String _InspectionName;
-
-            public String InspectionName {
-                get { return _InspectionName; }
-                set { _InspectionName = value; }
-            }
-
-            private Image<Bgr, Byte> _ImageToSend;
-
-            public Image<Bgr, Byte> ImageToSend {
-                get { return _ImageToSend; }
-                set { _ImageToSend = value; }
-            }
-            public SendImageObject() {
-
-            }
-        }
-
-        internal static List<BaseCapture> CaptureSources = new List<BaseCapture>();
-
-
-        internal static string base64Encode(string data) {
-            try {
-                byte[] encData_byte = new byte[data.Length];
-                encData_byte = System.Text.Encoding.UTF8.GetBytes(data);
-                string encodedData = Convert.ToBase64String(encData_byte);
-                return encodedData;
-            } catch (Exception e) {
-                throw new Exception("Error in base64Encode" + e.Message);
-            }
-        }
-        internal static string base64Decode(string data) {
-            try {
-                System.Text.UTF8Encoding encoder = new System.Text.UTF8Encoding();
-                System.Text.Decoder utf8Decode = encoder.GetDecoder();
-
-                byte[] todecode_byte = Convert.FromBase64String(data);
-                int charCount = utf8Decode.GetCharCount(todecode_byte, 0, todecode_byte.Length);
-                char[] decoded_char = new char[charCount];
-                utf8Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
-                string result = new String(decoded_char);
-                return result;
-            } catch (Exception e) {
-                throw new Exception("Error in base64Decode" + e.Message);
-            }
-        }
-
-        //
-
-
-
-      
-
-        internal static T Clone<T>(T source) {
-            if (!typeof(T).IsSerializable) {
-                throw new ArgumentException("The type must be serializable.", "source");
-            }
-
-            // Don't serialize a null object, simply return the default for that object
-            if (Object.ReferenceEquals(source, null)) {
-                return default(T);
-            }
-
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new MemoryStream();
-            using (stream) {
-                formatter.Serialize(stream, source);
-                stream.Seek(0, SeekOrigin.Begin);
-                return (T)formatter.Deserialize(stream);
-            }
-        }
-
-
-    }
-
+    
+    
 
     public class ResultInfo {
 
@@ -460,7 +181,7 @@ namespace VisionModule {
             }
             set {
                 if (_ID.Value != value) {
-                    if (!StaticObjects.isLoading && !UndoRedoManager.IsCommandStarted) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start("Result added:" + value)) {
                             _ID.Value = value;
                             UndoRedoManager.Commit();
@@ -571,7 +292,7 @@ namespace VisionModule {
                     }
                 }
                 else {
-                    if (StaticObjects.SelectedProject != null && IsValid==false) {
+                    if (IsValid==false) {
                         ResultReferenceID = _ResultReferenceID;
                     }
                 }
@@ -583,12 +304,12 @@ namespace VisionModule {
                 IsValid=false;
                 
                 _ResultReferenceID = value;
-                if (StaticObjects.SelectedProject != null) {
+                if (SelectedProject != null) {
                     if (value is String) {
                         IsValid = true;
                         String[] References = ((string)value).Split(new String[] { "." }, StringSplitOptions.None).ToArray();
                         if (References.Count() >= 4) {
-                            RequestReference = StaticObjects.SelectedProject.RequestList.Find(n => n.Name == References[0]);
+                            RequestReference = SelectedProject.RequestList.Find(n => n.Name == References[0]);
                             if (RequestReference != null) {
                                 InspectionReference = RequestReference.Inspections.Find(n => n.Name == References[1]);
                                 if (InspectionReference != null) {
@@ -701,8 +422,9 @@ namespace VisionModule {
         //    ResultReferenceID = resid;
         //}
 
-        public ResultReference(Object resobj) {
-
+        private VisionProject SelectedProject = null;
+        public ResultReference(VisionProject selectedProject,Object resobj) {
+            SelectedProject = selectedProject;
             if (resobj!=null) {
 
                 ResultReferenceID = resobj;
@@ -712,8 +434,9 @@ namespace VisionModule {
 
 
 
-        public ResultReference(Request request,Inspection inspection,ROI roi,ProcessingFunctionBase processingfunction,String propname) {            
-            ResultReferenceID = request.Name + "." + inspection.Name+"."+ roi.Name+ "." + processingfunction.FunctionName + "." + propname;
+        public ResultReference(VisionProject selectedProject, ProcessingFunctionBase processingfunction, String propname) {
+            SelectedProject = selectedProject;
+            ResultReferenceID = SelectedProject.SelectedRequest.Name + "." + SelectedProject.SelectedRequest.SelectedInspection.Name + "." + SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.Name + "." + processingfunction.FunctionName + "." + propname;
         }
 
        
@@ -733,7 +456,7 @@ namespace VisionModule {
             set {
 
                 if (_Input.Value != value) {
-                    if (!StaticObjects.isLoading && !UndoRedoManager.IsCommandStarted) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start("Input changed to:" + value)) {
                             _Input.Value = value;
                             UndoRedoManager.Commit();
@@ -755,7 +478,7 @@ namespace VisionModule {
 
                 if (_Parameter.Value!=value) {
 
-                    if (!StaticObjects.isLoading && !UndoRedoManager.IsCommandStarted) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start("Parameter changed to:" + value)) {
                             _Parameter.Value = value;
                             UndoRedoManager.Commit();
@@ -841,7 +564,7 @@ namespace VisionModule {
 
         #region Delegates
         public delegate void SelectedROIChanged(ROI ROISelected);
-        public delegate void RefreshPropertyGrid();
+        
         public delegate void ROIRemoved(ROI ROIRemoved);
         
         public delegate void InspectionDone(Inspection inspection);
@@ -867,7 +590,7 @@ namespace VisionModule {
 
         [UseInEvents(true)]
         public event CaptureDone OnCaptureDone;
-        public event RefreshPropertyGrid OnRefreshPropertyGrid;
+        
         public event SelectedROIChanged OnSelectedROIChanged;
         public event ROIRemoved OnROIRemoved;
 
@@ -920,12 +643,7 @@ namespace VisionModule {
         [XmlIgnore]
         public Layer InspLayer = null;
 
-        public void DoRefreshGrid() {
-            if (OnRefreshPropertyGrid!=null) {
-                OnRefreshPropertyGrid();
-            }
-        }
-
+        
         #region properties
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -942,7 +660,7 @@ namespace VisionModule {
             }
             set {
                 if (_InspPos.Value != value) {
-                    if (!StaticObjects.isLoading && !UndoRedoManager.IsCommandStarted) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start("Inspection position changed to:" + value)) {
                             _InspPos.Value = value;
                             UndoRedoManager.Commit();
@@ -985,7 +703,7 @@ namespace VisionModule {
                     if (_CaptureSource.Value != null) {                 
 
                     }
-                    if (!StaticObjects.isLoading) {
+                    if(!UndoRedoManager.IsCommandStarted){
                         using (UndoRedoManager.Start(_inspectName.Value + ": Capture Source changed to:" + value.Camtype)) {
                             _CaptureSource.Value = value;
                             UndoRedoManager.Commit();
@@ -1002,13 +720,13 @@ namespace VisionModule {
                         case BaseCapture.CameraTypes.CV:
                             break;
                         case BaseCapture.CameraTypes.ICS:
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(CaptureSource, "CameraName", "browsable", true);
+                            CaptureSource.ChangeAttributeValue<BrowsableAttribute>("CameraName", "browsable", true);
                             break;
                         case BaseCapture.CameraTypes.File:
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(CaptureSource, "CameraName", "browsable", false);
+                            CaptureSource.ChangeAttributeValue<BrowsableAttribute>("CameraName", "browsable", false);
                             break;
                         case BaseCapture.CameraTypes.Inspection:
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(CaptureSource, "CameraName", "browsable", false);
+                            CaptureSource.ChangeAttributeValue<BrowsableAttribute>("CameraName", "browsable", false);
                            
                             break;
                         case BaseCapture.CameraTypes.Undef:
@@ -1021,6 +739,8 @@ namespace VisionModule {
                     if (OnCameraSourceChanged!=null) {
                         OnCameraSourceChanged(value);
                     }
+
+                    
                 }
             }
         }
@@ -1072,7 +792,7 @@ namespace VisionModule {
             get { return _inspectName.Value; }
             set {
                 if (_inspectName.Value != value) {
-                    if (!StaticObjects.isLoading && !UndoRedoManager.IsCommandStarted) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start("Inspection name changed to:" + value)) {
                             _inspectName.Value = value;
                             UndoRedoManager.Commit();
@@ -1535,7 +1255,7 @@ namespace VisionModule {
 
                 //_newroi.OnROIPositionChanged += new ROI.ROIPositionChanged(_newroi_OnROIPositionChanged);
 
-                if (!StaticObjects.isLoading) {
+                if(!UndoRedoManager.IsCommandStarted){
                     using (UndoRedoManager.Start("ROI added: " + _newroi.Name)) {
                         ROIList.Add(_newroi);
                         UndoRedoManager.Commit();
@@ -1666,7 +1386,7 @@ namespace VisionModule {
 
 
         public void ClearEvents() {
-            OnRefreshPropertyGrid = null;
+            
             OnInspectionDone = null;
             
             OnInspectionResultHandler = null;
@@ -1679,7 +1399,7 @@ namespace VisionModule {
             OnCaptureStopped = null;
             OnCameraSourceChanged = null;
 
-            OnRefreshPropertyGrid = null;
+            
 
         }
 
@@ -1865,7 +1585,7 @@ namespace VisionModule {
                 Inspection newInsp = new Inspection("NewInspection", id);
                 newInsp.InspPos = id+1;
                 newInsp.RequestName = this.Name;
-                if (!StaticObjects.isLoading && !UndoRedoManager.IsCommandStarted) {
+                if (!UndoRedoManager.IsCommandStarted) {
                     using (UndoRedoManager.Start("new Inspection added:" + Name)) {
                         Inspections.Add(newInsp);
                         UndoRedoManager.Commit();
@@ -1917,7 +1637,7 @@ namespace VisionModule {
             set {
                 if (_name.Value != value) {
 
-                    if (!StaticObjects.isLoading) {
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start("Request name changed:" + _name)) {
                             _name.Value = value;
                             UndoRedoManager.Commit();
@@ -2036,7 +1756,7 @@ namespace VisionModule {
                 UndoRedoManager.Commit();
             }
             _newinspect.RequestName = requestname;
-            if (!StaticObjects.isLoading) {
+            if(!UndoRedoManager.IsCommandStarted){
                 using (UndoRedoManager.Start("Inspection added:" + name+_id.ToString())) {
                     Inspections.Add(_newinspect);
                     UndoRedoManager.Commit();

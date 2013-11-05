@@ -63,7 +63,7 @@ namespace VisionModule {
 
 
         VisionProjects _projconfig = null;
-        String _appfile;
+        internal String _Appfile;
         DeserializeDockContent m_deserializeDockContent;
 
         //Inspection _SelectedInspection = null;
@@ -167,8 +167,8 @@ namespace VisionModule {
         }
 
         public VisionForm() {
-
-            switch (StaticObjects.Language) {
+            
+            switch (LanguageSettings.Language) {
                 case LanguageName.Unk:
                     break;
                 case LanguageName.PT:
@@ -279,23 +279,28 @@ namespace VisionModule {
 
         VisionSettings _visionconfig = null;
 
+        internal String DockFile = "";
+
+        internal String m_ModuleName = "Vision Module";
+
+        internal String ModuleName {
+            get { return m_ModuleName; }
+            set { m_ModuleName = value; }
+        }
+
         private void MainForm_Load(object sender, EventArgs e) {
 
 
 
             try {
 
-              
+                this.Text = ModuleName;
                 //__toolStriplevels.Items.AddRange(new String[]{"Admin","Man"});
                 //__toolStriplevels.SelectedIndexChanged += new EventHandler(__toolStriplevels_SelectedIndexChanged);
                  
                 DebugController.ActiveDebugController.OnDebugMessage += new OnDebugMessageHandler(ActiveDebugController_OnDebugMessage);
                 _ProjectOptionsForm.TopMost = true;
-               
-                StaticObjects.Grids.Add(_ListInspForm.__propertyGridinsp);
-                
-                StaticObjects.OnRefreshPropertyGrid += new RefreshPropertyGrid(StaticObjects_OnRefreshPropertyGrid);
-
+                              
                 ArrowPad = new ArrowPadControl();
 
                 AppPerformanceMonitor.OnAppPerformanceMonitorTick += new OnAppPerformanceMonitorTickHandler(AppPerformanceMonitor_OnAppPerformanceMonitorTick);
@@ -318,21 +323,11 @@ namespace VisionModule {
 
                 SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_1"), TypeOfMessage.Success);
 
-                dockFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config\\VisionDockPanel.config");
+                //dockFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config\\VisionModule"+StaticObjects.ModuleID+"DockPanel.config");
 
 
-
-                if (!Directory.Exists(dockFile)) {
-                    Directory.CreateDirectory(Path.GetDirectoryName(dockFile));
-                }
-
-                _appfile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Config\\Vision.config");
-
-                if (!File.Exists(_appfile)) {
-                    _visionconfig = new VisionSettings();
-                    _visionconfig.WriteConfigurationFile(_appfile);
-                }
-                _visionconfig = VisionSettings.ReadConfigurationFile(_appfile);
+                
+                _visionconfig = VisionSettings.ReadConfigurationFile(_Appfile);
                 _visionconfig.BackupExtention = ".bkp";
                 _visionconfig.BackupFilesToKeep = 5;
                 _visionconfig.BackupFolderName = "Backup";
@@ -364,12 +359,12 @@ namespace VisionModule {
                 //__logpasstb.KeyPress += new KeyPressEventHandler(__logpasstb_KeyPress);
                 //__logpasstb.PasswordChar = '*'; 
 
-                if (File.Exists(dockFile))
+                if (File.Exists(DockFile))
                     try {
-                        __dockPanel1.LoadFromXml(dockFile, m_deserializeDockContent);
+                        __dockPanel1.LoadFromXml(DockFile, m_deserializeDockContent);
                     } catch (Exception exp) {
 
-                        __dockPanel1.SaveAsXml(dockFile);
+                        __dockPanel1.SaveAsXml(DockFile);
 
                     }
                 else {
@@ -444,11 +439,7 @@ namespace VisionModule {
                 
                 _ListROIForm.__RoiProcList.MouseClick += new MouseEventHandler(__RoiProcList_MouseClick);
                 _ListROIForm.OnControlRightClick += __RoiProcList_MouseClick;
-                InputSelector _inputselector = new InputSelector();
-
-                StaticObjects.InputItemSelectorControl = _inputselector;
-
-
+                
 
                 try {
 
@@ -481,18 +472,18 @@ namespace VisionModule {
                         ICSCameraInterface.ICSCameras.Add(new ICScamera(newcam));
                     }
 
-                    StaticObjects.isLoading = true;
+                   
                     using (UndoRedoManager.StartInvisible("Init")) {
 
 
-                        StaticObjects.CaptureSources.Add(new FileCapture());
-                        StaticObjects.CaptureSources.Add(new InspectionCapture());
-                        StaticObjects.CaptureSources.Add(new PythonRemoteCapture());
-                        StaticObjects.CaptureSources.Add(new ICSCameraCapture());
-                        StaticObjects.CaptureSources.Add(new CVCameraCapture());
+                        BaseCapture.CaptureSources.Add(new FileCapture());
+                        BaseCapture.CaptureSources.Add(new InspectionCapture());
+                        BaseCapture.CaptureSources.Add(new PythonRemoteCapture());
+                        BaseCapture.CaptureSources.Add(new ICSCameraCapture());
+                        BaseCapture.CaptureSources.Add(new CVCameraCapture());
                         //StaticObjects.CaptureSources.Add(new RemoteCameraCapture());
-                        StaticObjects.CaptureSources.Add(new DirectShowCameraCapture());
-                        StaticObjects.CaptureSources.Add(new uEyeCamera());
+                        BaseCapture.CaptureSources.Add(new DirectShowCameraCapture());
+                        BaseCapture.CaptureSources.Add(new uEyeCamera());
                     }
 
 
@@ -503,7 +494,7 @@ namespace VisionModule {
 
                     log.Error(exp);
                 }
-                StaticObjects.isLoading = false;
+                
                 
 
 
@@ -791,7 +782,7 @@ namespace VisionModule {
        
         void __btSave_Click(object sender, EventArgs e) {
             try {
-                _visionconfig.WriteConfigurationFile(_appfile);
+                _visionconfig.WriteConfigurationFile(_Appfile);
                 
                 
             } catch (Exception exp) {
@@ -1385,7 +1376,7 @@ namespace VisionModule {
                 try {
                     if (Commands[0].Contains("GET")) {
                         if (Commands[1].Contains("CAMERAS")) {
-                            String cam_rec_list = StaticObjects.base64Decode(Commands[2]);
+                            String cam_rec_list = Commands[2].base64Decode();
 
 
                             //CostumCamerasList cameras=(CostumCamerasList)(IOFunctions.DeserializeFromString(cam_rec_list, typeof(CostumCamerasList)));
@@ -1996,7 +1987,7 @@ namespace VisionModule {
                         }
 
                         SelectedProject = newselected;
-                        StaticObjects.SelectedProject = SelectedProject;
+                       // StaticObjects.SelectedProject = SelectedProject;
                         _ListInspForm.SelectedProject = SelectedProject;
                         _ListROIForm.SelectedProject = SelectedProject;
                         _ImageContainer.SelectedProject = SelectedProject;
@@ -2006,10 +1997,10 @@ namespace VisionModule {
 
 
 
-                        StaticObjects.ReferencePoints.Clear();
-                        ReferencePoint dummyRefeence = new ReferencePoint();
-                        dummyRefeence.ReferencePointName = "N/A";
-                        StaticObjects.ReferencePoints.Add(dummyRefeence);
+                        //StaticObjects.ReferencePoints.Clear();
+                        //ReferencePoint dummyRefeence = new ReferencePoint();
+                        //dummyRefeence.ReferencePointName = "N/A";
+                        //StaticObjects.ReferencePoints.Add(dummyRefeence);
 
                         SelectedProject.OnRequestRemoved += new VisionProject.RequestRemoved(SelectedProject_OnRequestRemoved);
                         SelectedProject.RequestList.OnItemAdded += new DejaVu.Collections.Generic.UndoRedoList<Request>.ItemAdded(RequestList_OnItemAdded);
@@ -2210,7 +2201,7 @@ namespace VisionModule {
                             SelectedProject.SelectedRequest = null;
                         }
 
-                        this.Text = "KPP Vision" + " : " + SelectedProject.Name;
+                        this.Text = ModuleName+ " : " + SelectedProject.Name;
 
 
 
@@ -2245,7 +2236,7 @@ namespace VisionModule {
                         return false;
                     }
                     __btSaveproj.Enabled = true;
-                    StaticObjects.isLoading = false;
+                    
                     _ListInspForm.__tabsInsp.Enabled = true;
                     _ListInspForm.__tabsRequest.Enabled = true;
                     _ListInspForm.__tabsInspconf.Enabled = true;
@@ -2296,13 +2287,13 @@ namespace VisionModule {
             itemAdded.OnCameraSourceChanged += new Inspection.CameraSourceChanged(_newinsp_OnCameraSourceChanged);
             itemAdded.OnCaptureStopped += new Inspection.CaptureStopped(_newinsp_OnCaptureStopped);
             //itemAdded.OnInspectionResultHandler += new Inspection.InspectionResult(_newinsp_OnInspectionResult);
-            itemAdded.OnUndoDeleteInspection += new Inspection.UndoDeleteInspection(_newinsp_OnUndoDeleteInspection);
-            itemAdded.OnRefreshPropertyGrid += new Inspection.RefreshPropertyGrid(_newinsp_OnRefreshPropertyGrid);
+            itemAdded.OnUndoDeleteInspection += new Inspection.UndoDeleteInspection(_newinsp_OnUndoDeleteInspection);            
             itemAdded.OnSelectedROIChanged += new Inspection.SelectedROIChanged(_newinsp_OnSelectedROIChanged);
             //_newinsp.Results.OnUndoList += new DejaVu.Collections.Generic.UndoRedoList<ResultInfo>.UndoList(Results_OnUndoList);
             itemAdded.ROIList.OnUndoList += new DejaVu.Collections.Generic.UndoRedoList<ROI>.UndoList(ROIList_OnUndoList);
 
 
+            itemAdded.CaptureSource.OnAcquisitionAttributesChanged += new BaseCapture.AcquisitionAttributesChanged(CaptureSource_OnAcquisitionAttributesChanged);
 
             itemAdded.OnROIRemoved += new Inspection.ROIRemoved(_newinsp_OnROIRemoved);
 
@@ -2327,6 +2318,11 @@ namespace VisionModule {
 
             }
             
+        }
+
+        void CaptureSource_OnAcquisitionAttributesChanged() {
+
+            _ListInspForm.__propertyGridinsp.Refresh();
         }
 
         
@@ -2762,7 +2758,7 @@ namespace VisionModule {
 
 
             try {
-                StaticObjects.isLoading = true;
+               
                 if (ProcRef!=null) {
                     if (ProcRef is ResultReference) {
                         ((ResultReference)ProcRef).ResultReferenceID = ((ResultReference)ProcRef).ResultReferenceID;    
@@ -2770,7 +2766,7 @@ namespace VisionModule {
                     
                 }
                 
-                StaticObjects.isLoading = false;
+                
             } catch (Exception exp) {
 
                 log.Error(exp);
@@ -2854,7 +2850,7 @@ namespace VisionModule {
 
 
 
-                    this.Text = "KPP Vision";
+                    this.Text = ModuleName;
 
 
                     _ListInspForm.__propertyGridinsp.SelectedObject = null;
@@ -2947,7 +2943,7 @@ namespace VisionModule {
             }
         }
 
-        string dockFile = "";
+        //string dockFile = "";
 
         public void Form1_FormClosing(object sender, FormClosingEventArgs e) {
             try {
@@ -2996,7 +2992,7 @@ namespace VisionModule {
 
                     
                     //if (File.Exists(configFile) == false) {
-                    __dockPanel1.SaveAsXml(dockFile);
+                    __dockPanel1.SaveAsXml(DockFile);
                     //}
                   
 
@@ -3363,7 +3359,7 @@ namespace VisionModule {
                 String text = this.GetResourceText("MessageBox_Language_text");
                 //String text = res_man.GetString("", Thread.CurrentThread.CurrentUICulture);
                 if (MessageBox.Show(text, cap, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.OK) {
-                    StaticObjects.Language = lang;
+                    LanguageSettings.Language = lang;
                     //TODO 
                     //Restart Module
                     this.Close();

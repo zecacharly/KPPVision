@@ -17,11 +17,12 @@ using System.Diagnostics;
 using DejaVu;
 using System.Threading;
 using System.Globalization;
+using KPPAutomationCore;
 
 namespace VisionModule {
     internal partial class ImageContainerForm : DockContent {
         public ImageContainerForm() {
-            switch (StaticObjects.Language) {
+            switch (LanguageSettings.Language) {
                 case LanguageName.Unk:
                     break;
                 case LanguageName.PT:
@@ -459,7 +460,7 @@ namespace VisionModule {
 
         private void __roicontainer_OnShapeLocationChanging(Shape sh, EventArgs e) {
             try {
-                if (!StaticObjects.isLoading && !ShapeLocationChanging) {
+                if (!ShapeLocationChanging) {
                     ShapeLocationChanging = true;
 
                     //_ListInspForm.__listRoi.RefreshObject(_ListInspForm.__listRoi.SelectedObject);
@@ -473,7 +474,7 @@ namespace VisionModule {
 
         private void __roicontainer_OnShapeSizeChanging(Shape sh, EventArgs e) {
             try {
-                if (!StaticObjects.isLoading && !ShapeLocationChanging) {
+                if (!ShapeLocationChanging) {
                     ShapeLocationChanging = true;
 
                 }

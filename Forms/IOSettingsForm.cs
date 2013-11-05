@@ -13,6 +13,7 @@ using System.Reflection;
 using IOModule;
 using System.Threading;
 using System.Globalization;
+using KPPAutomationCore;
 
 namespace VisionModule {
     internal partial class IOSettingsForm : Form {
@@ -20,7 +21,7 @@ namespace VisionModule {
         private static KPPLogger log = new KPPLogger(typeof(IOSettingsForm));
 
         public IOSettingsForm() {
-            switch (StaticObjects.Language) {
+            switch (LanguageSettings.Language) {
                 case LanguageName.Unk:
                     break;
                 case LanguageName.PT:

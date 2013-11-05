@@ -18,6 +18,10 @@ using System.Globalization;
 using System.Threading;
 using KPPAutomationCore;
 using WeifenLuo.WinFormsUI.Docking;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 
 
@@ -441,11 +445,11 @@ namespace VisionModule {
                 try {
                     XmlSerializer serializer = new XmlSerializer(typeof(VisionProjects));
                     reader = new StreamReader(path);
-                    StaticObjects.isLoading = true;
+                   
                     UndoRedoManager.StartInvisible("Init");
 
                     VisionProjects config = serializer.Deserialize(reader) as VisionProjects;
-                    StaticObjects.isLoading = false;
+                    
                     config._filePath = path;
 
                     result = config;
@@ -572,17 +576,17 @@ namespace VisionModule {
                 }
             }
             try {
-                StaticObjects.isLoading = true;
+               
                 XmlSerializer serializer = new XmlSerializer(config.GetType());                                
                 TextWriter textWriter = new StreamWriter(path);                
                 serializer.Serialize(textWriter, config);
                 textWriter.Close();
-                StaticObjects.isLoading = false;
+                
                 //log.Debug(String.Format("Write Xml file://{0}", path));
             }
             catch (Exception exp) {
                 log.Error("Error writing configuration. ", exp);
-                StaticObjects.isLoading = false;
+                
                 Console.WriteLine(exp.ToString());
             }
         }
@@ -596,14 +600,14 @@ namespace VisionModule {
             try {
                 XmlSerializer serializer = new XmlSerializer(config.GetType());
                 StringWriter stOut = new StringWriter();
-                StaticObjects.isLoading = true;
+                
                 serializer.Serialize(stOut, config);
-                StaticObjects.isLoading = false;
+                
                 return stOut.ToString();
             }
             catch (Exception exp) {
                 //log.Error("Error writing configuration. ", exp);
-                StaticObjects.isLoading = false;
+                
             }
             return null;
         }
@@ -715,8 +719,66 @@ namespace VisionModule {
 
         }
     }
-
+   
+    [TypeConverter(typeof(ExpandableObjectConverter))]
     public class KPPVision {
+
+
+        public static class StaticObjects {
+
+
+
+            static public Form InputsConfiguration;
+            static public Boolean isLoading = false;
+            static public Boolean isRemote = false;
+
+            internal static List<ReferencePoint> ReferencePoints = new List<ReferencePoint>();
+
+            internal static List<PropertyGrid> Grids = new List<PropertyGrid>();
+      
+            internal static UserControl InputItemSelectorControl;
+
+   
+
+            //[Serializable]
+            //public class SendImageObject {
+
+            //    private String _RequestName;
+            //    public String RequestName {
+            //        get { return _RequestName; }
+            //        set { _RequestName = value; }
+            //    }
+
+            //    private String _InspectionName;
+
+            //    public String InspectionName {
+            //        get { return _InspectionName; }
+            //        set { _InspectionName = value; }
+            //    }
+
+            //    private Image<Bgr, Byte> _ImageToSend;
+
+            //    public Image<Bgr, Byte> ImageToSend {
+            //        get { return _ImageToSend; }
+            //        set { _ImageToSend = value; }
+            //    }
+            //    public SendImageObject() {
+
+            //    }
+            //}
+
+          
+
+
+        }
+
+
+        private int m_modelID = -1;
+        [XmlAttribute, DisplayName("Module ID"),ReadOnly(true)]
+        public int ModelID {
+            get { return m_modelID; }
+            set { m_modelID = value; }
+        }
 
         private String m_ModuleName = "New vision module";
         [XmlAttribute,DisplayName("Module Name")]
@@ -767,7 +829,7 @@ namespace VisionModule {
 
         public KPPVision() {
             DebugController.ActiveDebugController = new DebugController(Path.Combine(Application.StartupPath, "app.log"));
-
+            
             
            
             
@@ -782,9 +844,27 @@ namespace VisionModule {
 
         }
 
+        private String _DockFile = "";
+        private String _AppFile = "";
         public Boolean StartModule() {
             if (!ModuleStarted) {
-                ModuleForm = new VisionForm();                
+                _DockFile=Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config\\VisionModule" + ModelID+ "DockPanel.config");
+                _AppFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Config\\VisionModule" + ModelID + ".config");
+                
+                if (!File.Exists(_AppFile)) {
+
+                    VisionSettings.WriteConfiguration(new VisionSettings(), _AppFile);
+                }
+
+                if (!Directory.Exists(_DockFile)) {
+                    Directory.CreateDirectory(Path.GetDirectoryName(_DockFile));
+                }
+                
+                ModuleForm = new VisionForm();
+                ModuleForm.ModuleName = ModuleName;
+                ModuleForm.DockFile = _DockFile;
+                ModuleForm._Appfile = _AppFile;
+
                 ModuleStarted = true;
             }
 

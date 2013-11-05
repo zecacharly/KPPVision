@@ -29,7 +29,7 @@ namespace VisionModule {
 
 
         public ListROIForm() {
-            switch (StaticObjects.Language) {
+            switch (LanguageSettings.Language) {
                 case LanguageName.Unk:
                     break;
                 case LanguageName.PT:
@@ -254,7 +254,7 @@ namespace VisionModule {
                                     if ((_propdesc.Category == "Post-Processing") || (_propdesc.Category == "Pass/Fail Options")) {
 
 
-                                        ResultReference NewRoiReference = new ResultReference(SelectedProject.SelectedRequest, SelectedProject.SelectedRequest.SelectedInspection, SelectedProject.SelectedRequest.SelectedInspection.SelectedROI, (ProcessingFunctionBase)__RoiProcList.SelectedObject, _propdesc.Name);
+                                        ResultReference NewRoiReference = new ResultReference(SelectedProject, (ProcessingFunctionBase)__RoiProcList.SelectedObject, _propdesc.Name);
 
                                         dragobject = NewRoiReference;
 
@@ -585,17 +585,17 @@ namespace VisionModule {
                 }
                 __RoiProcList.Objects = SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions;
 
-                if (proc is ProcessingFunctionPrePos) {
-                    StaticObjects.ReferencePoints.RemoveAll(name => name.ReferencePointName == proc.FunctionName);
+                //if (proc is ProcessingFunctionPrePos) {
+                //    StaticObjects.ReferencePoints.RemoveAll(name => name.ReferencePointName == proc.FunctionName);
 
 
 
-                    using (UndoRedoManager.Start(SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.Name + ": refrence point changed")) {
-                        SelectedProject.RequestList.ForEach(req => req.Inspections.ForEach(insp => insp.ROIList.ForEach(UpdatePrePosFunction)));
-                        UndoRedoManager.Commit();
-                    }
+                //    using (UndoRedoManager.Start(SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.Name + ": refrence point changed")) {
+                //        SelectedProject.RequestList.ForEach(req => req.Inspections.ForEach(insp => insp.ROIList.ForEach(UpdatePrePosFunction)));
+                //        UndoRedoManager.Commit();
+                //    }
 
-                }
+                //}
 
                 
                 __propertyGridFunction.SelectedObject = __RoiProcList.GetModelObject(__RoiProcList.Items.Count - 1);

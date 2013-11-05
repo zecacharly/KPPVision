@@ -37,18 +37,18 @@ namespace VisionModule {
                 if (!UndoRedoManager.IsCommandStarted) {
                     switch (value) {
                         case CircleTypes.FromCenterRadius:
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "CircleCenter", "browsable", true);
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "MainCircleRad", "browsable", true);
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "CirclePt1", "browsable", false);
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "CirclePt2", "browsable", false);
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "CirclePt3", "browsable", false);
+                            this.ChangeAttributeValue<BrowsableAttribute>("CircleCenter", "browsable", true);
+                            this.ChangeAttributeValue<BrowsableAttribute>("MainCircleRad", "browsable", true);
+                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt1", "browsable", false);
+                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt2", "browsable", false);
+                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt3", "browsable", false);
                             break;
                         case CircleTypes.From3Points:
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "CircleCenter", "browsable", false);
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "MainCircleRad", "browsable", false);
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "CirclePt1", "browsable", true);
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "CirclePt2", "browsable", true);
-                            StaticObjects.ChangeAttributeValue<BrowsableAttribute>(this, "CirclePt3", "browsable", true);
+                            this.ChangeAttributeValue<BrowsableAttribute>("CircleCenter", "browsable", false);
+                            this.ChangeAttributeValue<BrowsableAttribute>("MainCircleRad", "browsable", false);
+                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt1", "browsable", true);
+                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt2", "browsable", true);
+                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt3", "browsable", true);
                             break;
                         default:
                             break;
@@ -514,9 +514,8 @@ namespace VisionModule {
                 //}
 
 
-                if (!StaticObjects.RunningMono) {
-                    ImageOut.Draw(new Cross2DF(center, 15F, 15F), new Bgr(Color.Blue), AnnotationSize); 
-                }
+              
+                ImageOut.Draw(new Cross2DF(center, 15F, 15F), new Bgr(Color.Blue), AnnotationSize); 
                 
                 CvInvoke.cvEllipse(mask_arcFilled.Ptr, center, new Size((int)radius + OuterCircleDist, (int)radius + OuterCircleDist), 0, AngleStart, AngleEnd, new MCvScalar(255), -1, Emgu.CV.CvEnum.LINE_TYPE.CV_AA, 0);
                 CvInvoke.cvCircle(mask_arcFilled.Ptr, center, (int)radius - InnerCircleDist, new MCvScalar(0), -1, Emgu.CV.CvEnum.LINE_TYPE.CV_AA, 0);
@@ -579,7 +578,7 @@ namespace VisionModule {
 
                 maskedImage._ThresholdToZeroInv(new Gray(PixelCountvalBelow));
                 PixelCount = maskedImage.CountNonzero()[0];
-                if (ResultsInROI == OutputResultType.orResults && !StaticObjects.RunningMono) {                    
+                if (ResultsInROI == OutputResultType.orResults) {                    
                     ImageOut.SetValue(new Bgr(Color.Green), maskedImage);
                 }
 
@@ -1228,7 +1227,7 @@ namespace VisionModule {
                                 if ((currentContour.Area > base.ContourPreProc1.MinArea) && (currentContour.Area < base.ContourPreProc1.MaxArea)) {
 
 
-                                    if (ResultsInROI == OutputResultType.orContours && !StaticObjects.isRemote) {
+                                    if (ResultsInROI == OutputResultType.orContours) {
                                         ImageOut.Draw(currentContour, new Bgr(Color.Blue), 1);
                                         // ImageOut.DrawPolyline(currentContour.ToArray(),false, new Bgr(Color.Blue), 1);
                                     }
@@ -1275,7 +1274,7 @@ namespace VisionModule {
                                     }
 
 
-                                    //if (ResultsInROI == OutputResultType.orResults && !StaticObjects.isRemote) {
+                                    //if (ResultsInROI == OutputResultType.orResults) {
                                     //    ImageOut.Draw(currentContour, new Bgr(Color.Green), 1);
 
                                     //}
@@ -1294,7 +1293,7 @@ namespace VisionModule {
 
                                     maskimage.Draw(new Ellipse(testEllipse), new Gray(255), 2);
 
-                                    if (ResultsInROI == OutputResultType.orContours && !StaticObjects.isRemote) {
+                                    if (ResultsInROI == OutputResultType.orContours) {
                                         ImageOut.Draw(new Ellipse(testEllipse), new Bgr(Color.Yellow), 1);
                                     }
 

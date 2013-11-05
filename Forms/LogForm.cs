@@ -11,13 +11,14 @@ using System.Drawing;
 using KPP.Core.Debug;
 using System.Threading;
 using System.Globalization;
+using KPPAutomationCore;
 
 
 namespace VisionModule {
     internal partial class LogForm : DockContent {
         private static KPPLogger log = new KPPLogger(typeof(LogForm));
         public LogForm() {
-            switch (StaticObjects.Language) {
+            switch (LanguageSettings.Language) {
                 case LanguageName.Unk:
                     break;
                 case LanguageName.PT:

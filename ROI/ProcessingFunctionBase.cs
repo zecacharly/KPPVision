@@ -1069,9 +1069,7 @@ namespace VisionModule {
                     
                 }
 
-                if (!StaticObjects.RunningMono) {
-                   // ImageOut.Draw(RoiRegion, new Bgr(Color.Blue), 1); 
-                }
+              
             } catch (Exception exp) {
                 
                 

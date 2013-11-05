@@ -201,12 +201,6 @@
     <Compile Include="Forms\ImageContainerForm.designer.cs">
       <DependentUpon>ImageContainerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\InputSelector.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\InputSelector.Designer.cs">
-      <DependentUpon>InputSelector.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\InspectionOptionsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -373,12 +367,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageContainerForm.resx">
       <DependentUpon>ImageContainerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\InputSelector.pt-PT.resx">
-      <DependentUpon>InputSelector.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\InputSelector.resx">
-      <DependentUpon>InputSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\InspectionOptionsForm.resx" />
     <EmbeddedResource Include="Forms\InspectionsForm.resx" />

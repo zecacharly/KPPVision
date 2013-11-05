@@ -21,7 +21,7 @@ namespace VisionModule {
         private static KPPLogger log = new KPPLogger(typeof(ResultsConfiguration));
 
         public ResultsConfiguration() {
-            switch (StaticObjects.Language) {
+            switch (LanguageSettings.Language) {
                 case LanguageName.Unk:
                     break;
                 case LanguageName.PT:

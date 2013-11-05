@@ -11,6 +11,7 @@ using KPP.Core.Debug;
 using System.IO;
 using System.Threading;
 using System.Globalization;
+using KPPAutomationCore;
 
 namespace VisionModule {
     internal partial class ConfigurationsForm : Form {
@@ -34,7 +35,7 @@ namespace VisionModule {
       
 
         public ConfigurationsForm() {
-            switch (StaticObjects.Language) {
+            switch (LanguageSettings.Language) {
                 case LanguageName.Unk:
                     break;
                 case LanguageName.PT:

@@ -8,8 +8,11 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace VisionModule.Forms {
+
     internal partial class ZoneSelectorForm : Form {
-        public ZoneSelectorForm() {
+        public VisionProject SelectedProject;
+        public ZoneSelectorForm(VisionProject selectedProject) {
+            SelectedProject = selectedProject;
             InitializeComponent();
         }
 
@@ -63,12 +66,13 @@ namespace VisionModule.Forms {
         }
         private void __numericCol_ValueChanged(object sender, EventArgs e) {
             updateZone();
-            StaticObjects.SelectedProject.SelectedRequest.ImageCol = (int)__numericCol.Value;
+            
+            SelectedProject.SelectedRequest.ImageCol = (int)__numericCol.Value;
         }
 
         private void __numericLines_ValueChanged(object sender, EventArgs e) {
             updateZone();
-            StaticObjects.SelectedProject.SelectedRequest.ImageLine = (int)__numericLines.Value;
+            SelectedProject.SelectedRequest.ImageLine = (int)__numericLines.Value;
         }
 
         private void __image_SizeChanged(object sender, EventArgs e) {

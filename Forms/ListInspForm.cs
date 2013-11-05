@@ -35,7 +35,7 @@ namespace VisionModule {
 
 
         public ListInspForm() {
-            switch (StaticObjects.Language) {
+            switch (LanguageSettings.Language) {
                 case LanguageName.Unk:
                     break;
                 case LanguageName.PT:
