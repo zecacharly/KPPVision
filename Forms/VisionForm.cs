@@ -63,7 +63,14 @@ namespace VisionModule {
 
 
         VisionProjects _projconfig = null;
-        internal String _Appfile;
+
+        private string m_Appfile = "";
+
+        public string Appfile {
+            get { return m_Appfile; }
+            set { m_Appfile = value; }
+        }
+
         DeserializeDockContent m_deserializeDockContent;
 
         //Inspection _SelectedInspection = null;
@@ -279,11 +286,16 @@ namespace VisionModule {
 
         VisionSettings _visionconfig = null;
 
-        internal String DockFile = "";
+        private String m_DockFile = "";
 
-        internal String m_ModuleName = "Vision Module";
+        public String DockFile {
+            get { return m_DockFile; }
+            set { m_DockFile = value; }
+        }
 
-        internal String ModuleName {
+        private String m_ModuleName = "Vision Module";
+
+        public String ModuleName {
             get { return m_ModuleName; }
             set { m_ModuleName = value; }
         }
@@ -327,7 +339,7 @@ namespace VisionModule {
 
 
                 
-                _visionconfig = VisionSettings.ReadConfigurationFile(_Appfile);
+                _visionconfig = VisionSettings.ReadConfigurationFile(Appfile);
                 _visionconfig.BackupExtention = ".bkp";
                 _visionconfig.BackupFilesToKeep = 5;
                 _visionconfig.BackupFolderName = "Backup";
@@ -788,7 +800,7 @@ namespace VisionModule {
        
         void __btSave_Click(object sender, EventArgs e) {
             try {
-                _visionconfig.WriteConfigurationFile(_Appfile);
+                _visionconfig.WriteConfigurationFile(Appfile);
                 
                 
             } catch (Exception exp) {
