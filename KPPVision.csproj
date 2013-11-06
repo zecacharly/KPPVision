@@ -352,12 +352,14 @@
     <EmbeddedResource Include="Forms\ExposurePropertySet.resx" />
     <EmbeddedResource Include="Forms\VisionForm.pt-PT.resx">
       <DependentUpon>VisionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\VisionForm.resx">
       <DependentUpon>VisionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageContainerForm.pt-PT.resx">
       <DependentUpon>ImageContainerForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageContainerForm.resx">
       <DependentUpon>ImageContainerForm.cs</DependentUpon>
@@ -376,6 +378,7 @@
     <EmbeddedResource Include="Forms\KeyPad.resx" />
     <EmbeddedResource Include="Forms\ListInspForm.pt-PT.resx">
       <DependentUpon>ListInspForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ListInspForm.resx">
       <DependentUpon>ListInspForm.cs</DependentUpon>
@@ -401,6 +404,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ViewInspections.pt-PT.resx">
       <DependentUpon>ViewInspections.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ViewInspections.resx">
       <DependentUpon>ViewInspections.cs</DependentUpon>

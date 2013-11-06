@@ -125,7 +125,7 @@
     <value>394, 200</value>
   </data>
   <data name="tabPage3.Text" xml:space="preserve">
-    <value>Configuração da inspecção</value>
+    <value>Configuração da inspeção</value>
   </data>
   <data name="__olvROIName.Text" xml:space="preserve">
     <value>Nome</value>
@@ -150,7 +150,7 @@
     <value>120</value>
   </data>
   <data name="tabPage2.Text" xml:space="preserve">
-    <value>ROI's da inspecção</value>
+    <value>ROI's da inspeção</value>
   </data>
   <data name="olvColumn1.Text" xml:space="preserve">
     <value>Nome</value>
@@ -192,7 +192,7 @@
     <value>394, 142</value>
   </data>
   <data name="tabPage1.Text" xml:space="preserve">
-    <value>Inspecção</value>
+    <value>Inspeção</value>
   </data>
   <data name="__tabsInsp.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 177</value>
@@ -213,6 +213,6 @@
     <value>410, 604</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Configurações da Inspecção</value>
+    <value>Configurações da Inspeção</value>
   </data>
 </root>
