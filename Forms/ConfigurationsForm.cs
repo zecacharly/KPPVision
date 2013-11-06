@@ -131,29 +131,35 @@ namespace VisionModule {
         }
 
         private void __btAddDir_Click(object sender, EventArgs e) {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            if (__listdirs.SelectedIndex>=0) {
-                fbd.SelectedPath= (String)__listdirs.SelectedItem;
-            }
-            else {
-                fbd.SelectedPath = AppDomain.CurrentDomain.BaseDirectory;
-            }
-            DialogResult result = fbd.ShowDialog();
-            if (result== System.Windows.Forms.DialogResult.OK) {
-                if (!__listdirs.Items.Cast<String>().ToList().Contains(fbd.SelectedPath)) {
-                    
-                    Uri fullPath = new Uri(fbd.SelectedPath, UriKind.Absolute);
-                    Uri relRoot = new Uri(AppDomain.CurrentDomain.BaseDirectory, UriKind.Absolute);
-
-                    String relative= relRoot.MakeRelativeUri(fullPath).ToString();
-                    relative = relative.Replace("%20", " ");
-
-                   _appsettings.ProjectDirectories.Add(relative);
-
-                    __listdirs.Items.Add(relative);
-
-                    UpdateAvaibleFiles(relative);
+            try {
+                FolderBrowserDialog fbd = new FolderBrowserDialog();
+                if (__listdirs.SelectedIndex >= 0) {
+                    fbd.SelectedPath = (String)__listdirs.SelectedItem;
                 }
+                else {
+                    fbd.SelectedPath = AppDomain.CurrentDomain.BaseDirectory;
+                }
+                DialogResult result = fbd.ShowDialog();
+                if (result == System.Windows.Forms.DialogResult.OK) {
+                    if (!__listdirs.Items.Cast<String>().ToList().Contains(fbd.SelectedPath)) {
+
+                        Uri fullPath = new Uri(fbd.SelectedPath, UriKind.Absolute);
+                        Uri relRoot = new Uri(AppDomain.CurrentDomain.BaseDirectory, UriKind.Absolute);
+
+                        String relative = relRoot.MakeRelativeUri(fullPath).ToString();
+                        relative = relative.Replace("%20", " ");
+
+                        _appsettings.ProjectDirectories.Add(relative);
+
+                        __listdirs.Items.Add(relative);
+
+                        UpdateAvaibleFiles(relative);
+                    }
+                }
+            }
+            catch (Exception exp) {
+
+                log.Error(exp);
             }
         }
 
