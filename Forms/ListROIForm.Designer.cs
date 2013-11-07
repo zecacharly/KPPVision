@@ -39,7 +39,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.@__btProcFunc = new System.Windows.Forms.Button();
             this.@__btRemoveProc = new System.Windows.Forms.Button();
-            this.@__cbProcFunc = new KPPCustomControls.KPPComboBox();
+            this.@__cbProcFunc = new KPPAutomationCore.KPPCustomControls.KPPComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.@__tabrois.SuspendLayout();
             this.@__tabROIProc.SuspendLayout();
@@ -220,7 +220,7 @@
         public System.Windows.Forms.PropertyGrid __propertyGridFunction;
         public System.Windows.Forms.TabPage __tabROIProc;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        public KPPCustomControls.KPPComboBox __cbProcFunc;
+        public KPPAutomationCore.KPPCustomControls.KPPComboBox __cbProcFunc;
         public BrightIdeasSoftware.ObjectListView __RoiProcList;
         public BrightIdeasSoftware.OLVColumn _olvInspName;
         public BrightIdeasSoftware.OLVColumn olvColumnProcPOS;
