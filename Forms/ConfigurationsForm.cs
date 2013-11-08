@@ -215,6 +215,9 @@ namespace VisionModule {
 
         private void __btCreateEmpty_Click_1(object sender, EventArgs e) {
             VisionProjects newprojects = new VisionProjects();
+            if (!__EditEmptyFile.Text.Contains(".proj")) {
+                __EditEmptyFile.Text = __EditEmptyFile.Text + ".proj";
+            }
             newprojects.WriteConfigurationFile(__listdirs.SelectedItem.ToString() + "/" + __EditEmptyFile.Text);
             UpdateAvaibleFiles((String)__listdirs.SelectedItem);
         }
