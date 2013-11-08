@@ -192,22 +192,13 @@ namespace VisionModule {
           
 
             
-            //   this.Hide();
-            Thread splashthread = new Thread(new ThreadStart(SplashScreen.ShowSplashScreen));
-            splashthread.IsBackground = true;
-            splashthread.Start();
+          
 
-            Thread.Sleep(100);
-            SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_0"), TypeOfMessage.Success);
-            Thread.Sleep(100);
-
+          
             
             InitializeComponent();
 
-           
-
-
-            m_deserializeDockContent = new DeserializeDockContent(GetContentFromPersistString);
+          
 
            
         }
@@ -300,11 +291,27 @@ namespace VisionModule {
             set { m_ModuleName = value; }
         }
 
+        protected override string GetPersistString() {
+            return ModuleName;
+        }
         private void MainForm_Load(object sender, EventArgs e) {
 
 
 
             try {
+                //   this.Hide();
+                Thread splashthread = new Thread(new ThreadStart(SplashScreen.ShowSplashScreen));
+                splashthread.IsBackground = true;
+                splashthread.Start();
+
+                Thread.Sleep(100);
+                SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_0"), TypeOfMessage.Success);
+                Thread.Sleep(100);
+
+
+
+                m_deserializeDockContent = new DeserializeDockContent(GetContentFromPersistString);
+
 
                 this.Text = ModuleName;
                 //__toolStriplevels.Items.AddRange(new String[]{"Admin","Man"});
@@ -315,8 +322,8 @@ namespace VisionModule {
                               
                 ArrowPad = new ArrowPadControl();
 
-                AppPerformanceMonitor.OnAppPerformanceMonitorTick += new OnAppPerformanceMonitorTickHandler(AppPerformanceMonitor_OnAppPerformanceMonitorTick);
-                AppPerformanceMonitor.Start(12, 8);
+                //AppPerformanceMonitor.OnAppPerformanceMonitorTick += new OnAppPerformanceMonitorTickHandler(AppPerformanceMonitor_OnAppPerformanceMonitorTick);
+                //AppPerformanceMonitor.Start(12, 8);
                 
                 //////////////////TODO
                 //if () {
@@ -346,12 +353,12 @@ namespace VisionModule {
 
                 _ConfigurationsForm.Appsettings = _visionconfig;
 
-                if (_visionconfig.Servers.Count == 0) {
-                    TCPServer guiserver = new TCPServer();
-                    guiserver.Port = 9600;
-                    guiserver.ID = "GUI";
-                    _visionconfig.Servers.Add(guiserver);
-                }
+                //if (_visionconfig.Servers.Count == 0) {
+                //    TCPServer guiserver = new TCPServer();
+                //    guiserver.Port = 9600;
+                //    guiserver.ID = "GUI";
+                //    _visionconfig.Servers.Add(guiserver);
+                //}
 
 
                 foreach (TCPServer item in _visionconfig.Servers) {
