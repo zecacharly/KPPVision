@@ -189,7 +189,7 @@ namespace VisionModule {
                 }
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
         public Boolean CopyROI(ROI ROIToCopy = null) {
@@ -205,7 +205,7 @@ namespace VisionModule {
                 return true;
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
                 return false;
             }
         }
@@ -301,7 +301,7 @@ namespace VisionModule {
 
                 }
             } catch (Exception exp) {
-                log.Error(exp);
+                log.Error( exp);
 
             }
         }
@@ -331,7 +331,7 @@ namespace VisionModule {
 
                 }
             } catch (Exception exp) {
-                log.Error(exp);
+                log.Error( exp);
 
             }
         }
@@ -358,7 +358,7 @@ namespace VisionModule {
 
                 }
             } catch (Exception exp) {
-                log.Error(exp);
+                log.Error( exp);
 
             }
         }
@@ -488,7 +488,7 @@ namespace VisionModule {
                 
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -521,7 +521,7 @@ namespace VisionModule {
 
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -535,7 +535,7 @@ namespace VisionModule {
 
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -554,7 +554,7 @@ namespace VisionModule {
 
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -569,7 +569,7 @@ namespace VisionModule {
                 }
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -677,7 +677,7 @@ namespace VisionModule {
                 }
                
             } catch (Exception exp) {
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -690,7 +690,7 @@ namespace VisionModule {
                 }
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -730,7 +730,7 @@ namespace VisionModule {
                 
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
 
         }
@@ -773,7 +773,7 @@ namespace VisionModule {
                 }
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
 
 
@@ -821,7 +821,7 @@ namespace VisionModule {
 
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
 
         }
@@ -833,7 +833,7 @@ namespace VisionModule {
                     SelectedProject.SelectedRequest.RemoveInspection(SelectedProject.SelectedRequest.SelectedInspection);
                 }
             } catch (Exception exp) {
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -851,7 +851,7 @@ namespace VisionModule {
                 }
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -872,7 +872,7 @@ namespace VisionModule {
                 }
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -889,7 +889,7 @@ namespace VisionModule {
 
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -939,7 +939,7 @@ namespace VisionModule {
                 
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 
@@ -970,7 +970,7 @@ namespace VisionModule {
                 //e.Control = cb;
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error( exp);
             }
         }
 

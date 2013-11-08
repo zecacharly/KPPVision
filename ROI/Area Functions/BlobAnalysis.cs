@@ -416,7 +416,7 @@ namespace VisionModule {
 
 
                             NumBlobs = newbloblist.Count();
-                        } catch (DllNotFoundException exp) {                            
+                        } catch (DllNotFoundException exp) {
                             log.Error(exp);
                             return false;
                         }
@@ -428,7 +428,7 @@ namespace VisionModule {
                     }
                 } catch (Exception exp) {
 
-                    log.Error(exp);
+                    log.Error(this.FunctionName,exp);
                 }
 
 

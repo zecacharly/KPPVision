@@ -234,7 +234,7 @@ namespace VisionModule {
                         this.ROIShape.Locked = _Locked;
                      
                     } catch (Exception exp) {      
-                        log.Error(exp);
+                        log.Error(this.Name,exp);
                     }
                 }
             }
@@ -388,7 +388,7 @@ namespace VisionModule {
             
             catch (Exception exp) {
                 Console.WriteLine(exp);
-                log.Error(exp);
+                log.Error(this.Name,exp);
                 return false;
             }
 

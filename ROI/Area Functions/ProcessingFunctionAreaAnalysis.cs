@@ -320,7 +320,7 @@ namespace VisionModule {
 
             } catch (Exception exp) {
 
-                
+
                 log.Error(exp);
             }
 

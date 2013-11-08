@@ -458,7 +458,7 @@ namespace VisionModule {
 
              } catch (Exception exp) {
                  
-                 log.Error(exp);
+                 log.Error(this.FunctionName,exp);
              }
 
 
@@ -570,7 +570,7 @@ namespace VisionModule {
 
              } catch (Exception exp) {
                  
-                 log.Error(exp);
+                 log.Error(this.FunctionName,exp);
              }
 
 

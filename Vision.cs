@@ -1016,7 +1016,7 @@ namespace VisionModule {
 
             } catch (Exception exp) {
 
-                log.Error(exp);
+                log.Error(this.Name, exp);
 
             }
 
@@ -1047,7 +1047,7 @@ namespace VisionModule {
                 }
                 return true;
             } catch (Exception exp) {
-                log.Error(exp);
+                log.Error(this.Name, exp);
                 return false;
             }
 
@@ -1270,7 +1270,7 @@ namespace VisionModule {
                 return _newroi;
 
             } catch (Exception exp) {
-                log.Error(exp);
+                log.Error(this.Name, exp);
                 return null;
             }
         }
@@ -1556,7 +1556,7 @@ namespace VisionModule {
             } catch (Exception exp) {
                 
                 Console.WriteLine(exp);
-                log.Error(exp);
+                log.Error(this.Name, exp);
 
                 return "Results ERROR";
             }
@@ -1568,7 +1568,7 @@ namespace VisionModule {
 
         public void AddInspection() {
 
-
+            throw new Exception("teste");
 
             try {
 
@@ -1597,7 +1597,7 @@ namespace VisionModule {
 
 
             } catch (Exception exp) {
-                log.Error(exp);
+                log.Error(this.Name, exp);
 
             }
 
@@ -1725,7 +1725,7 @@ namespace VisionModule {
             
 
             } catch (Exception exp) {
-                log.Error(exp);
+                log.Error(this.Name, exp);
                 Console.WriteLine(exp);
 
                 return false;
