@@ -67,7 +67,9 @@ namespace VisionModule {
         private string m_Appfile = "";
 
         public string Appfile {
-            get { return m_Appfile; }
+            get {                
+                return m_Appfile; 
+            }
             set { m_Appfile = value; }
         }
 
