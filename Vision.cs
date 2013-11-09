@@ -1568,7 +1568,7 @@ namespace VisionModule {
 
         public void AddInspection() {
 
-            throw new Exception("teste");
+            
 
             try {
 

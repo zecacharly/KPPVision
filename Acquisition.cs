@@ -198,10 +198,11 @@ namespace VisionModule {
 
 
             Box1.Items.Clear();
-
-
+            Box1.DisplayMember = "Name";
+            Box1.ValueMember = "MonikerString";
             foreach (FilterInfo item in DirectShowCameraCapture.DevicesAvaible) {
-                Box1.Items.Add(item.Name);
+                Box1.Items.Add(item);
+                
             }
 
 
@@ -219,7 +220,7 @@ namespace VisionModule {
 
                 edSvc.DropDownControl(Box1);
                 if (Box1.SelectedItem == null) {
-                    return DirectShowCamSource.CameraName;
+                    return value;
                 }
                 else {
                     return Box1.SelectedItem;
@@ -2540,15 +2541,25 @@ namespace VisionModule {
         }
 
         int FrameCount = 0;
-      
+        Boolean _GotFrame = false;
+
+        public Boolean GotFrame {
+            get { return _GotFrame; }
+            set { 
+                _GotFrame = value; 
+            }
+        }
         void _Camera_NewFrame(object sender, NewFrameEventArgs eventArgs) {
             try {
-                lock (lockobject) {
+                if (GotFrame==false) {
+
                     if (FrameImage != null) {
                         FrameImage.Dispose();
                     }
                     FrameImage = new Image<Bgr, byte>(eventArgs.Frame);
-                }
+                    GotFrame = true;
+                    waitImage.Set();
+                }                    
             } catch (Exception exp) {
 
                 FrameImage = null;
@@ -2559,7 +2570,7 @@ namespace VisionModule {
 
         void SetCamera(String value) {
             try {
-                FilterInfo camerainfo = DirectShowCameraCapture.DevicesAvaible.Cast<FilterInfo>().ToList().Find(name => name.Name == value);
+                FilterInfo camerainfo = DirectShowCameraCapture.DevicesAvaible.Cast<FilterInfo>().ToList().Find(moniker => moniker.MonikerString== value);
                 if (camerainfo != null) {
                     Camera = new VideoCaptureDevice(camerainfo.MonikerString);
                     
@@ -2570,29 +2581,57 @@ namespace VisionModule {
             }
         }
 
+        private String _CameraID = "";
+        [XmlAttribute,Browsable(false)]
+        public String CameraID {
+            get { return _CameraID; }
+            set {
+
+                if (_CameraID != value) {
+                    //SetCamera(value);
+                    _CameraID = value;
+                    if (CameraInfo==null) {
+                        CameraInfo=DirectShowCameraCapture.DevicesAvaible.Cast<FilterInfo>().ToList().Find(moniker => moniker.MonikerString== value);
+                    }
+                }
+
+            }
+        }
+
+        private FilterInfo _CameraInfo = null;
+        [EditorAttribute(typeof(DirectShowSelector), typeof(UITypeEditor)),XmlIgnore]
+        [TypeConverter(typeof(ExpandableObjectConverter))]
+        public FilterInfo CameraInfo {
+            get { return _CameraInfo; }
+            set {
+                if (_CameraInfo!=value) {
+                    _CameraInfo = value;
+                    CameraName = value.Name;
+                    CameraID = value.MonikerString;
+                    SetCamera(CameraID);
+                }
+            }
+        }
+
         private UndoRedo<String> _CameraName = new UndoRedo<string>("");
-        [XmlAttribute, DisplayName("Camera Name"), ReadOnly(false), Browsable(true)]
-        [EditorAttribute(typeof(DirectShowSelector), typeof(UITypeEditor))]
+        [XmlAttribute, DisplayName("Camera Name"), ReadOnly(false), Browsable(false)]        
         public override String CameraName {
             get {
                 return _CameraName.Value;
             }
-            set {
-
+            set {                
                 if (_CameraName.Value != value) {
 
                     if (!UndoRedoManager.IsCommandStarted) {
 
-                        using (UndoRedoManager.Start(this.CameraName + " Camera changed to: " + value)) {
-                            SetCamera(value);
+                        using (UndoRedoManager.Start(this.CameraName + " Camera changed to: " + value)) {                            
                             _CameraName.Value = value;
                             UndoRedoManager.Commit();
 
                         }
                     }
-                    else {
-                        SetCamera(value);
-                        _CameraName.Value = value;
+                    else {                        
+                        _CameraName.Value = value;                        
                     }
                 }
             }
@@ -2627,47 +2666,55 @@ namespace VisionModule {
 
         private Image<Bgr, Byte> FrameImage = null;
 
+        
+
+        private AutoResetEvent waitImage = new AutoResetEvent(false);
         private object lockobject = new object();        
  //       private Boolean capture = false;
         public override Image<Bgr, Byte> GetImage() {
-
-
-           
+            GotFrame = false;
+            //if (!_Camera.IsRunning) {
+            //    _Camera.Start();
+            //}            
+            waitImage.Reset();
+            waitImage.WaitOne();
             Image<Bgr, Byte> newimage = null;
 
             for (int i = 0; i < 5; i++) {
-                Thread.Sleep(1); 
+                Thread.Sleep(1);
             }
-            lock (lockobject) {
-                if (FrameImage != null) {
-                    newimage = new Image<Bgr, byte>(FrameImage.Size);
-                    switch (UseChannel) {
-                        case Channel.Bgr:
-                            break;
-                        case Channel.Red:
-                            CvInvoke.cvCvtColor(FrameImage[2], newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                            break;
-                        case Channel.Green:
-                            CvInvoke.cvCvtColor(FrameImage[1], newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                            break;
-                        case Channel.Blue:
-                            CvInvoke.cvCvtColor(FrameImage[0], newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                            break;
-                        case Channel.Mono:
-                            //CvInvoke.cvCvtColor(outimage, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_BGR2GRAY);                        
-                            Image<Gray, Byte> grayimage = new Image<Gray, byte>(FrameImage.Size);
-                            grayimage.ConvertFrom<Bgr, Byte>(FrameImage);
-                            CvInvoke.cvCvtColor(grayimage, newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                            break;
-                        default:
-                            break;
-                    }
-                    //FrameImage.CopyTo(newimage);
-                } 
+
+            if (FrameImage != null) {
+                newimage = new Image<Bgr, byte>(FrameImage.Size);
+                switch (UseChannel) {
+                    case Channel.Bgr:
+                        break;
+                    case Channel.Red:
+                        CvInvoke.cvCvtColor(FrameImage[2], newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                        break;
+                    case Channel.Green:
+                        CvInvoke.cvCvtColor(FrameImage[1], newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                        break;
+                    case Channel.Blue:
+                        CvInvoke.cvCvtColor(FrameImage[0], newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                        break;
+                    case Channel.Mono:
+                        //CvInvoke.cvCvtColor(outimage, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_BGR2GRAY);                        
+                        Image<Gray, Byte> grayimage = new Image<Gray, byte>(FrameImage.Size);
+                        grayimage.ConvertFrom<Bgr, Byte>(FrameImage);
+                        CvInvoke.cvCvtColor(grayimage, newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                        break;
+                    default:
+                        break;
+                }
+                //FrameImage.CopyTo(newimage);
             }
-                Console.WriteLine("Capture Done");
-                return newimage;
+
+            Console.WriteLine("Capture Done");
+           // _Camera.Stop();
             
+            return newimage;
+
         }
 
         private int framecounter=0;
