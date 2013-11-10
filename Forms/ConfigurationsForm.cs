@@ -12,6 +12,7 @@ using System.IO;
 using System.Threading;
 using System.Globalization;
 using KPPAutomationCore;
+using IOModule;
 
 namespace VisionModule {
     internal partial class ConfigurationsForm : Form {
@@ -220,6 +221,16 @@ namespace VisionModule {
             }
             newprojects.WriteConfigurationFile(__listdirs.SelectedItem.ToString() + "/" + __EditEmptyFile.Text);
             UpdateAvaibleFiles((String)__listdirs.SelectedItem);
+        }
+
+        private void __tooladdServer_Click(object sender, EventArgs e) {
+            _appsettings.Servers.Add(new TCPServer("New Server", 0));
+            __serverconflist.Objects=_appsettings.Servers;
+        }
+
+        private void __toolremoveServer_Click(object sender, EventArgs e) {
+            _appsettings.Servers.Remove(__serverconflist.SelectedObject as TCPServer);
+            __serverconflist.Objects = _appsettings.Servers;
         }
     }
 }

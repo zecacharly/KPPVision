@@ -117,8 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="__tooladdServer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 24</value>
+  </data>
+  <data name="__toolremoveServer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 24</value>
+  </data>
+  <data name="__contextServers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>153, 74</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="__btExit.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="__btExit.Location" type="System.Drawing.Point, System.Drawing">
+    <value>347, 338</value>
+  </data>
+  <data name="__btExit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>339, 60</value>
+  </data>
   <data name="__btExit.Text" xml:space="preserve">
     <value>Sair</value>
+  </data>
+  <data name="__btSave.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="__btSave.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 338</value>
+  </data>
+  <data name="__btSave.Size" type="System.Drawing.Size, System.Drawing">
+    <value>338, 60</value>
   </data>
   <data name="__btSave.Text" xml:space="preserve">
     <value>Salvar</value>
@@ -129,7 +158,6 @@
   <data name="button1.Text" xml:space="preserve">
     <value>Usar seleccionado</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 13</value>
   </data>
@@ -176,20 +204,11 @@
   <data name="__btAddDir.Text" xml:space="preserve">
     <value>Adicionar</value>
   </data>
+  <data name="__tabProjectsConf.Size" type="System.Drawing.Size, System.Drawing">
+    <value>675, 303</value>
+  </data>
   <data name="__tabProjectsConf.Text" xml:space="preserve">
     <value>Projectos</value>
-  </data>
-  <data name="groupBox3.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Ligações série</value>
-  </data>
-  <data name="groupBox2.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Servidor TCP</value>
   </data>
   <data name="__olvname.Text" xml:space="preserve">
     <value>Nome</value>
@@ -202,6 +221,36 @@
   </data>
   <data name="olvColumn9.Text" xml:space="preserve">
     <value>Ativo</value>
+  </data>
+  <data name="__serverconflist.Size" type="System.Drawing.Size, System.Drawing">
+    <value>663, 266</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>669, 285</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Servidor TCP</value>
+  </data>
+  <data name="tableLayoutPanel2.RowCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="tableLayoutPanel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>669, 297</value>
+  </data>
+  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>675, 303</value>
+  </data>
+  <data name="__tabConf.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="__tabConf.Size" type="System.Drawing.Size, System.Drawing">
+    <value>683, 329</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>689, 401</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>689, 401</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Configurações</value>

@@ -50,20 +50,6 @@
             this.@__btAddDir = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.@__iolist = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.@__olvPin = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.@__olvstate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn7 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.@__Serialserverconflist = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn8 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.@__serverconflist = new BrightIdeasSoftware.ObjectListView();
             this.@__olvname = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -77,10 +63,6 @@
             this.groupBox4.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.@__iolist)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.@__Serialserverconflist)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.@__serverconflist)).BeginInit();
             this.SuspendLayout();
@@ -98,12 +80,14 @@
             resources.ApplyResources(this.@__tooladdServer, "__tooladdServer");
             this.@__tooladdServer.Image = global::VisionModule.Properties.Resources.Actions_list_add_icon;
             this.@__tooladdServer.Name = "__tooladdServer";
+            this.@__tooladdServer.Click += new System.EventHandler(this.@__tooladdServer_Click);
             // 
             // __toolremoveServer
             // 
             resources.ApplyResources(this.@__toolremoveServer, "__toolremoveServer");
             this.@__toolremoveServer.Image = global::VisionModule.Properties.Resources.Actions_remove_icon;
             this.@__toolremoveServer.Name = "__toolremoveServer";
+            this.@__toolremoveServer.Click += new System.EventHandler(this.@__toolremoveServer_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -258,146 +242,8 @@
             // tableLayoutPanel2
             // 
             resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
-            this.tableLayoutPanel2.Controls.Add(this.groupBox3, 0, 7);
-            this.tableLayoutPanel2.Controls.Add(this.groupBox2, 0, 4);
             this.tableLayoutPanel2.Controls.Add(this.groupBox1, 0, 1);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            // 
-            // groupBox3
-            // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.tableLayoutPanel2.SetColumnSpan(this.groupBox3, 3);
-            this.groupBox3.Controls.Add(this.@__iolist);
-            this.groupBox3.Name = "groupBox3";
-            this.tableLayoutPanel2.SetRowSpan(this.groupBox3, 2);
-            this.groupBox3.TabStop = false;
-            // 
-            // __iolist
-            // 
-            resources.ApplyResources(this.@__iolist, "__iolist");
-            this.@__iolist.AllColumns.Add(this.olvColumn5);
-            this.@__iolist.AllColumns.Add(this.@__olvPin);
-            this.@__iolist.AllColumns.Add(this.olvColumn6);
-            this.@__iolist.AllColumns.Add(this.@__olvstate);
-            this.@__iolist.AllColumns.Add(this.olvColumn7);
-            this.@__iolist.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.@__iolist.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn5,
-            this.@__olvPin,
-            this.olvColumn6,
-            this.@__olvstate,
-            this.olvColumn7});
-            this.@__iolist.ContextMenuStrip = this.@__contextServers;
-            this.@__iolist.FullRowSelect = true;
-            this.@__iolist.GridLines = true;
-            this.@__iolist.HideSelection = false;
-            this.@__iolist.IsSimpleDropSink = true;
-            this.@__iolist.LabelEdit = true;
-            this.@__iolist.MultiSelect = false;
-            this.@__iolist.Name = "__iolist";
-            this.@__iolist.OverlayText.Text = resources.GetString("resource.Text");
-            this.@__iolist.ShowCommandMenuOnRightClick = true;
-            this.@__iolist.ShowGroups = false;
-            this.@__iolist.ShowItemToolTips = true;
-            this.@__iolist.ShowSortIndicators = false;
-            this.@__iolist.SortGroupItemsByPrimaryColumn = false;
-            this.@__iolist.UseCompatibleStateImageBehavior = false;
-            this.@__iolist.UseTranslucentSelection = true;
-            this.@__iolist.View = System.Windows.Forms.View.Details;
-            // 
-            // olvColumn5
-            // 
-            this.olvColumn5.AspectName = "Name";
-            resources.ApplyResources(this.olvColumn5, "olvColumn5");
-            // 
-            // __olvPin
-            // 
-            this.@__olvPin.AspectName = "Pin";
-            resources.ApplyResources(this.@__olvPin, "__olvPin");
-            // 
-            // olvColumn6
-            // 
-            this.olvColumn6.AspectName = "PinType";
-            resources.ApplyResources(this.olvColumn6, "olvColumn6");
-            // 
-            // __olvstate
-            // 
-            this.@__olvstate.AspectName = "State";
-            resources.ApplyResources(this.@__olvstate, "__olvstate");
-            this.@__olvstate.IsEditable = false;
-            // 
-            // olvColumn7
-            // 
-            this.olvColumn7.AspectName = "Active";
-            resources.ApplyResources(this.olvColumn7, "olvColumn7");
-            // 
-            // groupBox2
-            // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.tableLayoutPanel2.SetColumnSpan(this.groupBox2, 3);
-            this.groupBox2.Controls.Add(this.@__Serialserverconflist);
-            this.groupBox2.Name = "groupBox2";
-            this.tableLayoutPanel2.SetRowSpan(this.groupBox2, 3);
-            this.groupBox2.TabStop = false;
-            // 
-            // __Serialserverconflist
-            // 
-            resources.ApplyResources(this.@__Serialserverconflist, "__Serialserverconflist");
-            this.@__Serialserverconflist.AllColumns.Add(this.olvColumn1);
-            this.@__Serialserverconflist.AllColumns.Add(this.olvColumn2);
-            this.@__Serialserverconflist.AllColumns.Add(this.olvColumn3);
-            this.@__Serialserverconflist.AllColumns.Add(this.olvColumn4);
-            this.@__Serialserverconflist.AllColumns.Add(this.olvColumn8);
-            this.@__Serialserverconflist.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.@__Serialserverconflist.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn1,
-            this.olvColumn2,
-            this.olvColumn3,
-            this.olvColumn4,
-            this.olvColumn8});
-            this.@__Serialserverconflist.ContextMenuStrip = this.@__contextServers;
-            this.@__Serialserverconflist.FullRowSelect = true;
-            this.@__Serialserverconflist.GridLines = true;
-            this.@__Serialserverconflist.HideSelection = false;
-            this.@__Serialserverconflist.IsSimpleDropSink = true;
-            this.@__Serialserverconflist.LabelEdit = true;
-            this.@__Serialserverconflist.MultiSelect = false;
-            this.@__Serialserverconflist.Name = "__Serialserverconflist";
-            this.@__Serialserverconflist.OverlayText.Text = resources.GetString("resource.Text1");
-            this.@__Serialserverconflist.ShowCommandMenuOnRightClick = true;
-            this.@__Serialserverconflist.ShowGroups = false;
-            this.@__Serialserverconflist.ShowItemToolTips = true;
-            this.@__Serialserverconflist.ShowSortIndicators = false;
-            this.@__Serialserverconflist.SortGroupItemsByPrimaryColumn = false;
-            this.@__Serialserverconflist.UseCompatibleStateImageBehavior = false;
-            this.@__Serialserverconflist.UseTranslucentSelection = true;
-            this.@__Serialserverconflist.View = System.Windows.Forms.View.Details;
-            // 
-            // olvColumn1
-            // 
-            this.olvColumn1.AspectName = "Name";
-            resources.ApplyResources(this.olvColumn1, "olvColumn1");
-            // 
-            // olvColumn2
-            // 
-            this.olvColumn2.AspectName = "Port";
-            resources.ApplyResources(this.olvColumn2, "olvColumn2");
-            // 
-            // olvColumn3
-            // 
-            this.olvColumn3.AspectName = "ProcessCommands";
-            resources.ApplyResources(this.olvColumn3, "olvColumn3");
-            // 
-            // olvColumn4
-            // 
-            this.olvColumn4.AspectName = "State";
-            resources.ApplyResources(this.olvColumn4, "olvColumn4");
-            this.olvColumn4.IsEditable = false;
-            // 
-            // olvColumn8
-            // 
-            this.olvColumn8.AspectName = "Active";
-            resources.ApplyResources(this.olvColumn8, "olvColumn8");
             // 
             // groupBox1
             // 
@@ -405,7 +251,7 @@
             this.tableLayoutPanel2.SetColumnSpan(this.groupBox1, 3);
             this.groupBox1.Controls.Add(this.@__serverconflist);
             this.groupBox1.Name = "groupBox1";
-            this.tableLayoutPanel2.SetRowSpan(this.groupBox1, 3);
+            this.tableLayoutPanel2.SetRowSpan(this.groupBox1, 2);
             this.groupBox1.TabStop = false;
             // 
             // __serverconflist
@@ -429,7 +275,7 @@
             this.@__serverconflist.LabelEdit = true;
             this.@__serverconflist.MultiSelect = false;
             this.@__serverconflist.Name = "__serverconflist";
-            this.@__serverconflist.OverlayText.Text = resources.GetString("resource.Text2");
+            this.@__serverconflist.OverlayText.Text = resources.GetString("resource.Text");
             this.@__serverconflist.ShowCommandMenuOnRightClick = true;
             this.@__serverconflist.ShowGroups = false;
             this.@__serverconflist.ShowItemToolTips = true;
@@ -478,10 +324,6 @@
             this.groupBox4.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.@__iolist)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.@__Serialserverconflist)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.@__serverconflist)).EndInit();
             this.ResumeLayout(false);
@@ -500,20 +342,6 @@
         private System.Windows.Forms.TabPage __tabProjectsConf;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.GroupBox groupBox3;
-        public BrightIdeasSoftware.ObjectListView __iolist;
-        public BrightIdeasSoftware.OLVColumn olvColumn5;
-        private BrightIdeasSoftware.OLVColumn __olvPin;
-        private BrightIdeasSoftware.OLVColumn olvColumn6;
-        public BrightIdeasSoftware.OLVColumn __olvstate;
-        private BrightIdeasSoftware.OLVColumn olvColumn7;
-        private System.Windows.Forms.GroupBox groupBox2;
-        public BrightIdeasSoftware.ObjectListView __Serialserverconflist;
-        public BrightIdeasSoftware.OLVColumn olvColumn1;
-        public BrightIdeasSoftware.OLVColumn olvColumn2;
-        public BrightIdeasSoftware.OLVColumn olvColumn3;
-        public BrightIdeasSoftware.OLVColumn olvColumn4;
-        private BrightIdeasSoftware.OLVColumn olvColumn8;
         private System.Windows.Forms.GroupBox groupBox1;
         public BrightIdeasSoftware.ObjectListView __serverconflist;
         public BrightIdeasSoftware.OLVColumn __olvname;
