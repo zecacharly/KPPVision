@@ -41,6 +41,8 @@ using KPPAutomationCore;
 
 
 
+
+
 namespace VisionModule {
 
     public class InputReferenceSelector : System.Drawing.Design.UITypeEditor {
@@ -1350,12 +1352,19 @@ namespace VisionModule {
 
 
 
+        
 
         public Inspection(string name, int id) {
             _ID = id;
             Name = name;
             ROIList = new ROIS();
-            
+
+            try {
+                throw new Exception("Teste exp");
+            } catch (Exception exp) {
+
+                log.Error("Exp in inspection", exp);
+            }
             
             UpdateInspection();
             

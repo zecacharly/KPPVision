@@ -104,9 +104,6 @@
     <Reference Include="KPP Core">
       <HintPath>..\_External\KPP Core\KPP Core.dll</HintPath>
     </Reference>
-    <Reference Include="KPPCustomControls">
-      <HintPath>..\KPPCustomControls\bin\Debug\KPPCustomControls.dll</HintPath>
-    </Reference>
     <Reference Include="ObjectListView">
       <HintPath>..\_External\ObjectListView.dll</HintPath>
     </Reference>
