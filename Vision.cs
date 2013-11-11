@@ -84,8 +84,7 @@ namespace VisionModule {
 
         // Displays the UI for value selection.
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
-
-
+            
             ProcessingFunctionBase procbase = context.Instance as ProcessingFunctionBase;
 
             AttributeCollection attrs = context.PropertyDescriptor.Attributes;
@@ -1017,8 +1016,9 @@ namespace VisionModule {
 
 
             } catch (Exception exp) {
+                
 
-                log.Error(this.Name, exp);
+                log.Error(exp);
 
             }
 
@@ -1049,7 +1049,7 @@ namespace VisionModule {
                 }
                 return true;
             } catch (Exception exp) {
-                log.Error(this.Name, exp);
+                log.Error(exp);
                 return false;
             }
 
@@ -1254,7 +1254,7 @@ namespace VisionModule {
                 InspLayer.AddShape(_newshape);
 
 
-                ROI _newroi = new ROI(_newshape, InspLayer, ROIList.Count+1);
+                ROI _newroi = new ROI(_newshape, InspLayer, ROIList.Count + 1);
 
                 //_newroi.OnROIPositionChanged += new ROI.ROIPositionChanged(_newroi_OnROIPositionChanged);
 
@@ -1272,7 +1272,7 @@ namespace VisionModule {
                 return _newroi;
 
             } catch (Exception exp) {
-                log.Error(this.Name, exp);
+                log.Error(exp);
                 return null;
             }
         }
@@ -1360,10 +1360,11 @@ namespace VisionModule {
             ROIList = new ROIS();
 
             try {
+                
                 throw new Exception("Teste exp");
             } catch (Exception exp) {
 
-                log.Error("Exp in inspection", exp);
+                log.Error(exp);
             }
             
             UpdateInspection();
@@ -1565,7 +1566,7 @@ namespace VisionModule {
             } catch (Exception exp) {
                 
                 Console.WriteLine(exp);
-                log.Error(this.Name, exp);
+                log.Error( exp);
 
                 return "Results ERROR";
             }
@@ -1606,7 +1607,7 @@ namespace VisionModule {
 
 
             } catch (Exception exp) {
-                log.Error(this.Name, exp);
+                log.Error( exp);
 
             }
 
@@ -1734,7 +1735,7 @@ namespace VisionModule {
             
 
             } catch (Exception exp) {
-                log.Error(this.Name, exp);
+                log.Error( exp);
                 Console.WriteLine(exp);
 
                 return false;

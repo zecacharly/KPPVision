@@ -20,6 +20,7 @@ using KPP.Core.Debug;
 using KPP.Controls.Winforms.ImageEditorObjs;
 using DejaVu;
 using DejaVu.Collections.Generic;
+using KPPAutomationCore;
 
 
 
@@ -94,6 +95,8 @@ namespace VisionModule {
     }
 
     public class ROI : IDisposable {
+
+
 
 
         #region class ROI
@@ -234,7 +237,7 @@ namespace VisionModule {
                         this.ROIShape.Locked = _Locked;
                      
                     } catch (Exception exp) {      
-                        log.Error(this.Name,exp);
+                        log.Error(exp);
                     }
                 }
             }
@@ -388,7 +391,7 @@ namespace VisionModule {
             
             catch (Exception exp) {
                 Console.WriteLine(exp);
-                log.Error(this.Name,exp);
+                log.Error(exp);
                 return false;
             }
 
@@ -397,7 +400,6 @@ namespace VisionModule {
 
 
         public ROI(ShapeRectangle _roishape, Layer ROILayer, int Pos) {
-
 
             _roiimageBgr = new Image<Bgr, byte>(new Size());
             ROILayer.AddShape(_roishape);
@@ -444,6 +446,7 @@ namespace VisionModule {
 
             //AddProcessingFunctions();
 
+        
 
             if (ROIShape!=null) {
 
@@ -500,6 +503,7 @@ namespace VisionModule {
         }
 
         #endregion
+       
     }
 
 

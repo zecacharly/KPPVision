@@ -265,7 +265,7 @@ namespace VisionModule {
     }
     
 
-    public class VisionProject : ICloneable {
+    public class VisionProject:  ICloneable {
 
         private static KPPLogger log = new KPPLogger(typeof(VisionProject));
 
@@ -373,6 +373,8 @@ namespace VisionModule {
             }
         }
 
+
+       
         public VisionProject() {
 
             Name = "default project name";
@@ -383,10 +385,11 @@ namespace VisionModule {
 
         }
 
+        
     }
 
 
-    public sealed class VisionProjects {
+    public sealed class VisionProjects  {
 
         #region -  Serialization attributes  -
 
@@ -411,7 +414,10 @@ namespace VisionModule {
         [XmlAttribute]
         public String Name { get; set; }
 
-
+        public string ModuleName {
+            get;
+            set;
+        }
 
        
         
@@ -423,7 +429,7 @@ namespace VisionModule {
         /// 
         /// </summary>
         public VisionProjects() {
-            Name = "Project Settings";                       
+            Name = "Vision Projects";                       
             Projects = new List<VisionProject>();          
         }
 
@@ -614,6 +620,8 @@ namespace VisionModule {
         }
 
         #endregion
+
+       
     }
 
 

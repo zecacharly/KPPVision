@@ -151,7 +151,7 @@ namespace VisionModule {
 
         private void __btNewProj_Click(object sender, EventArgs e) {
             try {
-
+                
                 _projsconf.Projects.Add(new VisionProject());
                 __listprojects.Objects=_projsconf.Projects;
                 _projsconf.WriteConfigurationFile(_projsfile);

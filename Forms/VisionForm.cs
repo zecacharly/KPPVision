@@ -660,7 +660,7 @@ namespace VisionModule {
 
 
         void __addrectROI_Click(object sender, EventArgs e) {
-            ROI newroi = SelectedProject.SelectedRequest.SelectedInspection.AddROI(new Rectangle(0, 0, 100, 100));
+            ROI newroi = SelectedProject.SelectedRequest.SelectedInspection.AddROI( new Rectangle(0, 0, 100, 100));
 
             for (int i = 0; i < SelectedProject.SelectedRequest.SelectedInspection.ROIList.Count; i++) {
                 String roiname = "ROI" + i.ToString();
