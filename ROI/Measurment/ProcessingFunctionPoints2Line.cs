@@ -68,7 +68,14 @@ namespace VisionModule {
     [ProcessingFunction("Points 2 Line", "Measurement")]
     public class ProcessingFunctionPoints2Line: ProcessingFunctionBase {
 
-        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionPoints2Line));
+
+        public ProcessingFunctionPoints2Line() {
+
+            log = new KPPLogger(typeof(ProcessingFunctionPoints2Line), name: base.ModuleName);
+        }
+
+        private static KPPLogger log;
+        //= new KPPLogger(typeof(ProcessingFunctionPoints2Line));
 
        
 

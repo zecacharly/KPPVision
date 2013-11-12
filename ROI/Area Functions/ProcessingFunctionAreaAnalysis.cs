@@ -124,10 +124,20 @@ namespace VisionModule {
     [ProcessingFunction("Area Analysis","Area")]
     public class ProcessingFunctionAreaAnalysis : ProcessingFunctionBase {
 
+
+        public ProcessingFunctionAreaAnalysis() {
+
+            log = new KPPLogger(typeof(ProcessingFunctionAreaAnalysis), name: base.ModuleName);
+        }
+        
+        private static KPPLogger log;
+        //= new KPPLogger(typeof(ProcessingFunctionAreaAnalysis));
+
+
         public delegate void ProcessingFunctionDone(Image<Bgr, byte> ImageOut);
         public event ProcessingFunctionDone OnProcessingFunctionDone;
 
-        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionAreaAnalysis));
+        
 
         #region Public Properties
 

@@ -18,7 +18,11 @@ namespace VisionModule {
     [ProcessingFunction("Line Fit", "Line")]
     public class ProcessingFunctionLines : ProcessingFunctionBase {
 
-        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionLines));
+        public ProcessingFunctionLines() {
+            log = new KPPLogger(typeof(ProcessingFunctionLines),name:base.ModuleName);
+        }
+
+        private static KPPLogger log ;
 
         private PointF _RectangleCenter = new PointF(0, 0);
 

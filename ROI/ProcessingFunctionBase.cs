@@ -158,10 +158,13 @@ namespace VisionModule {
     [ProcessingFunction("Set Value", "Other")]
     public class SetValue : ProcessingFunctionBase {
 
-        private static KPPLogger log = new KPPLogger(typeof(SetValue));
+        public SetValue() {
 
+            log= new KPPLogger(typeof(SetValue),name:base.ModuleName);
+        }
 
-
+        private static KPPLogger log;
+        //= new KPPLogger(typeof(SetValue));
 
 
 
@@ -255,7 +258,14 @@ namespace VisionModule {
     [ProcessingFunction("Get Object from Array", "Array")]
     public class GetObject : ProcessingFunctionBase {
 
-        private static KPPLogger log = new KPPLogger(typeof(GetObject));
+
+        public GetObject() {
+
+            log= new KPPLogger(typeof(GetObject),name:base.ModuleName);
+        }
+
+        private static KPPLogger log;
+        //= new KPPLogger(typeof(GetObject));
 
 
 
@@ -428,8 +438,7 @@ namespace VisionModule {
 
 
     #region Includes
-    [XmlInclude(typeof(ProcessingFunctionConstant))]
-    //  [DefaultPropertyAttribute("Name")]
+    [XmlInclude(typeof(ProcessingFunctionConstant))]    
     [XmlInclude(typeof(ProcessingFunctionBoundingRectangle))]
     [XmlInclude(typeof(ProcessingFunctionPixelanalysis))]   
     [XmlInclude(typeof(ProcessingFunctionPrePos))]
@@ -459,12 +468,19 @@ namespace VisionModule {
     [Serializable()]
     public abstract class ProcessingFunctionBase : ICloneable, IDisposable {
 
+        private String m_ModuleName = "";
+        [XmlAttribute]
+        public String ModuleName {
+            get { return m_ModuleName; }
+            set { m_ModuleName = value; }
+        }
 
         static public double ConvertToRadians(double angle) {
             return (Math.PI / 180) * angle;
         }
 
         public ProcessingFunctionBase() {
+
             SetFunctionParams();
         }
 

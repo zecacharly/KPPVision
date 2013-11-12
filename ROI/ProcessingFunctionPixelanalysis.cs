@@ -25,7 +25,10 @@ namespace VisionModule {
     [ProcessingFunction("Pixel Analysis", "Area")]
     public class ProcessingFunctionPixelanalysis : ProcessingFunctionBase {
 
-        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionPixelanalysis));
+        public ProcessingFunctionPixelanalysis() {
+            log= new KPPLogger(typeof(ProcessingFunctionPixelanalysis),name:base.ModuleName);
+        }
+        private static KPPLogger log;
 
         private PointF _RectangleCenter = new PointF(0, 0);
 

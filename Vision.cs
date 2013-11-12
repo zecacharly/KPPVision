@@ -1359,13 +1359,7 @@ namespace VisionModule {
             Name = name;
             ROIList = new ROIS();
 
-            try {
-                
-                throw new Exception("Teste exp");
-            } catch (Exception exp) {
-
-                log.Error(exp);
-            }
+            
             
             UpdateInspection();
             

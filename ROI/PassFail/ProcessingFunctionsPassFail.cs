@@ -21,7 +21,13 @@ namespace VisionModule {
     [ProcessingFunction("Range", "Pass Fail")]
     public class ProcessingFunctionRange : ProcessingFunctionBase {
 
-        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionSum));
+        public ProcessingFunctionRange() {
+
+            log= new KPPLogger(typeof(ProcessingFunctionSum),name:base.ModuleName);
+        }
+
+        private static KPPLogger log;
+        //= new KPPLogger(typeof(ProcessingFunctionSum));
 
 
 

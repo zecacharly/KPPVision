@@ -17,7 +17,13 @@ namespace VisionModule {
     [ProcessingFunction("Line 2 Line Angle", "Measurement")]
     public class ProcessingFunctionLine2LineAngle: ProcessingFunctionBase {
 
-        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionPoints2Line));
+        public ProcessingFunctionLine2LineAngle() {
+
+            log= new KPPLogger(typeof(ProcessingFunctionPoints2Line),name:base.ModuleName);
+        }
+
+        private static KPPLogger log;
+        //= new KPPLogger(typeof(ProcessingFunctionPoints2Line));
 
 
        

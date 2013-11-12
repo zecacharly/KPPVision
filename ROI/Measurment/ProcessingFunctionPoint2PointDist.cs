@@ -17,7 +17,14 @@ namespace VisionModule {
     [ProcessingFunction("Point to Point Distance", "Measurement")]
     public class ProcessingFunctionPoint2PointDist : ProcessingFunctionBase {
 
-        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionBoundingRectangle));
+
+
+        public ProcessingFunctionPoint2PointDist() {
+
+            log = new KPPLogger(typeof(ProcessingFunctionPoint2PointDist), name: base.ModuleName);
+        }
+
+        private static KPPLogger log;
 
        
 

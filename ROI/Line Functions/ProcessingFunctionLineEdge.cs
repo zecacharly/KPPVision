@@ -175,6 +175,14 @@ namespace VisionModule {
     [ProcessingFunction("Line Edge", "Line")]
     public class ProcessingFunctionLineEdge : ProcessingFunctionBase {
 
+        public ProcessingFunctionLineEdge() {
+
+            log = new KPPLogger(typeof(ProcessingFunctionLineEdge), name: base.ModuleName);
+        }
+        
+        private static KPPLogger log;
+
+
         internal static IEnumerable<T> EnumToList<T>() {
             Type enumType = typeof(T);
 
@@ -195,7 +203,7 @@ namespace VisionModule {
 
 
       
-        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionBoundingRectangle));
+        
 
 
         #region Pre-Processing

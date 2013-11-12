@@ -24,7 +24,13 @@ namespace VisionModule {
      [ProcessingFunction("Comparer", "Test")]
     public class ProcessingFunctionTest: ProcessingFunctionBase {
 
-         private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionTest));
+         public ProcessingFunctionTest() {
+
+             log= new KPPLogger(typeof(ProcessingFunctionTest),name:base.ModuleName);
+         }
+
+         private static KPPLogger log;
+         //= new KPPLogger(typeof(ProcessingFunctionTest));
 
        
 

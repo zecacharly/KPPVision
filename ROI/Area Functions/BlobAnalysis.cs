@@ -194,7 +194,14 @@ namespace VisionModule {
     [ProcessingFunction("Blob Analysis", "Area")]
     public class BlobAnalysis : ProcessingFunctionBase {
 
-        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionBoundingRectangle));
+
+        public BlobAnalysis() {
+
+            log = new KPPLogger(typeof(BlobAnalysis), name: base.ModuleName);
+        }
+        
+        private static KPPLogger log;
+        //= new KPPLogger(typeof(ProcessingFunctionBoundingRectangle));
 
          
         #region Pre-Processing
