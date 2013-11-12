@@ -287,10 +287,34 @@ namespace VisionModule {
         }
 
         private String m_ModuleName = "Vision Module";
-
+        [XmlIgnore]
         public String ModuleName {
             get { return m_ModuleName; }
-            set { m_ModuleName = value; }
+            set {
+                if (m_ModuleName != value) {
+                  
+                    
+
+                    m_ModuleName = value;
+
+                    if (SelectedProject == null) {
+                        this.Text = value;
+                    }
+                    else {
+                        this.Text = value + " : " + SelectedProject.Name;
+                    }
+
+                    // TODO rename dockfiles and module settings file
+                    if (_projconfig!=null) {
+
+                        foreach (VisionProject proj in _projconfig.Projects) {
+                            proj.ModuleName = value;
+                            
+                        } 
+                    }
+
+                }
+            }
         }
 
         protected override string GetPersistString() {

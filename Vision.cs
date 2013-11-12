@@ -563,6 +563,32 @@ namespace VisionModule {
 
         private static KPPLogger log = new KPPLogger(typeof(Inspection));
 
+        
+        private String m_ModuleName;
+        [XmlAttribute]
+        public String ModuleName {
+            get { return m_ModuleName; }
+            set {
+                if (m_ModuleName != value) {
+
+                    log.SetNewLogger(this.GetType(), m_ModuleName, value);
+
+                    m_ModuleName = value;
+
+                    foreach (ROI item in ROIList) {
+                        // TODO set module name
+                    }
+
+
+                    //CaptureSource.ModuleName;
+
+
+
+
+                }
+            }
+        }
+
         #region Delegates
         public delegate void SelectedROIChanged(ROI ROISelected);
         
@@ -1469,6 +1495,29 @@ namespace VisionModule {
     public class Request : IDisposable {
 
         private static KPPLogger log = new KPPLogger(typeof(Request));
+        private String m_ModuleName;
+        [XmlAttribute]
+        public String ModuleName {
+            get { return m_ModuleName; }
+            set {
+                if (m_ModuleName != value) {
+
+                    log.SetNewLogger(this.GetType(), m_ModuleName, value);
+
+                    m_ModuleName = value;
+
+                    foreach (Inspection item in Inspections) {
+                        
+                    }
+
+
+
+
+
+
+                }
+            }
+        }
 
         public delegate void RequestNameChanged(String RequestName);
         public delegate void RequestStart(Request request);

@@ -468,7 +468,7 @@ namespace VisionModule {
     [Serializable()]
     public abstract class ProcessingFunctionBase : ICloneable, IDisposable {
 
-        private String m_ModuleName = "";
+        private String m_ModuleName;
         [XmlAttribute]
         public String ModuleName {
             get { return m_ModuleName; }

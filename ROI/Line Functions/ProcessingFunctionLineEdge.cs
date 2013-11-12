@@ -267,10 +267,6 @@ namespace VisionModule {
         #endregion
 
 
-        public ProcessingFunctionLineEdge() {
-
-        }
-
         private void PointComparer(Point Pt1) {
         }
         public override bool Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {

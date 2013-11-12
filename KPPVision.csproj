@@ -417,7 +417,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\Epson.de.resx" />
     <EmbeddedResource Include="Resources\Language\Epson.pt-PT.resx" />
-    <EmbeddedResource Include="Resources\Language\Res.de.resx" />
+    <EmbeddedResource Include="Resources\Language\Res.de.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Language\Res.pt-PT.resx" />
     <EmbeddedResource Include="ROI\BitmapOutProperty.resx">
       <DependentUpon>BitmapOutProperty.cs</DependentUpon>

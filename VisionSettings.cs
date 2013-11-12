@@ -267,7 +267,7 @@ namespace VisionModule {
 
     public class VisionProject:  ICloneable {
 
-        private static KPPLogger log = new KPPLogger(typeof(VisionProject));
+        private static KPPLogger log;
 
         public delegate void SelectedRequestChanged(Request NewSelectedRequest);
 
@@ -277,8 +277,29 @@ namespace VisionModule {
         public event SelectedRequestChanged OnSelectedRequestChanged;
         public event RequestRemoved OnRequestRemoved;
 
-        
 
+        private String m_ModuleName ;
+        [XmlAttribute]
+        public String ModuleName {
+            get { return m_ModuleName; }
+            set {
+                if (m_ModuleName!=value) {
+
+                    log.SetNewLogger(this.GetType(), m_ModuleName, value);
+
+                    m_ModuleName = value;
+                    foreach (Request req in RequestList) {
+                        req.ModuleName = value;                       
+                    }
+                    
+
+
+
+
+
+                }
+            }
+        }
 
         [XmlAttribute]
         public String Name { get; set; }
@@ -290,7 +311,9 @@ namespace VisionModule {
         [XmlAttribute]
         public bool Loadonstart {
             get { return _loadonstart; }
-            set { _loadonstart = value; }
+            set { 
+                _loadonstart = value; 
+            }
         }
 
         public object Clone() {
@@ -376,6 +399,8 @@ namespace VisionModule {
 
        
         public VisionProject() {
+
+            log = new KPPLogger(typeof(VisionProject),name:ModuleName);
 
             Name = "default project name";
 
