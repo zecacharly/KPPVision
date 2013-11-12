@@ -327,7 +327,7 @@ namespace VisionModule {
                 //AppPerformanceMonitor.OnAppPerformanceMonitorTick += new OnAppPerformanceMonitorTickHandler(AppPerformanceMonitor_OnAppPerformanceMonitorTick);
                 //AppPerformanceMonitor.Start(12, 8);
                 
-                //////////////////TODO
+                //////////////////TODO phidgets
                 //if () {
                 //    PhidgetsIO.SendCommand("SET_OUT", new String[] { "1", "ON" });
                 //}
@@ -1228,7 +1228,7 @@ namespace VisionModule {
                     _ListROIForm.__propertyGridFunction.Refresh();
 
 
-                    // TODO ?
+                   
                     _ListInspForm.__ListRequests.RefreshObjects(SelectedProject.RequestList);
 
                     if (SelectedProject.SelectedRequest == null) {
@@ -1631,7 +1631,7 @@ namespace VisionModule {
         public void ProcessResults() {
             ResultsToSend.Clear();
             foreach (Inspection item in SelectedProject.SelectedRequest.Inspections) {
-                //TODO
+                //TODO process results
                 // item.ProcessResults();
             }
 
@@ -1688,7 +1688,7 @@ namespace VisionModule {
         }
 
         void _newinsp_OnUndoDeleteInspection(string InspectionName) {
-            //TODO
+            //TODO undo delete insp
             //Inspection newinsp = new Inspection();
             //newinsp.Name = InspectionName;
             //AddInsp(SelectedProject.SelectedRequest.Name, newinsp);
@@ -3361,8 +3361,7 @@ namespace VisionModule {
                 //String text = res_man.GetString("", Thread.CurrentThread.CurrentUICulture);
                 if (MessageBox.Show(text, cap, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.OK) {
                     LanguageSettings.Language = lang;
-                    //TODO 
-                    //Restart Module
+                    //TODO Restart Module
                     this.Close();
                 }
             }
