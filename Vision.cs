@@ -35,6 +35,7 @@ using System.Xml.Schema;
 using AForge.Video.DirectShow;
 using System.Resources;
 using KPPAutomationCore;
+using WeifenLuo.WinFormsUI.Docking;
 
 
 
@@ -44,6 +45,9 @@ using KPPAutomationCore;
 
 
 namespace VisionModule {
+
+
+    #region Vision Definitions
 
     public class InputReferenceSelector : System.Drawing.Design.UITypeEditor {
         // this is a container for strings, which can be 
@@ -56,7 +60,7 @@ namespace VisionModule {
         // this is a string array for drop-down list
         //internal static List<CameraInfo> RemoteCameras = new List<CameraInfo>();
 
-       
+
 
 
 
@@ -64,16 +68,16 @@ namespace VisionModule {
             //menu.BorderStyle = BorderStyle.None;
             // add event handler for drop-down box when item 
             // will be selected
-          //  textbox1.KeyDown += new KeyEventHandler(textebox1_KeyDown);
+            //  textbox1.KeyDown += new KeyEventHandler(textebox1_KeyDown);
 
             //contextcontrol.VisibleChanged += new EventHandler(contextcontrol_VisibleChanged);
         }
 
-      
 
-      
+
+
         void textebox1_KeyDown(object sender, KeyEventArgs e) {
-            if (e.KeyCode== Keys.Enter) {
+            if (e.KeyCode == Keys.Enter) {
                 edSvc.CloseDropDown();
             }
         }
@@ -84,12 +88,12 @@ namespace VisionModule {
 
         // Displays the UI for value selection.
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
-            
+
             ProcessingFunctionBase procbase = context.Instance as ProcessingFunctionBase;
 
             AttributeCollection attrs = context.PropertyDescriptor.Attributes;
 
-            Type resultType = null;            
+            Type resultType = null;
             for (int i = 0; i < attrs.Count; i++) {
                 if (attrs[i] is AcceptType) {
                     resultType = (attrs[i] as AcceptType).acceptType;
@@ -97,13 +101,13 @@ namespace VisionModule {
                 }
             }
 
-            if (resultType==null) {
+            if (resultType == null) {
                 //log.Error("Result Type not set in Function: " + procbase.FunctionName+"("+procbase.FunctionType+")");
                 log.Error("Result Type not set in Function: " + context.Instance.ToString());
                 return value;
             }
 
-           
+
 
             edSvc =
                (IWindowsFormsEditorService)provider.
@@ -112,10 +116,10 @@ namespace VisionModule {
 
             if (edSvc != null) {
 
-               // form.SelectedProject = StaticObjects.SelectedProject;
+                // form.SelectedProject = StaticObjects.SelectedProject;
                 form.acceptType = resultType;
                 form.ResultRef = (value as ResultReference);
-                if (edSvc.ShowDialog(form)== DialogResult.OK) {
+                if (edSvc.ShowDialog(form) == DialogResult.OK) {
                     value = form.ResultRef;
                 }
 
@@ -157,8 +161,8 @@ namespace VisionModule {
         }
     }
 
-    
-    
+
+
 
     public class ResultInfo {
 
@@ -167,11 +171,11 @@ namespace VisionModule {
         private String _DecimalSeparator = ",";
         [XmlAttribute]
         public String DecimalSeparator {
-            get { 
-                return _DecimalSeparator; 
+            get {
+                return _DecimalSeparator;
             }
-            set { 
-                _DecimalSeparator = value; 
+            set {
+                _DecimalSeparator = value;
             }
         }
 
@@ -187,7 +191,7 @@ namespace VisionModule {
                             _ID.Value = value;
                             UndoRedoManager.Commit();
                         }
-                        
+
                     } else {
                         _ID.Value = value;
                     }
@@ -203,22 +207,22 @@ namespace VisionModule {
 
         ListInputs _Inputs = new ListInputs();
         public ListInputs Inputs {
-            get { 
-                return _Inputs; 
+            get {
+                return _Inputs;
             }
-            set { 
-                _Inputs = value; 
+            set {
+                _Inputs = value;
             }
         }
 
-        public ResultInfo() {          
-            
-            
-            
+        public ResultInfo() {
+
+
+
         }
 
         public override string ToString() {
-            
+
             return ID;
         }
     }
@@ -235,7 +239,7 @@ namespace VisionModule {
 
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) {
             //if (true) {
-                
+
             //}
             //return true;
             return sourceType == typeof(string);
@@ -244,10 +248,10 @@ namespace VisionModule {
         public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) {
             ResultReference resrefinst = context.Instance as ResultReference;
 
-            if (resrefinst==null) {
+            if (resrefinst == null) {
                 return value;
             }
-            if (resrefinst.ResultOutput==null) {
+            if (resrefinst.ResultOutput == null) {
                 return value;
             }
             var converter = TypeDescriptor.GetConverter(resrefinst.ResultOutput.GetType());
@@ -255,7 +259,7 @@ namespace VisionModule {
                 object newObject = converter.ConvertFrom(value);
                 value = newObject;
             }
-             
+
 
             return value;
         }
@@ -267,7 +271,7 @@ namespace VisionModule {
     public class ResultReference {
 
         private Boolean _IsValid = false;
-        [XmlIgnore,Browsable(false)]
+        [XmlIgnore, Browsable(false)]
         public Boolean IsValid {
             get { return _IsValid; }
             set { _IsValid = value; }
@@ -277,7 +281,7 @@ namespace VisionModule {
         [DisplayName("Reference ID"), ReadOnly(false), TypeConverter(typeof(MyRefConverter))]
         public object ResultReferenceID {
             get {
-                
+
                 if (RequestReference != null) {
                     if (InspectionReference != null) {
                         if (ROIReference != null) {
@@ -291,19 +295,18 @@ namespace VisionModule {
                             }
                         }
                     }
-                }
-                else {
-                    if (IsValid==false) {
+                } else {
+                    if (IsValid == false) {
                         ResultReferenceID = _ResultReferenceID;
                     }
                 }
-                
+
                 return _ResultReferenceID;
             }
             set {
 
-                IsValid=false;
-                
+                IsValid = false;
+
                 _ResultReferenceID = value;
                 if (SelectedProject != null) {
                     if (value is String) {
@@ -325,7 +328,7 @@ namespace VisionModule {
                                         if (References.Count() == 5) {
                                             PropertyOutput = References[4];
                                         }
-                                       
+
                                         UpdateValue();
                                     }
                                 }
@@ -338,7 +341,7 @@ namespace VisionModule {
                         IsValid = true;
                     }
                 }
-                
+
             }
         }
 
@@ -359,7 +362,7 @@ namespace VisionModule {
         //}
 
 
-        public void UpdateValue(Boolean SetDefault=false) {
+        public void UpdateValue(Boolean SetDefault = false) {
             if (ResultReferenceID != null) {
 
                 if (ProcessingReference != null) {
@@ -370,38 +373,37 @@ namespace VisionModule {
                         ResultOutput = propinfo.GetValue(ProcessingReference, null);
                     }
 
-                }
-                else {
+                } else {
 
                     ResultOutput = (Object)ResultReferenceID;
                 }
 
                 if (SetDefault) {
 
-                   ResultOutput=ResultOutput.GetDefaultValue();
+                    ResultOutput = ResultOutput.GetDefaultValue();
                 }
             }
         }
-        
+
         //else if (ProcessingReference != null) {
         //        PropertyInfo propinfo = ProcessingReference.GetType().GetProperty(PropertyOutput);
 
         //        if (propinfo != null) {
         //            ResultOutput = propinfo.GetValue(ProcessingReference, null);            
         //        }
-           
-            
-            
 
 
-        private Object _ResultOutput = null;       
-        [TypeConverter(typeof(ExpandableObjectConverter)),DisplayName("Output"),XmlIgnore,ReadOnly(true)]
+
+
+
+        private Object _ResultOutput = null;
+        [TypeConverter(typeof(ExpandableObjectConverter)), DisplayName("Output"), XmlIgnore, ReadOnly(true)]
         public Object ResultOutput {
-            get {                
+            get {
                 return _ResultOutput;
             }
-            set { 
-                _ResultOutput = value; 
+            set {
+                _ResultOutput = value;
             }
         }
 
@@ -411,22 +413,22 @@ namespace VisionModule {
         public override string ToString() {
 
 
-            if (ResultReferenceID==null) {
+            if (ResultReferenceID == null) {
                 return "";
             }
-            return ResultReferenceID.ToString(); 
+            return ResultReferenceID.ToString();
         }
 
 
         //public ResultReference(String resid) {
-            
+
         //    ResultReferenceID = resid;
         //}
 
         private VisionProject SelectedProject = null;
-        public ResultReference(VisionProject selectedProject,Object resobj) {
+        public ResultReference(VisionProject selectedProject, Object resobj) {
             SelectedProject = selectedProject;
-            if (resobj!=null) {
+            if (resobj != null) {
 
                 ResultReferenceID = resobj;
 
@@ -440,7 +442,7 @@ namespace VisionModule {
             ResultReferenceID = SelectedProject.SelectedRequest.Name + "." + SelectedProject.SelectedRequest.SelectedInspection.Name + "." + SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.Name + "." + processingfunction.FunctionName + "." + propname;
         }
 
-       
+
         public ResultReference() {
         }
     }
@@ -465,7 +467,7 @@ namespace VisionModule {
                     } else {
                         _Input.Value = value;
                     }
-                }                
+                }
             }
         }
 
@@ -477,7 +479,7 @@ namespace VisionModule {
             }
             set {
 
-                if (_Parameter.Value!=value) {
+                if (_Parameter.Value != value) {
 
                     if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start("Parameter changed to:" + value)) {
@@ -495,11 +497,11 @@ namespace VisionModule {
         private int _min = 0;
 
         public int MinValue {
-            get { 
-                return _min; 
+            get {
+                return _min;
             }
-            set { 
-                _min = value; 
+            set {
+                _min = value;
             }
         }
 
@@ -515,12 +517,12 @@ namespace VisionModule {
         }
 
 
-        String _InputValue="";
+        String _InputValue = "";
         [XmlIgnore]
         public String InputValue {
             get {
                 if (Input != null) {
-                    if (Input.ResultOutput!= null) {
+                    if (Input.ResultOutput != null) {
                         return Input.ResultOutput.ToString(); ;
                     }
                 }
@@ -531,7 +533,7 @@ namespace VisionModule {
         }
 
         public ResultInput() {
-        
+
         }
 
         public override string ToString() {
@@ -559,11 +561,11 @@ namespace VisionModule {
     public class Inspection {
 
 
-        
+
 
         private static KPPLogger log = new KPPLogger(typeof(Inspection));
 
-        
+
         private String m_ModuleName;
         [XmlAttribute]
         public String ModuleName {
@@ -591,12 +593,12 @@ namespace VisionModule {
 
         #region Delegates
         public delegate void SelectedROIChanged(ROI ROISelected);
-        
+
         public delegate void ROIRemoved(ROI ROIRemoved);
-        
+
         public delegate void InspectionDone(Inspection inspection);
-        public delegate void InspectionResult(Inspection inspection,String ResultString,Boolean Result);
-     
+        public delegate void InspectionResult(Inspection inspection, String ResultString, Boolean Result);
+
 
         //public delegate void NoPart(Inspection inspection);
 
@@ -612,12 +614,12 @@ namespace VisionModule {
         #region Events
 
 
-        
+
         public event UndoDeleteInspection OnUndoDeleteInspection;
 
         [UseInEvents(true)]
         public event CaptureDone OnCaptureDone;
-        
+
         public event SelectedROIChanged OnSelectedROIChanged;
         public event ROIRemoved OnROIRemoved;
 
@@ -628,7 +630,7 @@ namespace VisionModule {
         public event InspectionResult OnInspectionResultHandler;
 
 
-        
+
         [UseInEvents(true)]
         public event CaptureStopped OnCaptureStopped;
 
@@ -638,13 +640,13 @@ namespace VisionModule {
         //public event ROINameChanged OnROINameChanged;
         public event InspectionNameChanged OnInspectionNameChanged;
 
-        
+
 
         #endregion
-        [XmlIgnore,Browsable(false)]
+        [XmlIgnore, Browsable(false)]
         public VisionProject SelectedProject = null;
 
-        private int _UseIO =-1;
+        private int _UseIO = -1;
         [XmlAttribute]
         public int UseIO {
             get { return _UseIO; }
@@ -656,10 +658,10 @@ namespace VisionModule {
         private ROI _selectedroi = null;
 
 
-       
 
 
-        
+
+
 
 
 
@@ -670,7 +672,7 @@ namespace VisionModule {
         [XmlIgnore]
         public Layer InspLayer = null;
 
-        
+
         #region properties
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -693,7 +695,7 @@ namespace VisionModule {
                             UndoRedoManager.Commit();
                         }
                     } else {
-                            _InspPos.Value = value;
+                        _InspPos.Value = value;
                     }
                 }
             }
@@ -706,9 +708,9 @@ namespace VisionModule {
         }
 
         [Browsable(false)]
-        public ROIS ROIList { 
-            get; 
-            set; 
+        public ROIS ROIList {
+            get;
+            set;
         }
 
 
@@ -731,15 +733,15 @@ namespace VisionModule {
                         _CaptureSource.Value.Dispose();
                     }
 
-                    if(!UndoRedoManager.IsCommandStarted){
+                    if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(_inspectName.Value + ": Capture Source changed to:" + value.Camtype)) {
                             _CaptureSource.Value = value;
                             UndoRedoManager.Commit();
                         }
-                        
-                        
 
-                    } else{
+
+
+                    } else {
                         _CaptureSource.Value = value;
                     }
 
@@ -755,7 +757,7 @@ namespace VisionModule {
                             break;
                         case BaseCapture.CameraTypes.Inspection:
                             CaptureSource.ChangeAttributeValue<BrowsableAttribute>("CameraName", "browsable", false);
-                           
+
                             break;
                         case BaseCapture.CameraTypes.Undef:
                             break;
@@ -764,11 +766,11 @@ namespace VisionModule {
 
                     }
 
-                    if (OnCameraSourceChanged!=null) {
+                    if (OnCameraSourceChanged != null) {
                         OnCameraSourceChanged(value);
                     }
 
-                    
+
                 }
             }
         }
@@ -781,7 +783,7 @@ namespace VisionModule {
             get { return _ImageRotation; }
             set {
                 if (_ImageRotation != value) {
-                    _ImageRotation = value; 
+                    _ImageRotation = value;
                 }
             }
         }
@@ -800,7 +802,7 @@ namespace VisionModule {
                     _selectedroi = value;
                     //Shape theshape= InspLayer.GetSelectableShapes().Find(name => name.Name == _selectedroi.Name);
                     //if (theshape!=null) {
-                        
+
                     //}
                     if (OnSelectedROIChanged != null) {
                         OnSelectedROIChanged(_selectedroi);
@@ -825,12 +827,11 @@ namespace VisionModule {
                             _inspectName.Value = value;
                             UndoRedoManager.Commit();
                         }
-                    }
-                    else {
+                    } else {
                         _inspectName.Value = value;
                     }
 
-                    
+
                     OnPropertyChanged("Name");
                     if (OnInspectionNameChanged != null) {
                         OnInspectionNameChanged(RequestName, _inspectName.Value, this);
@@ -895,7 +896,7 @@ namespace VisionModule {
                 InspLayer.Locked = !State;
             }
 
-            
+
             if (CaptureSource is InspectionCapture) {
                 InspectionCapture inspcap = CaptureSource as InspectionCapture;
                 do {
@@ -910,7 +911,7 @@ namespace VisionModule {
 
                 } while (inspcap != null);
             }
-                        
+
         }
 
 
@@ -936,7 +937,7 @@ namespace VisionModule {
         static EventWaitHandle _waitOriginalHandle = new AutoResetEvent(false);
 
         [NonSerialized]
-        Image<Bgr, Byte> _OriginalImageBgr= new Image<Bgr,byte>(0,0);
+        Image<Bgr, Byte> _OriginalImageBgr = new Image<Bgr, byte>(0, 0);
         [XmlIgnore, Browsable(false)]
         public Image<Bgr, Byte> OriginalImageBgr {
             get {
@@ -946,29 +947,29 @@ namespace VisionModule {
 
             }
             set {
-               
+
                 _OriginalImageBgr = value;
 
             }
         }
 
-        [NonSerialized,Browsable(false)]
-        public object ImageLocker= new object();
+        [NonSerialized, Browsable(false)]
+        public object ImageLocker = new object();
 
         [NonSerialized]
         Image<Bgr, Byte> _ResultImageBgr;
         [XmlIgnore, Browsable(false)]
         public Image<Bgr, Byte> ResultImageBgr {
-            get {              
-                
+            get {
+
                 return _ResultImageBgr;
-             
+
             }
             set {
-                
-               
-                  _ResultImageBgr = value;  
-                
+
+
+                _ResultImageBgr = value;
+
             }
         }
 
@@ -980,45 +981,43 @@ namespace VisionModule {
             try {
 
 
-                if (UseIO>-1) {
+                if (UseIO > -1) {
 
                     if (PhidgetsIO.SendCommand("SET_OUT", new String[] { UseIO.ToString(), "ON" })) {
                         Thread.Sleep(25);
-                    } 
+                    }
                 }
 
                 lock (this.ImageLocker) {
 
-                    
+
                     if (CaptureSource == null) {
                         throw new Exception("Capture source not defined");
                     }
 
 
-                
-                    
-                    Image<Bgr, Byte> captured=null;
+
+
+                    Image<Bgr, Byte> captured = null;
 
                     if (this.CaptureSource is PythonRemoteCapture) {
                         captured = ((PythonRemoteCapture)CaptureSource).GetImage(this.InspPos, true);
-                    }
-                    else {
-                        captured=CaptureSource.GetImage();
+                    } else {
+                        captured = CaptureSource.GetImage();
                     }
 
-                    if (ImageRotation != 0 && captured!=null) {
+                    if (ImageRotation != 0 && captured != null) {
                         captured = captured.Rotate(ImageRotation, new Bgr(Color.White));
                     }
 
                     OriginalImageBgr.ROI = Rectangle.Empty;
-                    
 
-                    if (OriginalImageBgr.Size==captured.Size) {
-                        captured.CopyTo(OriginalImageBgr);                        
-                    }
-                    else {
+
+                    if (OriginalImageBgr.Size == captured.Size) {
+                        captured.CopyTo(OriginalImageBgr);
+                    } else {
                         OriginalImageBgr = new Image<Bgr, byte>(captured.Size);
-                        captured.CopyTo(OriginalImageBgr);                        
+                        captured.CopyTo(OriginalImageBgr);
                     }
 
                     if (!(CaptureSource is InspectionCapture)) {
@@ -1026,12 +1025,12 @@ namespace VisionModule {
                         captured = null;
 
                     }
-                        
+
 
                 }
 
-                if (UseIO>-1) {
-                    PhidgetsIO.SendCommand("SET_OUT", new String[] { UseIO.ToString(), "OFF" }); 
+                if (UseIO > -1) {
+                    PhidgetsIO.SendCommand("SET_OUT", new String[] { UseIO.ToString(), "OFF" });
                 }
 
                 if (OnCaptureDone != null) {
@@ -1042,7 +1041,7 @@ namespace VisionModule {
 
 
             } catch (Exception exp) {
-                
+
 
                 log.Error(exp);
 
@@ -1059,7 +1058,7 @@ namespace VisionModule {
             try {
                 if (ROIToRemove == null)
                     return false;
-                
+
                 int i = ROIList.IndexOf(ROIToRemove);
                 using (UndoRedoManager.Start("ROI Removed: " + ROIToRemove.Name)) {
                     ROIList.Remove(ROIToRemove);
@@ -1069,8 +1068,8 @@ namespace VisionModule {
                     SelectedROI = ROIList[i - 1];
                 else
                     SelectedROI = null;
-                
-                if (OnROIRemoved!= null) {
+
+                if (OnROIRemoved != null) {
                     OnROIRemoved(ROIToRemove);
                 }
                 return true;
@@ -1089,7 +1088,7 @@ namespace VisionModule {
             //set { _InspectionOK = value; }
         }
 
-       
+
 
         public void ProcessSelectedROI() {
 
@@ -1104,10 +1103,10 @@ namespace VisionModule {
                     SelectedROI.ProcessRoi(OriginalImageBgr, ResultImageBgr);
                     OriginalImageBgr.ROI = Rectangle.Empty;
                     ResultImageBgr.ROI = Rectangle.Empty;
-                    if (OnInspectionDone!=null) {
+                    if (OnInspectionDone != null) {
                         OnInspectionDone(this);
                     }
-                } 
+                }
             }
 
 
@@ -1115,14 +1114,14 @@ namespace VisionModule {
 
 
 
-        
 
-        public void Execute(Object Sender,Boolean capture) {
+
+        public void Execute(Object Sender, Boolean capture) {
 
 
             if (capture) {
                 CaptureImage(Sender);
-            } 
+            }
 
 
 
@@ -1135,12 +1134,12 @@ namespace VisionModule {
             ProcessInspection(null);
         }
 
-        
+
 
         private void ProcessInspection(Object Sender) {
 
             Boolean inspres = false;
-            
+
 
             if (OriginalImageBgr != null) {
                 Console.WriteLine("Processing ROI");
@@ -1153,11 +1152,10 @@ namespace VisionModule {
 
 
 
-                        if (ResultImageBgr==null) {
-                            ResultImageBgr = new Image<Bgr, byte>(OriginalImageBgr.Size); 
-                        }
-                        else if (ResultImageBgr.Size!=OriginalImageBgr.Size) {
-                            ResultImageBgr = new Image<Bgr, byte>(OriginalImageBgr.Size); 
+                        if (ResultImageBgr == null) {
+                            ResultImageBgr = new Image<Bgr, byte>(OriginalImageBgr.Size);
+                        } else if (ResultImageBgr.Size != OriginalImageBgr.Size) {
+                            ResultImageBgr = new Image<Bgr, byte>(OriginalImageBgr.Size);
                         }
                         ResultImageBgr.ROI = Rectangle.Empty;
                         OriginalImageBgr.ROI = Rectangle.Empty;
@@ -1190,7 +1188,7 @@ namespace VisionModule {
                 ROI[] roiauxlist = ROIList.AuxROIS.Where(Pos => Pos.ROIPos > 0).OrderBy(bypos => bypos.ROIPos).ToArray();
                 lock (ImageLocker) {
 
-                    
+
 
                     for (int i = 0; i < roiauxlist.Count(); i++) {
 
@@ -1211,16 +1209,16 @@ namespace VisionModule {
 
 
                 }
-                
+
 
                 if (inspres) {
                     if (Sender is TCPServer) {
                         ((TCPServer)Sender).Client.Write("NOPART");
-                    }                    
+                    }
                 }
                 ResultImageBgr.ROI = Rectangle.Empty;
 
-                
+
 
 
             } else {
@@ -1246,12 +1244,12 @@ namespace VisionModule {
             //}
 
         }
-         
-
-       
 
 
-       
+
+
+
+
 
 
         public ROI AddROI(Rectangle ROIRectangle) {
@@ -1260,8 +1258,8 @@ namespace VisionModule {
                 int i = 1;
                 foreach (ROI _roi in ROIList) {
                     if (_roi.Name != ("ROI" + i))
-                        name=("ROI" + i);
-                        break;
+                        name = ("ROI" + i);
+                    break;
                     i += 1;
                 }
 
@@ -1284,7 +1282,7 @@ namespace VisionModule {
 
                 //_newroi.OnROIPositionChanged += new ROI.ROIPositionChanged(_newroi_OnROIPositionChanged);
 
-                if(!UndoRedoManager.IsCommandStarted){
+                if (!UndoRedoManager.IsCommandStarted) {
                     using (UndoRedoManager.Start("ROI added: " + _newroi.Name)) {
                         ROIList.Add(_newroi);
                         UndoRedoManager.Commit();
@@ -1293,7 +1291,7 @@ namespace VisionModule {
                 } else {
                     ROIList.Add(_newroi);
                 }
-                               
+
 
                 return _newroi;
 
@@ -1347,7 +1345,7 @@ namespace VisionModule {
         [Browsable(false)]
         public Boolean DoNext = false;
 
-       
+
 
 
         public void UpdateInspection() {
@@ -1362,7 +1360,7 @@ namespace VisionModule {
 
         //List<String> RoiResults = new List<string>();
 
-       
+
 
         public class DistinctItemComparer : IEqualityComparer<Inspection> {
 
@@ -1378,26 +1376,26 @@ namespace VisionModule {
 
 
 
-        
+
 
         public Inspection(string name, int id) {
             _ID = id;
             Name = name;
             ROIList = new ROIS();
 
-            
-            
+
+
             UpdateInspection();
-            
+
         }
 
-        
+
 
 
         public Inspection() {
             Name = "New Inspection";
             InspPos = 0;
-            
+
             _inspectName.OnMemberRedo += new UndoRedo<string>.MemberRedo(_inspectName_OnMemberRedo);
             _inspectName.OnMemberUndo += new UndoRedo<string>.MemberUndo(_inspectName_OnMemberRedo);
 
@@ -1410,27 +1408,27 @@ namespace VisionModule {
             if (OnInspectionNameChanged != null) {
                 OnInspectionNameChanged(RequestName, UndoObject, this);
 
-            }     
+            }
         }
 
-       
+
 
 
         public void ClearEvents() {
-            
+
             OnInspectionDone = null;
-            
+
             OnInspectionResultHandler = null;
             OnCaptureDone = null;
             OnSelectedROIChanged = null;
             OnROIRemoved = null;
             OnInspectionDone = null;
             OnInspectionNameChanged = null;
-            
+
             OnCaptureStopped = null;
             OnCameraSourceChanged = null;
 
-            
+
 
         }
 
@@ -1441,12 +1439,12 @@ namespace VisionModule {
             if (OriginalImageBgr != null) {
                 OriginalImageBgr = null;
             }
-            if (ResultImageBgr != null) {                
+            if (ResultImageBgr != null) {
                 ResultImageBgr = null;
 
             }
-            if (CaptureSource!=null) {
-                CaptureSource.Dispose(); 
+            if (CaptureSource != null) {
+                CaptureSource.Dispose();
             }
 
             if (ROIList != null) {
@@ -1455,11 +1453,11 @@ namespace VisionModule {
                 }
 
             }
-            if (UseIO>-1) {
-                PhidgetsIO.SendCommand("SET_OUT", new String[] { UseIO.ToString(), "OFF" }); 
+            if (UseIO > -1) {
+                PhidgetsIO.SendCommand("SET_OUT", new String[] { UseIO.ToString(), "OFF" });
             }
             SelectedROI = null;
-        
+
         }
 
 
@@ -1471,7 +1469,7 @@ namespace VisionModule {
 
     public class InspectionRequest : Request {
 
-        int _ID=-1;
+        int _ID = -1;
         [XmlAttribute]
         [Browsable(false)]
         public override int ID {
@@ -1483,7 +1481,7 @@ namespace VisionModule {
             }
         }
 
-        
+
 
         public InspectionRequest() {
 
@@ -1507,7 +1505,7 @@ namespace VisionModule {
                     m_ModuleName = value;
 
                     foreach (Inspection item in Inspections) {
-                        
+
                     }
 
 
@@ -1521,7 +1519,7 @@ namespace VisionModule {
 
         public delegate void RequestNameChanged(String RequestName);
         public delegate void RequestStart(Request request);
-        public delegate void RequestDone(Request request,String Results);
+        public delegate void RequestDone(Request request, String Results);
         public delegate void SelectedInspectionChanged(Inspection NewSelectedInspection);
         public delegate void InspectionRemoved(Inspection inspection);
         public delegate void NewInspectionsList(InspectionsList list);
@@ -1530,10 +1528,10 @@ namespace VisionModule {
         public event NewInspectionsList OnNewInspectionsList;
 
         public event RequestStart OnRequestStartHandler;
-        
+
         public event RequestDone OnRequestDoneHandler;
 
-        public event RequestNameChanged OnRequestNameChanged;        
+        public event RequestNameChanged OnRequestNameChanged;
         public event SelectedInspectionChanged OnSelectedInspectionChanged;
 
         //[XmlIgnore]
@@ -1559,14 +1557,14 @@ namespace VisionModule {
 
                 UndoRedoManager.Commit();
             }
-            if (OnInspectionRemoved!=null) {
+            if (OnInspectionRemoved != null) {
                 OnInspectionRemoved(inspection);
             }
             inspection.Dispose();
         }
 
         private String ProcessResults() {
-             StringBuilder sendstr = new StringBuilder();
+            StringBuilder sendstr = new StringBuilder();
             try {
                 _requestOK = false;
 
@@ -1575,22 +1573,22 @@ namespace VisionModule {
                 Boolean allok = true;
                 sendstr.Clear();
                 foreach (ResultInfo result in Results) {
-                    
-                    
+
+
                     sendstr.Append("RESULTS|" + ID + "|" + result.ID + "|");
 
 
                     foreach (ResultInput item in result.Inputs) {
-                        if (item.Input!=null) {
-                            item.Input.UpdateValue(); 
+                        if (item.Input != null) {
+                            item.Input.UpdateValue();
                         }
-                        String strtemp=item.InputValue.Replace(".", result.DecimalSeparator);
+                        String strtemp = item.InputValue.Replace(".", result.DecimalSeparator);
                         strtemp = item.InputValue.Replace(",", result.DecimalSeparator);
 
-                        sendstr.Append(item.Parameter + "=" +strtemp + "|");
+                        sendstr.Append(item.Parameter + "=" + strtemp + "|");
 
                         double val = 0;
-                        double.TryParse(item.InputValue,out val);
+                        double.TryParse(item.InputValue, out val);
                         if (val < item.MinValue || val > item.MaxValue) {
                             allok = false;
                         }
@@ -1600,16 +1598,16 @@ namespace VisionModule {
                     Console.WriteLine(sendstr);
                     _requestOK = allok;
 
-                    
+
                 }
 
 
 
 
             } catch (Exception exp) {
-                
+
                 Console.WriteLine(exp);
-                log.Error( exp);
+                log.Error(exp);
 
                 return "Results ERROR";
             }
@@ -1621,7 +1619,7 @@ namespace VisionModule {
 
         public void AddInspection() {
 
-            
+
 
             try {
 
@@ -1637,20 +1635,20 @@ namespace VisionModule {
                     return;
                 }
                 Inspection newInsp = new Inspection("NewInspection", id);
-                newInsp.InspPos = id+1;
+                newInsp.InspPos = id + 1;
                 newInsp.RequestName = this.Name;
                 if (!UndoRedoManager.IsCommandStarted) {
                     using (UndoRedoManager.Start("new Inspection added:" + Name)) {
                         Inspections.Add(newInsp);
                         UndoRedoManager.Commit();
                     }
-                    
+
                 }
 
 
 
             } catch (Exception exp) {
-                log.Error( exp);
+                log.Error(exp);
 
             }
 
@@ -1699,7 +1697,7 @@ namespace VisionModule {
                     } else {
                         _name.Value = value;
                     }
-                    
+
                     if (OnRequestNameChanged != null) {
                         OnRequestNameChanged(_name.Value);
 
@@ -1710,13 +1708,13 @@ namespace VisionModule {
             }
         }
 
-      
+
 
         public override string ToString() {
             return Name;
         }
 
-        
+
 
         public class InspectionsList : UndoRedoList<Inspection> {
 
@@ -1728,24 +1726,24 @@ namespace VisionModule {
         public InspectionsList Inspections {
             get { return _Inspections; }
             set {
-                if (_Inspections!=value) {
+                if (_Inspections != value) {
                     _Inspections = value;
-                    if (OnNewInspectionsList!=null) {
+                    if (OnNewInspectionsList != null) {
                         OnNewInspectionsList(value);
                     }
                 }
             }
         }
-        
 
-       // Thread RequestThread = null;
 
-        public Boolean ProcessRequest(Object Sender,Boolean capture,Request CallingRequest) {
+        // Thread RequestThread = null;
+
+        public Boolean ProcessRequest(Object Sender, Boolean capture, Request CallingRequest) {
 
             //this.FromClient = fromClient;
 
             //OnRequestStart(this);
-            
+
             try {
                 foreach (ResultInfo result in Results) {
 
@@ -1759,7 +1757,7 @@ namespace VisionModule {
 
 
                 if (Sender is TCPServer) {
-                    ((TCPServer)Sender).Client.Write("REQUEST OK|" + this.ID); 
+                    ((TCPServer)Sender).Client.Write("REQUEST OK|" + this.ID);
                 }
 
                 var orderedinspections = from thereq in this.Inspections
@@ -1770,35 +1768,35 @@ namespace VisionModule {
                     Inspection _inspect = orderedinspections.ElementAt(i);
                     if (_inspect != null) {
                         //_inspect.TCPClient = FromClient;
-                        _inspect.Execute(Sender,capture);
+                        _inspect.Execute(Sender, capture);
                     }
                 }
 
 
-            
+
 
             } catch (Exception exp) {
-                log.Error( exp);
+                log.Error(exp);
                 Console.WriteLine(exp);
 
                 return false;
             }
 
-            
+
 
             if (Sender is TCPServer) {
-                
-                ((TCPServer)Sender).Client.Write(ProcessResults());                
+
+                ((TCPServer)Sender).Client.Write(ProcessResults());
 
             }
-          //  OnRequestDone(this, ProcessResults());
+            //  OnRequestDone(this, ProcessResults());
 
             return true;
-           
+
         }
 
 
-        public Inspection Add(string name, String requestname,int reqid, int _id, int Pos) {
+        public Inspection Add(string name, String requestname, int reqid, int _id, int Pos) {
 
 
 
@@ -1810,8 +1808,8 @@ namespace VisionModule {
                 UndoRedoManager.Commit();
             }
             _newinspect.RequestName = requestname;
-            if(!UndoRedoManager.IsCommandStarted){
-                using (UndoRedoManager.Start("Inspection added:" + name+_id.ToString())) {
+            if (!UndoRedoManager.IsCommandStarted) {
+                using (UndoRedoManager.Start("Inspection added:" + name + _id.ToString())) {
                     Inspections.Add(_newinspect);
                     UndoRedoManager.Commit();
 
@@ -1819,42 +1817,42 @@ namespace VisionModule {
             } else {
                 Inspections.Add(_newinspect);
             }
-            
+
 
             return _newinspect;
         }
 
 
-       
+
 
         Inspection _SelectedInspection;
-        [Browsable(false),XmlIgnore]
+        [Browsable(false), XmlIgnore]
         public Inspection SelectedInspection {
             get {
                 return _SelectedInspection;
             }
             set {
-                
-                if (_SelectedInspection!=value) {
-                    if ( _SelectedInspection!=null) {
-                        if (value!=null) {
+
+                if (_SelectedInspection != value) {
+                    if (_SelectedInspection != null) {
+                        if (value != null) {
                             if (value.CaptureSource != null) {
                                 //value.CaptureSource.UpdateAttributes();
-                            } 
+                            }
                         }
 
-                        _SelectedInspection.SetLayers(false);  
-                        
+                        _SelectedInspection.SetLayers(false);
+
                     }
                     _SelectedInspection = value;
-                    if (_SelectedInspection!=null) {
-                        _SelectedInspection.SetLayers(true);                          
+                    if (_SelectedInspection != null) {
+                        _SelectedInspection.SetLayers(true);
                     }
-                    
-                    if (OnSelectedInspectionChanged!=null) {
+
+                    if (OnSelectedInspectionChanged != null) {
                         OnSelectedInspectionChanged(_SelectedInspection);
                     }
-                    
+
                 }
             }
         }
@@ -1870,7 +1868,7 @@ namespace VisionModule {
 
         public Request() {
 
-           
+
             Inspections = new InspectionsList();
             _name = new UndoRedo<string>("New Request");
             _name.OnMemberRedo += new UndoRedo<string>.MemberRedo(_name_OnMemberRedo);
@@ -1879,14 +1877,14 @@ namespace VisionModule {
         }
 
         void _Removed_OnMemberUndo(string UndoObject) {
-            
+
         }
 
         void _name_OnMemberRedo(string UndoObject) {
             if (OnRequestNameChanged != null) {
                 OnRequestNameChanged(UndoObject);
 
-            }  
+            }
         }
 
         public void Dispose() {
@@ -1901,11 +1899,774 @@ namespace VisionModule {
             OnRequestDoneHandler = null;
             OnRequestStartHandler = null;
 
-            
+
         }
 
     }
-    
+
+
+
+    public class VisionProject : ICloneable {
+
+        private static KPPLogger log;
+
+        public delegate void SelectedRequestChanged(Request NewSelectedRequest);
+
+        public delegate void RequestRemoved(Request request);
+
+
+        public event SelectedRequestChanged OnSelectedRequestChanged;
+        public event RequestRemoved OnRequestRemoved;
+
+
+        private String m_ModuleName;
+        [XmlAttribute]
+        public String ModuleName {
+            get { return m_ModuleName; }
+            set {
+                if (m_ModuleName != value) {
+
+                    log.SetNewLogger(this.GetType(), m_ModuleName, value);
+
+                    m_ModuleName = value;
+                    foreach (Request req in RequestList) {
+                        req.ModuleName = value;
+                    }
+
+
+
+
+
+
+                }
+            }
+        }
+
+        [XmlAttribute]
+        public String Name { get; set; }
+        [XmlAttribute("ID")]
+        public int ProjectID { get; set; }
+
+
+        private bool _loadonstart = false;
+        [XmlAttribute]
+        public bool Loadonstart {
+            get { return _loadonstart; }
+            set {
+                _loadonstart = value;
+            }
+        }
+
+        public object Clone() {
+            return this.MemberwiseClone();
+        }
+
+        public class Requests : UndoRedoList<Request> {
+
+
+        }
+
+
+
+        public void RemoveRequest(Request therequest) {
+            try {
+
+                if (therequest != null) {
+                    using (UndoRedoManager.Start("Request remove:" + therequest.Name)) {
+                        RequestList.Remove(therequest);
+                        UndoRedoManager.Commit();
+                    }
+
+                    if (OnRequestRemoved != null) {
+                        OnRequestRemoved(therequest);
+                    }
+
+                    therequest.Dispose();
+
+
+                }
+            } catch (Exception exp) {
+
+                log.Error(exp);
+
+            }
+        }
+
+
+        public Requests RequestList { get; set; }
+
+        private Request _SelectedRequest;
+        [XmlIgnore]
+        public Request SelectedRequest {
+            get {
+                return _SelectedRequest;
+            }
+            set {
+                if (_SelectedRequest != value) {
+                    if (_SelectedRequest != null) {
+                        if (_SelectedRequest.SelectedInspection != null) {
+                            _SelectedRequest.SelectedInspection.SetLayers(false);
+                        }
+
+                    }
+                    _SelectedRequest = value;
+                    if (OnSelectedRequestChanged != null) {
+                        OnSelectedRequestChanged(value);
+                    }
+                }
+
+            }
+        }
+
+
+        internal static List<Inspection> ListInspections = new List<Inspection>();
+
+        public void Dispose() {
+            try {
+                OnSelectedRequestChanged = null;
+                foreach (Request req in RequestList) {
+                    req.Dispose();
+                }
+
+                SelectedRequest = null;
+
+
+            } catch (Exception exp) {
+
+                log.Error(exp);
+            }
+        }
+
+
+
+        public VisionProject() {
+
+            log = new KPPLogger(typeof(VisionProject), name: ModuleName);
+
+            Name = "default project name";
+
+            RequestList = new Requests();
+
+            ProjectID = -1;
+
+        }
+
+
+    }
+
+
+    public sealed class VisionProjects {
+
+        #region -  Serialization attributes  -
+
+        internal static Int32 S_BackupFilesToKeep = 5;
+        internal static String S_BackupFolderName = "backup";
+        internal static String S_BackupExtention = "bkp";
+        internal static String S_DefaulFileExtention = "xml";
+
+        private String _filePath = null;
+        private String _defaultPath = null;
+
+        [XmlIgnore]
+        public Int32 BackupFilesToKeep { get; set; }
+        [XmlIgnore]
+        public String BackupFolderName { get; set; }
+        [XmlIgnore]
+        public String BackupExtention { get; set; }
+
+        #endregion
+        private static KPPLogger log = new KPPLogger(typeof(VisionProjects));
+
+        [XmlAttribute]
+        public String Name { get; set; }
+
+        public string ModuleName {
+            get;
+            set;
+        }
+
+
+
+        public List<VisionProject> Projects { get; set; }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public VisionProjects() {
+            Name = "Vision Projects";
+            Projects = new List<VisionProject>();
+        }
+
+
+        //    StaticObjects.ListInspections.Add(item);
+
+        #region Read Operations
+
+        /// <summary>
+        /// Reads the configuration.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
+        internal static VisionProjects ReadConfigurationFile(string path) {
+            //log.Debug(String.Format("Load Xml file://{0}", path));
+            if (File.Exists(path)) {
+                VisionProjects result = null;
+                TextReader reader = null;
+
+                try {
+                    XmlSerializer serializer = new XmlSerializer(typeof(VisionProjects));
+                    reader = new StreamReader(path);
+
+                    UndoRedoManager.StartInvisible("Init");
+
+                    VisionProjects config = serializer.Deserialize(reader) as VisionProjects;
+
+                    config._filePath = path;
+
+                    result = config;
+                    UndoRedoManager.Commit();
+                } catch (Exception exp) {
+                    log.Error(exp);
+                } finally {
+                    if (reader != null) {
+                        reader.Close();
+                    }
+                }
+                return result;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Reads the configuration.
+        /// </summary>
+        /// <param name="childtype">The childtype.</param>
+        /// <param name="xmlString">The XML string.</param>
+        /// <returns></returns>
+        internal static VisionProjects ReadConfigurationString(string xmlString) {
+            try {
+                XmlSerializer serializer = new XmlSerializer(typeof(VisionProjects));
+                VisionProjects config = serializer.Deserialize(new StringReader(xmlString)) as VisionProjects;
+
+                return config;
+            } catch (Exception exp) {
+                log.Error(exp);
+            }
+            return null;
+        }
+
+        #endregion
+
+        #region Write Operations
+
+        /// <summary>
+        /// Writes the configuration.
+        /// </summary>
+        public void WriteConfigurationFile() {
+            if (_filePath != null) {
+
+                WriteConfigurationFile(_filePath);
+
+            }
+        }
+
+        /// <summary>
+        /// Writes the configuration.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        public void WriteConfigurationFile(string path) {
+
+            WriteConfiguration(this, path, BackupFolderName, BackupExtention, BackupFilesToKeep);
+
+        }
+
+        /// <summary>
+        /// Writes the configuration string.
+        /// </summary>
+        /// <returns></returns>
+        public String WriteConfigurationToString() {
+
+            return WriteConfigurationToString(this);
+        }
+
+        /// <summary>
+        /// Writes the configuration.
+        /// </summary>
+        /// <param name="config">The config.</param>
+        /// <param name="path">The path.</param>
+        internal static void WriteConfiguration(VisionProjects config, string path) {
+            WriteConfiguration(config, path, S_BackupFolderName, S_BackupExtention, S_BackupFilesToKeep);
+        }
+
+        /// <summary>
+        /// Writes the configuration.
+        /// </summary>
+        /// <param name="config">The config.</param>
+        /// <param name="path">The path.</param>
+        internal static void WriteConfiguration(VisionProjects config, string path, string backupFolderName, String backupExtention, Int32 backupFilesToKeep) {
+            if (File.Exists(path) && backupFilesToKeep > 0) {
+                //Do a file backup prior to overwrite
+                try {
+                    //Check if valid backup folder name
+                    if (backupFolderName == null || backupFolderName.Length == 0) {
+                        backupFolderName = "backup";
+                    }
+
+                    //Check Backup folder
+                    String bkpFolder = Path.Combine(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Config"), backupFolderName);
+                    if (!Directory.Exists(bkpFolder)) {
+                        Directory.CreateDirectory(bkpFolder);
+                    }
+
+                    //Check extention
+                    String ext = backupExtention != null && backupExtention.Length > 0 ? backupExtention : Path.GetExtension(path);
+                    if (!ext.StartsWith(".")) { ext = String.Format(".{0}", ext); }
+
+                    //Delete existing backup file (This should not exist)
+                    String bkpFile = Path.Combine(bkpFolder, String.Format("{0}_{1:yyyyMMddHHmmss}{2}", Path.GetFileNameWithoutExtension(path), DateTime.Now, ext));
+                    if (File.Exists(bkpFile)) { File.Delete(bkpFile); }
+
+                    //Delete excess backup files
+                    String fileSearchPattern = String.Format("{0}_*{1}", Path.GetFileNameWithoutExtension(path), ext);
+                    String[] bkpFilesList = Directory.GetFiles(bkpFolder, fileSearchPattern, SearchOption.TopDirectoryOnly);
+                    if (bkpFilesList != null && bkpFilesList.Length > (backupFilesToKeep - 1)) {
+                        bkpFilesList = bkpFilesList.OrderByDescending(f => f.ToString()).ToArray();
+                        for (int i = (backupFilesToKeep - 1); i < bkpFilesList.Length; i++) {
+                            File.Delete(bkpFilesList[i]);
+                        }
+                    }
+
+                    //Backup current file
+                    File.Copy(path, bkpFile);
+                    //log.Debug(String.Format("Backup file://{0} to file://{1}", path, bkpFile));
+                } catch (Exception exp) {
+                    //log.Error(String.Format("Error copying file {0} to backup.", path), exp);
+                }
+            }
+            try {
+
+                XmlSerializer serializer = new XmlSerializer(config.GetType());
+                TextWriter textWriter = new StreamWriter(path);
+                serializer.Serialize(textWriter, config);
+                textWriter.Close();
+
+                //log.Debug(String.Format("Write Xml file://{0}", path));
+            } catch (Exception exp) {
+                log.Error("Error writing configuration. ", exp);
+
+                Console.WriteLine(exp.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Writes the configuration to string.
+        /// </summary>
+        /// <param name="config">The config.</param>
+        /// <returns></returns>
+        internal static String WriteConfigurationToString(VisionProjects config) {
+            try {
+                XmlSerializer serializer = new XmlSerializer(config.GetType());
+                StringWriter stOut = new StringWriter();
+
+                serializer.Serialize(stOut, config);
+
+                return stOut.ToString();
+            } catch (Exception exp) {
+                //log.Error("Error writing configuration. ", exp);
+
+            }
+            return null;
+        }
+
+        #endregion
+
+
+    }
+
+
+
+    internal sealed class ProcessingFunctionDefinition {
+        public String FunctionType { get; set; }
+        [Browsable(false), XmlAttribute]
+        public String FunctionGroup { get; set; }
+        public Type BaseType { get; set; }
+
+
+        public ProcessingFunctionDefinition(String _FunctionType, String _FunctionGroup, Type t) {
+            FunctionType = _FunctionType;
+            FunctionGroup = _FunctionGroup;
+            BaseType = t;
+        }
+
+        public override string ToString() {
+            return FunctionType;
+        }
+    }
+
+    internal static class ReflectionController {
+
+        internal static List<ProcessingFunctionDefinition> ProcessingFunctions = new List<ProcessingFunctionDefinition>();
+        //internal static List<ResultsProcessingDefinition> ResultsProcessingFunctions = new List<ResultsProcessingDefinition>();
+
+        internal static void LoadFolder(String path) {
+            if (path != null && path.Length > 0) {
+                String dpath;
+                if (Directory.Exists(dpath = Path.GetDirectoryName(path))) {
+                    DirectoryInfo di = new DirectoryInfo(dpath);
+                    List<FileInfo> files = di.GetFiles("*.dll").ToList();
+                    if (files.Count > 0) {
+                        foreach (FileInfo fi in files) {
+                            Load(fi.FullName);
+                        }
+                    }
+                }
+            }
+        }
+
+        internal static void Load(String path) {
+            if (path != null && path.Length > 0) {
+                if (File.Exists(path)) {
+                    try {
+                        Assembly ass = Assembly.LoadFrom(path);
+
+                        List<Type> types = ass.GetTypes().ToList();
+                        if (types.Count > 0) {
+                            List<object> atts;
+                            foreach (Type t in types) {
+                                atts = t.GetCustomAttributes(typeof(ProcessingFunctionAttribute), true).ToList();
+                                try {
+                                    if (atts.Count > 0) {
+                                        foreach (ProcessingFunctionAttribute pf in atts) {
+                                            if (ProcessingFunctions.Where(p => p.BaseType.FullName.Equals(t.FullName)).Count() == 0) {
+                                                Console.WriteLine("Found new Processing Function " + pf.FunctionType);
+                                                ProcessingFunctions.Add(new ProcessingFunctionDefinition(pf.FunctionType, pf.FunctionGroup, t));
+                                            } else {
+                                                //O tipo ja está na lista
+                                            }
+                                        }
+                                    }
+                                } catch (Exception exp) {
+                                    Console.WriteLine("Error loading Type Attributes");
+                                    Console.WriteLine(exp.ToString());
+                                }
+
+                                //atts = t.GetCustomAttributes(typeof(ResultsProcessingAttribute), true).ToList();
+                                //try {
+                                //    if (atts.Count > 0) {
+                                //        foreach (ResultsProcessingAttribute pf in atts) {
+                                //            if (ResultsProcessingFunctions.Where(r => r.BaseType.FullName.Equals(t.FullName)).Count() == 0) {
+                                //                Console.WriteLine("Found new result processing function " + pf.Name);
+                                //                ResultsProcessingFunctions.Add(new ResultsProcessingDefinition(pf.Name, t));
+                                //            }
+                                //            else {
+                                //                //O tipo ja está na lista
+                                //            }
+                                //        }
+                                //    }
+                                //} catch (Exception exp) {
+                                //    Console.WriteLine("Error loading Type Attributes");
+                                //    Console.WriteLine(exp.ToString());
+                                //}
+
+                            }
+                        }
+                    } catch (Exception exp) {
+                        Console.WriteLine("Unable to load file " + path);
+                        Console.WriteLine(exp.ToString());
+                    }
+                }
+            }
+        }
+
+        internal static void UnloadAll() {
+            ProcessingFunctions.Clear();
+
+        }
+    }
+
+
+    #endregion
+
+
+    #region Vision Settings
+
+
+
+    public sealed class VisionSettings {
+
+
+
+
+
+        #region -  Serialization attributes  -
+
+        public static Int32 S_BackupFilesToKeep = 5;
+        public static String S_BackupFolderName = "backup";
+        public static String S_BackupExtention = "bkp";
+        public static String S_DefaulFileExtention = "xml";
+
+        private String _filePath = null;
+        private String _defaultPath = null;
+
+        [XmlIgnore]
+        public Int32 BackupFilesToKeep { get; set; }
+        [XmlIgnore]
+        public String BackupFolderName { get; set; }
+        [XmlIgnore]
+        public String BackupExtention { get; set; }
+
+        #endregion
+        private static KPPLogger log = new KPPLogger(typeof(VisionSettings));
+
+        [XmlAttribute]
+        public String Name { get; set; }
+
+
+        public List<String> ProjectDirectories { get; set; }
+
+        public List<TCPServer> Servers { get; set; }
+
+        public String ProjectFile { get; set; }
+
+        private String m_ModuleName;
+        [XmlAttribute]
+        public String ModuleName {
+            get { return m_ModuleName; }
+            set { m_ModuleName = value; }
+        }
+
+             
+        private string m_DockFile;// = Path.Combine(FilesLocation, ModuleName + "DockPanel.dock");
+        [XmlIgnore, Browsable(false)]
+        public string DockFile {
+            get { return m_DockFile; }
+            set { m_DockFile = value; }
+        }
+        
+
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public VisionSettings() {
+            Name = "Vision Settings";
+            Servers = new List<TCPServer>();
+            ProjectFile = "";
+        }
+
+        #region Read Operations
+
+        /// <summary>
+        /// Reads the configuration.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
+        public static VisionSettings ReadConfigurationFile(string path) {
+            //log.Debug(String.Format("Load Xml file://{0}", path));
+            if (File.Exists(path)) {
+                VisionSettings result = null;
+                TextReader reader = null;
+
+                try {
+                    XmlSerializer serializer = new XmlSerializer(typeof(VisionSettings));
+                    reader = new StreamReader(path);
+                    VisionSettings config = serializer.Deserialize(reader) as VisionSettings;
+                    config._filePath = path;
+
+                    result = config;
+                } catch (Exception exp) {
+                    log.Error(exp);
+                } finally {
+                    if (reader != null) {
+                        reader.Close();
+                    }
+                }
+                return result;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Reads the configuration.
+        /// </summary>
+        /// <param name="childtype">The childtype.</param>
+        /// <param name="xmlString">The XML string.</param>
+        /// <returns></returns>
+        public static VisionSettings ReadConfigurationString(string xmlString) {
+            try {
+                XmlSerializer serializer = new XmlSerializer(typeof(VisionSettings));
+                VisionSettings config = serializer.Deserialize(new StringReader(xmlString)) as VisionSettings;
+
+                return config;
+            } catch (Exception exp) {
+                log.Error(exp);
+            }
+            return null;
+        }
+
+        #endregion
+
+        #region Write Operations
+
+        /// <summary>
+        /// Writes the configuration.
+        /// </summary>
+        public void WriteConfigurationFile() {
+            if (_filePath != null) {
+                WriteConfigurationFile(_filePath);
+            }
+        }
+
+        /// <summary>
+        /// Writes the configuration.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        public void WriteConfigurationFile(string path) {
+            WriteConfiguration(this, path, BackupFolderName, BackupExtention, BackupFilesToKeep);
+        }
+
+        /// <summary>
+        /// Writes the configuration string.
+        /// </summary>
+        /// <returns></returns>
+        public String WriteConfigurationToString() {
+            return WriteConfigurationToString(this);
+        }
+
+        /// <summary>
+        /// Writes the configuration.
+        /// </summary>
+        /// <param name="config">The config.</param>
+        /// <param name="path">The path.</param>
+        public static void WriteConfiguration(VisionSettings config, string path) {
+            WriteConfiguration(config, path, S_BackupFolderName, S_BackupExtention, S_BackupFilesToKeep);
+        }
+
+        /// <summary>
+        /// Writes the configuration.
+        /// </summary>
+        /// <param name="config">The config.</param>
+        /// <param name="path">The path.</param>
+        public static void WriteConfiguration(VisionSettings config, string path, string backupFolderName, String backupExtention, Int32 backupFilesToKeep) {
+            if (File.Exists(path) && backupFilesToKeep > 0) {
+                //Do a file backup prior to overwrite
+                try {
+                    //Check if valid backup folder name
+                    if (backupFolderName == null || backupFolderName.Length == 0) {
+                        backupFolderName = "backup";
+                    }
+
+                    //Check Backup folder
+                    String bkpFolder = Path.Combine(Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Config"), backupFolderName);
+                    if (!Directory.Exists(bkpFolder)) {
+                        Directory.CreateDirectory(bkpFolder);
+                    }
+
+                    //Check extention
+                    String ext = backupExtention != null && backupExtention.Length > 0 ? backupExtention : Path.GetExtension(path);
+                    if (!ext.StartsWith(".")) { ext = String.Format(".{0}", ext); }
+
+                    //Delete existing backup file (This should not exist)
+                    String bkpFile = Path.Combine(bkpFolder, String.Format("{0}_{1:yyyyMMddHHmmss}{2}", Path.GetFileNameWithoutExtension(path), DateTime.Now, ext));
+                    if (File.Exists(bkpFile)) { File.Delete(bkpFile); }
+
+                    //Delete excess backup files
+                    String fileSearchPattern = String.Format("{0}_*{1}", Path.GetFileNameWithoutExtension(path), ext);
+                    String[] bkpFilesList = Directory.GetFiles(bkpFolder, fileSearchPattern, SearchOption.TopDirectoryOnly);
+                    if (bkpFilesList != null && bkpFilesList.Length > (backupFilesToKeep - 1)) {
+                        bkpFilesList = bkpFilesList.OrderByDescending(f => f.ToString()).ToArray();
+                        for (int i = (backupFilesToKeep - 1); i < bkpFilesList.Length; i++) {
+                            File.Delete(bkpFilesList[i]);
+                        }
+                    }
+
+                    //Backup current file
+                    File.Copy(path, bkpFile);
+                    //log.Debug(String.Format("Backup file://{0} to file://{1}", path, bkpFile));
+                } catch (Exception exp) {
+                    //log.Error(String.Format("Error copying file {0} to backup.", path), exp);
+                }
+            }
+            try {
+                XmlSerializer serializer = new XmlSerializer(config.GetType());
+
+                //serializer.
+
+                TextWriter textWriter = new StreamWriter(path);
+                serializer.Serialize(textWriter, config);
+                textWriter.Close();
+                //log.Debug(String.Format("Write Xml file://{0}", path));
+            } catch (Exception exp) {
+                //log.Error("Error writing configuration. ", exp);
+                Console.WriteLine(exp.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Writes the configuration to string.
+        /// </summary>
+        /// <param name="config">The config.</param>
+        /// <returns></returns>
+        public static String WriteConfigurationToString(VisionSettings config) {
+            try {
+                XmlSerializer serializer = new XmlSerializer(config.GetType());
+                StringWriter stOut = new StringWriter();
+                serializer.Serialize(stOut, config);
+                return stOut.ToString();
+            } catch (Exception exp) {
+                //log.Error("Error writing configuration. ", exp);
+            }
+            return null;
+        }
+
+        #endregion
+    }
+
+
+    public class Vision {
+
+        VisionForm visionform = new VisionForm();
+
+        public Vision() {
+
+        }
+
+        public void Start(String ModuleName,String SettingsFile, DockPanel dockingpanel) {
+
+            visionform.InitModule(ModuleName, SettingsFile, dockingpanel);
+
+            //if (!Directory.Exists(FilesLocation)) {
+            //    Directory.CreateDirectory(FilesLocation);
+            //}
+
+
+            //DockFile = Path.Combine(FilesLocation, ModuleName + "DockPanel.dock");
+            //ModuleSettingsFile = Path.Combine(FilesLocation, ModuleName + ".module");
+
+            //Uri fullPath = new Uri(new Uri(appath), DockFile);
+            //DockFile = fullPath.LocalPath;// +Path.GetFileName(newpath);
+
+            //fullPath = new Uri(new Uri(appath), ModuleSettings);
+            //ModuleSettings = fullPath.LocalPath;// +Path.GetFileName(newpath);
+
+            //if (!File.Exists(ModuleSettings)) {
+
+            //    VisionSettings.WriteConfiguration(new VisionSettings(), ModuleSettings);
+            //}
+
+            //ModuleForm = new VisionForm();
+            //ModuleForm.DockFile = DockFile;
+            //ModuleForm.ModuleSettingsFile = ModuleSettings;
+            //ModuleForm.InitModule();
+        }
+
+    }
+
+    #endregion
 }
 
 

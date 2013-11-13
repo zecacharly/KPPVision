@@ -41,51 +41,45 @@ using KPPAutomationCore;
 namespace VisionModule {
 
 
-    public partial class VisionForm : DockContent {
+    internal partial class VisionForm : DockContent {
         
-        //protected override CreateParams CreateParams {
-        //    get {
-        //        CreateParams cp = base.CreateParams;
-        //        cp.ExStyle |= 0x02000000;
-        //        return cp;
-        //    }
-        //} 
-
 
         public override string ToString() {
             return this.Name;
         }
 
+
+        #region Fields
+
         private static KPPLogger log = new KPPLogger(typeof(VisionForm));
+        private DeserializeDockContent m_deserializeDockContent;        
+        private NotifyIcon trayIcon;
+        private ContextMenu trayMenu;
+        [DllImport("User32.dll")]
+        private static extern Int32 SetForegroundWindow(int hWnd);
 
-        public VisionProject SelectedProject = null;
+        
+        private String VisionSettingsFile;
+
+        private VisionSettings VisionConfig = null;  
+        private VisionProject SelectedProject = null;
+        private VisionProjects VisionProjectsConfig = null;
         
 
 
+        private String ModuleName;
+
+    
+
         
 
-        private string m_ModuleSettingsFile = "";
+        #endregion
 
-        public string ModuleSettingsFile {
-            get {                
-                return m_ModuleSettingsFile; 
-            }
-            set { m_ModuleSettingsFile = value; }
-        }
-
-        DeserializeDockContent m_deserializeDockContent;
-
-        //Inspection _SelectedInspection = null;
-
-
-
+        #region  forms init
 
         ArrowPadControl ArrowPad = null;
-
         ProjectOptionsForm _ProjectOptionsForm = new ProjectOptionsForm();
-
         IOSettingsForm _IOSettingsForm = new IOSettingsForm();
-
         ConfigurationsForm _ConfigurationsForm = new ConfigurationsForm();
         ListInspForm _ListInspForm = new ListInspForm();
         ImageContainerForm _ImageContainer = new ImageContainerForm();
@@ -94,6 +88,7 @@ namespace VisionModule {
         ViewInspections _viewinspections = new ViewInspections();
         ListROIForm _ListROIForm = new ListROIForm();
 
+        #endregion
 
 
 
@@ -103,10 +98,6 @@ namespace VisionModule {
                 typeof(PropertyGrid).InvokeMember("gridView", BindingFlags.GetField | BindingFlags.NonPublic | BindingFlags.Instance, null, propertyGrid, null);
             propertyGridView.GetType().InvokeMember("MoveSplitterTo", BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Instance, null, propertyGridView, new object[] { x });
         }
-
-
-
-
 
         void InputInfo_OnImageSizeChanged(Size NewImageSizeInfo) {
             try {
@@ -129,10 +120,7 @@ namespace VisionModule {
             }
         }
 
-
-        public Boolean _silentexit = false;
-        private NotifyIcon trayIcon;
-        private ContextMenu trayMenu;
+        
 
 
 
@@ -161,8 +149,7 @@ namespace VisionModule {
 
         }
 
-        [DllImport("User32.dll")]
-        internal static extern Int32 SetForegroundWindow(int hWnd);
+      
 
         void trayIcon_DoubleClick(object sender, EventArgs e) {
             this.WindowState = FormWindowState.Maximized;
@@ -177,6 +164,8 @@ namespace VisionModule {
 
         public VisionForm() {
             
+
+
             switch (LanguageSettings.Language) {
                 case LanguageName.Unk:
                     break;
@@ -276,54 +265,18 @@ namespace VisionModule {
             }
         }
 
-        public VisionProjects VisionProjectsConfig = null;
-        public VisionSettings VisionModuleConfig = null;
-
-        private String m_DockFile = "";
-
-        public String DockFile {
-            get { return m_DockFile; }
-            set { m_DockFile = value; }
-        }
-
-        private String m_ModuleName = "Vision Module";
-        [XmlIgnore]
-        public String ModuleName {
-            get { return m_ModuleName; }
-            set {
-                if (m_ModuleName != value) {
-                    m_ModuleName = value;
-
-                    if (SelectedProject == null) {
-                        this.Text = value;
-                    }
-                    else {
-                        this.Text = value + " : " + SelectedProject.Name;
-                    }
-
-                    // TODO rename dockfiles and module settings file
-                    if (VisionProjectsConfig!=null) {
-
-                        foreach (VisionProject proj in VisionProjectsConfig.Projects) {
-                            proj.ModuleName = value;
-                            
-                        }
-
-                        VisionProjectsConfig.WriteConfigurationFile();
-                    }
-
-                }
-            }
-        }
+        
 
         protected override string GetPersistString() {
             return ModuleName;
         }
 
-        public void InitModule() {
-
+        public void InitModule(String moduleName, String visionSettingsFile,DockPanel maindock) {
+            ModuleName = moduleName;
+            VisionSettingsFile = visionSettingsFile;
 
             try {
+                
                 //   this.Hide();
                 Thread splashthread = new Thread(new ThreadStart(SplashScreen.ShowSplashScreen));
                 splashthread.IsBackground = true;
@@ -352,44 +305,18 @@ namespace VisionModule {
                 //}
 
 
-                #region project forms init
 
+                VisionConfig = VisionSettings.ReadConfigurationFile(VisionSettingsFile);
+                VisionConfig.BackupExtention = ".bkp";
+                VisionConfig.BackupFilesToKeep = 5;
+                VisionConfig.BackupFolderName = "Backup";
 
-
-                CvInvoke.CvAllocFunc sss = new CvInvoke.CvAllocFunc(delegate {
-                    return new IntPtr();
-                });
-
-
-                SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_1"), TypeOfMessage.Success);
-
-
-
-                VisionModuleConfig = VisionSettings.ReadConfigurationFile(ModuleSettingsFile);
-                VisionModuleConfig.BackupExtention = ".bkp";
-                VisionModuleConfig.BackupFilesToKeep = 5;
-                VisionModuleConfig.BackupFolderName = "Backup";
-
-                _ConfigurationsForm.Appsettings = VisionModuleConfig;
-
-
-                foreach (TCPServer item in VisionModuleConfig.Servers) {
-                    item.Connected += new TCPServer.TcpServerEventDlgt(Server_Connected);
-                    item.Disconnected += new TCPServer.TcpServerEventDlgt(Server_Disconnected);
-                    item.ServerClientMessage += new TCPServer.TcpServerClientMessageEvent(Server_ClientMessage);
-                    item.StartListening();
-                }
-                _ConfigurationsForm.__serverconflist.Objects = VisionModuleConfig.Servers;
-
-
-
-
-                if (File.Exists(DockFile))
+                if (File.Exists(VisionConfig.DockFile))
                     try {
-                        __dockPanel1.LoadFromXml(DockFile, m_deserializeDockContent);
+                        __dockPanel1.LoadFromXml(VisionConfig.DockFile, m_deserializeDockContent);
                     } catch (Exception exp) {
 
-                        __dockPanel1.SaveAsXml(DockFile);
+                        __dockPanel1.SaveAsXml(VisionConfig.DockFile);
 
                     } else {
                     _ListROIForm.Show(__dockPanel1);
@@ -401,6 +328,31 @@ namespace VisionModule {
 
                 }
 
+
+                #region project forms init
+
+
+
+                SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_1"), TypeOfMessage.Success);
+
+
+
+
+                _ConfigurationsForm.Appsettings = VisionConfig;
+
+
+                foreach (TCPServer item in VisionConfig.Servers) {
+                    item.Connected += new TCPServer.TcpServerEventDlgt(Server_Connected);
+                    item.Disconnected += new TCPServer.TcpServerEventDlgt(Server_Disconnected);
+                    item.ServerClientMessage += new TCPServer.TcpServerClientMessageEvent(Server_ClientMessage);
+                    item.StartListening();
+                }
+                _ConfigurationsForm.__serverconflist.Objects = VisionConfig.Servers;
+
+
+
+
+               
 
 
 
@@ -462,7 +414,7 @@ namespace VisionModule {
                 SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_3"), TypeOfMessage.Success);
 
 
-                LoadProjectsFromFile(VisionModuleConfig.ProjectFile);
+                LoadProjectsFromFile(VisionConfig.ProjectFile);
 
 
 
@@ -572,6 +524,8 @@ namespace VisionModule {
                 AcessManagement.OnAcesslevelChanged += new AcessManagement.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
 
                 StaticObjects_OnAcesslevelChanged(AcessManagement.AcessLevel);
+
+                this.Show(maindock);
 
             } catch (Exception exp) {
                 log.Error(exp);
@@ -742,7 +696,7 @@ namespace VisionModule {
        
         void __btSave_Click(object sender, EventArgs e) {
             try {
-                VisionModuleConfig.WriteConfigurationFile(ModuleSettingsFile);
+                VisionConfig.WriteConfigurationFile(VisionSettingsFile);
                 
                 
             } catch (Exception exp) {
@@ -2874,14 +2828,16 @@ namespace VisionModule {
 
         public void Form1_FormClosing(object sender, FormClosingEventArgs e) {
             try {
+                throw new NotImplementedException();
+
                 System.Windows.Forms.DialogResult dialogresult;
                 if (e != null) {
                     if (e.CloseReason == CloseReason.UserClosing) {
 
-                        _silentexit = true;
+                        
                     }
                 }
-                if (!_silentexit) {
+                if (false) {
                     dialogresult = MessageBox.Show(this.GetResourceText("Close_application"), this.GetResourceText("Confirm_option"), MessageBoxButtons.YesNo);
                 }
                 else {
@@ -2916,15 +2872,15 @@ namespace VisionModule {
 
 
 
-                    if (VisionModuleConfig!=null) {                        
-                        VisionModuleConfig.WriteConfigurationFile();
+                    if (VisionConfig!=null) {                        
+                        VisionConfig.WriteConfigurationFile();
                     }
 
                     if (VisionProjectsConfig!=null) {
                         VisionProjectsConfig.WriteConfigurationFile();
                     }
                     //if (File.Exists(configFile) == false) {
-                    __dockPanel1.SaveAsXml(DockFile);
+                    __dockPanel1.SaveAsXml(VisionConfig.DockFile);
                     //}
                   
 
