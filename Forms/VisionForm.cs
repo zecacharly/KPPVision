@@ -276,7 +276,7 @@ namespace VisionModule {
             VisionSettingsFile = visionSettingsFile;
             
             try {
-                throw new Exception("teste");
+             
                 //   this.Hide();
                 Thread splashthread = new Thread(new ThreadStart(SplashScreen.ShowSplashScreen));
                 splashthread.IsBackground = true;
@@ -304,7 +304,9 @@ namespace VisionModule {
                 //    PhidgetsIO.SendCommand("SET_OUT", new String[] { "1", "ON" });
                 //}
 
-
+                if (!File.Exists(VisionSettingsFile)) {
+                    VisionSettings.WriteConfiguration(new VisionSettings(), visionSettingsFile);
+                }
 
                 VisionConfig = VisionSettings.ReadConfigurationFile(VisionSettingsFile);
                 VisionConfig.BackupExtention = ".bkp";
@@ -397,7 +399,7 @@ namespace VisionModule {
 
 
                 _ProjectOptionsForm.FormClosed += new FormClosedEventHandler(_ProjectOptionsForm_FormClosed);
-                _ProjectOptionsForm.FormClosing += new FormClosingEventHandler(_ProjectOptionsForm_FormClosing);
+                
 
 
 
@@ -437,7 +439,7 @@ namespace VisionModule {
 
 
 
-                _viewinspections.FormClosing += new FormClosingEventHandler(_viewinspections_FormClosing);
+                
 
 
 
@@ -697,7 +699,7 @@ namespace VisionModule {
        
         void __btSave_Click(object sender, EventArgs e) {
             try {
-                VisionConfig.WriteConfigurationFile(VisionSettingsFile);
+                VisionConfig.WriteConfigurationFile();
                 
                 
             } catch (Exception exp) {
@@ -1509,11 +1511,7 @@ namespace VisionModule {
 
 
 
-        void _viewinspections_FormClosing(object sender, FormClosingEventArgs e) {
-            e.Cancel = true;
-            _viewinspections.Hide();
-        }
-
+        
       
 
         public void ProcessResults() {
@@ -1535,22 +1533,6 @@ namespace VisionModule {
 
 
         private List<String> ResultsToSend = new List<string>();
-
-
-
-
-
-
-
-
-
-
-
-
-        void _IOForm_FormClosing(object sender, FormClosingEventArgs e) {
-            e.Cancel = true;
-
-        }
 
 
 
@@ -2886,7 +2868,8 @@ namespace VisionModule {
                   
 
                     SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("Exiting"), TypeOfMessage.Error);
-                    AppPerformanceMonitor.Stop();
+                    
+                    
                 }
             } catch (Exception exp) {
 
@@ -3067,6 +3050,7 @@ namespace VisionModule {
         }
 
         private void __toolExit_Click(object sender, EventArgs e) {
+            Restart = true;
             CloseCurrentConfiguration(false);
             this.Close();
         }
@@ -3262,7 +3246,14 @@ namespace VisionModule {
 
 
 
-        
+
+
+        private Boolean m_Restart = false;
+
+        public Boolean Restart {
+            get { return m_Restart; }
+            set { m_Restart = value; }
+        }
     }
 
     internal static class SplashScreen {

@@ -2629,6 +2629,9 @@ namespace VisionModule {
 
     public class Vision {
 
+        public delegate void ModuleFormClosedHandler(Boolean restart);
+        public event ModuleFormClosedHandler OnModuleFormClosed;
+
         VisionForm visionform = new VisionForm();
 
         public DockContent GetVisionForm() {
@@ -2636,12 +2639,20 @@ namespace VisionModule {
         }
 
         public Vision() {
+            visionform.FormClosed += new FormClosedEventHandler(visionform_FormClosed);
+        }
 
+        void visionform_FormClosed(object sender, FormClosedEventArgs e) {
+            if (OnModuleFormClosed!=null) {
+                OnModuleFormClosed(visionform.Restart);
+               
+            }
         }
 
         public void Start(String ModuleName,String SettingsFile) {
-
+           
             visionform.InitModule(ModuleName, SettingsFile);           
+
         }
 
     }

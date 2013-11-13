@@ -232,5 +232,9 @@ namespace VisionModule {
             _appsettings.Servers.Remove(__serverconflist.SelectedObject as TCPServer);
             __serverconflist.Objects = _appsettings.Servers;
         }
+
+        private void __btSave_Click(object sender, EventArgs e) {
+
+        }
     }
 }

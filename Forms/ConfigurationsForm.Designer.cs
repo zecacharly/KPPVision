@@ -109,6 +109,7 @@
             resources.ApplyResources(this.@__btSave, "__btSave");
             this.@__btSave.Name = "__btSave";
             this.@__btSave.UseVisualStyleBackColor = true;
+            this.@__btSave.Click += new System.EventHandler(this.@__btSave_Click);
             // 
             // __tabConf
             // 
