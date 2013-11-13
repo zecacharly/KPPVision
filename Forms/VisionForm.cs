@@ -41,7 +41,7 @@ using KPPAutomationCore;
 namespace VisionModule {
 
 
-    internal partial class VisionForm : DockContent {
+    public partial class VisionForm : DockContent {
         
 
         public override string ToString() {
@@ -51,7 +51,7 @@ namespace VisionModule {
 
         #region Fields
 
-        private static KPPLogger log = new KPPLogger(typeof(VisionForm));
+        private static KPPLogger log;
         private DeserializeDockContent m_deserializeDockContent;        
         private NotifyIcon trayIcon;
         private ContextMenu trayMenu;
@@ -121,7 +121,6 @@ namespace VisionModule {
         }
 
         
-
 
 
         private void OnExit(object sender, EventArgs e) {
@@ -271,12 +270,13 @@ namespace VisionModule {
             return ModuleName;
         }
 
-        public void InitModule(String moduleName, String visionSettingsFile,DockPanel maindock) {
+        public void InitModule(String moduleName, String visionSettingsFile) {
             ModuleName = moduleName;
+            log = new KPPLogger(typeof(VisionForm), name: ModuleName);
             VisionSettingsFile = visionSettingsFile;
-
+            
             try {
-                
+                throw new Exception("teste");
                 //   this.Hide();
                 Thread splashthread = new Thread(new ThreadStart(SplashScreen.ShowSplashScreen));
                 splashthread.IsBackground = true;
@@ -310,6 +310,8 @@ namespace VisionModule {
                 VisionConfig.BackupExtention = ".bkp";
                 VisionConfig.BackupFilesToKeep = 5;
                 VisionConfig.BackupFolderName = "Backup";
+
+                VisionConfig.DockFile = Path.Combine(Path.GetDirectoryName(VisionSettingsFile),ModuleName+".dock");
 
                 if (File.Exists(VisionConfig.DockFile))
                     try {
@@ -386,7 +388,7 @@ namespace VisionModule {
 
 
 
-                _ListInspForm.Show();
+                
                 #endregion
 
 
@@ -495,9 +497,9 @@ namespace VisionModule {
 
                 _ListInspForm.__propertyGridinsp.PropertyValueChanged += new PropertyValueChangedEventHandler(__propertyGridinsp_PropertyValueChanged);
 
-                this.Show();
+               // this.Show();
                 SplashScreen.CloseSplashScreen();
-                this.Activate();
+                //this.Activate();
 
 
 
@@ -524,8 +526,7 @@ namespace VisionModule {
                 AcessManagement.OnAcesslevelChanged += new AcessManagement.AcesslevelChanged(StaticObjects_OnAcesslevelChanged);
 
                 StaticObjects_OnAcesslevelChanged(AcessManagement.AcessLevel);
-
-                this.Show(maindock);
+                                
 
             } catch (Exception exp) {
                 log.Error(exp);
@@ -2828,7 +2829,7 @@ namespace VisionModule {
 
         public void Form1_FormClosing(object sender, FormClosingEventArgs e) {
             try {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
 
                 System.Windows.Forms.DialogResult dialogresult;
                 if (e != null) {

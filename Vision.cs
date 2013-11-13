@@ -2631,37 +2631,17 @@ namespace VisionModule {
 
         VisionForm visionform = new VisionForm();
 
+        public DockContent GetVisionForm() {
+            return visionform;
+        }
+
         public Vision() {
 
         }
 
-        public void Start(String ModuleName,String SettingsFile, DockPanel dockingpanel) {
+        public void Start(String ModuleName,String SettingsFile) {
 
-            visionform.InitModule(ModuleName, SettingsFile, dockingpanel);
-
-            //if (!Directory.Exists(FilesLocation)) {
-            //    Directory.CreateDirectory(FilesLocation);
-            //}
-
-
-            //DockFile = Path.Combine(FilesLocation, ModuleName + "DockPanel.dock");
-            //ModuleSettingsFile = Path.Combine(FilesLocation, ModuleName + ".module");
-
-            //Uri fullPath = new Uri(new Uri(appath), DockFile);
-            //DockFile = fullPath.LocalPath;// +Path.GetFileName(newpath);
-
-            //fullPath = new Uri(new Uri(appath), ModuleSettings);
-            //ModuleSettings = fullPath.LocalPath;// +Path.GetFileName(newpath);
-
-            //if (!File.Exists(ModuleSettings)) {
-
-            //    VisionSettings.WriteConfiguration(new VisionSettings(), ModuleSettings);
-            //}
-
-            //ModuleForm = new VisionForm();
-            //ModuleForm.DockFile = DockFile;
-            //ModuleForm.ModuleSettingsFile = ModuleSettings;
-            //ModuleForm.InitModule();
+            visionform.InitModule(ModuleName, SettingsFile);           
         }
 
     }
