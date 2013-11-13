@@ -151,7 +151,7 @@ namespace VisionModule {
                 BeginInvoke(new MethodInvoker(delegate { __roicontainer_BackgroundImageChanged(sender, e); }));
             } else {
 
-                // TODO Update inspection image
+                
                 if (toolStripZoomIn.Enabled == false) {
                     if (__roicontainer.BackgroundImage != null) {
                         toolStripZoomIn.Enabled = true;

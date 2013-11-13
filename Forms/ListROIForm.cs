@@ -513,7 +513,7 @@ namespace VisionModule {
             try {
                 if (__cbProcFunc.SelectedObject != null) {
                     ProcessingFunctionDefinition selected = __cbProcFunc.SelectedObject as ProcessingFunctionDefinition;
-                    //TODO PROC FUNC
+                    
                     if (selected != null) {
 
                         ProcessingFunctionBase proc = Activator.CreateInstance(selected.BaseType) as ProcessingFunctionBase;
