@@ -160,7 +160,7 @@ namespace VisionModule {
 
         public SetValue() {
 
-            log= new KPPLogger(typeof(SetValue),name:base.SelectedVisionProject.ModuleName);
+            log= new KPPLogger(typeof(SetValue),name:base.ModuleName);
         }
 
         private static KPPLogger log;
