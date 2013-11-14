@@ -46,6 +46,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace VisionModule {
 
+    public delegate void SelectedProjectChanged(VisionProject ProjectSelected);
 
     #region Vision Definitions
 
@@ -567,18 +568,18 @@ namespace VisionModule {
 
 
         private String m_ModuleName;
-        [XmlAttribute]
+        [XmlAttribute, Browsable(false)]
         public String ModuleName {
             get { return m_ModuleName; }
             set {
                 if (m_ModuleName != value) {
 
-                    log.SetNewLogger(this.GetType(), m_ModuleName, value);
+                    log.SetNewLogger(this.GetType(), value);
 
                     m_ModuleName = value;
 
                     foreach (ROI item in ROIList) {
-                        // TODO set module name
+                        item.ModuleName = value;
                     }
 
 
@@ -1494,18 +1495,18 @@ namespace VisionModule {
 
         private static KPPLogger log = new KPPLogger(typeof(Request));
         private String m_ModuleName;
-        [XmlAttribute]
+        [XmlAttribute, Browsable(false)]
         public String ModuleName {
             get { return m_ModuleName; }
             set {
                 if (m_ModuleName != value) {
 
-                    log.SetNewLogger(this.GetType(), m_ModuleName, value);
+                    log.SetNewLogger(this.GetType(), value);
 
                     m_ModuleName = value;
 
                     foreach (Inspection item in Inspections) {
-
+                        item.ModuleName = value;
                     }
 
 
@@ -1920,13 +1921,13 @@ namespace VisionModule {
 
 
         private String m_ModuleName;
-        [XmlAttribute]
+        [XmlAttribute, Browsable(false)]
         public String ModuleName {
             get { return m_ModuleName; }
             set {
                 if (m_ModuleName != value) {
 
-                    log.SetNewLogger(this.GetType(), m_ModuleName, value);
+                    log.SetNewLogger(this.GetType(), value);
 
                     m_ModuleName = value;
                     foreach (Request req in RequestList) {
@@ -2640,6 +2641,7 @@ namespace VisionModule {
 
         public Vision() {
             visionform.FormClosed += new FormClosedEventHandler(visionform_FormClosed);
+
         }
 
         void visionform_FormClosed(object sender, FormClosedEventArgs e) {
@@ -2652,7 +2654,7 @@ namespace VisionModule {
         public void Start(String ModuleName,String SettingsFile) {
            
             visionform.InitModule(ModuleName, SettingsFile);           
-
+            
         }
 
     }

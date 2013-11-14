@@ -98,10 +98,37 @@ namespace VisionModule {
 
 
 
+        private static KPPLogger log = new KPPLogger(typeof(Inspection));
+
+
+        private String m_ModuleName;
+        [XmlAttribute,Browsable(false)]
+        public String ModuleName {
+            get { return m_ModuleName; }
+            set {
+                if (m_ModuleName != value) {
+
+                    log.SetNewLogger(this.GetType(), value);
+
+                    m_ModuleName = value;
+
+                    //foreach (ROI item in ROIList) {
+                    //    item.
+                    //}
+
+
+                    //CaptureSource.ModuleName;
+
+
+
+
+                }
+            }
+        }
 
         #region class ROI
 
-        private static KPPLogger log = new KPPLogger(typeof(ROI));
+        
 
       //  public delegate void ROIPositionChanged(ROI roi,int OldPos, int NewPos);
        // public event ROIPositionChanged OnROIPositionChanged;

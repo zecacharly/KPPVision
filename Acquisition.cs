@@ -35,7 +35,7 @@ namespace VisionModule {
     #region Costum Poperty editors
 
 
-   
+
     public class InputSourceSelector : System.Drawing.Design.UITypeEditor {
         // this is a container for strings, which can be 
         // picked-out
@@ -46,7 +46,7 @@ namespace VisionModule {
 
         internal static BaseCapture CamSource;
 
-        
+
 
         public InputSourceSelector() {
             Box1.BorderStyle = BorderStyle.None;
@@ -75,14 +75,14 @@ namespace VisionModule {
             //    Box1.Items.Remove((StaticObjects.CaptureSources.Find(cap => cap.GetType() == typeof(RemoteCameraCapture))));
             //}
             //else {
-                CamSource = (BaseCapture)((Inspection)context.Instance).CaptureSource;
-           // }
-            
+            CamSource = (BaseCapture)((Inspection)context.Instance).CaptureSource;
+            // }
+
 
             //if (!StaticObjects.CaptureSources.Contains(CamSource)) {
             //    StaticObjects.CaptureSources.Add(CamSource);
             //}
-            
+
 
 
             // window.
@@ -90,63 +90,56 @@ namespace VisionModule {
                (IWindowsFormsEditorService)provider.
                GetService(typeof
                (IWindowsFormsEditorService));
-            
+
             if (edSvc != null) {
 
-                
+
 
                 edSvc.DropDownControl(Box1);
-                if (Box1.SelectedItem == null) {                    
+                if (Box1.SelectedItem == null) {
                     return value;
-                }
-                else {
+                } else {
                     String caminfo = (String)Box1.SelectedItem;
 
-                    if (caminfo =="File") {
+                    if (caminfo == "File") {
 
 
-                            FileCapture newfilecap = new FileCapture("New file location",((Inspection)context.Instance).SelectedProject);
+                        FileCapture newfilecap = new FileCapture("New file location");
 
-                            return newfilecap;
+                        return newfilecap;
 
-                      
-                    }
-                    else if (caminfo =="Inspection") {
+
+                    } else if (caminfo == "Inspection") {
 
 
                         InspectionCapture newfilecap = new InspectionCapture(((Inspection)context.Instance).SelectedProject);
-                            //newfilecap.OnCaptureInspectionNameChanged += new InspectionCapture.CaptureInspectionNameChanged(newInspcap_OnCaptureInspectionNameChanged); ;
+                        //newfilecap.OnCaptureInspectionNameChanged += new InspectionCapture.CaptureInspectionNameChanged(newInspcap_OnCaptureInspectionNameChanged); ;
 
-                            return newfilecap;
+                        return newfilecap;
 
-                      
-                    } 
-                    else if (caminfo =="Inspection") {
-                        
-                         return new ICSCameraCapture(((Inspection)context.Instance).SelectedProject);
-                         
+
+                    } else if (caminfo == "ICSCamera") {
+
+                        return new ICSCameraCapture();
+
+                    } else if (caminfo == "CVCamera") {
+                        return new CVCameraCapture(((Inspection)context.Instance).SelectedProject);
                     }
-                    else if (caminfo == "CVCamera") {
-                        return new CVCameraCapture(((Inspection)context.Instance).SelectedProject);                                                 
-                    }
-                    //else if (caminfo is PythonRemoteCapture) {
-                    //    if (CamSource != null) {
-                    //        return (BaseCapture)Box1.SelectedItem;
-                    //    }
-                    //    else {
-                    //        return new PythonRemoteCapture(caminfo.SelectedProject);
-                    //    }
-                    //}
-                    else if (caminfo=="DirectShowCamera") {
-                        return new DirectShowCameraCapture(((Inspection)context.Instance).SelectedProject);                        
+                        //else if (caminfo is PythonRemoteCapture) {
+                        //    if (CamSource != null) {
+                        //        return (BaseCapture)Box1.SelectedItem;
+                        //    }
+                        //    else {
+                        //        return new PythonRemoteCapture(caminfo.SelectedProject);
+                        //    }
+                        //}
+                      else if (caminfo == "DirectShowCamera") {
+                        return new DirectShowCameraCapture(((Inspection)context.Instance).SelectedProject);
                     } else if (caminfo == "uEyeCamera") {
 
                         return new uEyeCamera(((Inspection)context.Instance).SelectedProject);
-                        
-                    }
 
-                    
-                    else {
+                    } else {
                         return value;
                     }
                 }
@@ -155,7 +148,7 @@ namespace VisionModule {
             return value;
         }
 
-      
+
 
         private void Box1_Click(object sender, EventArgs e) {
 
@@ -202,7 +195,7 @@ namespace VisionModule {
             Box1.ValueMember = "MonikerString";
             foreach (FilterInfo item in DirectShowCameraCapture.DevicesAvaible) {
                 Box1.Items.Add(item);
-                
+
             }
 
 
@@ -221,8 +214,7 @@ namespace VisionModule {
                 edSvc.DropDownControl(Box1);
                 if (Box1.SelectedItem == null) {
                     return value;
-                }
-                else {
+                } else {
                     return Box1.SelectedItem;
                 }
 
@@ -261,7 +253,7 @@ namespace VisionModule {
         // Displays the UI for value selection.
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
 
-            
+
             if (!(context.Instance is InspectionCapture)) {
                 return value;
             }
@@ -270,7 +262,7 @@ namespace VisionModule {
 
             //inspcap.InspectionSource.
 
-            ZoneSelectorForm zoneform = new ZoneSelectorForm(inspcap.SelectedProject);
+            ZoneSelectorForm zoneform = new ZoneSelectorForm(inspcap.InspectionSource.SelectedProject);
 
             // window.
             edSvc =
@@ -280,10 +272,10 @@ namespace VisionModule {
 
             if (edSvc != null) {
                 zoneform.__image.Image = inspcap.GetImage(true).ToBitmap();
-                zoneform.__numericCol.Value = inspcap.SelectedProject.SelectedRequest.ImageCol;
-                zoneform.__numericLines.Value = inspcap.SelectedProject.SelectedRequest.ImageLine;
+                zoneform.__numericCol.Value = inspcap.InspectionSource.SelectedProject.SelectedRequest.ImageCol;
+                zoneform.__numericLines.Value = inspcap.InspectionSource.SelectedProject.SelectedRequest.ImageLine;
                 zoneform.SelectedZone = inspcap.CaptureZone;
-                
+
                 if (edSvc.ShowDialog(zoneform) == DialogResult.OK) {
                     return zoneform.SelectedZone;
                 }
@@ -332,15 +324,15 @@ namespace VisionModule {
 
             ICSCameraCapture ICSCamSource = (ICSCameraCapture)(context.Instance);
 
-            
+
             Box1.Items.Clear();
 
 
             foreach (ICScamera item in ICSCameraInterface.ICSCameras) {
-                    Box1.Items.Add(item.Name);
+                Box1.Items.Add(item.Name);
             }
-            
-            
+
+
             Box1.Height = Box1.PreferredHeight;
 
 
@@ -407,26 +399,26 @@ namespace VisionModule {
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
 
 
-            BaseCapture selectedcap = (BaseCapture)context.Instance;
+            InspectionCapture selectedcap = (InspectionCapture)context.Instance;
 
-
+            
             Box1.Items.Clear();
 
-            foreach (Request req in selectedcap.SelectedProject.RequestList) {
+            foreach (Request req in selectedcap.InspectionSource.SelectedProject.RequestList) {
                 foreach (Inspection insp in req.Inspections) {
-                    if (insp.RequestID != selectedcap.SelectedProject.SelectedRequest.ID) {
+                    if (insp.RequestID != selectedcap.InspectionSource.SelectedProject.SelectedRequest.ID) {
                         Box1.Items.Add(insp);
                     } else {
-                        if (insp.Name != selectedcap.SelectedProject.SelectedRequest.SelectedInspection.Name) {
+                        if (insp.Name != selectedcap.InspectionSource.SelectedProject.SelectedRequest.SelectedInspection.Name) {
                             Box1.Items.Add(insp);
                         }
                     }
-                    
-                    
+
+
                 }
             }
-            
-            
+
+
 
             Box1.Height = Box1.PreferredHeight;
 
@@ -446,14 +438,13 @@ namespace VisionModule {
 
 
                     return value;
-                }
-                else {
+                } else {
                     Inspection ins = Box1.SelectedItem as Inspection;
 
                     if (ins != null) {
-                        ins.CaptureSource.SelectedProject.SelectedRequest.SelectedInspection.ROIList.AuxROIS = ins.ROIList.ToList();
+                        ins.SelectedProject.SelectedRequest.SelectedInspection.ROIList.AuxROIS = ins.ROIList.ToList();
                     }
-                    
+
 
                     return (Box1.SelectedItem);
                 }
@@ -468,7 +459,7 @@ namespace VisionModule {
         }
     }
 
-  
+
     public class InterfaceValueSelector : System.Drawing.Design.UITypeEditor {
 
         KPPLogger log = new KPPLogger(typeof(InterfaceValueSelector));
@@ -503,7 +494,7 @@ namespace VisionModule {
                 SelectedCamera = (ICSCameraCapture)context.Instance;
 
 
-                if (SelectedCamera==null) {
+                if (SelectedCamera == null) {
                     return value;
                 }
 
@@ -511,60 +502,54 @@ namespace VisionModule {
 
                 object returnval = -1;
                 if (context.PropertyDescriptor.DisplayName == "Zoom") {
-                    if (SelectedCamera._ICSCamera.Zoominterface == null ) {
+                    if (SelectedCamera._ICSCamera.Zoominterface == null) {
                         return value;
                     }
                     selectedinterface = SelectedCamera._ICSCamera.Zoominterface;
                     Box1.Items.Add(selectedinterface.Value);
                     returnval = SelectedCamera.Zoom;
-                }
-                else if (context.PropertyDescriptor.DisplayName == "Exposure") {
+                } else if (context.PropertyDescriptor.DisplayName == "Exposure") {
                     if (SelectedCamera._ICSCamera.Exposureinterface == null) {
                         return value;
                     }
                     Box1.Items.Add(SelectedCamera.GetIntValue());
                     returnval = SelectedCamera.Exposure;
-                }
-                else if (context.PropertyDescriptor.DisplayName == "Focus") {
+                } else if (context.PropertyDescriptor.DisplayName == "Focus") {
                     if (SelectedCamera._ICSCamera.Focusinterface == null) {
                         return value;
                     }
                     selectedinterface = SelectedCamera._ICSCamera.Focusinterface;
                     Box1.Items.Add(selectedinterface.Value);
                     returnval = SelectedCamera.Focus;
-                }
-                else if (context.PropertyDescriptor.DisplayName == "Iris") {
+                } else if (context.PropertyDescriptor.DisplayName == "Iris") {
                     if (SelectedCamera._ICSCamera.Irisinterface == null) {
                         return value;
                     }
                     selectedinterface = SelectedCamera._ICSCamera.Irisinterface;
                     Box1.Items.Add(selectedinterface.Value);
                     returnval = SelectedCamera.Iris;
-                }
-                else if (context.PropertyDescriptor.DisplayName == "Gain") {
-                    if (SelectedCamera._ICSCamera.Gaininterface== null) {
+                } else if (context.PropertyDescriptor.DisplayName == "Gain") {
+                    if (SelectedCamera._ICSCamera.Gaininterface == null) {
                         return value;
                     }
                     selectedinterface = SelectedCamera._ICSCamera.Gaininterface;
                     Box1.Items.Add(selectedinterface.Value);
                     returnval = SelectedCamera.Gain;
                 } else if (context.PropertyDescriptor.DisplayName == "Blue Balance") {
-                    if (SelectedCamera._ICSCamera.Bluebalanceinterface== null) {
+                    if (SelectedCamera._ICSCamera.Bluebalanceinterface == null) {
                         return value;
                     }
                     selectedinterface = SelectedCamera._ICSCamera.Bluebalanceinterface;
                     Box1.Items.Add(selectedinterface.Value);
                     returnval = SelectedCamera.BlueBalance;
-                }
-                else if (context.PropertyDescriptor.DisplayName == "Green Balance") {
-                    if (SelectedCamera._ICSCamera.Greenbalanceinterface== null) {
+                } else if (context.PropertyDescriptor.DisplayName == "Green Balance") {
+                    if (SelectedCamera._ICSCamera.Greenbalanceinterface == null) {
                         return value;
                     }
                     selectedinterface = SelectedCamera._ICSCamera.Greenbalanceinterface;
                     Box1.Items.Add(selectedinterface.Value);
                     returnval = SelectedCamera.GreenBalance;
-                }
-                else if (context.PropertyDescriptor.DisplayName == "Red Balance") {
+                } else if (context.PropertyDescriptor.DisplayName == "Red Balance") {
                     if (SelectedCamera._ICSCamera.Redbalanceinterface == null) {
                         return value;
                     }
@@ -596,7 +581,7 @@ namespace VisionModule {
                 log.Error(exp);
 
                 return value;
-                
+
             }
         }
 
@@ -609,7 +594,7 @@ namespace VisionModule {
             edSvc.CloseDropDown();
         }
     }
-    
+
     //public class uEyeCamInfo {
 
     //    private uEye.Types.CameraInformation _Info= new uEye.Types.CameraInformation();
@@ -618,7 +603,7 @@ namespace VisionModule {
     //        get { return _Info; }
     //        private set { 
     //            _Info = value; 
-                
+
     //        }
     //    }
 
@@ -629,7 +614,7 @@ namespace VisionModule {
     //            if (ret!=null) {
     //                ret = ret.Replace("\0", "");
     //            }
-                
+
     //            return ret;
     //        }
 
@@ -641,7 +626,7 @@ namespace VisionModule {
     //    public String Serial {
     //        get {
     //            return Info.SerialNumber;
-                
+
     //        }
 
     //    }
@@ -652,7 +637,7 @@ namespace VisionModule {
 
     //    public uEyeCamInfo() {
 
-           
+
     //    }
 
     //    public override string ToString() {
@@ -660,7 +645,7 @@ namespace VisionModule {
     //            return "Camera not found";
     //        }
     //        return Model+"("+Serial+")";
-           
+
     //    }
     //}
 
@@ -698,15 +683,14 @@ namespace VisionModule {
             Box1.Items.Clear();
 
 
-            
+
             uEye.Types.CameraInformation[] cameraList;
             uEye.Info.Camera.GetCameraList(out cameraList);
 
-            foreach (uEye.Types.CameraInformation info in cameraList)
-            {
+            foreach (uEye.Types.CameraInformation info in cameraList) {
 
                 Box1.Items.Add(info.Model.Replace("\0", "") + "#" + info.SerialNumber.Replace("\0", ""));
-            }                      
+            }
 
             Box1.Height = Box1.PreferredHeight;
 
@@ -721,7 +705,7 @@ namespace VisionModule {
 
 
                 edSvc.DropDownControl(Box1);
-                if (Box1.SelectedItem == null) {                   
+                if (Box1.SelectedItem == null) {
                     return value;
                 } else {
                     return Box1.SelectedItem;
@@ -771,7 +755,7 @@ namespace VisionModule {
 
 
             CameraControlForm camctr = new CameraControlForm(uEyeCamSource.Camera);
-            
+
             // window.
             edSvc =
                (IWindowsFormsEditorService)provider.
@@ -784,7 +768,7 @@ namespace VisionModule {
                 if (edSvc.ShowDialog(camctr) == DialogResult.OK) {
 
 
-                    if (context.PropertyDescriptor.DisplayName=="Exposure") {
+                    if (context.PropertyDescriptor.DisplayName == "Exposure") {
                         double outval;
                         uEyeCamSource.Camera.Timing.Exposure.Get(out outval);
                         return outval;
@@ -797,7 +781,7 @@ namespace VisionModule {
                         uEyeCamSource.Camera.Timing.Framerate.Get(out outval);
                         return outval;
                     }
-                 
+
                 }
 
 
@@ -828,7 +812,7 @@ namespace VisionModule {
         [EditorAttribute(typeof(uEyeCameraConfigSelector), typeof(UITypeEditor))]
         public int PixelClock {
             get {
-                
+
                 return _PixelClock.Value;
             }
             set {
@@ -863,7 +847,7 @@ namespace VisionModule {
         [EditorAttribute(typeof(uEyeCameraConfigSelector), typeof(UITypeEditor))]
         public double Framerate {
             get {
-                return Math.Round(_Framerate.Value,3);
+                return Math.Round(_Framerate.Value, 3);
             }
             set {
                 if (_Framerate.Value != value) {
@@ -904,11 +888,11 @@ namespace VisionModule {
 
                     if (!UndoRedoManager.IsCommandStarted) {
                         using (UndoRedoManager.Start(this.CameraName + " AOI changed to:" + value)) {
-                            
-                            if (Camera != null && value!=null) {
-                                uEye.Types.Range<Int32> rangex, rangey, rangew, rangeh;                                
-                                
-                                Camera.Size.AOI.GetPosRange(out rangex,out rangey);
+
+                            if (Camera != null && value != null) {
+                                uEye.Types.Range<Int32> rangex, rangey, rangew, rangeh;
+
+                                Camera.Size.AOI.GetPosRange(out rangex, out rangey);
                                 Camera.Size.AOI.GetSizeRange(out rangew, out rangeh);
 
                                 value.X = value.X.NextEven();
@@ -917,12 +901,12 @@ namespace VisionModule {
                                 value.Height = value.Height.NextEven();
 
 
-                                if (true ||  value.X > rangex.Minimum && value.X < rangex.Maximum 
+                                if (true || value.X > rangex.Minimum && value.X < rangex.Maximum
                                     && value.Y > rangey.Minimum && value.Y < rangey.Maximum
                                     && value.Width > rangew.Minimum && value.Width < rangew.Maximum
                                     && value.Height > rangeh.Minimum && value.Height < rangeh.Maximum) {
                                     uEye.Defines.Status statusRet = uEye.Defines.Status.NO_SUCCESS;
-                                    if (value.Width<=4 || value.Height<=2) {
+                                    if (value.Width <= 4 || value.Height <= 2) {
                                         value = new Rectangle(0, 0, _FormatSize.Width, _FormatSize.Height);
                                     }
                                     statusRet = Camera.Size.AOI.Set(value);
@@ -934,7 +918,7 @@ namespace VisionModule {
                                     }
                                     _AOI.Value = value;
                                 }
-                                
+
                             }
 
                             UndoRedoManager.Commit();
@@ -944,7 +928,7 @@ namespace VisionModule {
                         _AOI.Value = value;
                     }
 
-                } 
+                }
             }
         }
 
@@ -1058,8 +1042,7 @@ namespace VisionModule {
                     }
                 }
 
-            }
-            catch (DllNotFoundException exp) {
+            } catch (DllNotFoundException exp) {
 
                 log.Error(exp);
             }
@@ -1076,7 +1059,7 @@ namespace VisionModule {
 
         String _CameraName = "No camera selected";
         [EditorAttribute(typeof(uEyeCameraSelector), typeof(UITypeEditor))]
-        [XmlAttribute, DisplayName("Camera Name"), ReadOnly(false),Browsable(true)]        
+        [XmlAttribute, DisplayName("Camera Name"), ReadOnly(false), Browsable(true)]
         public override String CameraName {
             get {
 
@@ -1085,18 +1068,18 @@ namespace VisionModule {
 
             set {
 
-                if (_CameraName!=value) {
+                if (_CameraName != value) {
                     _CameraName = value;
 
                     SetCamera(value);
                 }
             }
-            
+
         }
 
-        
 
-     
+
+
 
         uEye.Camera _Camera = null;
         [XmlIgnore]
@@ -1123,7 +1106,7 @@ namespace VisionModule {
             uEye.Defines.Status statusRet = uEye.Defines.Status.NO_SUCCESS;
             waitimage.Reset();
 
-            if (Camera.IsOpened==false) {
+            if (Camera.IsOpened == false) {
                 SetCamera(_CameraName);
             }
             Camera.Timing.PixelClock.Set(PixelClock);
@@ -1132,7 +1115,7 @@ namespace VisionModule {
 
             statusRet = Camera.Acquisition.Freeze();
             //Camera.Acquisition.Freeze(uEye.Defines.DeviceParameter.Wait);
-            
+
             if (statusRet != uEye.Defines.Status.SUCCESS) {
 
                 //Camera = null;
@@ -1149,16 +1132,16 @@ namespace VisionModule {
                 Camera.Memory.GetActive(out s32MemID);
                 Camera.Memory.Lock(s32MemID);
 
-                
+
 
                 Bitmap bitmap = null;
                 Camera.Memory.ToBitmap(s32MemID, out bitmap);
-                 //Camera.Memory.
+                //Camera.Memory.
                 if (bitmap != null) {
 
                     //DoDrawing(ref graphics, s32MemID);
                     newimage = new Image<Bgr, byte>(bitmap);
-                    
+
                     bitmap.Dispose();
                 }
 
@@ -1168,25 +1151,24 @@ namespace VisionModule {
 
 
 
-            
+
             return newimage;
             //Camera.Acquisition.;
 
-            
-           
-            
+
+
+
 
         }
 
         //private int framecounter = 0;
-        
+
 
         public override string ToString() {
             return "uEye Capture";
         }
 
-        public uEyeCamera(VisionProject selectedproject)
-            : base(selectedproject) {
+        public uEyeCamera(VisionProject selectedproject) {
 
             this.CameraName = "uEye camera input";
             this.Camtype = CameraTypes.uEye;
@@ -1199,7 +1181,7 @@ namespace VisionModule {
         }
 
         public override void Dispose() {
-            if (Camera != null) {                
+            if (Camera != null) {
                 //Camera.Stop();
                 Camera.Exit();
 
@@ -1213,114 +1195,112 @@ namespace VisionModule {
     public class ICScamera {
         KPPLogger log = new KPPLogger(typeof(ICScamera));
         String _name;
-       
 
-        
 
-        
 
-         VCDRangeProperty _zoominterface;
-         public VCDRangeProperty Zoominterface {
+
+
+
+        VCDRangeProperty _zoominterface;
+        public VCDRangeProperty Zoominterface {
             get {
                 return _zoominterface;
             }
-             private set {
-                 if (_zoominterface!=value) {
-                     _zoominterface = value;
-                     if (_zoominterface==null) {
-                        
-                     }
-                 }
-             }
-            
+            private set {
+                if (_zoominterface != value) {
+                    _zoominterface = value;
+                    if (_zoominterface == null) {
+
+                    }
+                }
+            }
+
         }
 
-         VCDRangeProperty _irisinterface;
-         public VCDRangeProperty Irisinterface {
-             get {
-                 return _irisinterface;
-             }
-             private set {
-                 if (_irisinterface!=value) {
-                     _irisinterface = value;
-                     if (_irisinterface==null) {
-                       
-                     }
-                 }
-             }
-         }
+        VCDRangeProperty _irisinterface;
+        public VCDRangeProperty Irisinterface {
+            get {
+                return _irisinterface;
+            }
+            private set {
+                if (_irisinterface != value) {
+                    _irisinterface = value;
+                    if (_irisinterface == null) {
+
+                    }
+                }
+            }
+        }
 
 
-         VCDRangeProperty _focusinterface;
-         public VCDRangeProperty Focusinterface {
-             get {
-                 return _focusinterface;
-             }
-             private set {
-                 if (_focusinterface!=value) {
-                     _focusinterface = value;
-                     if (_focusinterface==null) {
-                         
-
-                     }
-                 }
-             }
-         }
+        VCDRangeProperty _focusinterface;
+        public VCDRangeProperty Focusinterface {
+            get {
+                return _focusinterface;
+            }
+            private set {
+                if (_focusinterface != value) {
+                    _focusinterface = value;
+                    if (_focusinterface == null) {
 
 
-         VCDRangeProperty _gaininterface;
-         public VCDRangeProperty Gaininterface {
-             get {
-                 return _gaininterface;
-             }
-
-         }
+                    }
+                }
+            }
+        }
 
 
+        VCDRangeProperty _gaininterface;
+        public VCDRangeProperty Gaininterface {
+            get {
+                return _gaininterface;
+            }
 
-         VCDRangeProperty _redbalanceinterface;
-         public VCDRangeProperty Redbalanceinterface {
-             get {
-                 return _redbalanceinterface;
-             }
-
-         }
-
-         VCDRangeProperty _bluebalanceinterface;
-         public VCDRangeProperty Bluebalanceinterface {
-             get {
-                 return _bluebalanceinterface;
-             }
-
-         }
-
-         VCDRangeProperty _greenbalanceinterface;
-         public VCDRangeProperty Greenbalanceinterface {
-             get {
-                 return _greenbalanceinterface;
-             }
-
-         }
+        }
 
 
-         VCDAbsoluteValueProperty _exposureinterface;
-         public VCDAbsoluteValueProperty Exposureinterface {
-             get {
-                 return _exposureinterface;
-             }
 
-         }
+        VCDRangeProperty _redbalanceinterface;
+        public VCDRangeProperty Redbalanceinterface {
+            get {
+                return _redbalanceinterface;
+            }
 
-         ICImagingControl _Camera;
-         public ICImagingControl Camera {
+        }
+
+        VCDRangeProperty _bluebalanceinterface;
+        public VCDRangeProperty Bluebalanceinterface {
+            get {
+                return _bluebalanceinterface;
+            }
+
+        }
+
+        VCDRangeProperty _greenbalanceinterface;
+        public VCDRangeProperty Greenbalanceinterface {
+            get {
+                return _greenbalanceinterface;
+            }
+
+        }
+
+
+        VCDAbsoluteValueProperty _exposureinterface;
+        public VCDAbsoluteValueProperty Exposureinterface {
+            get {
+                return _exposureinterface;
+            }
+
+        }
+
+        ICImagingControl _Camera;
+        public ICImagingControl Camera {
             get { return _Camera; }
             private set {
                 if (_Camera != value) {
-                    try
-                    {
+                    try {
 
-                        if (value != null)
-                        {
+                        if (value != null) {
                             value.LiveStop();
                             value.ImageRingBufferSize = 1;
                             value.ImageAvailableExecutionMode = EventExecutionMode.MultiThreaded;
@@ -1329,9 +1309,7 @@ namespace VisionModule {
                             value.LiveStop();
 
                         }
-                    }
-                    catch (ICException exp)
-                    {
+                    } catch (ICException exp) {
 
                         log.Warn(exp.Message);
                     }
@@ -1347,15 +1325,15 @@ namespace VisionModule {
         }
 
 
-    
+
 
         public ICScamera(ICImagingControl icsCamera) {
             try {
                 _name = icsCamera.Device;
                 Camera = icsCamera;
-                
-                
-                
+
+
+
                 VCDSwitchProperty _whitebalance = (VCDSwitchProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_WhiteBalance, VCDGUIDs.VCDElement_Auto, VCDGUIDs.VCDInterface_Switch);
                 if (_whitebalance != null) {
                     if (_whitebalance.Switch) {
@@ -1380,16 +1358,16 @@ namespace VisionModule {
 
 
 
-                Zoominterface= (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_Zoom, VCDGUIDs.VCDElement_Value, VCDGUIDs.VCDInterface_Range);                
-                Irisinterface= (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_Iris, VCDGUIDs.VCDElement_Value, VCDGUIDs.VCDInterface_Range);
+                Zoominterface = (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_Zoom, VCDGUIDs.VCDElement_Value, VCDGUIDs.VCDInterface_Range);
+                Irisinterface = (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_Iris, VCDGUIDs.VCDElement_Value, VCDGUIDs.VCDInterface_Range);
                 Focusinterface = (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_Focus, VCDGUIDs.VCDElement_Value, VCDGUIDs.VCDInterface_Range);
 
 
-                _gaininterface = (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_Gain, VCDGUIDs.VCDElement_Value, VCDGUIDs.VCDInterface_Range);                
+                _gaininterface = (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_Gain, VCDGUIDs.VCDElement_Value, VCDGUIDs.VCDInterface_Range);
                 _exposureinterface = (VCDAbsoluteValueProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_Exposure, VCDGUIDs.VCDElement_Value, VCDGUIDs.VCDInterface_AbsoluteValue);
-                _redbalanceinterface= (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_WhiteBalance, VCDGUIDs.VCDElement_WhiteBalanceRed, VCDGUIDs.VCDInterface_Range);
+                _redbalanceinterface = (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_WhiteBalance, VCDGUIDs.VCDElement_WhiteBalanceRed, VCDGUIDs.VCDInterface_Range);
                 _bluebalanceinterface = (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_WhiteBalance, VCDGUIDs.VCDElement_WhiteBalanceBlue, VCDGUIDs.VCDInterface_Range);
-                _greenbalanceinterface= (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_WhiteBalance, VCDGUIDs.VCDElement_WhiteBalanceGreen, VCDGUIDs.VCDInterface_Range);
+                _greenbalanceinterface = (VCDRangeProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_WhiteBalance, VCDGUIDs.VCDElement_WhiteBalanceGreen, VCDGUIDs.VCDInterface_Range);
 
                 VCDSwitchProperty exposureautointerface = (VCDSwitchProperty)icsCamera.VCDPropertyItems.FindInterface(VCDGUIDs.VCDID_Exposure, VCDGUIDs.VCDElement_Auto, VCDGUIDs.VCDInterface_Switch);
                 if (exposureautointerface != null) {
@@ -1408,7 +1386,7 @@ namespace VisionModule {
 
 
         void Camera_ImageAvailable(object sender, ICImagingControl.ImageAvailableEventArgs e) {
-            
+
         }
 
         void _Camera_ImageAvailable(object sender, ICImagingControl.ImageAvailableEventArgs e) {
@@ -1418,39 +1396,37 @@ namespace VisionModule {
     }
 
     internal static class ICSCameraInterface {
-        
+
         internal static List<ICScamera> ICSCameras = new List<ICScamera>();
-        
+
     }
 
 
     public class ICSCameraCapture : BaseCapture {
 
-        KPPLogger log = new KPPLogger(typeof(ICSCameraCapture));
+        KPPLogger log;
 
         void SetCamera(String value) {
             try {
-                ICScamera camera = ICSCameraInterface.ICSCameras.Find(name => name.Name== value);
+                ICScamera camera = ICSCameraInterface.ICSCameras.Find(name => name.Name == value);
                 if (camera != null) {
                     _ICSCamera = camera;
-                    
+
                     _CameraName.Value = camera.Name;
-                    
+
                     if (camera.Zoominterface != null) {
                         this.ChangeAttributeValue<BrowsableAttribute>("Zoom", "browsable", true);
                         _maxzoom = camera.Zoominterface.RangeMax;
                         _minzoom = camera.Zoominterface.RangeMin;
-                    }
-                    else {
+                    } else {
                         this.ChangeAttributeValue<BrowsableAttribute>("Zoom", "browsable", false);
                     }
 
-                    if (camera.Irisinterface!= null) {
+                    if (camera.Irisinterface != null) {
                         this.ChangeAttributeValue<BrowsableAttribute>("Iris", "browsable", true);
-                        _maxiris= camera.Irisinterface.RangeMax;
+                        _maxiris = camera.Irisinterface.RangeMax;
                         _miniris = camera.Irisinterface.RangeMin;
-                    }
-                    else {
+                    } else {
                         this.ChangeAttributeValue<BrowsableAttribute>("Iris", "browsable", false);
                     }
 
@@ -1461,24 +1437,23 @@ namespace VisionModule {
 
 
 
-                    if (camera.Focusinterface!=null) {
+                    if (camera.Focusinterface != null) {
                         this.ChangeAttributeValue<BrowsableAttribute>("Focus", "browsable", true);
                         _maxfocus = camera.Focusinterface.RangeMax;
                         _minfocus = camera.Focusinterface.RangeMin;
-                    }
-                    else {
+                    } else {
                         this.ChangeAttributeValue<BrowsableAttribute>("Focus", "browsable", false);
                     }
 
                     if (camera.Greenbalanceinterface != null) {
                         _MinGreenBalance = camera.Greenbalanceinterface.RangeMin;
                         _MaxGreenBalance = camera.Greenbalanceinterface.RangeMax;
-                        this.ChangeAttributeValue<BrowsableAttribute>("GreenBalance", "browsable", true);                        
+                        this.ChangeAttributeValue<BrowsableAttribute>("GreenBalance", "browsable", true);
                     } else {
                         this.ChangeAttributeValue<BrowsableAttribute>("GreenBalance", "browsable", false);
                     }
 
-                    if (camera.Redbalanceinterface!= null) {
+                    if (camera.Redbalanceinterface != null) {
                         _MinRedBalance = camera.Redbalanceinterface.RangeMin;
                         _MaxRedBalance = camera.Redbalanceinterface.RangeMax;
                         this.ChangeAttributeValue<BrowsableAttribute>("RedBalance", "browsable", true);
@@ -1486,7 +1461,7 @@ namespace VisionModule {
                         this.ChangeAttributeValue<BrowsableAttribute>("RedBalance", "browsable", false);
                     }
 
-                    if (camera.Bluebalanceinterface!= null) {
+                    if (camera.Bluebalanceinterface != null) {
                         _MinBlueBalance = camera.Bluebalanceinterface.RangeMin;
                         _MaxBlueBalance = camera.Bluebalanceinterface.RangeMax;
                         this.ChangeAttributeValue<BrowsableAttribute>("BlueBalance", "browsable", true);
@@ -1494,7 +1469,7 @@ namespace VisionModule {
                         this.ChangeAttributeValue<BrowsableAttribute>("BlueBalance", "browsable", false);
                     }
 
-                    
+
                     _maxexposure = 100;
                     _minexposure = 1;
                     base.UpdateAttributes();
@@ -1507,7 +1482,7 @@ namespace VisionModule {
             }
         }
 
-        
+
 
         public int GetIntValue() {
             double rmin = 0;
@@ -1526,8 +1501,7 @@ namespace VisionModule {
 
                 rangelen = System.Math.Log(rmax) - System.Math.Log(rmin);
                 p = 100 / rangelen * (System.Math.Log(absval) - System.Math.Log(rmin));
-            }
-            else // AbsValItf.DimFunction = AbsDimFunction.eAbsDimFunc_Linear
+            } else // AbsValItf.DimFunction = AbsDimFunction.eAbsDimFunc_Linear
             {
                 rangelen = rmax - rmin;
                 p = 100 / rangelen * (absval - rmin);
@@ -1554,8 +1528,7 @@ namespace VisionModule {
                 rangelen = System.Math.Log(rmax) - System.Math.Log(rmin);
                 value = System.Math.Exp(System.Math.Log(rmin) + rangelen / 100 * Val);
 
-            }
-            else // AbsValItf.DimFunction = AbsDimFunction.eAbsDimFunc_Linear
+            } else // AbsValItf.DimFunction = AbsDimFunction.eAbsDimFunc_Linear
             {
 
                 rangelen = rmax - rmin;
@@ -1577,24 +1550,24 @@ namespace VisionModule {
 
         public override void UpdateAttributes() {
 
-            if (_ICSCamera==null) {
+            if (_ICSCamera == null) {
                 return;
             }
-            
+
             if (_ICSCamera.Zoominterface != null) {
-                this.ChangeAttributeValue<BrowsableAttribute>("Zoom", "browsable", true);                
+                this.ChangeAttributeValue<BrowsableAttribute>("Zoom", "browsable", true);
             } else {
                 this.ChangeAttributeValue<BrowsableAttribute>("Zoom", "browsable", false);
             }
 
             if (_ICSCamera.Irisinterface != null) {
-                this.ChangeAttributeValue<BrowsableAttribute>("Iris", "browsable", true);                
+                this.ChangeAttributeValue<BrowsableAttribute>("Iris", "browsable", true);
             } else {
                 this.ChangeAttributeValue<BrowsableAttribute>("Iris", "browsable", false);
             }
 
             if (_ICSCamera.Focusinterface != null) {
-                this.ChangeAttributeValue<BrowsableAttribute>("Focus", "browsable", true);                
+                this.ChangeAttributeValue<BrowsableAttribute>("Focus", "browsable", true);
             } else {
                 this.ChangeAttributeValue<BrowsableAttribute>("Focus", "browsable", false);
             }
@@ -1631,11 +1604,11 @@ namespace VisionModule {
             }
             set {
 
-                if (_CameraName.Value!=value) {
+                if (_CameraName.Value != value) {
 
                     if (!UndoRedoManager.IsCommandStarted) {
 
-                        using (UndoRedoManager.Start(this.CameraName + " Camera changed to: "+value)) {
+                        using (UndoRedoManager.Start(this.CameraName + " Camera changed to: " + value)) {
                             SetCamera(value);
                             UndoRedoManager.Commit();
                         }
@@ -1649,7 +1622,7 @@ namespace VisionModule {
         [XmlIgnore]
         internal ICScamera _ICSCamera;
 
-       
+
 
 
         int _minzoom = 0;
@@ -1677,7 +1650,7 @@ namespace VisionModule {
 
         readonly UndoRedo<int> _iris = new UndoRedo<int>();
         [XmlAttribute]
-        [EditorAttribute(typeof(InterfaceValueSelector), typeof(System.Drawing.Design.UITypeEditor)),Browsable(true)]
+        [EditorAttribute(typeof(InterfaceValueSelector), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true)]
         public int Iris {
             get {
 
@@ -1688,20 +1661,20 @@ namespace VisionModule {
 
                     if (value >= _miniris && value <= _maxiris) {
 
-                        
-                            if (!UndoRedoManager.IsCommandStarted) {
-                                using (UndoRedoManager.Start(this.CameraName + " Iris changed to:" + value)) {
-                                    _iris.Value = value;
-                                    UndoRedoManager.Commit();
-                                }
 
-
-                            } else {
-
+                        if (!UndoRedoManager.IsCommandStarted) {
+                            using (UndoRedoManager.Start(this.CameraName + " Iris changed to:" + value)) {
                                 _iris.Value = value;
-
+                                UndoRedoManager.Commit();
                             }
-                        
+
+
+                        } else {
+
+                            _iris.Value = value;
+
+                        }
+
                     }
                 }
             }
@@ -1772,7 +1745,7 @@ namespace VisionModule {
         }
 
         readonly UndoRedo<int> _BlueBalance = new UndoRedo<int>();
-        [XmlAttribute, Browsable(true),DisplayName("Blue Balance")]
+        [XmlAttribute, Browsable(true), DisplayName("Blue Balance")]
         [EditorAttribute(typeof(InterfaceValueSelector), typeof(System.Drawing.Design.UITypeEditor))]
         public int BlueBalance {
             get {
@@ -1853,7 +1826,7 @@ namespace VisionModule {
 
                     }
 
-                    if (_ICSCamera!=null) {
+                    if (_ICSCamera != null) {
                         if (_ICSCamera.Camera != null) {
                             if (this._ICSCamera.Camera.DeviceValid) {
                                 if (_ICSCamera.Camera.VideoFormats.ToList().Find(byname => byname.Name == value) != null) {
@@ -1861,18 +1834,18 @@ namespace VisionModule {
                                 }
 
                             }
-                        } 
+                        }
                     }
                 }
             }
         }
-        
+
 
         readonly UndoRedo<int> _zoom = new UndoRedo<int>();
         [XmlAttribute]
         [EditorAttribute(typeof(InterfaceValueSelector), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true)]
         public int Zoom {
-            get {                
+            get {
                 return _zoom.Value;
             }
             set {
@@ -1978,7 +1951,7 @@ namespace VisionModule {
                     if (_ICSCamera.Zoominterface.Value != Zoom) {
                         int zoomdif = Math.Abs(_ICSCamera.Zoominterface.Value - Zoom);
                         _ICSCamera.Zoominterface.Value = Zoom;
-                        _ICSCamera.Camera.MemorySnapImageSequence(1,5000);
+                        _ICSCamera.Camera.MemorySnapImageSequence(1, 5000);
                         int sleeptime = (int)(0.40 * zoomdif);
                         Thread.Sleep(sleeptime * 1000);
                     }
@@ -2045,21 +2018,21 @@ namespace VisionModule {
 
 
                 if (updatesettings) {
-                    _ICSCamera.Camera.MemorySnapImageSequence(2,5000);
+                    _ICSCamera.Camera.MemorySnapImageSequence(2, 5000);
                 }
 
 
                 int ct1 = 0;
 
                 while (true) {
-                    log.Info("Capturing image from : " +_ICSCamera.Camera.Device);
+                    log.Info("Capturing image from : " + _ICSCamera.Camera.Device);
 
                     try {
                         _ICSCamera.Camera.MemorySnapImageSequence(2, 5000);
                         break;
                     } catch (Exception exp) {
 
-                        _ICSCamera.Camera.LiveStop();                        
+                        _ICSCamera.Camera.LiveStop();
 
                         ct1++;
                         if (ct1 > 2) {
@@ -2075,15 +2048,13 @@ namespace VisionModule {
                 Image<Bgr, Byte> outimage = null;
                 if (_ICSCamera.Camera.ImageActiveBuffer.BitsPerPixel == 8) {
                     outimage = new Image<Bgr, byte>(_ICSCamera.Camera.ImageActiveBuffer.Bitmap);
-                }
-                else {
+                } else {
                     using (Image<Bgr, Int32> temp = new Image<Bgr, Int32>(_ICSCamera.Camera.ImageActiveBuffer.Bitmap)) {
                         if (_ICSCamera.Camera.ImageActiveBuffer.BitsPerPixel == 24) {
                             outimage = new Image<Bgr, byte>(temp.Size);
                             outimage.ConvertFrom<Bgr, Int32>(temp);
                             //CvInvoke.cvCvtColor(temp, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.cvbgr24);
-                        }
-                        else {
+                        } else {
                             CvInvoke.cvCvtColor(temp, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
                         }
                     }
@@ -2120,7 +2091,7 @@ namespace VisionModule {
                 log.Error(exp);
                 return null;
             }
-           
+
         }
 
         public override string ToString() {
@@ -2128,26 +2099,26 @@ namespace VisionModule {
             if (this.CameraName == "Capture from IC Imaging Camera") {
                 return this.CameraName;
             }
-                    
-            
+
+
             return "ICS:" + this.CameraName;
         }
 
-        public ICSCameraCapture(VisionProject selectedProject) 
-            :base(selectedProject) {
-            _CameraName.OnMemberRedo += new UndoRedo<string>.MemberRedo(_CameraName_OnMemberRedo);
-            _CameraName.OnMemberUndo += new UndoRedo<string>.MemberUndo(_CameraName_OnMemberRedo);
-            Camtype = CameraTypes.ICS;
-        }
+        //public ICSCameraCapture(VisionProject selectedProject){
+        //    _CameraName.OnMemberRedo += new UndoRedo<string>.MemberRedo(_CameraName_OnMemberRedo);
+        //    _CameraName.OnMemberUndo += new UndoRedo<string>.MemberUndo(_CameraName_OnMemberRedo);
+        //    Camtype = CameraTypes.ICS;
+        //}
 
         public ICSCameraCapture() {
 
 
-           
+
 
             _CameraName.OnMemberRedo += new UndoRedo<string>.MemberRedo(_CameraName_OnMemberRedo);
             _CameraName.OnMemberUndo += new UndoRedo<string>.MemberUndo(_CameraName_OnMemberRedo);
             Camtype = CameraTypes.ICS;
+            log = new KPPLogger(typeof(ICSCameraCapture), name: base.ModuleName);
 
         }
 
@@ -2155,8 +2126,7 @@ namespace VisionModule {
             SetCamera(UndoObject);
         }
 
-        public ICSCameraCapture(String DeviceName, VisionProject selectedproject)
-            : base(selectedproject) {
+        public ICSCameraCapture(String DeviceName) {
 
 
             CameraName = DeviceName;
@@ -2172,7 +2142,7 @@ namespace VisionModule {
 
 
     public class FileCapture : BaseCapture {
-        KPPLogger log = new KPPLogger(typeof(FileCapture));
+        KPPLogger log;
 
 
         String _CameraName = "";
@@ -2206,8 +2176,7 @@ namespace VisionModule {
                             _FileLoc.Value = value;
                             UndoRedoManager.Commit();
                         }
-                    }
-                    else {
+                    } else {
                         _FileLoc.Value = value;
                     }
 
@@ -2220,17 +2189,23 @@ namespace VisionModule {
 
         public override Image<Bgr, Byte> GetImage() {
 
+            try {
+                throw new Exception("Teste");
+            } catch (Exception exp) {
 
-                return new Image<Bgr, byte>(FileLoc);
-           
+                log.Error(exp);
+
+            }
+
+            return new Image<Bgr, byte>(FileLoc);
+
         }
 
         public override string ToString() {
             return FileLoc;
         }
 
-        public FileCapture(String name,VisionProject selectedproject)
-            :base(selectedproject) {
+        public FileCapture(String name){
             CameraName = name;
             FileLoc = "Select file location";
             this.Camtype = CameraTypes.File;
@@ -2243,8 +2218,8 @@ namespace VisionModule {
             CameraName = "Add file location";
             FileLoc = "Select location";
             this.Camtype = CameraTypes.File;
-            //SpecialFunctions.ChageAttributeValue<ReadOnlyAttribute>(this, "CameraName", "isReadOnly", false);
-            
+            log = new KPPLogger(typeof(FileCapture), name: base.ModuleName);
+
 
         }
 
@@ -2291,7 +2266,7 @@ namespace VisionModule {
             }
         }
 
-      
+
 
         public RequestSourceInspections(String Callingrequest, Inspection inspection) {
             CallingRequest = Callingrequest;
@@ -2307,7 +2282,7 @@ namespace VisionModule {
 
 
         private String m_ZoneName = "Not set";
-        [XmlAttribute,DisplayName("Zone Name")]
+        [XmlAttribute, DisplayName("Zone Name")]
         public String ZoneName {
             get { return m_ZoneName; }
             set { m_ZoneName = value; }
@@ -2376,7 +2351,7 @@ namespace VisionModule {
                     }
 
                     if (InspectionSource != null) {
-                        _CameraName = InspectionSource.Name+"."+InspectionSource.RequestID;
+                        _CameraName = InspectionSource.Name + "." + InspectionSource.RequestID;
                         InspectionName = InspectionSource.Name + "." + InspectionSource.RequestID;
                     }
                 }
@@ -2384,7 +2359,7 @@ namespace VisionModule {
         }
 
         private Boolean _ShowAuxROIS = false;
-        [XmlAttribute,DisplayName("Show Aux ROIs")]
+        [XmlAttribute, DisplayName("Show Aux ROIs")]
         public Boolean ShowAuxROIS {
             get { return _ShowAuxROIS; }
             set { _ShowAuxROIS = value; }
@@ -2449,31 +2424,30 @@ namespace VisionModule {
                 return null;
             }
             InspectionSource.Execute(this, false);
-            if ( InspectionSource.OriginalImageBgr==null) {
-                return new Image<Bgr,byte>(new Size(800,600));
+            if (InspectionSource.OriginalImageBgr == null) {
+                return new Image<Bgr, byte>(new Size(800, 600));
             }
-            if (CaptureZone.Zone!=Rectangle.Empty) {                
+            if (CaptureZone.Zone != Rectangle.Empty) {
                 InspectionSource.OriginalImageBgr.ROI = CaptureZone.Zone;
                 return InspectionSource.OriginalImageBgr;
             } else {
                 return InspectionSource.OriginalImageBgr;
             }
-            
+
 
         }
 
         public override string ToString() {
             if (InspectionSource != null) {
 
-                return InspectionSource.RequestName+" - "+InspectionSource.Name;
+                return InspectionSource.RequestName + " - " + InspectionSource.Name;
             } else {
                 return "No Inspection Source";
             }
 
         }
 
-        public InspectionCapture(String name,VisionProject selectedproject)
-            :base(selectedproject) {            
+        public InspectionCapture(String name, VisionProject selectedproject){
             CameraName = name;
 
             this.Camtype = CameraTypes.Inspection;
@@ -2482,11 +2456,10 @@ namespace VisionModule {
 
         }
 
-        public InspectionCapture(VisionProject selectedproject)
-            : base(selectedproject) {
+        public InspectionCapture(VisionProject selectedproject) {
 
             CameraName = "Select Inspection";
-            
+
             this.Camtype = CameraTypes.Inspection;
             //SpecialFunctions.ChageAttributeValue<ReadOnlyAttribute>(this, "CameraName", "isReadOnly", false);
 
@@ -2510,7 +2483,7 @@ namespace VisionModule {
     }
 
     public class DirectShowCameraCapture : BaseCapture {
-        KPPLogger log = new KPPLogger(typeof(DirectShowCameraCapture));
+        KPPLogger log;
 
         private static FilterInfoCollection _DevicesAvaible = new FilterInfoCollection(FilterCategory.VideoInputDevice);
         [XmlIgnore]
@@ -2519,21 +2492,21 @@ namespace VisionModule {
             set { DirectShowCameraCapture._DevicesAvaible = value; }
         }
 
-        VideoCaptureDevice _Camera =null;
-        [XmlIgnore,Browsable(false)]
+        VideoCaptureDevice _Camera = null;
+        [XmlIgnore, Browsable(false)]
         public VideoCaptureDevice Camera {
             get { return _Camera; }
             set {
 
                 if (_Camera != value) {
-                    if (_Camera!=null) {
+                    if (_Camera != null) {
                         waitImage.Set();
                         _Camera.Stop();
-                        _Camera.WaitForStop();                        
-                        _Camera = null;                        
+                        _Camera.WaitForStop();
+                        _Camera = null;
                     }
-                    if (value!=null) {
-                        _Camera = value;                        
+                    if (value != null) {
+                        _Camera = value;
                         _Camera.VideoResolution = _Camera.VideoCapabilities[_Camera.VideoCapabilities.Count() - 1];
                         _Camera.NewFrame += new NewFrameEventHandler(_Camera_NewFrame);
                         _Camera.Start();
@@ -2542,18 +2515,18 @@ namespace VisionModule {
             }
         }
 
-       
 
-        
+
+
 
         void SetCamera(String value) {
             try {
-                FilterInfo camerainfo = DirectShowCameraCapture.DevicesAvaible.Cast<FilterInfo>().ToList().Find(moniker => moniker.MonikerString== value);
+                FilterInfo camerainfo = DirectShowCameraCapture.DevicesAvaible.Cast<FilterInfo>().ToList().Find(moniker => moniker.MonikerString == value);
 
                 if (camerainfo != null) {
-                    
+
                     Camera = new VideoCaptureDevice(camerainfo.MonikerString);
-                    
+
 
                 }
             } catch (Exception exp) {
@@ -2562,7 +2535,7 @@ namespace VisionModule {
         }
 
         private String _CameraID = "";
-        [XmlAttribute,Browsable(false)]
+        [XmlAttribute, Browsable(false)]
         public String CameraID {
             get { return _CameraID; }
             set {
@@ -2570,8 +2543,8 @@ namespace VisionModule {
                 if (_CameraID != value) {
                     //SetCamera(value);
                     _CameraID = value;
-                    if (CameraInfo==null) {
-                        CameraInfo=DirectShowCameraCapture.DevicesAvaible.Cast<FilterInfo>().ToList().Find(moniker => moniker.MonikerString== value);
+                    if (CameraInfo == null) {
+                        CameraInfo = DirectShowCameraCapture.DevicesAvaible.Cast<FilterInfo>().ToList().Find(moniker => moniker.MonikerString == value);
                     }
                 }
 
@@ -2579,12 +2552,12 @@ namespace VisionModule {
         }
 
         private FilterInfo _CameraInfo = null;
-        [EditorAttribute(typeof(DirectShowSelector), typeof(UITypeEditor)),XmlIgnore]
+        [EditorAttribute(typeof(DirectShowSelector), typeof(UITypeEditor)), XmlIgnore]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public FilterInfo CameraInfo {
             get { return _CameraInfo; }
             set {
-                if (_CameraInfo!=value) {
+                if (_CameraInfo != value) {
                     _CameraInfo = value;
                     CameraName = value.Name;
                     CameraID = value.MonikerString;
@@ -2594,31 +2567,30 @@ namespace VisionModule {
         }
 
         private UndoRedo<String> _CameraName = new UndoRedo<string>("");
-        [XmlAttribute, DisplayName("Camera Name"), ReadOnly(false), Browsable(false)]        
+        [XmlAttribute, DisplayName("Camera Name"), ReadOnly(false), Browsable(false)]
         public override String CameraName {
             get {
                 return _CameraName.Value;
             }
-            set {                
+            set {
                 if (_CameraName.Value != value) {
 
                     if (!UndoRedoManager.IsCommandStarted) {
 
-                        using (UndoRedoManager.Start(this.CameraName + " Camera changed to: " + value)) {                            
+                        using (UndoRedoManager.Start(this.CameraName + " Camera changed to: " + value)) {
                             _CameraName.Value = value;
                             UndoRedoManager.Commit();
 
                         }
-                    }
-                    else {                        
-                        _CameraName.Value = value;                        
+                    } else {
+                        _CameraName.Value = value;
                     }
                 }
             }
         }
 
 
-        readonly UndoRedo<double> _exposure= new UndoRedo<double>();
+        readonly UndoRedo<double> _exposure = new UndoRedo<double>();
         [XmlAttribute]
         public double Exposure {
             get {
@@ -2646,7 +2618,7 @@ namespace VisionModule {
 
         private Image<Bgr, Byte> FrameImage = null;
 
-        
+
         Boolean _GotFrame = false;
         [XmlIgnore, Browsable(false)]
         public Boolean GotFrame {
@@ -2671,15 +2643,15 @@ namespace VisionModule {
                 FrameImage = null;
             }
         }
-        
+
 
         private AutoResetEvent waitImage = new AutoResetEvent(false);
-        private object lockobject = new object();        
- //       private Boolean capture = false;
+        private object lockobject = new object();
+        //       private Boolean capture = false;
         public override Image<Bgr, Byte> GetImage() {
-            
+
             waitImage.Reset();
-            GotFrame = false;            
+            GotFrame = false;
             waitImage.WaitOne();
             Image<Bgr, Byte> newimage = null;
 
@@ -2711,15 +2683,15 @@ namespace VisionModule {
             }
 
             Console.WriteLine("Capture Done");
-           // _Camera.Stop();
-            
+            // _Camera.Stop();
+
             return newimage;
 
         }
 
-        
+
         void Camera_ImageGrabbed(object sender, EventArgs e) {
-           
+
         }
 
         public override string ToString() {
@@ -2729,19 +2701,19 @@ namespace VisionModule {
         static int Globalid = -1;
 
         int id;
-        public DirectShowCameraCapture(VisionProject selectedproject)
-            : base(selectedproject) {
-           // CamIndex = -1;
+        public DirectShowCameraCapture(VisionProject selectedproject) {
+            // CamIndex = -1;
             this.id = ++DirectShowCameraCapture.Globalid;
             this.CameraName = "Direct Show input";
             this.Camtype = CameraTypes.DirectShow;
         }
 
-        public DirectShowCameraCapture(){
+        public DirectShowCameraCapture() {
             // CamIndex = -1;
             this.id = ++DirectShowCameraCapture.Globalid;
             this.CameraName = "Direct Show input";
             this.Camtype = CameraTypes.DirectShow;
+            log = new KPPLogger(typeof(DirectShowCameraCapture), name: base.ModuleName);
         }
 
 
@@ -2749,14 +2721,14 @@ namespace VisionModule {
             if (_Camera != null) {
                 _Camera.Stop();
                 _Camera = null;
-               
+
             }
         }
 
     }
 
     public class CVCameraCapture : BaseCapture {
-        KPPLogger log = new KPPLogger(typeof(CVCameraCapture));
+        KPPLogger log;
 
         decimal _CamIndex = -1;
         [XmlAttribute("Camera Index")]
@@ -2782,7 +2754,7 @@ namespace VisionModule {
             }
         }
 
-        readonly UndoRedo<double> _exposure= new UndoRedo<double>();
+        readonly UndoRedo<double> _exposure = new UndoRedo<double>();
         [XmlAttribute]
         public double Exposure {
             get {
@@ -2828,82 +2800,82 @@ namespace VisionModule {
         private Boolean capture = false;
         public override Image<Bgr, Byte> GetImage() {
 
-         
-                if (Camera == null) {
 
-                    
-                    
-                    Camera = new Capture(0);
-                    Camera.ImageGrabbed += new Capture.GrabEventHandler(Camera_ImageGrabbed);
-                    Camera.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, 320);
-                    Camera.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, 240);
+            if (Camera == null) {
 
-                    //Camera.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, 640);
-                    //Camera.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, 480);
-                    //Camera.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FPS, 1); 
-                    //Camera.Start();
-                    Camera.Grab();
-                    
 
-                }
 
-                Image<Bgr, Byte> newimage = null;
-                //frameImage = null;
-                //Console.WriteLine("Capture Start");
-                //capture = true;
-                //do {
+                Camera = new Capture(0);
+                Camera.ImageGrabbed += new Capture.GrabEventHandler(Camera_ImageGrabbed);
+                Camera.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, 320);
+                Camera.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, 240);
 
-                //    lock (lockobject) {
-                //        if (frameImage!=null) {
-                //            newimage = frameImage;
-                //            break;
-                //        }
-                //    }
-                //    CvInvoke.cvWaitKey(1);
-    
-                //} while (true);
+                //Camera.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, 640);
+                //Camera.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, 480);
+                //Camera.SetCaptureProperty(CAP_PROP.CV_CAP_PROP_FPS, 1); 
+                //Camera.Start();
+                Camera.Grab();
 
-                //capture = false;
-                
-                //Image<Bgr, Byte> newimage = Camera.QueryFrame().Convert<Bgr,Byte>();
 
-                for (int i = 0; i < 5; i++) {
-                    Camera.Grab();
-                    CvInvoke.cvWaitKey(30);
-                    //Camera.RetrieveBgrFrame();
-                    //CvInvoke.cvWaitKey(5);
-                }
+            }
 
-                newimage = Camera.RetrieveBgrFrame();
+            Image<Bgr, Byte> newimage = null;
+            //frameImage = null;
+            //Console.WriteLine("Capture Start");
+            //capture = true;
+            //do {
+
+            //    lock (lockobject) {
+            //        if (frameImage!=null) {
+            //            newimage = frameImage;
+            //            break;
+            //        }
+            //    }
+            //    CvInvoke.cvWaitKey(1);
+
+            //} while (true);
+
+            //capture = false;
+
+            //Image<Bgr, Byte> newimage = Camera.QueryFrame().Convert<Bgr,Byte>();
+
+            for (int i = 0; i < 5; i++) {
+                Camera.Grab();
+                CvInvoke.cvWaitKey(30);
+                //Camera.RetrieveBgrFrame();
+                //CvInvoke.cvWaitKey(5);
+            }
+
+            newimage = Camera.RetrieveBgrFrame();
 
             //    string _appfile = Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), "temp.bmp");
-             //   newimage.Save(_appfile);
-                Console.WriteLine("Capture Done");
-                return newimage;
-            
+            //   newimage.Save(_appfile);
+            Console.WriteLine("Capture Done");
+            return newimage;
+
         }
 
-        private int framecounter=0;
+        private int framecounter = 0;
         void Camera_ImageGrabbed(object sender, EventArgs e) {
-          
+
         }
 
         public override string ToString() {
             return "OpenCV Capture";
         }
 
-        public CVCameraCapture(VisionProject selectedproject)
-            : base(selectedproject) {
+        public CVCameraCapture(VisionProject selectedproject) {
         }
 
         public CVCameraCapture() {
             CamIndex = -1;
             this.CameraName = "Opencv input";
             this.Camtype = CameraTypes.CV;
+            log = new KPPLogger(typeof(CVCameraCapture), name: base.ModuleName);
         }
 
         public override void Dispose() {
-            if (Camera!=null) {
+            if (Camera != null) {
                 Camera.Stop();
                 Camera = null;
 
@@ -2914,8 +2886,8 @@ namespace VisionModule {
     }
 
     //public class RemoteCameraCapture : BaseCapture {
-        
-        
+
+
     //    KPPLogger log = new KPPLogger(typeof(RemoteCameraCapture));
 
 
@@ -2945,7 +2917,7 @@ namespace VisionModule {
 
     //                }
     //            }
-                
+
     //        }
     //    }
 
@@ -2959,7 +2931,7 @@ namespace VisionModule {
     //                String image_serialized = StaticObjects.base64Decode(Commands[1]);
 
     //                lock (locker) {
-                        
+
     //                    remoteimage = (Image<Bgr, Byte>)IOFunctions.DeserializeFromString(image_serialized, typeof(Image<Bgr, Byte>));
     //                    if (OnRemoteImage != null) {
     //                        OnRemoteImage(remoteimage);
@@ -2982,7 +2954,7 @@ namespace VisionModule {
     //    Stopwatch waitimage = new Stopwatch();
     //    public override void GetImage(ref Image<Bgr, Byte> CapturedImage) {
 
-      
+
 
     //            if (StaticObjects.isRemote) {
     //                RemoteCamera.GetImage(ref CapturedImage);
@@ -3005,7 +2977,7 @@ namespace VisionModule {
     //                this.Cliente.Write("REQUEST|1|0\n\r");
     //                waitimage.Reset();
     //                waitimage.Start();
-                  
+
     //                Boolean doexit = false;
     //                do {
     //                    Thread.Sleep(1);
@@ -3018,15 +2990,15 @@ namespace VisionModule {
     //                            doexit = true;
     //                        }
     //                    }
-                        
+
 
     //                } while (!doexit);
-                  
+
 
     //                return remoteimage;
     //            }
-               
-           
+
+
     //    }
 
     //    public override string ToString() {
@@ -3054,7 +3026,7 @@ namespace VisionModule {
 
     public class PythonRemoteCapture : BaseCapture {
 
-        static List<Type> _AvaibleFunctions = new List<Type>() {typeof(ProcessingFunctionPixelanalysis) };
+        static List<Type> _AvaibleFunctions = new List<Type>() { typeof(ProcessingFunctionPixelanalysis) };
 
         internal static List<Type> AvaibleFunctions {
             get { return PythonRemoteCapture._AvaibleFunctions; }
@@ -3063,9 +3035,9 @@ namespace VisionModule {
 
         KPPLogger log = new KPPLogger(typeof(PythonRemoteCapture));
 
-        
+
         public delegate void RemoteImage(Image<Bgr, Byte> theimage);
-        
+
         public event RemoteImage OnRemoteImage;
 
 
@@ -3116,8 +3088,7 @@ namespace VisionModule {
                     }
 
 
-                }
-                else {
+                } else {
                     //String sendstr = "";
                     //foreach (String item in Commands) {
                     //    sendstr += item + "|";
@@ -3130,7 +3101,7 @@ namespace VisionModule {
 
         Stopwatch waitimage = new Stopwatch();
 
-        int _cam=0;
+        int _cam = 0;
         Boolean _capture = false;
         public override Image<Bgr, Byte> GetImage(int cam, Boolean capture) {
             _cam = cam;
@@ -3148,56 +3119,52 @@ namespace VisionModule {
 
             //}
             //else {
-                if (Cliente.State != TCPClientConnection.ConnectionState.Connected) {
-                    Cliente.Connect();
-                    Thread.Sleep(1000);
-                }
-                if (Cliente.State != TCPClientConnection.ConnectionState.Connected) {
-                    throw new Exception("Error connecting to remote capture...");
+            if (Cliente.State != TCPClientConnection.ConnectionState.Connected) {
+                Cliente.Connect();
+                Thread.Sleep(1000);
+            }
+            if (Cliente.State != TCPClientConnection.ConnectionState.Connected) {
+                throw new Exception("Error connecting to remote capture...");
+            }
+
+            if (remoteimage != null) {
+                remoteimage.Dispose();
+                remoteimage = null;
+            }
+            if (_cam > 0) {
+                if (_capture) {
+                    this.Cliente.Write("CAPTUREIMAGE|" + _cam.ToString() + "\n");
+                } else {
+                    this.Cliente.Write("GETIMAGE|" + _cam.ToString() + "\n");
                 }
 
-                if (remoteimage != null) {
-                    remoteimage.Dispose();
-                    remoteimage = null;
-                }
-                if (_cam>0) {
-                    if (_capture)
-                    {
-                        this.Cliente.Write("CAPTUREIMAGE|" + _cam.ToString() + "\n");
-                    }
-                    else
-                    {
-                        this.Cliente.Write("GETIMAGE|" + _cam.ToString() + "\n");
-                    }
+            } else {
+                this.Cliente.Write("CAPTUREIMAGES\n");
+            }
+
+            waitimage.Reset();
+            waitimage.Start();
+
+            Boolean doexit = false;
+            do {
+                Thread.Sleep(1);
+                if (waitimage.ElapsedMilliseconds >= 10000) {
+                    throw new Exception("Receiving image time out");
 
                 }
-                else {
-                    this.Cliente.Write("CAPTUREIMAGES\n");
-                }
-                
-                waitimage.Reset();
-                waitimage.Start();
-
-                Boolean doexit = false;
-                do {
-                    Thread.Sleep(1);
-                    if (waitimage.ElapsedMilliseconds >= 10000) {
-                        throw new Exception("Receiving image time out");
-
-                    }
-                    lock (locker) {
-                        if (remoteimage != null) {
-                            doexit = true;
-                        }
-
+                lock (locker) {
+                    if (remoteimage != null) {
+                        doexit = true;
                     }
 
-
-                } while (!doexit);
-
+                }
 
 
-                return null;
+            } while (!doexit);
+
+
+
+            return null;
 
         }
 
@@ -3205,8 +3172,7 @@ namespace VisionModule {
             return "Python Remote Capture";
         }
 
-        public PythonRemoteCapture(VisionProject selectedproject)
-            : base(selectedproject) {
+        public PythonRemoteCapture(VisionProject selectedproject) {
             this.CameraName = "Python Remote Camera";
             this.Camtype = CameraTypes.Remote;
         }
@@ -3221,7 +3187,7 @@ namespace VisionModule {
                 Cliente.Disconnect();
             }
 
-            
+
             base.Dispose();
         }
     }
@@ -3242,7 +3208,7 @@ namespace VisionModule {
 
 
 
-        public enum CameraTypes { Remote, DirectShow, CV, ICS, File, Inspection, Request, uEye,Undef }
+        public enum CameraTypes { Remote, DirectShow, CV, ICS, File, Inspection, Request, uEye, Undef }
         [NonSerialized]
         KPPLogger log = new KPPLogger(typeof(BaseCapture));
 
@@ -3260,23 +3226,15 @@ namespace VisionModule {
             }
         }
 
-        //private int _LogImages = 0;
-        //[XmlAttribute,DisplayName("Log Images"),Description("Number of images to log")]
-        //public int LogImages {
-        //    get { return _LogImages; }
-        //    set { _LogImages = value; }
-        //}
-
-        //internal static List<BaseCapture> CaptureSources = new List<BaseCapture>();
 
 
-        
+
         public virtual void UpdateSource() {
 
         }
 
         private Channel _UseChannel = Channel.Bgr;
-        [XmlAttribute,DisplayName("Output channel")]
+        [XmlAttribute, DisplayName("Output channel")]
         public virtual Channel UseChannel {
             get { return _UseChannel; }
             set { _UseChannel = value; }
@@ -3297,9 +3255,9 @@ namespace VisionModule {
 
                     _CameraName = value;
 
-                   
-                     
-                    
+
+
+
 
                 }
             }
@@ -3309,7 +3267,7 @@ namespace VisionModule {
         internal event AcquisitionAttributesChanged OnAcquisitionAttributesChanged;
 
         public virtual void UpdateAttributes() {
-            if (OnAcquisitionAttributesChanged!=null) {
+            if (OnAcquisitionAttributesChanged != null) {
                 OnAcquisitionAttributesChanged();
             }
         }
@@ -3324,44 +3282,61 @@ namespace VisionModule {
         }
 
 
-        public virtual Image<Bgr,Byte> GetImage() {
+        public virtual Image<Bgr, Byte> GetImage() {
 
             return null;
         }
 
-        private VisionProject m_SelectedProject = null;
-        [XmlIgnore,Browsable(false)]
-        public virtual VisionProject SelectedProject {
-            get { return m_SelectedProject; }
-            set { m_SelectedProject = value; }
-        }
-
-
-        public BaseCapture(String name,VisionProject selectedProject) {
-            try {
-                SelectedProject = selectedProject;
-                CameraName = name;
-
-            } catch (Exception exp) {
-
-                log.Error(exp);
+        private String m_ModuleName;
+        [XmlAttribute, Browsable(false)]
+        public virtual String ModuleName {
+            get { return m_ModuleName; }
+            set {
+                if (m_ModuleName != value) {
+                    m_ModuleName = value;
+                    //log.SetNewLogger(this.GetType(), value);
+                }
             }
-
-
         }
 
-        public BaseCapture(VisionProject selectedProject) {
-            try {
-                SelectedProject = selectedProject;
-                
+        //private VisionProject m_SelectedProject = null;
+        //[XmlIgnore,Browsable(false)]
+        //public virtual VisionProject SelectedProject {
+        //    get { return m_SelectedProject; }
+        //    set { 
+        //        m_SelectedProject = value;
+        //        if (value!=null) {
+        //            ModuleName = m_SelectedProject.ModuleName;
+        //        }
+        //    }
+        //}
 
-            } catch (Exception exp) {
 
-                log.Error(exp);
-            }
+        //public BaseCapture(String name,VisionProject selectedProject) {
+        //    try {
+        //        SelectedProject = selectedProject;
+        //        CameraName = name;
+
+        //    } catch (Exception exp) {
+
+        //        log.Error(exp);
+        //    }
 
 
-        }
+        //}
+
+        //public BaseCapture(VisionProject selectedProject) {
+        //    try {
+        //        SelectedProject = selectedProject;
+
+
+        //    } catch (Exception exp) {
+
+        //        log.Error(exp);
+        //    }
+
+
+        //}
 
 
         public BaseCapture() {

@@ -41,9 +41,11 @@ using KPPAutomationCore;
 namespace VisionModule {
 
 
-    public partial class VisionForm : DockContent {
-        
+    
 
+    public partial class VisionForm : DockContent {
+
+        public event SelectedProjectChanged OnSelectedProjectChanged;
         public override string ToString() {
             return this.Name;
         }
@@ -61,8 +63,21 @@ namespace VisionModule {
         
         private String VisionSettingsFile;
 
-        private VisionSettings VisionConfig = null;  
-        private VisionProject SelectedProject = null;
+        private VisionSettings VisionConfig = null;
+
+        private VisionProject _SelectedProject = null;
+
+        public VisionProject SelectedProject {
+            get { return _SelectedProject; }
+            set {
+                _SelectedProject = value;
+                if (OnSelectedProjectChanged != null) {
+                    OnSelectedProjectChanged(value);
+                }
+
+            }
+        }
+
         private VisionProjects VisionProjectsConfig = null;
         
 
@@ -283,7 +298,7 @@ namespace VisionModule {
                 splashthread.Start();
 
                 Thread.Sleep(100);
-                SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_0"), TypeOfMessage.Success);
+                SplashScreen.UdpateStatusTextWithStatus("["+ModuleName+"] - "+this.GetResourceText("SplashScreen_0"), TypeOfMessage.Success);
                 Thread.Sleep(100);
 
 
@@ -337,7 +352,7 @@ namespace VisionModule {
 
 
 
-                SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_1"), TypeOfMessage.Success);
+                SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("SplashScreen_1"), TypeOfMessage.Success);
 
 
 
@@ -399,12 +414,12 @@ namespace VisionModule {
 
 
                 _ProjectOptionsForm.FormClosed += new FormClosedEventHandler(_ProjectOptionsForm_FormClosed);
-                
 
 
 
 
-                SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_2"), TypeOfMessage.Success);
+
+                SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("SplashScreen_2"), TypeOfMessage.Success);
 
 
                 _ConfigurationsForm.__btSave.Click += new EventHandler(__btSave_Click);
@@ -415,7 +430,7 @@ namespace VisionModule {
 
 
 
-                SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_3"), TypeOfMessage.Success);
+                SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("SplashScreen_3"), TypeOfMessage.Success);
 
 
                 LoadProjectsFromFile(VisionConfig.ProjectFile);
@@ -483,7 +498,7 @@ namespace VisionModule {
                 _ResultsConfiguration.__listInputs.CellEditFinishing += new CellEditEventHandler(__listInputs_CellEditFinishing);
 
 
-                SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_4"), TypeOfMessage.Success);
+                SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("SplashScreen_4"), TypeOfMessage.Success);
                 //Thread.Sleep(10);
                 ReflectionController.Load("VisionModule.dll");
 
@@ -540,8 +555,9 @@ namespace VisionModule {
             }
         }
 
-        private void MainForm_Load(object sender, EventArgs e) {
 
+        private void MainForm_Load(object sender, EventArgs e) {
+            
 
 
         }
@@ -1851,15 +1867,16 @@ namespace VisionModule {
                         }
 
                         SelectedProject = newselected;
+                        
                        // StaticObjects.SelectedProject = SelectedProject;
                         _ListInspForm.SelectedProject = SelectedProject;
                         _ListROIForm.SelectedProject = SelectedProject;
                         _ImageContainer.SelectedProject = SelectedProject;
 
                         SelectedProject.OnSelectedRequestChanged += new VisionProject.SelectedRequestChanged(SelectedProject_OnSelectedRequestChanged);
-                    
 
 
+                        SelectedProject.ModuleName = ModuleName;
 
                         //StaticObjects.ReferencePoints.Clear();
                         //ReferencePoint dummyRefeence = new ReferencePoint();
@@ -1868,8 +1885,7 @@ namespace VisionModule {
 
                         SelectedProject.OnRequestRemoved += new VisionProject.RequestRemoved(SelectedProject_OnRequestRemoved);
                         SelectedProject.RequestList.OnItemAdded += new DejaVu.Collections.Generic.UndoRedoList<Request>.ItemAdded(RequestList_OnItemAdded);
-                        foreach (Request _request in SelectedProject.RequestList) {
-
+                        foreach (Request _request in SelectedProject.RequestList) {                            
                             _request.Inspections.OnItemAdded += new DejaVu.Collections.Generic.UndoRedoList<Inspection>.ItemAdded(Inspections_OnItemAdded);
                             _ListInspForm.__listinspections.Items.Clear();
                             log.Status("Loading inspections");
@@ -1884,7 +1900,7 @@ namespace VisionModule {
                             _request.OnInspectionRemoved += new Request.InspectionRemoved(_request_OnInspectionRemoved);
 
                             int i = 0;
-                            foreach (Inspection _inspect in _request.Inspections) {
+                            foreach (Inspection _inspect in _request.Inspections) {                                
                                 _inspect.SelectedProject = SelectedProject;
                                 //StaticObjects.InspectionReferences.Add(new InspectionReference(_request, _inspect));
                                 _inspect.PropertyChanged += new PropertyChangedEventHandler(_inspect_PropertyChanged);
@@ -1969,6 +1985,7 @@ namespace VisionModule {
                                         //    }
                                         //}
 
+                                        _inspect.CaptureSource.ModuleName = ModuleName;
 
                                         if (_inspect.CaptureSource is InspectionCapture) {
                                             if (!_inspect.ROIList.AuxROIS.Contains(_roi) || (_inspect.ROIList.AuxROIS.Contains(_roi) && (_inspect.CaptureSource as InspectionCapture).ShowAuxROIS)) {
@@ -2839,15 +2856,15 @@ namespace VisionModule {
                     splashthread.Start();
                     Thread.Sleep(10);
                     SplashScreen.WindowLocation = new Point(SplashScreen.WindowLocation.X, SplashScreen.WindowLocation.Y - 100);
-                    SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("Closing_application"), TypeOfMessage.Error);
+                    SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("Closing_application"), TypeOfMessage.Error);
                     if (SelectedProject != null) {
                         SelectedProject.Dispose();
                     }
-                    
-                    
 
 
-                    SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("Stopping_remote_connection"), TypeOfMessage.Error);
+
+
+                    SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("Stopping_remote_connection"), TypeOfMessage.Error);
 
 
 
@@ -2865,9 +2882,9 @@ namespace VisionModule {
                     //if (File.Exists(configFile) == false) {
                     __dockPanel1.SaveAsXml(VisionConfig.DockFile);
                     //}
-                  
 
-                    SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("Exiting"), TypeOfMessage.Error);
+
+                    SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("Exiting"), TypeOfMessage.Error);
                     
                     
                 }
@@ -3021,7 +3038,7 @@ namespace VisionModule {
 
 
 
-        private void __toolSaveproj_Click(object sender, EventArgs e) {
+        public void __toolSaveproj_Click(object sender, EventArgs e) {
             try {
                 SaveCurrentConfiguration();
                 if (SelectedProject != null) {
@@ -3044,7 +3061,7 @@ namespace VisionModule {
             }
         }
 
-        private void saveToolStripMenuItem1_Click(object sender, EventArgs e) {
+        public void OpenToolStripMenuItem_Click(object sender, EventArgs e) {
 
             _ProjectOptionsForm.Show();
         }
@@ -3131,6 +3148,8 @@ namespace VisionModule {
         private void requestToolStripMenuItem_Click(object sender, EventArgs e) {
             
         }
+        
+
 
         private void captureProcessToolStripMenuItem_Click(object sender, EventArgs e) {
             if (!__btInspect.Enabled) {
@@ -3160,7 +3179,7 @@ namespace VisionModule {
             }
         }
 
-        private void captureAndProcessToolStripMenuItem_Click(object sender, EventArgs e) {
+        public void captureAndProcessToolStripMenuItem_Click(object sender, EventArgs e) {
             if (!__btInspect.Enabled) {
                 return;
             }
@@ -3174,7 +3193,7 @@ namespace VisionModule {
             }
         }
 
-        private void processToolStripMenuItem_Click(object sender, EventArgs e) {
+        public void processToolStripMenuItem_Click(object sender, EventArgs e) {
             if (!__btInspect.Enabled) {
                 return;
             }
