@@ -247,7 +247,7 @@ namespace VisionModule {
 
             String thefilepath = fullPath.LocalPath;// +Path.GetFileName(newpath);
 
-            log.Info("Loading projects file : " + thefilepath);
+            log.Status("Loading projects file : " + thefilepath);
 
 
             if (File.Exists(thefilepath)) {
@@ -268,7 +268,7 @@ namespace VisionModule {
                 _ProjectOptionsForm._projsconf = VisionProjectsConfig;
                 _ProjectOptionsForm._projsfile = thefilepath;
                 _ProjectOptionsForm.__listprojects.Objects = VisionProjectsConfig.Projects.ToList();
-                log.Info("Projects file loaded");
+                log.Status("Projects file loaded");
 
                 if (VisionProjectsConfig.Projects.Count==1) {
                     LoadProject(VisionProjectsConfig.Projects[0].Name);
@@ -430,8 +430,13 @@ namespace VisionModule {
 
 
 
-                SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("SplashScreen_3"), TypeOfMessage.Success);
+                SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("SplashScreen_4"), TypeOfMessage.Success);
+                //Thread.Sleep(10);
+                ReflectionController.Load("VisionModule.dll");
 
+
+
+                SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("SplashScreen_3"), TypeOfMessage.Success);
 
                 LoadProjectsFromFile(VisionConfig.ProjectFile);
 
@@ -498,10 +503,7 @@ namespace VisionModule {
                 _ResultsConfiguration.__listInputs.CellEditFinishing += new CellEditEventHandler(__listInputs_CellEditFinishing);
 
 
-                SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("SplashScreen_4"), TypeOfMessage.Success);
-                //Thread.Sleep(10);
-                ReflectionController.Load("VisionModule.dll");
-
+            
 
 
 
@@ -1757,10 +1759,7 @@ namespace VisionModule {
                     _ImageContainer.__roicontainer.SelectShapes(ROISelected.ROIShape);
                     ROISelected.Locked = lockToolStripMenuItem.Checked;
 
-                    //TODO PROC FUNC
-                    //_resultscontainer.__listResProc.ClearObjects();
-                    //_resultscontainer.__listResProc.AddObjects(ROISelected.Results.ResultsProcessing);
-                    //_resultscontainer.__listResProc.Refresh();
+                   
                     _ListROIForm.__propertyGridFunction.SelectedObject = null;
 
                 }
@@ -1911,6 +1910,7 @@ namespace VisionModule {
                                 if (_inspect.CaptureSource != null) {
                                     _inspect.CaptureSource.UpdateSource();
                                 }
+                                _inspect.CaptureSource.ModuleName = ModuleName;
                                 Inspections_OnItemAdded(_inspect);
 
 
@@ -1950,20 +1950,7 @@ namespace VisionModule {
                                     }
 
                                 }
-                                else if (_inspect.CaptureSource is PythonRemoteCapture) {
-                                    PythonRemoteCapture PythonCapture = _inspect.CaptureSource as PythonRemoteCapture;
-
-                                    try {
-                                        PythonCapture.Cliente.OnConnectionStateChanged += new TCPClientConnection.ConnectionStateChanged(Cliente_OnConnectionStateChanged);
-                                        PythonCapture.Cliente.Connect();
-                                        //PythonCapture.OnRemoteImage += new PythonRemoteCapture.RemoteImage(PythonCapture_OnRemoteImage);
-
-                                    } catch (Exception exp) {
-                                        log.Error(exp);
-
-                                    }
-
-                                }
+                                
 
                                 if (_inspect.ROIList != null) {
 
@@ -1974,18 +1961,7 @@ namespace VisionModule {
                                         _roi.PropertyChanged += new PropertyChangedEventHandler(_roi_PropertyChanged);
                                         _roi.ProcessingFunctions.OnItemAdded += new DejaVu.Collections.Generic.UndoRedoList<ProcessingFunctionBase>.ItemAdded(ProcessingFunctions_OnItemAdded);
 
-                                        //if (_roi.referencePoint != null) {
-                                        //    ReferencePoint newrefpoint = StaticObjects.ReferencePoints.Find(name => name.ReferencePointName == _roi.referencePoint.ReferencePointName);
-                                        //    if (newrefpoint != null) {
-
-                                        //        using (UndoRedoManager.StartInvisible("Init")) {
-                                        //            _roi.referencePoint = newrefpoint;
-                                        //            UndoRedoManager.Commit();
-                                        //        }
-                                        //    }
-                                        //}
-
-                                        _inspect.CaptureSource.ModuleName = ModuleName;
+                                    
 
                                         if (_inspect.CaptureSource is InspectionCapture) {
                                             if (!_inspect.ROIList.AuxROIS.Contains(_roi) || (_inspect.ROIList.AuxROIS.Contains(_roi) && (_inspect.CaptureSource as InspectionCapture).ShowAuxROIS)) {
@@ -2468,33 +2444,12 @@ namespace VisionModule {
 
 
 
-            
-            //_ListInspForm.__ListRequests.SelectedObject = NewSelectedRequest;
 
         }
 
 
 
-        //void c_MouseClick(object sender, MouseEventArgs e) {
-        //    try {
-        //        if (e.Button == System.Windows.Forms.MouseButtons.Right) {
-
-        //            GridItem _parent = _ListInspForm.__propertyGridRequestConf.SelectedGridItem;
-        //            if (_parent != null) {
-        //                if (_parent.Value is TriggerSource) {
-        //                    _ListInspForm.__propertyGridRequestConf.ContextMenuStrip=_ListInspForm.contextconfrequest;
-
-        //                    _ListInspForm.contextconfrequest.Show();
-        //                    _ListInspForm.__propertyGridRequestConf.ContextMenuStrip = null;
-        //                }
-        //            }
-        //        }
-        //    } catch (Exception exp) {
-
-        //        log.Error(exp);
-        //    }
-        //}
-
+     
         void _request_OnSelectedInspectionChanged(Inspection NewSelectedInspection) {
             if (InvokeRequired) {
                 BeginInvoke(new MethodInvoker(delegate { _request_OnSelectedInspectionChanged(NewSelectedInspection); }));
@@ -2535,33 +2490,14 @@ namespace VisionModule {
                         _ListInspForm.__listRoi.Enabled = true;
                         _ListInspForm.__listinspections.Enabled = true;
 
-                        if (NewSelectedInspection.CaptureSource!=null) {
+                        if (NewSelectedInspection.CaptureSource != null) {
 
                             NewSelectedInspection.CaptureSource.UpdateAttributes();
 
-                            if (NewSelectedInspection.CaptureSource is PythonRemoteCapture) {
-                                PythonRemoteCapture PythonCapture = NewSelectedInspection.CaptureSource as PythonRemoteCapture;
-                                if (PythonCapture.Cliente.State == TCPClientConnection.ConnectionState.Disconnected) {
-                                    PythonCapture.Cliente.Connect();
-                                }
-                                //PythonCapture.Cliente.Write("SELECTTCPCLIENT|"+NewSelectedInspection.InspPos.ToString()+"|\n");
-
-                                List<Object> avaiblefuncs = new List<object>();
-                                foreach (Object item in ReflectionController.ProcessingFunctions.ToList<Object>()) {
-                                    ProcessingFunctionDefinition procdef = item as ProcessingFunctionDefinition;
-
-                                    if (PythonRemoteCapture.AvaibleFunctions.Contains(procdef.BaseType)) {
-                                        avaiblefuncs.Add(item);
-                                    }
-
-                                }
-                                _ListROIForm.__cbProcFunc.Objects = avaiblefuncs;
-                            } else {
-                                _ListROIForm.__cbProcFunc.Objects = ReflectionController.ProcessingFunctions.ToList<Object>();
-                            }
 
                         }
-
+                            _ListROIForm.__cbProcFunc.Objects = ReflectionController.ProcessingFunctions.ToList<Object>();
+                        
                         
                         
                         //_ListROIForm.__cbProcFunc.
@@ -3041,20 +2977,7 @@ namespace VisionModule {
         public void __toolSaveproj_Click(object sender, EventArgs e) {
             try {
                 SaveCurrentConfiguration();
-                if (SelectedProject != null) {
-                    if (SelectedProject.SelectedRequest != null) {
-                        if (SelectedProject.SelectedRequest.SelectedInspection != null) {
-                            if (SelectedProject.SelectedRequest.SelectedInspection.CaptureSource != null) {
-                                if (SelectedProject.SelectedRequest.SelectedInspection.CaptureSource is PythonRemoteCapture) {
-                                    PythonRemoteCapture cap = (PythonRemoteCapture)SelectedProject.SelectedRequest.SelectedInspection.CaptureSource;
-                                    if (cap.Cliente.State == TCPClientConnection.ConnectionState.Connected) {
-                                        SendProjectToRemote(cap.Cliente, true);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                
             } catch (Exception exp) {
 
                 log.Error(exp);
@@ -3199,15 +3122,9 @@ namespace VisionModule {
             }
             try {
 
-                if (SelectedProject.SelectedRequest.SelectedInspection.CaptureSource is PythonRemoteCapture)
-                {
-                    //SelectedProject.SelectedRequest.SelectedInspection.Execute(SelectedProject.SelectedRequest.SelectedInspection.CaptureSource.GetImage(SelectedProject.SelectedRequest.SelectedInspection.InspPos, false));
-                }
-                else
-                {
-                    SelectedProject.SelectedRequest.SelectedInspection.Execute(null, false);
-                }
                 
+                    SelectedProject.SelectedRequest.SelectedInspection.Execute(null, false);
+               
 
             } catch (Exception exp) {
 
@@ -3244,24 +3161,24 @@ namespace VisionModule {
 
         public bool SetAdmin { get; set; }
 
-        private Boolean restartapp(LanguageName lang) {
-            try {
+        //private Boolean restartapp(LanguageName lang) {
+        //    try {
 
-                String cap = this.GetResourceText("MessageBox_Language_caption");
-                String text = this.GetResourceText("MessageBox_Language_text");
-                //String text = res_man.GetString("", Thread.CurrentThread.CurrentUICulture);
-                if (MessageBox.Show(text, cap, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.OK) {
-                    LanguageSettings.Language = lang;
-                    //TODO Restart Module
-                    this.Close();
-                }
-            }
-            catch (Exception exp) {
+        //        String cap = this.GetResourceText("MessageBox_Language_caption");
+        //        String text = this.GetResourceText("MessageBox_Language_text");
+        //        //String text = res_man.GetString("", Thread.CurrentThread.CurrentUICulture);
+        //        if (MessageBox.Show(text, cap, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.OK) {
+        //            LanguageSettings.Language = lang;
+                   
+        //            this.Close();
+        //        }
+        //    }
+        //    catch (Exception exp) {
 
-                log.Error(exp);
-            }
-            return false;
-        }
+        //        log.Error(exp);
+        //    }
+        //    return false;
+        //}
 
 
 

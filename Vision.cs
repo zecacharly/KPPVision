@@ -574,7 +574,7 @@ namespace VisionModule {
             set {
                 if (m_ModuleName != value) {
 
-                    log.SetNewLogger(this.GetType(), value);
+                    log=log.SetNewLogger(this.GetType(), value);
 
                     m_ModuleName = value;
 
@@ -1001,11 +1001,9 @@ namespace VisionModule {
 
                     Image<Bgr, Byte> captured = null;
 
-                    if (this.CaptureSource is PythonRemoteCapture) {
-                        captured = ((PythonRemoteCapture)CaptureSource).GetImage(this.InspPos, true);
-                    } else {
-                        captured = CaptureSource.GetImage();
-                    }
+                 
+                     captured = CaptureSource.GetImage();
+                  
 
                     if (ImageRotation != 0 && captured != null) {
                         captured = captured.Rotate(ImageRotation, new Bgr(Color.White));
@@ -1501,7 +1499,7 @@ namespace VisionModule {
             set {
                 if (m_ModuleName != value) {
 
-                    log.SetNewLogger(this.GetType(), value);
+                    log=log.SetNewLogger(this.GetType(), value);
 
                     m_ModuleName = value;
 
@@ -1927,7 +1925,7 @@ namespace VisionModule {
             set {
                 if (m_ModuleName != value) {
 
-                    log.SetNewLogger(this.GetType(), value);
+                    log=log.SetNewLogger(this.GetType(), value);
 
                     m_ModuleName = value;
                     foreach (Request req in RequestList) {

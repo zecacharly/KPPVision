@@ -21,10 +21,10 @@ namespace VisionModule {
 
         public ProcessingFunctionPoint2PointDist() {
 
-            log = new KPPLogger(typeof(ProcessingFunctionPoint2PointDist), name: base.ModuleName);
+            
         }
 
-        private static KPPLogger log;
+        
 
        
 

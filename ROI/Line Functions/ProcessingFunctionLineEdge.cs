@@ -177,10 +177,10 @@ namespace VisionModule {
 
         public ProcessingFunctionLineEdge() {
 
-            log = new KPPLogger(typeof(ProcessingFunctionLineEdge), name: base.ModuleName);
+            
         }
         
-        private static KPPLogger log;
+        
 
 
         internal static IEnumerable<T> EnumToList<T>() {

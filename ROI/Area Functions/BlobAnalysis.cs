@@ -197,10 +197,10 @@ namespace VisionModule {
 
         public BlobAnalysis() {
 
-            log = new KPPLogger(typeof(BlobAnalysis), name: base.ModuleName);
+            
         }
         
-        private static KPPLogger log;
+        
         //= new KPPLogger(typeof(ProcessingFunctionBoundingRectangle));
 
          
@@ -265,7 +265,8 @@ namespace VisionModule {
                 base.Process(ImageIn, ImageOut, RoiRegion);
                 Pass = false;
                 //ReferenceBlob = new BlobInfo();
-                
+
+                throw new Exception("Teste5");
                 NumBlobs = 0;
                 BlobsList.Clear();
              

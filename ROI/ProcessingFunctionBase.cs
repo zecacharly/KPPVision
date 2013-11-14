@@ -160,12 +160,10 @@ namespace VisionModule {
 
         public SetValue() {
 
-            log= new KPPLogger(typeof(SetValue),name:base.ModuleName);
+            
         }
 
-        private static KPPLogger log;
-        //= new KPPLogger(typeof(SetValue));
-
+        
 
 
 
@@ -261,17 +259,8 @@ namespace VisionModule {
 
         public GetObject() {
 
-            log= new KPPLogger(typeof(GetObject),name:base.ModuleName);
+
         }
-
-        private static KPPLogger log;
-        //= new KPPLogger(typeof(GetObject));
-
-
-
-
-
-
 
         #region Pre-Processing
         
@@ -436,6 +425,298 @@ namespace VisionModule {
         }
     }
 
+    public class ImagePreProc {
+
+
+
+        readonly UndoRedo<int> _erode = new UndoRedo<int>(1);
+
+        [XmlAttribute]
+        [EditorAttribute(typeof(PropertySetEditor), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true), Category("Pre-Processing")]
+        public virtual int Erode {
+            get {
+                return _erode.Value;
+            }
+            set {
+
+                if (_erode.Value != value) {
+
+                    if (!UndoRedoManager.IsCommandStarted) {
+                        using (UndoRedoManager.Start("Erode value changed to: " + value.ToString())) {
+                            _erode.Value = value;
+                            UndoRedoManager.Commit();
+                        }
+                    }
+                    else {
+                        _erode.Value = value;
+                    }
+                }
+            }
+        }
+
+        readonly UndoRedo<int> _dilate = new UndoRedo<int>(1);
+
+        [XmlAttribute]
+        [EditorAttribute(typeof(PropertySetEditor), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true), Category("Pre-Processing")]
+        public virtual int Dilate {
+            get {
+                return _dilate.Value;
+            }
+            set {
+
+                if (_dilate.Value != value) {
+
+                    if (!UndoRedoManager.IsCommandStarted) {
+                        using (UndoRedoManager.Start("Dilate value changed to: " + value.ToString())) {
+                            _dilate.Value = value;
+                            UndoRedoManager.Commit();
+                        }
+                    }
+                    else {
+                        _dilate.Value = value;
+                    }
+                }
+            }
+        }
+
+        readonly UndoRedo<int> _threshold = new UndoRedo<int>(120);
+
+        [XmlAttribute]
+        [DescriptionAttribute("Threshold value")]
+        [EditorAttribute(typeof(PropertySetEditor), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true), Category("Pre-Processing")]
+        public virtual int Threshold {
+            get {
+                return _threshold.Value;
+            }
+            set {
+
+                if (_threshold.Value != value) {
+
+                    if (!UndoRedoManager.IsCommandStarted) {
+                        using (UndoRedoManager.Start("Threshold value changed to: " + value.ToString())) {
+                            _threshold.Value = value;
+                            UndoRedoManager.Commit();
+                        }
+                    }
+                    else {
+                        _threshold.Value = value;
+                    }
+                }
+            }
+        }
+
+        readonly UndoRedo<int> _thresholdLink = new UndoRedo<int>(120);
+        [XmlAttribute]
+        [DescriptionAttribute("Threshold Link value")]
+        [EditorAttribute(typeof(PropertySetEditor), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true), Category("Pre-Processing"), DisplayName("Threshold Link")]
+        public virtual int ThresholdLink {
+            get {
+                return _thresholdLink.Value;
+            }
+            set {
+
+                if (_thresholdLink.Value != value) {
+
+                    if (!UndoRedoManager.IsCommandStarted) {
+                        using (UndoRedoManager.Start("Threshold Link value changed to: " + value.ToString())) {
+                            _thresholdLink.Value = value;
+                            UndoRedoManager.Commit();
+                        }
+                    }
+                    else {
+                        _thresholdLink.Value = value;
+                    }
+                }
+            }
+        }
+
+
+        readonly UndoRedo<int> _ApertureSize = new UndoRedo<int>(3);
+        [XmlAttribute]
+        //[DescriptionAttribute("Threshold Link value")]
+        [EditorAttribute(typeof(PropertySetEditor), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true), Category("Pre-Processing"), DisplayName("Aperture Size")]
+        public virtual int ApertureSize {
+            get {
+                return _ApertureSize.Value;
+            }
+            set {
+
+                if (_ApertureSize.Value != value) {
+
+                    if (!UndoRedoManager.IsCommandStarted) {
+                        using (UndoRedoManager.Start("Aperture Size value changed to: " + value.ToString())) {
+                            _ApertureSize.Value = value;
+                            UndoRedoManager.Commit();
+                        }
+                    }
+                    else {
+                        _ApertureSize.Value = value;
+                    }
+                }
+            }
+        }
+
+
+
+
+        readonly UndoRedo<Channel> _usechannel = new UndoRedo<Channel>(Channel.Mono);
+
+        [XmlAttribute]
+        [Description("Use Channel for processing"), Browsable(true), Category("Pre-Processing")]
+        public virtual Channel UseChannel {
+            get { return _usechannel.Value; }
+            set {
+                if (_usechannel.Value != value) {
+                    if (!UndoRedoManager.IsCommandStarted) {
+                        using (UndoRedoManager.Start("Threshold value changed to: " + value.ToString())) {
+                            _usechannel.Value = value;
+                            UndoRedoManager.Commit();
+                        }
+                    }
+                    else {
+                        _usechannel.Value = value;
+                    }
+
+                }
+
+            }
+        }
+
+        readonly UndoRedo<TypeOfThreshold> _thresholdtype = new UndoRedo<TypeOfThreshold>(TypeOfThreshold.Normal);
+
+        [XmlAttribute]
+        [Description("Type of threshold"), Browsable(true), Category("Pre-Processing")]
+        public virtual TypeOfThreshold ThresholdType {
+            get {
+                return _thresholdtype.Value;
+            }
+            set {
+                if (_thresholdtype.Value != value) {
+                    if (!UndoRedoManager.IsCommandStarted) {
+                        using (UndoRedoManager.Start("Threshold Type value changed to: " + value.ToString())) {
+                            _thresholdtype.Value = value;
+                            UndoRedoManager.Commit();
+                        }
+
+                    }
+                    else {
+                        _thresholdtype.Value = value;
+                    }
+                }
+
+            }
+        }
+
+
+
+        public override string ToString() {
+            return "Image settings";
+        }
+    }
+
+    public class ContourPreProc {
+
+        readonly UndoRedo<Double> _MinContourLength = new UndoRedo<double>();
+        [XmlAttribute]
+        [DisplayName("Min Length"), Description("Minimum length to consider a valid contour"), Category("Pre-Processing")]
+        public Double MinContourLength {
+            get { return _MinContourLength.Value; }
+            set {
+                if (_MinContourLength.Value != value) {
+                    if (!UndoRedoManager.IsCommandStarted) {
+                        using (UndoRedoManager.Start("Min contour value changed to: " + value.ToString())) {
+                            _MinContourLength.Value = value;
+                            UndoRedoManager.Commit();
+                        }
+                    }
+                    else {
+                        _MinContourLength.Value = value;
+                    }
+                }
+            }
+        }
+
+        readonly UndoRedo<Double> _MaxContourLength = new UndoRedo<double>(1000);
+        [XmlAttribute]
+        [DisplayName("Max Length"), Description("Maximum length to consider a valid contour"), Category("Pre-Processing")]
+        public Double MaxContourLength {
+            get { return _MaxContourLength.Value; }
+            set {
+                if (_MaxContourLength.Value != value) {
+                    if (!UndoRedoManager.IsCommandStarted) {
+                        using (UndoRedoManager.Start("Max contour value changed to: " + value.ToString())) {
+                            _MaxContourLength.Value = value;
+                            UndoRedoManager.Commit();
+                        }
+                    }
+                    else {
+                        _MaxContourLength.Value = value;
+                    }
+                }
+            }
+        }
+
+        readonly UndoRedo<Double> _MinArea = new UndoRedo<double>();
+        [XmlAttribute]
+        [DisplayName("\tMinimum Area"), Description("Minimum area to consider a valid contour"), Category("Pre-Processing")]
+        public Double MinArea {
+            get { return _MinArea.Value; }
+            set {
+                if (_MinArea.Value != value) {
+                    if (!UndoRedoManager.IsCommandStarted) {
+                        using (UndoRedoManager.Start("Min Area value changed to: " + value.ToString())) {
+                            _MinArea.Value = value;
+                            UndoRedoManager.Commit();
+                        }
+                    }
+                    else {
+                        _MinArea.Value = value;
+                    }
+                }
+            }
+        }
+
+
+
+        readonly UndoRedo<Double> _MaxArea = new UndoRedo<double>(20000);
+        [XmlAttribute]
+        [DisplayName("\t\tMaximum Area"), Description("Maximum area to consider a valid contour"), Category("Pre-Processing")]
+        public Double MaxArea {
+            get { return _MaxArea.Value; }
+            set {
+                if (_MaxArea.Value != value) {
+                    if (!UndoRedoManager.IsCommandStarted) {
+                        using (UndoRedoManager.Start("Max Area value changed to: " + value.ToString())) {
+                            _MaxArea.Value = value;
+                            UndoRedoManager.Commit();
+                        }
+                    }
+                    else {
+                        _MaxArea.Value = value;
+                    }
+                }
+            }
+
+        }
+
+
+        [XmlAttribute]
+        [Description("Remove contours that are touching the ROI edges"), DisplayName("Remove Touching Borders"), Category("Pre-Processing")]
+        public Boolean RemoveTouchingROIEdges { get; set; }
+
+        public override string ToString() {
+            return "Contour settings";
+        }
+    }
+
+
+
+    public enum OutputResultType { orContours, orResults, orNone, orPreProcessing }
+
+    public enum TypeOfThreshold { Normal, Inverted, Adaptive, None }
+
+
+    
 
     #region Includes
     [XmlInclude(typeof(ProcessingFunctionConstant))]    
@@ -461,10 +742,7 @@ namespace VisionModule {
     [XmlInclude(typeof(ProcessingFunctionEllipseFitter))]
     [XmlInclude(typeof(ProcessingFunctionTest))]
     [XmlInclude(typeof(SetValue))]
-    #endregion
-
-    
-
+    #endregion    
     [Serializable()]
     public abstract class ProcessingFunctionBase : ICloneable, IDisposable {
 
@@ -478,12 +756,26 @@ namespace VisionModule {
             SetFunctionParams();
         }
 
-        private String _ModuleName = "NoName";
 
-        public String ModuleName {
-            get { return _ModuleName; }
-            set { _ModuleName = value; }
+        private KPPLogger m_log;
+        [XmlIgnore, Browsable(false)]
+        public virtual KPPLogger log {
+            get { return m_log; }
+            //set { m_log = value; }
         }
+
+        private String m_ModuleName;
+        [XmlAttribute, Browsable(false)]
+        public virtual String ModuleName {
+            get { return m_ModuleName; }
+            set {
+                if (m_ModuleName != value) {
+                    m_ModuleName = value;
+                    m_log = m_log.SetNewLogger(this.GetType(), value);
+                }
+            }
+        }
+
 
 
         private VisionProject _SelectedVisionProject;
@@ -503,289 +795,10 @@ namespace VisionModule {
 
         [XmlAttribute,DisplayName("Min count"), Category("Pass Fail Settings"), Description("Min pixel count inside contour")]
         public virtual double Mincount { get; set; }
+
         [XmlAttribute, DisplayName("Max count"), Category("Pass Fail Settings"), Description("Max pixel count inside contour")]
         public virtual double Maxcount { get; set; }
 
-
-        public class ImagePreProc {
-
-
-
-            readonly UndoRedo<int> _erode = new UndoRedo<int>(1);
-
-            [XmlAttribute]
-            [EditorAttribute(typeof(PropertySetEditor), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true), Category("Pre-Processing")]
-            public virtual int Erode {
-                get {
-                    return _erode.Value;
-                }
-                set {
-
-                    if (_erode.Value != value) {
-
-                        if (!UndoRedoManager.IsCommandStarted) {
-                            using (UndoRedoManager.Start("Erode value changed to: " + value.ToString())) {
-                                _erode.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                        } else {
-                            _erode.Value = value;
-                        }
-                    }
-                }
-            }
-
-            readonly UndoRedo<int> _dilate = new UndoRedo<int>(1);
-
-            [XmlAttribute]
-            [EditorAttribute(typeof(PropertySetEditor), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true), Category("Pre-Processing")]
-            public virtual int Dilate {
-                get {
-                    return _dilate.Value;
-                }
-                set {
-
-                    if (_dilate.Value != value) {
-
-                        if (!UndoRedoManager.IsCommandStarted) {
-                            using (UndoRedoManager.Start("Dilate value changed to: " + value.ToString())) {
-                                _dilate.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                        } else {
-                            _dilate.Value = value;
-                        }
-                    }
-                }
-            }
-
-            readonly UndoRedo<int> _threshold = new UndoRedo<int>(120);
-
-            [XmlAttribute]
-            [DescriptionAttribute("Threshold value")]
-            [EditorAttribute(typeof(PropertySetEditor), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true), Category("Pre-Processing")]
-            public virtual int Threshold {
-                get {
-                    return _threshold.Value;
-                }
-                set {
-
-                    if (_threshold.Value != value) {
-
-                        if (!UndoRedoManager.IsCommandStarted) {
-                            using (UndoRedoManager.Start("Threshold value changed to: " + value.ToString())) {
-                                _threshold.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                        }
-                        else {
-                            _threshold.Value = value;
-                        }
-                    }
-                }
-            }
-
-            readonly UndoRedo<int> _thresholdLink = new UndoRedo<int>(120);
-            [XmlAttribute]
-            [DescriptionAttribute("Threshold Link value")]
-            [EditorAttribute(typeof(PropertySetEditor), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true), Category("Pre-Processing"),DisplayName("Threshold Link")]
-            public virtual int ThresholdLink {
-                get {
-                    return _thresholdLink.Value;
-                }
-                set {
-
-                    if (_thresholdLink.Value != value) {
-
-                        if (!UndoRedoManager.IsCommandStarted) {
-                            using (UndoRedoManager.Start("Threshold Link value changed to: " + value.ToString())) {
-                                _thresholdLink.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                        } else {
-                            _thresholdLink.Value = value;
-                        }
-                    }
-                }
-            }
-
-
-            readonly UndoRedo<int> _ApertureSize= new UndoRedo<int>(3);
-            [XmlAttribute]
-            //[DescriptionAttribute("Threshold Link value")]
-            [EditorAttribute(typeof(PropertySetEditor), typeof(System.Drawing.Design.UITypeEditor)), Browsable(true), Category("Pre-Processing"), DisplayName("Aperture Size")]
-            public virtual int ApertureSize {
-                get {
-                    return _ApertureSize.Value;
-                }
-                set {
-
-                    if (_ApertureSize.Value != value) {
-
-                        if (!UndoRedoManager.IsCommandStarted) {
-                            using (UndoRedoManager.Start("Aperture Size value changed to: " + value.ToString())) {
-                                _ApertureSize.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                        } else {
-                            _ApertureSize.Value = value;
-                        }
-                    }
-                }
-            }
-
-
-
-
-            readonly UndoRedo<Channel> _usechannel = new UndoRedo<Channel>(Channel.Mono);
-
-            [XmlAttribute]
-            [Description("Use Channel for processing"), Browsable(true), Category("Pre-Processing")]
-            public virtual Channel UseChannel {
-                get { return _usechannel.Value; }
-                set {
-                    if (_usechannel.Value != value) {
-                        if (!UndoRedoManager.IsCommandStarted) {
-                            using (UndoRedoManager.Start("Threshold value changed to: " + value.ToString())) {
-                                _usechannel.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                        }
-                        else {
-                            _usechannel.Value = value;
-                        }
-                    
-                    }
-                    
-                }
-            }
-
-            readonly UndoRedo<TypeOfThreshold> _thresholdtype = new UndoRedo<TypeOfThreshold>(TypeOfThreshold.Normal);
-
-            [XmlAttribute]
-            [Description("Type of threshold"), Browsable(true), Category("Pre-Processing")]
-            public virtual TypeOfThreshold ThresholdType {
-                get {
-                    return _thresholdtype.Value;
-                }
-                set {
-                    if (_thresholdtype.Value != value) {
-                        if (!UndoRedoManager.IsCommandStarted) {
-                            using (UndoRedoManager.Start("Threshold Type value changed to: " + value.ToString())) {
-                                _thresholdtype.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                         
-                        }
-                        else {
-                            _thresholdtype.Value = value;
-                        }
-                    }
-
-                }
-            }
-
-          
-
-            public override string ToString() {
-                return "Image settings";
-            }
-        }
-
-        public class ContourPreProc {
-
-            readonly UndoRedo<Double> _MinContourLength = new UndoRedo<double>();
-            [XmlAttribute]
-            [DisplayName("Min Length"), Description("Minimum length to consider a valid contour"),Category("Pre-Processing")]
-            public Double MinContourLength {
-                get { return _MinContourLength.Value; }
-                set {
-                    if (_MinContourLength.Value!=value) {
-                        if (!UndoRedoManager.IsCommandStarted) {
-                            using (UndoRedoManager.Start("Min contour value changed to: " + value.ToString())) {
-                                _MinContourLength.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                        }
-                        else {
-                            _MinContourLength.Value = value;
-                        }
-                    }
-                } 
-            }
-
-            readonly UndoRedo<Double> _MaxContourLength = new UndoRedo<double>(1000);
-            [XmlAttribute]
-            [DisplayName("Max Length"), Description("Maximum length to consider a valid contour"), Category("Pre-Processing")]
-            public Double MaxContourLength {
-                get { return _MaxContourLength.Value; }
-                set {
-                    if (_MaxContourLength.Value != value) {
-                        if (!UndoRedoManager.IsCommandStarted) {
-                            using (UndoRedoManager.Start("Max contour value changed to: " + value.ToString())) {
-                                _MaxContourLength.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                        }
-                        else {
-                            _MaxContourLength.Value = value;
-                        }
-                    }
-                }
-            }
-
-            readonly UndoRedo<Double> _MinArea = new UndoRedo<double>();
-            [XmlAttribute]
-            [DisplayName("\tMinimum Area"), Description("Minimum area to consider a valid contour"), Category("Pre-Processing")]
-            public Double MinArea {
-                get { return _MinArea.Value; }
-                set {
-                    if (_MinArea.Value != value) {
-                        if (!UndoRedoManager.IsCommandStarted) {
-                            using (UndoRedoManager.Start("Min Area value changed to: " + value.ToString())) {
-                                _MinArea.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                        }
-                        else {
-                            _MinArea.Value = value;
-                        }
-                    }
-                }
-            }
-
-
-
-            readonly UndoRedo<Double> _MaxArea = new UndoRedo<double>(20000);
-            [XmlAttribute]
-            [DisplayName("\t\tMaximum Area"), Description("Maximum area to consider a valid contour"), Category("Pre-Processing")]
-            public Double MaxArea {
-                get { return _MaxArea.Value; }
-                set {
-                    if (_MaxArea.Value != value) {
-                        if (!UndoRedoManager.IsCommandStarted) {
-                            using (UndoRedoManager.Start("Max Area value changed to: " + value.ToString())) {
-                                _MaxArea.Value = value;
-                                UndoRedoManager.Commit();
-                            }
-                        }
-                        else {
-                            _MaxArea.Value = value;
-                        }
-                    }
-                }
-
-            }
-
-
-            [XmlAttribute]
-            [Description("Remove contours that are touching the ROI edges"), DisplayName("Remove Touching Borders"), Category("Pre-Processing")]
-            public Boolean RemoveTouchingROIEdges { get; set; }
-
-            public override string ToString() {
-                return "Contour settings";
-            }
-        }
 
 
 
@@ -828,15 +841,6 @@ namespace VisionModule {
 
         private Boolean _showresultinroi = true;
 
-        [field:NonSerialized]
-        //public event PropertyChangedEventHandler PropertyChanged;
-        
-        public enum OutputResultType { orContours,orResults, orNone, orPreProcessing }
-        
-        public enum TypeOfThreshold { Normal, Inverted,Adaptive,None }
-
-
-        
         private String _name = "";
         private String _functype = "";
         
@@ -888,22 +892,6 @@ namespace VisionModule {
         [XmlIgnore,Browsable(false)]        
         public virtual List<Series> FunctionSeries {get;set;}
         
-
-        //[XmlIgnore]
-        //[Editor(typeof(BitmapOutPropertyViewer), typeof(System.Drawing.Design.UITypeEditor))]
-        //[Category("Post-Processing"), Description("Result image")]
-        //[field:NonSerialized]
-        //public virtual Bitmap ROIBitmapOut {
-        //    get {
-        //        return _ROIBitmapOut;
-        //    }
-        //    set {
-        //        if (_ROIBitmapOut != value) {
-        //            _ROIBitmapOut = value;
-        //        }
-
-        //    }
-        //}
 
 
         int _ProcPos = 1;

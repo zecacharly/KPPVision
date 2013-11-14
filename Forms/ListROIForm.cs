@@ -531,6 +531,7 @@ namespace VisionModule {
                         proc.FunctionType = selected.FunctionType;
                         proc.ProcPos = SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions.Count() + 1;
 
+                        proc.SelectedVisionProject = SelectedProject;
 
                         if (SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions.Contains(proc) == false) {
                             SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.AddProcessingFunction(proc);

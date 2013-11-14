@@ -26,10 +26,10 @@ namespace VisionModule {
 
          public ProcessingFunctionTest() {
 
-             log= new KPPLogger(typeof(ProcessingFunctionTest),name:base.ModuleName);
+             
          }
 
-         private static KPPLogger log;
+         
          //= new KPPLogger(typeof(ProcessingFunctionTest));
 
        

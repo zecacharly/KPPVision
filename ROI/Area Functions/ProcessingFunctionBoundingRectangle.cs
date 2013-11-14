@@ -17,9 +17,9 @@ namespace VisionModule {
     public class ProcessingFunctionBoundingRectangle : ProcessingFunctionBase {
 
         public ProcessingFunctionBoundingRectangle() {
-            log = new KPPLogger(typeof(ProcessingFunctionBoundingRectangle), name: base.ModuleName);
+            
         }
-        private static KPPLogger log;
+        
 
 
 

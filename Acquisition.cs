@@ -462,7 +462,7 @@ namespace VisionModule {
 
     public class InterfaceValueSelector : System.Drawing.Design.UITypeEditor {
 
-        KPPLogger log = new KPPLogger(typeof(InterfaceValueSelector));
+        
 
         // this is a container for strings, which can be 
         // picked-out
@@ -486,12 +486,19 @@ namespace VisionModule {
 
         // Displays the UI for value selection.
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
+            KPPLogger log;
 
+            if (!(context.Instance is ICSCameraCapture)) {
+                return value;
+            }
+            SelectedCamera = (ICSCameraCapture)context.Instance;
+            log = SelectedCamera.log;
             try {
+
                 Box1.Items.Clear();
 
                 //Box1.Height = Box1.PreferredHeight;
-                SelectedCamera = (ICSCameraCapture)context.Instance;
+                
 
 
                 if (SelectedCamera == null) {
@@ -594,60 +601,6 @@ namespace VisionModule {
             edSvc.CloseDropDown();
         }
     }
-
-    //public class uEyeCamInfo {
-
-    //    private uEye.Types.CameraInformation _Info= new uEye.Types.CameraInformation();
-    //    [XmlIgnore,Browsable(false)]
-    //    public uEye.Types.CameraInformation Info {
-    //        get { return _Info; }
-    //        private set { 
-    //            _Info = value; 
-
-    //        }
-    //    }
-
-    //    [XmlIgnore,DisplayName("Model")]
-    //    public String Model {
-    //        get {
-    //            String ret = Info.Model;
-    //            if (ret!=null) {
-    //                ret = ret.Replace("\0", "");
-    //            }
-
-    //            return ret;
-    //        }
-
-    //    }
-
-
-
-    //    [XmlIgnore, DisplayName("Serial")]
-    //    public String Serial {
-    //        get {
-    //            return Info.SerialNumber;
-
-    //        }
-
-    //    }
-
-    //    public uEyeCamInfo(uEye.Types.CameraInformation info) {
-    //        Info = info;
-    //    }
-
-    //    public uEyeCamInfo() {
-
-
-    //    }
-
-    //    public override string ToString() {
-    //        if (Info.CameraID<1) {
-    //            return "Camera not found";
-    //        }
-    //        return Model+"("+Serial+")";
-
-    //    }
-    //}
 
     public class uEyeCameraSelector : System.Drawing.Design.UITypeEditor {
         // this is a container for strings, which can be 
@@ -805,7 +758,7 @@ namespace VisionModule {
 
 
 
-        KPPLogger log = new KPPLogger(typeof(uEyeCamera));
+        
 
         readonly UndoRedo<int> _PixelClock = new UndoRedo<int>(-1);
         [XmlAttribute, ReadOnly(false)]
@@ -1193,12 +1146,8 @@ namespace VisionModule {
 
 
     public class ICScamera {
-        KPPLogger log = new KPPLogger(typeof(ICScamera));
+        
         String _name;
-
-
-
-
 
 
         VCDRangeProperty _zoominterface;
@@ -1326,8 +1275,9 @@ namespace VisionModule {
 
 
 
-
-        public ICScamera(ICImagingControl icsCamera) {
+        KPPLogger log;
+        public ICScamera(ICImagingControl icsCamera,String ModuleName) {
+            log.SetNewLogger(this.GetType(), ModuleName);
             try {
                 _name = icsCamera.Device;
                 Camera = icsCamera;
@@ -1404,7 +1354,7 @@ namespace VisionModule {
 
     public class ICSCameraCapture : BaseCapture {
 
-        KPPLogger log;
+        
 
         void SetCamera(String value) {
             try {
@@ -2118,7 +2068,7 @@ namespace VisionModule {
             _CameraName.OnMemberRedo += new UndoRedo<string>.MemberRedo(_CameraName_OnMemberRedo);
             _CameraName.OnMemberUndo += new UndoRedo<string>.MemberUndo(_CameraName_OnMemberRedo);
             Camtype = CameraTypes.ICS;
-            log = new KPPLogger(typeof(ICSCameraCapture), name: base.ModuleName);
+            
 
         }
 
@@ -2142,7 +2092,7 @@ namespace VisionModule {
 
 
     public class FileCapture : BaseCapture {
-        KPPLogger log;
+        
 
 
         String _CameraName = "";
@@ -2187,15 +2137,7 @@ namespace VisionModule {
         }
 
 
-        public override Image<Bgr, Byte> GetImage() {
-
-            try {
-                throw new Exception("Teste");
-            } catch (Exception exp) {
-
-                log.Error(exp);
-
-            }
+        public override Image<Bgr, Byte> GetImage() {         
 
             return new Image<Bgr, byte>(FileLoc);
 
@@ -2218,7 +2160,7 @@ namespace VisionModule {
             CameraName = "Add file location";
             FileLoc = "Select location";
             this.Camtype = CameraTypes.File;
-            log = new KPPLogger(typeof(FileCapture), name: base.ModuleName);
+            
 
 
         }
@@ -2309,8 +2251,8 @@ namespace VisionModule {
 
     [Serializable]
     public class InspectionCapture : BaseCapture {
-        [NonSerialized]
-        KPPLogger log = new KPPLogger(typeof(InspectionCapture));
+        
+        
 
         public delegate void CaptureInspectionNameChanged(InspectionCapture Sender, String newName);
 
@@ -2483,7 +2425,7 @@ namespace VisionModule {
     }
 
     public class DirectShowCameraCapture : BaseCapture {
-        KPPLogger log;
+      
 
         private static FilterInfoCollection _DevicesAvaible = new FilterInfoCollection(FilterCategory.VideoInputDevice);
         [XmlIgnore]
@@ -2713,7 +2655,7 @@ namespace VisionModule {
             this.id = ++DirectShowCameraCapture.Globalid;
             this.CameraName = "Direct Show input";
             this.Camtype = CameraTypes.DirectShow;
-            log = new KPPLogger(typeof(DirectShowCameraCapture), name: base.ModuleName);
+            
         }
 
 
@@ -2728,7 +2670,7 @@ namespace VisionModule {
     }
 
     public class CVCameraCapture : BaseCapture {
-        KPPLogger log;
+        
 
         decimal _CamIndex = -1;
         [XmlAttribute("Camera Index")]
@@ -2871,7 +2813,7 @@ namespace VisionModule {
             CamIndex = -1;
             this.CameraName = "Opencv input";
             this.Camtype = CameraTypes.CV;
-            log = new KPPLogger(typeof(CVCameraCapture), name: base.ModuleName);
+            
         }
 
         public override void Dispose() {
@@ -2885,312 +2827,6 @@ namespace VisionModule {
 
     }
 
-    //public class RemoteCameraCapture : BaseCapture {
-
-
-    //    KPPLogger log = new KPPLogger(typeof(RemoteCameraCapture));
-
-
-    //    public delegate void RemoteImage(Image<Bgr,Byte> theimage);
-
-    //    public event RemoteImage OnRemoteImage;
-
-
-    //    BaseCapture _RemoteCamera = new BaseCapture();
-    //    [TypeConverter(typeof(ExpandableObjectConverter))]
-    //    [DisplayName("Remote Camera")]
-    //    [EditorAttribute(typeof(InputSourceSelector), typeof(System.Drawing.Design.UITypeEditor))]
-    //    public BaseCapture RemoteCamera {
-    //        get { return _RemoteCamera; }
-    //        set { _RemoteCamera = value; }
-    //    }
-
-    //    private TCPClientConnection _Cliente = new TCPClientConnection();
-    //    [TypeConverter(typeof(ExpandableObjectConverter))]
-    //    public TCPClientConnection Cliente {
-    //        get { return _Cliente; }
-    //        set {
-    //            if (_Cliente != value ) {
-    //                _Cliente = value;
-    //                if (_Cliente != null) {
-    //                    _Cliente.OnServerMessage += new TCPClientConnection.ServerMessage(_Cliente_OnServerMessage);
-
-    //                }
-    //            }
-
-    //        }
-    //    }
-
-    //    object locker = new object();
-
-    //    Image<Bgr,Byte> remoteimage = null;
-    //    void _Cliente_OnServerMessage(string[] Commands) {
-    //        if (Commands.Count() > 0) {
-    //            if (Commands[0] == "IMAGE") {
-
-    //                String image_serialized = StaticObjects.base64Decode(Commands[1]);
-
-    //                lock (locker) {
-
-    //                    remoteimage = (Image<Bgr, Byte>)IOFunctions.DeserializeFromString(image_serialized, typeof(Image<Bgr, Byte>));
-    //                    if (OnRemoteImage != null) {
-    //                        OnRemoteImage(remoteimage);
-    //                    }
-    //                }
-
-
-    //            }
-    //            else {
-    //                //String sendstr = "";
-    //                //foreach (String item in Commands) {
-    //                //    sendstr += item + "|";
-    //                //}
-    //                //throw new Exception("Unknown remote command : "+sendstr);
-    //                //log.Debug();
-    //            }
-    //        }
-    //    }
-
-    //    Stopwatch waitimage = new Stopwatch();
-    //    public override void GetImage(ref Image<Bgr, Byte> CapturedImage) {
-
-
-
-    //            if (StaticObjects.isRemote) {
-    //                RemoteCamera.GetImage(ref CapturedImage);
-
-
-    //            }
-    //            else {
-    //                if (Cliente.State!= TCPClientConnection.ConnectionState.Connected) {
-    //                    Cliente.Connect();
-    //                    Thread.Sleep(1000);
-    //                }
-    //                if (Cliente.State!= TCPClientConnection.ConnectionState.Connected) {
-    //                    throw new Exception("Error connecting to remote capture...");
-    //                }
-
-    //                if (remoteimage!=null) {
-    //                    remoteimage.Dispose();
-    //                    remoteimage = null;
-    //                }
-    //                this.Cliente.Write("REQUEST|1|0\n\r");
-    //                waitimage.Reset();
-    //                waitimage.Start();
-
-    //                Boolean doexit = false;
-    //                do {
-    //                    Thread.Sleep(1);
-    //                    if (waitimage.ElapsedMilliseconds == 10000) {
-    //                        throw new Exception("Receiving image time out");
-
-    //                    }
-    //                    lock (locker) {
-    //                        if (remoteimage!=null) {
-    //                            doexit = true;
-    //                        }
-    //                    }
-
-
-    //                } while (!doexit);
-
-
-    //                return remoteimage;
-    //            }
-
-
-    //    }
-
-    //    public override string ToString() {
-    //        return "Remote Capture";
-    //    }
-
-    //    public RemoteCameraCapture() {
-    //        this.CameraName = "Remote Camera";
-    //        this.Camtype = CameraTypes.Remote;
-    //    }
-
-    //    public override void Dispose() {
-    //        if (Cliente!=null) {
-    //            Cliente.Disconnect();
-    //        }
-
-    //        if (RemoteCamera!=null) {
-    //            RemoteCamera.Dispose();
-    //        }
-    //        base.Dispose();
-    //    }
-    //}
-
-
-
-    public class PythonRemoteCapture : BaseCapture {
-
-        static List<Type> _AvaibleFunctions = new List<Type>() { typeof(ProcessingFunctionPixelanalysis) };
-
-        internal static List<Type> AvaibleFunctions {
-            get { return PythonRemoteCapture._AvaibleFunctions; }
-            //set { PythonRemoteCapture._AvaibleFunctions = value; }
-        }
-
-        KPPLogger log = new KPPLogger(typeof(PythonRemoteCapture));
-
-
-        public delegate void RemoteImage(Image<Bgr, Byte> theimage);
-
-        public event RemoteImage OnRemoteImage;
-
-
-        //BaseCapture _RemoteCamera = new BaseCapture();
-        //[TypeConverter(typeof(ExpandableObjectConverter))]
-        //[DisplayName("Remote Camera")]
-        //[EditorAttribute(typeof(InputSourceSelector), typeof(System.Drawing.Design.UITypeEditor))]
-        //public BaseCapture RemoteCamera {
-        //    get { return _RemoteCamera; }
-        //    set { _RemoteCamera = value; }
-        //}
-
-
-        private TCPClientConnection _Cliente = new TCPClientConnection();
-        [TypeConverter(typeof(ExpandableObjectConverter))]
-        public TCPClientConnection Cliente {
-            get { return _Cliente; }
-            set {
-                if (_Cliente != value) {
-                    _Cliente = value;
-                    if (_Cliente != null) {
-                        _Cliente.OnServerMessage += new TCPClientConnection.ServerMessage(_Cliente_OnServerMessage);
-
-                    }
-                }
-
-            }
-        }
-
-        object locker = new object();
-
-        Image<Bgr, Byte> remoteimage = null;
-        void _Cliente_OnServerMessage(string[] Commands) {
-            if (Commands.Count() > 0) {
-                if (Commands[0] == "IMAGE") {
-
-                    //String image_serialized = StaticObjects.base64Decode();
-                    byte[] data = Convert.FromBase64String(Commands[1]);
-                    TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
-                    Bitmap bitmap1 = (Bitmap)tc.ConvertFrom(data);
-
-                    lock (locker) {
-
-                        remoteimage = new Image<Bgr, byte>(bitmap1);
-                        if (OnRemoteImage != null) {
-                            OnRemoteImage(remoteimage);
-                        }
-                    }
-
-
-                } else {
-                    //String sendstr = "";
-                    //foreach (String item in Commands) {
-                    //    sendstr += item + "|";
-                    //}
-                    //throw new Exception("Unknown remote command : "+sendstr);
-                    //log.Debug();
-                }
-            }
-        }
-
-        Stopwatch waitimage = new Stopwatch();
-
-        int _cam = 0;
-        Boolean _capture = false;
-        public override Image<Bgr, Byte> GetImage(int cam, Boolean capture) {
-            _cam = cam;
-            _capture = capture;
-            return GetImage();
-        }
-
-        public override Image<Bgr, Byte> GetImage() {
-
-
-
-            //if (StaticObjects.isRemote) {
-            //    return RemoteCamera.GetImage();
-
-
-            //}
-            //else {
-            if (Cliente.State != TCPClientConnection.ConnectionState.Connected) {
-                Cliente.Connect();
-                Thread.Sleep(1000);
-            }
-            if (Cliente.State != TCPClientConnection.ConnectionState.Connected) {
-                throw new Exception("Error connecting to remote capture...");
-            }
-
-            if (remoteimage != null) {
-                remoteimage.Dispose();
-                remoteimage = null;
-            }
-            if (_cam > 0) {
-                if (_capture) {
-                    this.Cliente.Write("CAPTUREIMAGE|" + _cam.ToString() + "\n");
-                } else {
-                    this.Cliente.Write("GETIMAGE|" + _cam.ToString() + "\n");
-                }
-
-            } else {
-                this.Cliente.Write("CAPTUREIMAGES\n");
-            }
-
-            waitimage.Reset();
-            waitimage.Start();
-
-            Boolean doexit = false;
-            do {
-                Thread.Sleep(1);
-                if (waitimage.ElapsedMilliseconds >= 10000) {
-                    throw new Exception("Receiving image time out");
-
-                }
-                lock (locker) {
-                    if (remoteimage != null) {
-                        doexit = true;
-                    }
-
-                }
-
-
-            } while (!doexit);
-
-
-
-            return null;
-
-        }
-
-        public override string ToString() {
-            return "Python Remote Capture";
-        }
-
-        public PythonRemoteCapture(VisionProject selectedproject) {
-            this.CameraName = "Python Remote Camera";
-            this.Camtype = CameraTypes.Remote;
-        }
-
-        public PythonRemoteCapture() {
-            this.CameraName = "Python Remote Camera";
-            this.Camtype = CameraTypes.Remote;
-        }
-
-        public override void Dispose() {
-            if (Cliente != null) {
-                Cliente.Disconnect();
-            }
-
-
-            base.Dispose();
-        }
-    }
 
 
 
@@ -3201,7 +2837,6 @@ namespace VisionModule {
     [XmlInclude(typeof(FileCapture))]
     [XmlInclude(typeof(InspectionCapture))]
     [XmlInclude(typeof(uEyeCamera))]
-    [XmlInclude(typeof(PythonRemoteCapture))]
     [Serializable]
     public class BaseCapture {
 
@@ -3209,8 +2844,27 @@ namespace VisionModule {
 
 
         public enum CameraTypes { Remote, DirectShow, CV, ICS, File, Inspection, Request, uEye, Undef }
-        [NonSerialized]
-        KPPLogger log = new KPPLogger(typeof(BaseCapture));
+        
+
+        private KPPLogger m_log;
+        [XmlIgnore,Browsable(false)]
+        public virtual KPPLogger log {
+            get { return m_log; }
+            //set { m_log = value; }
+        }
+
+        private String m_ModuleName;
+        [XmlAttribute, Browsable(false)]
+        public virtual String ModuleName {
+            get { return m_ModuleName; }
+            set {
+                if (m_ModuleName != value) {
+                    m_ModuleName = value;
+                    m_log = m_log.SetNewLogger(this.GetType(), value);
+                }
+            }
+        }
+
 
         CameraTypes _camtype = CameraTypes.Undef;
         [XmlAttribute, ReadOnly(true)]
@@ -3287,17 +2941,7 @@ namespace VisionModule {
             return null;
         }
 
-        private String m_ModuleName;
-        [XmlAttribute, Browsable(false)]
-        public virtual String ModuleName {
-            get { return m_ModuleName; }
-            set {
-                if (m_ModuleName != value) {
-                    m_ModuleName = value;
-                    //log.SetNewLogger(this.GetType(), value);
-                }
-            }
-        }
+        
 
         //private VisionProject m_SelectedProject = null;
         //[XmlIgnore,Browsable(false)]

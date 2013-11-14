@@ -23,10 +23,10 @@ namespace VisionModule {
 
         public ProcessingFunctionRange() {
 
-            log= new KPPLogger(typeof(ProcessingFunctionSum),name:base.ModuleName);
+            
         }
 
-        private static KPPLogger log;
+        
         //= new KPPLogger(typeof(ProcessingFunctionSum));
 
 

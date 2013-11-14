@@ -20,10 +20,10 @@ namespace VisionModule {
 
         public ProcessingFunctionPoints2Circle() {
 
-            log= new KPPLogger(typeof(ProcessingFunctionPoints2Circle),name:base.ModuleName);
+            
         }
 
-        private static KPPLogger log;
+        
         //= new KPPLogger(typeof(ProcessingFunctionPoints2Circle));
 
        

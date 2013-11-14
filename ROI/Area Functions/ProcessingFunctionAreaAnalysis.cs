@@ -127,10 +127,10 @@ namespace VisionModule {
 
         public ProcessingFunctionAreaAnalysis() {
 
-            log = new KPPLogger(typeof(ProcessingFunctionAreaAnalysis), name: base.ModuleName);
+            
         }
         
-        private static KPPLogger log;
+        
         //= new KPPLogger(typeof(ProcessingFunctionAreaAnalysis));
 
 

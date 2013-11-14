@@ -26,9 +26,9 @@ namespace VisionModule {
     public class ProcessingFunctionPixelanalysis : ProcessingFunctionBase {
 
         public ProcessingFunctionPixelanalysis() {
-            log= new KPPLogger(typeof(ProcessingFunctionPixelanalysis),name:base.ModuleName);
+            
         }
-        private static KPPLogger log;
+        
 
         private PointF _RectangleCenter = new PointF(0, 0);
 
@@ -126,7 +126,7 @@ namespace VisionModule {
         [UseInResultInput(true), DisplayName("Pixel Deviation"), Category("Post-Processing"), Description("Pixel Standard Deviation inside contour"), ReadOnly(true)]
         public double PixelDeviation { get; set; }
 
-
+        
         [XmlAttribute,DisplayName("Min count"), Category("Pass Fail Settings"), Description("Min pixel count inside contour")]
         public override double Mincount { get; set; }
         [XmlAttribute,DisplayName("Max count"), Category("Pass Fail Settings"), Description("Max pixel count inside contour")]

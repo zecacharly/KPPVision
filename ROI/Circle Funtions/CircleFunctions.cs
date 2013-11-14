@@ -224,10 +224,10 @@ namespace VisionModule {
 
         public ProcessingFunctionCircleAnalysis() {
 
-            log = new KPPLogger(typeof(ProcessingFunctionCircleAnalysis), name: base.ModuleName);
+            
         }
 
-        private static KPPLogger log;
+        
 
 
         public delegate void ProcessingFunctionDone(Image<Bgr, byte> ImageOut);
@@ -607,10 +607,10 @@ namespace VisionModule {
     public class ProcessingFunctionCircleEdges : ProcessingFunctionBase {
 
         public ProcessingFunctionCircleEdges() {
-            log = new KPPLogger(typeof(ProcessingFunctionBoundingRectangle));
+            
         }
 
-        private static KPPLogger log;
+        
 
         public override event UpdateResultImage OnUpdateResultImage;
 
@@ -1070,10 +1070,10 @@ namespace VisionModule {
 
         public ProcessingFunctionEllipseFitter() {
 
-            log= new KPPLogger(typeof(ProcessingFunctionCircleAnalysis),name:base.ModuleName);
+            
         }
 
-        private static KPPLogger log;
+        
         //= new KPPLogger(typeof(ProcessingFunctionCircleAnalysis));
 
 

@@ -17,10 +17,10 @@ namespace VisionModule {
     public class ProcessingFunctionContourAnalysis : ProcessingFunctionBase {
 
         public ProcessingFunctionContourAnalysis() {
-            log = new KPPLogger(typeof(ProcessingFunctionContourAnalysis),name:base.ModuleName);
+            
         }
 
-        private static KPPLogger log;
+        
 
         private PointF _GravityCenter = new PointF(0, 0);
 

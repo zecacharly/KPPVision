@@ -21,7 +21,7 @@ namespace VisionModule {
     [ProcessingFunction("Constant", "Math")]
     public class ProcessingFunctionConstant : ProcessingFunctionBase {
 
-        private static KPPLogger log;
+        
 
 
 
@@ -127,7 +127,7 @@ namespace VisionModule {
         }
 
         public ProcessingFunctionConstant() {
-            log= new KPPLogger(typeof(ProcessingFunctionConstant),name:base.ModuleName);
+            
         }
 
     }
@@ -138,10 +138,10 @@ namespace VisionModule {
 
          public ProcessingFunctionSum() {
 
-             log= new KPPLogger(typeof(ProcessingFunctionSum),name:base.ModuleName);
+             
          }
 
-         private static KPPLogger log;
+         
          //= new KPPLogger(typeof(ProcessingFunctionSum));
 
        
@@ -267,10 +267,10 @@ namespace VisionModule {
 
          public ProcessingFunctionSub() {
 
-             log= new KPPLogger(typeof(ProcessingFunctionSub),name:base.ModuleName);
+             
          }
 
-         private static KPPLogger log;
+         
          //= new KPPLogger(typeof(ProcessingFunctionSub));
 
 
@@ -492,10 +492,10 @@ namespace VisionModule {
 
          public ProcessingFunctionDivision() {
 
-             log= new KPPLogger(typeof(ProcessingFunctionDivision),name:base.ModuleName);
+             
          }
 
-         private static KPPLogger log;
+         
          //= new KPPLogger(typeof(ProcessingFunctionDivision));
 
 

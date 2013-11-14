@@ -24,7 +24,7 @@ namespace VisionModule {
     public class ProcessingFunctionPrePos : ProcessingFunctionBase {
 
         public ProcessingFunctionPrePos() {
-            log = new KPPLogger(typeof(ProcessingFunctionPrePos), name: base.ModuleName);
+            
         }
 
         //public delegate void GetPreposInfo(ProcessingFunctionPrePos PrePosFunction);
@@ -36,7 +36,7 @@ namespace VisionModule {
         public event PreposNameChanging OnPreposNameChanging;
 
 
-        private static KPPLogger log;
+        
 
 
 

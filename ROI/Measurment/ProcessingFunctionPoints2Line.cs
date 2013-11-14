@@ -71,10 +71,11 @@ namespace VisionModule {
 
         public ProcessingFunctionPoints2Line() {
 
-            log = new KPPLogger(typeof(ProcessingFunctionPoints2Line), name: base.ModuleName);
+            
+
         }
 
-        private static KPPLogger log;
+        
         //= new KPPLogger(typeof(ProcessingFunctionPoints2Line));
 
        
