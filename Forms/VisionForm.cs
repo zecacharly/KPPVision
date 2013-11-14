@@ -485,7 +485,7 @@ namespace VisionModule {
 
                 SplashScreen.UdpateStatusTextWithStatus(this.GetResourceText("SplashScreen_4"), TypeOfMessage.Success);
                 //Thread.Sleep(10);
-                ReflectionController.Load("dll");
+                ReflectionController.Load("VisionModule.dll");
 
 
 
@@ -1994,7 +1994,7 @@ namespace VisionModule {
                                             //}
                                             item.OnFunctionNameChanged += new ProcessingFunctionBase.FunctionNameChanged(proc_OnFunctionNameChanged);
                                             item.OnUpdateResultImage += new ProcessingFunctionBase.UpdateResultImage(proc_OnUpdateResultImage);
-
+                                            item.SelectedVisionProject = SelectedProject;
 
 
                                         }

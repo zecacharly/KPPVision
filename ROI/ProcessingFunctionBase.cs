@@ -160,7 +160,7 @@ namespace VisionModule {
 
         public SetValue() {
 
-            log= new KPPLogger(typeof(SetValue),name:base.ModuleName);
+            log= new KPPLogger(typeof(SetValue),name:base.SelectedVisionProject.ModuleName);
         }
 
         private static KPPLogger log;
@@ -468,13 +468,7 @@ namespace VisionModule {
     [Serializable()]
     public abstract class ProcessingFunctionBase : ICloneable, IDisposable {
 
-        private String m_ModuleName;
-        [XmlAttribute]
-        public String ModuleName {
-            get { return m_ModuleName; }
-            set { m_ModuleName = value; }
-        }
-
+       
         static public double ConvertToRadians(double angle) {
             return (Math.PI / 180) * angle;
         }
@@ -484,6 +478,27 @@ namespace VisionModule {
             SetFunctionParams();
         }
 
+        private String _ModuleName = "NoName";
+
+        public String ModuleName {
+            get { return _ModuleName; }
+            set { _ModuleName = value; }
+        }
+
+
+        private VisionProject _SelectedVisionProject;
+        [XmlIgnore,Browsable(false)]
+        public VisionProject SelectedVisionProject {
+            get { return _SelectedVisionProject; }
+            set {
+                if (_SelectedVisionProject!=value) {
+                    _SelectedVisionProject = value;
+                    if (value!=null) {
+                        ModuleName = _SelectedVisionProject.Name;
+                    }
+                }
+            }
+        }
 
 
         [XmlAttribute,DisplayName("Min count"), Category("Pass Fail Settings"), Description("Min pixel count inside contour")]

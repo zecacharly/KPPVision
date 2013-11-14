@@ -2527,11 +2527,13 @@ namespace VisionModule {
 
                 if (_Camera != value) {
                     if (_Camera!=null) {
+                        waitImage.Set();
                         _Camera.Stop();
+                        _Camera.WaitForStop();                        
                         _Camera = null;                        
                     }
                     if (value!=null) {
-                        _Camera = value;
+                        _Camera = value;                        
                         _Camera.VideoResolution = _Camera.VideoCapabilities[_Camera.VideoCapabilities.Count() - 1];
                         _Camera.NewFrame += new NewFrameEventHandler(_Camera_NewFrame);
                         _Camera.Start();
@@ -2540,38 +2542,16 @@ namespace VisionModule {
             }
         }
 
-        int FrameCount = 0;
-        Boolean _GotFrame = false;
-
-        public Boolean GotFrame {
-            get { return _GotFrame; }
-            set { 
-                _GotFrame = value; 
-            }
-        }
-        void _Camera_NewFrame(object sender, NewFrameEventArgs eventArgs) {
-            try {
-                if (GotFrame==false) {
-
-                    if (FrameImage != null) {
-                        FrameImage.Dispose();
-                    }
-                    FrameImage = new Image<Bgr, byte>(eventArgs.Frame);
-                    GotFrame = true;
-                    waitImage.Set();
-                }                    
-            } catch (Exception exp) {
-
-                FrameImage = null;
-            }
-        }
+       
 
         
 
         void SetCamera(String value) {
             try {
                 FilterInfo camerainfo = DirectShowCameraCapture.DevicesAvaible.Cast<FilterInfo>().ToList().Find(moniker => moniker.MonikerString== value);
+
                 if (camerainfo != null) {
+                    
                     Camera = new VideoCaptureDevice(camerainfo.MonikerString);
                     
 
@@ -2667,22 +2647,42 @@ namespace VisionModule {
         private Image<Bgr, Byte> FrameImage = null;
 
         
+        Boolean _GotFrame = false;
+        [XmlIgnore, Browsable(false)]
+        public Boolean GotFrame {
+            get { return _GotFrame; }
+            set {
+                _GotFrame = value;
+            }
+        }
+        void _Camera_NewFrame(object sender, NewFrameEventArgs eventArgs) {
+            try {
+                if (GotFrame == false) {
+
+                    if (FrameImage != null) {
+                        FrameImage.Dispose();
+                    }
+                    FrameImage = new Image<Bgr, byte>(eventArgs.Frame);
+                    GotFrame = true;
+                    waitImage.Set();
+                }
+            } catch (Exception exp) {
+
+                FrameImage = null;
+            }
+        }
+        
 
         private AutoResetEvent waitImage = new AutoResetEvent(false);
         private object lockobject = new object();        
  //       private Boolean capture = false;
         public override Image<Bgr, Byte> GetImage() {
-            GotFrame = false;
-            //if (!_Camera.IsRunning) {
-            //    _Camera.Start();
-            //}            
+            
             waitImage.Reset();
+            GotFrame = false;            
             waitImage.WaitOne();
             Image<Bgr, Byte> newimage = null;
 
-            for (int i = 0; i < 5; i++) {
-                Thread.Sleep(1);
-            }
 
             if (FrameImage != null) {
                 newimage = new Image<Bgr, byte>(FrameImage.Size);
@@ -2717,7 +2717,7 @@ namespace VisionModule {
 
         }
 
-        private int framecounter=0;
+        
         void Camera_ImageGrabbed(object sender, EventArgs e) {
            
         }

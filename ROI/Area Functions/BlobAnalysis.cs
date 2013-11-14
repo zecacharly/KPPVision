@@ -418,6 +418,10 @@ namespace VisionModule {
                                     ImageOut.Draw(blob.BoundingBox, new Bgr(Color.Yellow), 1);
                                     ImageOut.Draw(new Cross2DF(blob.Centroid, 3, 3), new Bgr(Color.Yellow), 1);
                                 }
+                            } else if (ResultsInROI== OutputResultType.orPreProcessing) {
+                                ImageOut.ROI = RoiRegion;
+                                CvInvoke.cvCvtColor(grayimage, ImageOut,Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);                                
+                                ImageOut.ROI = Rectangle.Empty;
                             }
 
 

@@ -54,7 +54,7 @@ namespace VisionModule {
         // picked-out
         //UserControl contextcontrol = StaticObjects.InputItemSelectorControl;
         private static KPPLogger log = new KPPLogger(typeof(InputReferenceSelector));
-        internal OutputResultConfForm form = new OutputResultConfForm();
+        internal OutputResultConfForm _outputresultform = new OutputResultConfForm();
 
         IWindowsFormsEditorService edSvc;
         // this is a string array for drop-down list
@@ -116,11 +116,11 @@ namespace VisionModule {
 
             if (edSvc != null) {
 
-                // form.SelectedProject = StaticObjects.SelectedProject;
-                form.acceptType = resultType;
-                form.ResultRef = (value as ResultReference);
-                if (edSvc.ShowDialog(form) == DialogResult.OK) {
-                    value = form.ResultRef;
+                _outputresultform.SelectedProject = procbase.SelectedVisionProject;
+                _outputresultform.acceptType = resultType;
+                _outputresultform.ResultRef = (value as ResultReference);
+                if (edSvc.ShowDialog(_outputresultform) == DialogResult.OK) {
+                    value = _outputresultform.ResultRef;
                 }
 
 
