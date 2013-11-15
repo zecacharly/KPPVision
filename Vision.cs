@@ -46,7 +46,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace VisionModule {
 
-    public delegate void SelectedProjectChanged(VisionProject ProjectSelected);
+    
 
     #region Vision Definitions
 
@@ -1905,9 +1905,9 @@ namespace VisionModule {
 
 
 
-    public class VisionProject : ICloneable {
+    public class VisionProject :ModuleProject {
 
-        private static KPPLogger log;
+        
 
         public delegate void SelectedRequestChanged(Request NewSelectedRequest);
 
@@ -1920,12 +1920,12 @@ namespace VisionModule {
 
         private String m_ModuleName;
         [XmlAttribute, Browsable(false)]
-        public String ModuleName {
+        public virtual String ModuleName {
             get { return m_ModuleName; }
             set {
                 if (m_ModuleName != value) {
 
-                    log=log.SetNewLogger(this.GetType(), value);
+                    log = log.SetNewLogger(this.GetType(), value);
 
                     m_ModuleName = value;
                     foreach (Request req in RequestList) {
@@ -1941,24 +1941,6 @@ namespace VisionModule {
             }
         }
 
-        [XmlAttribute]
-        public String Name { get; set; }
-        [XmlAttribute("ID")]
-        public int ProjectID { get; set; }
-
-
-        private bool _loadonstart = false;
-        [XmlAttribute]
-        public bool Loadonstart {
-            get { return _loadonstart; }
-            set {
-                _loadonstart = value;
-            }
-        }
-
-        public object Clone() {
-            return this.MemberwiseClone();
-        }
 
         public class Requests : UndoRedoList<Request> {
 
@@ -2020,7 +2002,7 @@ namespace VisionModule {
 
         internal static List<Inspection> ListInspections = new List<Inspection>();
 
-        public void Dispose() {
+        public override void Dispose() {
             try {
                 OnSelectedRequestChanged = null;
                 foreach (Request req in RequestList) {
@@ -2042,7 +2024,7 @@ namespace VisionModule {
 
             log = new KPPLogger(typeof(VisionProject), name: ModuleName);
 
-            Name = "default project name";
+            Name = "Vision Project";
 
             RequestList = new Requests();
 
@@ -2393,69 +2375,23 @@ namespace VisionModule {
 
 
 
-    public sealed class VisionSettings {
+    public sealed class VisionSettings:ModuleSettings {
 
-
-
-
-
-        #region -  Serialization attributes  -
-
-        public static Int32 S_BackupFilesToKeep = 5;
-        public static String S_BackupFolderName = "backup";
-        public static String S_BackupExtention = "bkp";
-        public static String S_DefaulFileExtention = "xml";
-
-        private String _filePath = null;
-        private String _defaultPath = null;
-
-        [XmlIgnore]
-        public Int32 BackupFilesToKeep { get; set; }
-        [XmlIgnore]
-        public String BackupFolderName { get; set; }
-        [XmlIgnore]
-        public String BackupExtention { get; set; }
-
-        #endregion
-        private static KPPLogger log = new KPPLogger(typeof(VisionSettings));
-
-        [XmlAttribute]
-        public String Name { get; set; }
-
-
-        public List<String> ProjectDirectories { get; set; }
-
-        public List<TCPServer> Servers { get; set; }
-
-        public String ProjectFile { get; set; }
-
-        private String m_ModuleName;
-        [XmlAttribute]
-        public String ModuleName {
-            get { return m_ModuleName; }
-            set { m_ModuleName = value; }
-        }
-
-             
-        private string m_DockFile;// = Path.Combine(FilesLocation, ModuleName + "DockPanel.dock");
-        [XmlIgnore, Browsable(false)]
-        public string DockFile {
-            get { return m_DockFile; }
-            set { m_DockFile = value; }
-        }
         
+        private KPPLogger _log;
+        [XmlIgnore, Browsable(false)]
+        public KPPLogger log {
+            get { return _log; }
+            set { _log = value; }
+        }
 
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
         public VisionSettings() {
+            log = new KPPLogger(typeof(VisionSettings));
             Name = "Vision Settings";
             Servers = new List<TCPServer>();
             ProjectFile = "";
         }
+
 
         #region Read Operations
 
@@ -2466,6 +2402,7 @@ namespace VisionModule {
         /// <returns></returns>
         public static VisionSettings ReadConfigurationFile(string path) {
             //log.Debug(String.Format("Load Xml file://{0}", path));
+            KPPLogger statlog = new KPPLogger(typeof(VisionSettings));
             if (File.Exists(path)) {
                 VisionSettings result = null;
                 TextReader reader = null;
@@ -2474,11 +2411,11 @@ namespace VisionModule {
                     XmlSerializer serializer = new XmlSerializer(typeof(VisionSettings));
                     reader = new StreamReader(path);
                     VisionSettings config = serializer.Deserialize(reader) as VisionSettings;
-                    config._filePath = path;
+                    config.FilePath = path;
 
                     result = config;
                 } catch (Exception exp) {
-                    log.Error(exp);
+                    statlog.Error(exp);
                 } finally {
                     if (reader != null) {
                         reader.Close();
@@ -2496,13 +2433,14 @@ namespace VisionModule {
         /// <param name="xmlString">The XML string.</param>
         /// <returns></returns>
         public static VisionSettings ReadConfigurationString(string xmlString) {
+            KPPLogger statlog= new KPPLogger(typeof(VisionSettings));
             try {
                 XmlSerializer serializer = new XmlSerializer(typeof(VisionSettings));
                 VisionSettings config = serializer.Deserialize(new StringReader(xmlString)) as VisionSettings;
 
                 return config;
             } catch (Exception exp) {
-                log.Error(exp);
+                statlog.Error(exp);
             }
             return null;
         }
@@ -2515,8 +2453,8 @@ namespace VisionModule {
         /// Writes the configuration.
         /// </summary>
         public void WriteConfigurationFile() {
-            if (_filePath != null) {
-                WriteConfigurationFile(_filePath);
+            if (FilePath != null) {
+                WriteConfigurationFile(FilePath);
             }
         }
 
@@ -2623,6 +2561,7 @@ namespace VisionModule {
         }
 
         #endregion
+
     }
 
 

@@ -41,11 +41,13 @@ using KPPAutomationCore;
 namespace VisionModule {
 
 
-    
 
-    public partial class VisionForm : DockContent {
 
-        public event SelectedProjectChanged OnSelectedProjectChanged;
+    public partial class VisionForm : DockContent,IModuleForm {
+
+        
+
+
         public override string ToString() {
             return this.Name;
         }
@@ -61,22 +63,9 @@ namespace VisionModule {
         private static extern Int32 SetForegroundWindow(int hWnd);
 
         
-        private String VisionSettingsFile;
+        //private String VisionSettingsFile;
 
-        private VisionSettings VisionConfig = null;
-
-        private VisionProject _SelectedProject = null;
-
-        public VisionProject SelectedProject {
-            get { return _SelectedProject; }
-            set {
-                _SelectedProject = value;
-                if (OnSelectedProjectChanged != null) {
-                    OnSelectedProjectChanged(value);
-                }
-
-            }
-        }
+        public VisionSettings VisionConfig = null;        
 
         private VisionProjects VisionProjectsConfig = null;
         
@@ -288,7 +277,7 @@ namespace VisionModule {
         public void InitModule(String moduleName, String visionSettingsFile) {
             ModuleName = moduleName;
             log = new KPPLogger(typeof(VisionForm), name: ModuleName);
-            VisionSettingsFile = visionSettingsFile;
+           
             
             try {
              
@@ -319,16 +308,16 @@ namespace VisionModule {
                 //    PhidgetsIO.SendCommand("SET_OUT", new String[] { "1", "ON" });
                 //}
 
-                if (!File.Exists(VisionSettingsFile)) {
+                if (!File.Exists(visionSettingsFile)) {
                     VisionSettings.WriteConfiguration(new VisionSettings(), visionSettingsFile);
                 }
 
-                VisionConfig = VisionSettings.ReadConfigurationFile(VisionSettingsFile);
+                VisionConfig = VisionSettings.ReadConfigurationFile(visionSettingsFile);
                 VisionConfig.BackupExtention = ".bkp";
                 VisionConfig.BackupFilesToKeep = 5;
                 VisionConfig.BackupFolderName = "Backup";
 
-                VisionConfig.DockFile = Path.Combine(Path.GetDirectoryName(VisionSettingsFile),ModuleName+".dock");
+                VisionConfig.DockFile = Path.Combine(Path.GetDirectoryName(visionSettingsFile),ModuleName+".dock");
 
                 if (File.Exists(VisionConfig.DockFile))
                     try {
@@ -568,21 +557,21 @@ namespace VisionModule {
 
 
         void __addrectROI_Click(object sender, EventArgs e) {
-            ROI newroi = SelectedProject.SelectedRequest.SelectedInspection.AddROI( new Rectangle(0, 0, 100, 100));
+            ROI newroi = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.AddROI( new Rectangle(0, 0, 100, 100));
 
-            for (int i = 0; i < SelectedProject.SelectedRequest.SelectedInspection.ROIList.Count; i++) {
+            for (int i = 0; i < ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ROIList.Count; i++) {
                 String roiname = "ROI" + i.ToString();
-                if (!SelectedProject.SelectedRequest.SelectedInspection.ROIList.Exists(r => r.Name == roiname)) {
+                if (!((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ROIList.Exists(r => r.Name == roiname)) {
                     newroi.Name = roiname;
                     break;
                 }
             }
 
-            _ListInspForm.__listRoi.Objects = SelectedProject.SelectedRequest.SelectedInspection.ROIList;
+            _ListInspForm.__listRoi.Objects = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ROIList;
 
 
             _ListInspForm.__listRoi.SelectedIndex = _ListInspForm.__listRoi.GetItemCount() - 1;
-            SelectedProject.SelectedRequest.SelectedInspection.SelectedROI = newroi;
+            ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI = newroi;
         }
 
         void Server_Disconnected(object sender, TCPServerEventArgs e) {
@@ -779,13 +768,13 @@ namespace VisionModule {
                 // int param = System.Convert.ToInt32(Args[0]);
                 switch (Command) {
                     case "GETPROJECT":
-                        if (SelectedProject == null) {
+                        if (((VisionProject)(VisionConfig.SelectedProject)) == null) {
                             //AndroidServer.Send(AndroidServer.ClientObject.workSocket, "PROJECT#Não definido");
                         }
                         else {
-                            String sendstr = "PROJECT#" + SelectedProject.Name;
+                            String sendstr = "PROJECT#" + ((VisionProject)(VisionConfig.SelectedProject)).Name;
 
-                            foreach (Request req in SelectedProject.RequestList) {
+                            foreach (Request req in ((VisionProject)(VisionConfig.SelectedProject)).RequestList) {
                                 sendstr += "<REQUEST>" + req.Name;
                                 foreach (Inspection insp in req.Inspections) {
                                     sendstr += "<INSP>" + insp.Name;
@@ -836,20 +825,20 @@ namespace VisionModule {
 
                 }
                 else {
-                    //if (SelectedProject == null) {
+                    //if (((VisionProject)(VisionConfig.SelectedProject)) == null) {
                     //    return;
                     //}
-                    //if (SelectedProject.SelectedRequest == null) {
+                    //if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest == null) {
                     //    return;
                     //}
-                    //if (SelectedProject.SelectedRequest.SelectedInspection == null) {
+                    //if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection == null) {
                     //    return;
                     //}
                     //Image<Bgr, Byte> temp2 = null;
                     //Image<Bgr, Byte> temp = null;
-                    //lock (SelectedProject.SelectedRequest.SelectedInspection.ImageLocker) {
+                    //lock (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ImageLocker) {
 
-                    //    temp2 = SelectedProject.SelectedRequest.SelectedInspection.ResultImageBgr;
+                    //    temp2 = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ResultImageBgr;
 
                     //    if (temp2 == null) {
                     //        return;
@@ -1028,12 +1017,12 @@ namespace VisionModule {
             BeginInvoke(new MethodInvoker(delegate {
                 try {
                     if (HighlightProc != null) {
-                        lock (SelectedProject.SelectedRequest.SelectedInspection.ImageLocker) {
-                            Image<Bgr, Byte> temp = new Image<Bgr, byte>(SelectedProject.SelectedRequest.SelectedInspection.ResultImageBgr.ToBitmap());
+                        lock (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ImageLocker) {
+                            Image<Bgr, Byte> temp = new Image<Bgr, byte>(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ResultImageBgr.ToBitmap());
                             if (temp != null) {
                                 if (HighlightProc.IdentRegion.Size != Size.Empty) {
 
-                                    temp.ROI = SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ROIShape.ShapeEfectiveBounds;
+                                    temp.ROI = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ROIShape.ShapeEfectiveBounds;
                                     temp.SetValue(new Bgr(Color.Blue), HighlightProc.IdentRegion);
                                     temp.ROI = Rectangle.Empty;
 
@@ -1049,13 +1038,13 @@ namespace VisionModule {
                 }
             }));
             Thread.Sleep(500);
-            lock (SelectedProject.SelectedRequest.SelectedInspection.ImageLocker) {
+            lock (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ImageLocker) {
                 BeginInvoke(new MethodInvoker(delegate {
                     try {
-                        if (SelectedProject.SelectedRequest.SelectedInspection.ResultImageBgr == null) {
+                        if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ResultImageBgr == null) {
                             return;
                         }
-                        _ImageContainer.DoLoadBackImage(SelectedProject.SelectedRequest.SelectedInspection.ResultImageBgr, false);
+                        _ImageContainer.DoLoadBackImage(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ResultImageBgr, false);
                     }
                     catch (Exception exp) {
 
@@ -1097,7 +1086,7 @@ namespace VisionModule {
         void __listinspResults_CellEditFinishing(object sender, CellEditEventArgs e) {
             if (e.RowObject != null && (e.Column.Text == "Result Name")) {
                 ResultInfo theres = (ResultInfo)e.RowObject;
-                using (UndoRedoManager.Start(SelectedProject.SelectedRequest.SelectedInspection + ": Result info name changed: " + (String)(e.NewValue))) {
+                using (UndoRedoManager.Start(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection + ": Result info name changed: " + (String)(e.NewValue))) {
                     theres.ID = (String)e.NewValue;
                     UndoRedoManager.Commit();
                 }
@@ -1137,22 +1126,22 @@ namespace VisionModule {
 
 
                    
-                    _ListInspForm.__ListRequests.RefreshObjects(SelectedProject.RequestList);
+                    _ListInspForm.__ListRequests.RefreshObjects(((VisionProject)(VisionConfig.SelectedProject)).RequestList);
 
-                    if (SelectedProject.SelectedRequest == null) {
+                    if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest == null) {
                         return;
 
                     }
-                    _ListInspForm.__listinspections.RefreshObjects(SelectedProject.SelectedRequest.Inspections);
+                    _ListInspForm.__listinspections.RefreshObjects(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.Inspections);
 
 
                     _ListInspForm.__propertyGridinsp.Refresh();
 
-                    if (SelectedProject.SelectedRequest.SelectedInspection == null) {
+                    if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection == null) {
                         return;
                     }
-                    _ResultsConfiguration.__listinspResults.RefreshObjects(SelectedProject.SelectedRequest.Results);
-                    _ListInspForm.__listRoi.RefreshObjects(SelectedProject.SelectedRequest.SelectedInspection.ROIList);
+                    _ResultsConfiguration.__listinspResults.RefreshObjects(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.Results);
+                    _ListInspForm.__listRoi.RefreshObjects(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ROIList);
 
 
                     ResultInfo theresultinfo = _ResultsConfiguration.__listinspResults.SelectedObject as ResultInfo;
@@ -1160,12 +1149,12 @@ namespace VisionModule {
                         _ResultsConfiguration.__listInputs.RefreshObjects(theresultinfo.Inputs);
                     }
 
-                    if (SelectedProject.SelectedRequest.SelectedInspection.SelectedROI == null) {
+                    if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI == null) {
                         return;
                     }
 
 
-                    _ListROIForm.__RoiProcList.RefreshObjects(SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions);
+                    _ListROIForm.__RoiProcList.RefreshObjects(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions);
 
                 }
             } catch (Exception exp) {
@@ -1199,9 +1188,9 @@ namespace VisionModule {
             try {
                
 
-                if (SelectedProject != null) {
+                if (((VisionProject)(VisionConfig.SelectedProject)) != null) {
 
-                    Request _request = SelectedProject.RequestList.Find(Request => Request.ID == int.Parse(param));
+                    Request _request = ((VisionProject)(VisionConfig.SelectedProject)).RequestList.Find(Request => Request.ID == int.Parse(param));
 
 
 
@@ -1234,7 +1223,7 @@ namespace VisionModule {
 
 
         void __propertyGridinsp_PropertyValueChanged(object s, PropertyValueChangedEventArgs e) {
-            if (SelectedProject.SelectedRequest.SelectedInspection != null) {
+            if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection != null) {
                 //_ListInspForm.__propertyGridinsp.SelectedObject = null;
                 //_ListInspForm.__propertyGridinsp.SelectedObject = SelectedInspection;
                 _ListInspForm.__propertyGridinsp.Refresh();
@@ -1266,7 +1255,7 @@ namespace VisionModule {
 
 
         void _referenceContextMenuStrip_Opening(object sender, CancelEventArgs e) {
-            foreach (Request req in SelectedProject.RequestList) {
+            foreach (Request req in ((VisionProject)(VisionConfig.SelectedProject)).RequestList) {
                 foreach (Inspection insp in req.Inspections) {
 
 
@@ -1283,7 +1272,7 @@ namespace VisionModule {
                 if (NewImage.Data != null) {
 
                     if (NewImage.Size.Width > 0 && NewImage.Size.Height > 0) {
-                        Request therequest = SelectedProject.RequestList.Find(ReqName => ReqName.Name == Request);
+                        Request therequest = ((VisionProject)(VisionConfig.SelectedProject)).RequestList.Find(ReqName => ReqName.Name == Request);
 
                         if (therequest != null) {
                             Inspection theInsp = therequest.Inspections.Find(insp => insp.Name == Inspection);
@@ -1326,7 +1315,7 @@ namespace VisionModule {
                         String reqName = Commands[1];
                         String inspName = Commands[2];
 
-                        //Request therequest = SelectedProject.RequestList.Find(ReqName => ReqName.Name == reqName);
+                        //Request therequest = ((VisionProject)(VisionConfig.SelectedProject)).RequestList.Find(ReqName => ReqName.Name == reqName);
 
                         //if (therequest!=null) {
                         //    Inspection theInsp= therequest.Inspections.Find(insp => insp.Name == inspName);
@@ -1375,17 +1364,17 @@ namespace VisionModule {
 
             if (!Confirm) {
 
-                if (SelectedProject.SelectedRequest.SelectedInspection.SelectedROI!=null) {
-                    Rectangle shaperect = SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ROIShape.ShapeEfectiveBounds;
+                if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI!=null) {
+                    Rectangle shaperect = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ROIShape.ShapeEfectiveBounds;
                     
-                    client.Write("SETROI|"+SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.Name+"|"+shaperect.X + "|" + shaperect.Y + "|" + shaperect.Width + "|" + shaperect.Height + "\n\r");
+                    client.Write("SETROI|"+((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.Name+"|"+shaperect.X + "|" + shaperect.Y + "|" + shaperect.Width + "|" + shaperect.Height + "\n\r");
                     Thread.Sleep(10);
-                    if (SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions.Count>0) {
-                        int thresh = SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions[0].ImagePreProc1.Threshold;
-                        client.Write("SETTHRESHOLD|" + SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.Name +"|" +thresh.ToString() + "\n\r");                        
-                        double minval = SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions[0].Mincount;
-                        double maxval = SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions[0].Maxcount;
-                        client.Write("SETMINMAX|" + SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.Name + "|" + minval.ToString() + "|" + maxval.ToString() + "\n\r");
+                    if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions.Count>0) {
+                        int thresh = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions[0].ImagePreProc1.Threshold;
+                        client.Write("SETTHRESHOLD|" + ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.Name +"|" +thresh.ToString() + "\n\r");                        
+                        double minval = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions[0].Mincount;
+                        double maxval = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions[0].Maxcount;
+                        client.Write("SETMINMAX|" + ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.Name + "|" + minval.ToString() + "|" + maxval.ToString() + "\n\r");
                         Thread.Sleep(10);
                     }
                 }
@@ -1401,7 +1390,7 @@ namespace VisionModule {
 
         void newRequest_OnRequestNameChanged(string RequestName) {
 
-            foreach (Request req in SelectedProject.RequestList) {
+            foreach (Request req in ((VisionProject)(VisionConfig.SelectedProject)).RequestList) {
                 if (req != null) {
                     //req.Inspections.ForEach(ov=>ov.OverrideResults.ForEach(n=>updateoverrides(n,RequestName)));
                 }
@@ -1410,10 +1399,10 @@ namespace VisionModule {
             ResultInfo resultinf=_ResultsConfiguration.__listinspResults.SelectedObject as ResultInfo;
 
             if (resultinf!=null) {
-                //_ResultsConfiguration.__listOverrides.Objects = SelectedProject.SelectedRequest.SelectedInspection.OverrideResults;
+                //_ResultsConfiguration.__listOverrides.Objects = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.OverrideResults;
             }
 
-            foreach (Inspection insp in SelectedProject.SelectedRequest.Inspections) {
+            foreach (Inspection insp in ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.Inspections) {
 
                 insp.RequestName = RequestName;
 
@@ -1437,7 +1426,7 @@ namespace VisionModule {
 
         void __btRemResFuncProc_Click(object sender, EventArgs e) {
             try {
-                if (SelectedProject.SelectedRequest.SelectedInspection != null) {
+                if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection != null) {
 
 
                 }
@@ -1451,8 +1440,8 @@ namespace VisionModule {
             if (_saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
 
 
-                if (SelectedProject.SelectedRequest.SelectedInspection != null) {
-                    SelectedProject.SelectedRequest.SelectedInspection.OriginalImageBgr.Save(_saveFileDialog1.FileName);
+                if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection != null) {
+                    ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.OriginalImageBgr.Save(_saveFileDialog1.FileName);
                 }
             }
         }
@@ -1534,7 +1523,7 @@ namespace VisionModule {
 
         public void ProcessResults() {
             ResultsToSend.Clear();
-            foreach (Inspection item in SelectedProject.SelectedRequest.Inspections) {
+            foreach (Inspection item in ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.Inspections) {
                 //TODO process results
                 // item.ProcessResults();
             }
@@ -1633,10 +1622,10 @@ namespace VisionModule {
             try {
 
 
-                if (SelectedProject.SelectedRequest.SelectedInspection != null) {
+                if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection != null) {
 
-                    //if ((inspection.InspPos == SelectedProject.SelectedRequest.SelectedInspection.InspPos) && !(inspection.CaptureSource is InspectionCapture)) {
-                    if ((inspection.InspPos == SelectedProject.SelectedRequest.SelectedInspection.InspPos)) {
+                    //if ((inspection.InspPos == ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.InspPos) && !(inspection.CaptureSource is InspectionCapture)) {
+                    if ((inspection.InspPos == ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.InspPos)) {
 
 
 
@@ -1692,10 +1681,10 @@ namespace VisionModule {
             Inspection sel_insp = (Inspection)sender;
 
             if (sel_insp != null) {
-                Request requestobj = SelectedProject.RequestList.Where(name => name.Name == sel_insp.RequestName).First();
+                Request requestobj = ((VisionProject)(VisionConfig.SelectedProject)).RequestList.Where(name => name.Name == sel_insp.RequestName).First();
                 int newindex = _ListInspForm.__ListRequests.IndexOf(requestobj);
                 _ListInspForm.__ListRequests.SelectedIndex = newindex;
-                SelectedProject.SelectedRequest = (Request)_ListInspForm.__ListRequests.SelectedObject;
+                ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest = (Request)_ListInspForm.__ListRequests.SelectedObject;
                 if (_ListInspForm.__ListRequests.SelectedIndex >= 0) {
 
                     _ListInspForm.__listinspections.SelectedIndex = _ListInspForm.__listinspections.IndexOf(sel_insp);
@@ -1714,7 +1703,7 @@ namespace VisionModule {
                 _ImageContainer.__roicontainer.RemoveSelectedShapes();
 
 
-                _ListInspForm.__listRoi.Objects=SelectedProject.SelectedRequest.SelectedInspection.ROIList;
+                _ListInspForm.__listRoi.Objects=((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ROIList;
 
             } catch (Exception exp) {
                 log.Error(exp);
@@ -1748,9 +1737,9 @@ namespace VisionModule {
                     
                     _ListROIForm.__RoiProcList.Objects=ROISelected.ProcessingFunctions.ToArray();
 
-                    if (SelectedProject.SelectedRequest.SelectedInspection.ROIList.Contains(ROISelected)) {
+                    if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ROIList.Contains(ROISelected)) {
                         _ListInspForm.__listRoi.SelectedObject = ROISelected;
-                    } else if (SelectedProject.SelectedRequest.SelectedInspection.ROIList.AuxROIS.Contains(ROISelected)) {
+                    } else if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ROIList.AuxROIS.Contains(ROISelected)) {
                         _ListInspForm.__ListAuxROIS.SelectedObject=ROISelected;
                     }
                     
@@ -1854,10 +1843,10 @@ namespace VisionModule {
 
                     if (newselected != null) {
 
-                        if (SelectedProject != null) {
+                        if (((VisionProject)(VisionConfig.SelectedProject)) != null) {
 
 
-                            if (newselected.Name == SelectedProject.Name) {
+                            if (newselected.Name == ((VisionProject)(VisionConfig.SelectedProject)).Name) {
                                 return true;
                             } else {
                                 CloseCurrentConfiguration(true);
@@ -1865,26 +1854,26 @@ namespace VisionModule {
 
                         }
 
-                        SelectedProject = newselected;
+                        VisionConfig.SelectedProject = newselected;
                         
-                       // StaticObjects.SelectedProject = SelectedProject;
-                        _ListInspForm.SelectedProject = SelectedProject;
-                        _ListROIForm.SelectedProject = SelectedProject;
-                        _ImageContainer.SelectedProject = SelectedProject;
+                       // StaticObjects.((VisionProject)(VisionConfig.SelectedProject)) = ((VisionProject)(VisionConfig.SelectedProject));
+                        _ListInspForm.SelectedProject = ((VisionProject)(VisionConfig.SelectedProject));
+                        _ListROIForm.SelectedProject = ((VisionProject)(VisionConfig.SelectedProject));
+                        _ImageContainer.SelectedProject = ((VisionProject)(VisionConfig.SelectedProject));
 
-                        SelectedProject.OnSelectedRequestChanged += new VisionProject.SelectedRequestChanged(SelectedProject_OnSelectedRequestChanged);
+                        ((VisionProject)(VisionConfig.SelectedProject)).OnSelectedRequestChanged += new VisionProject.SelectedRequestChanged(SelectedProject_OnSelectedRequestChanged);
 
 
-                        SelectedProject.ModuleName = ModuleName;
+                        ((VisionProject)(VisionConfig.SelectedProject)).ModuleName = ModuleName;
 
                         //StaticObjects.ReferencePoints.Clear();
                         //ReferencePoint dummyRefeence = new ReferencePoint();
                         //dummyRefeence.ReferencePointName = "N/A";
                         //StaticObjects.ReferencePoints.Add(dummyRefeence);
 
-                        SelectedProject.OnRequestRemoved += new VisionProject.RequestRemoved(SelectedProject_OnRequestRemoved);
-                        SelectedProject.RequestList.OnItemAdded += new DejaVu.Collections.Generic.UndoRedoList<Request>.ItemAdded(RequestList_OnItemAdded);
-                        foreach (Request _request in SelectedProject.RequestList) {                            
+                        ((VisionProject)(VisionConfig.SelectedProject)).OnRequestRemoved += new VisionProject.RequestRemoved(SelectedProject_OnRequestRemoved);
+                        ((VisionProject)(VisionConfig.SelectedProject)).RequestList.OnItemAdded += new DejaVu.Collections.Generic.UndoRedoList<Request>.ItemAdded(RequestList_OnItemAdded);
+                        foreach (Request _request in ((VisionProject)(VisionConfig.SelectedProject)).RequestList) {                            
                             _request.Inspections.OnItemAdded += new DejaVu.Collections.Generic.UndoRedoList<Inspection>.ItemAdded(Inspections_OnItemAdded);
                             _ListInspForm.__listinspections.Items.Clear();
                             log.Status("Loading inspections");
@@ -1900,7 +1889,7 @@ namespace VisionModule {
 
                             int i = 0;
                             foreach (Inspection _inspect in _request.Inspections) {                                
-                                _inspect.SelectedProject = SelectedProject;
+                                _inspect.SelectedProject = ((VisionProject)(VisionConfig.SelectedProject));
                                 //StaticObjects.InspectionReferences.Add(new InspectionReference(_request, _inspect));
                                 _inspect.PropertyChanged += new PropertyChangedEventHandler(_inspect_PropertyChanged);
                                 _inspect.ROIList.OnItemAdded += new DejaVu.Collections.Generic.UndoRedoList<ROI>.ItemAdded(ROIList_OnItemAdded);
@@ -1920,7 +1909,7 @@ namespace VisionModule {
 
                                     List<String> SourceInfo = cap.InspectionName.Split(new Char[] { '.' }, StringSplitOptions.None).ToList();
                                     if (SourceInfo.Count == 2) {
-                                        Request thereq = SelectedProject.RequestList.Find(r => r.ID == int.Parse(SourceInfo[1]));
+                                        Request thereq = ((VisionProject)(VisionConfig.SelectedProject)).RequestList.Find(r => r.ID == int.Parse(SourceInfo[1]));
                                         if (thereq != null) {
                                             Inspection theinsp = thereq.Inspections.Find(iname => iname.Name == SourceInfo[0]);
                                             if (theinsp != null) {
@@ -1987,7 +1976,7 @@ namespace VisionModule {
                                             //}
                                             item.OnFunctionNameChanged += new ProcessingFunctionBase.FunctionNameChanged(proc_OnFunctionNameChanged);
                                             item.OnUpdateResultImage += new ProcessingFunctionBase.UpdateResultImage(proc_OnUpdateResultImage);
-                                            item.SelectedVisionProject = SelectedProject;
+                                            item.SelectedVisionProject = ((VisionProject)(VisionConfig.SelectedProject));
 
 
                                         }
@@ -2010,7 +1999,7 @@ namespace VisionModule {
 
 
                         try {
-                            foreach (Request req in SelectedProject.RequestList) {
+                            foreach (Request req in ((VisionProject)(VisionConfig.SelectedProject)).RequestList) {
                                 foreach (ResultInfo resinfo in req.Results) {
                                     resinfo.Inputs.OnUndoList += new DejaVu.Collections.Generic.UndoRedoList<ResultInput>.UndoList(Inputs_OnUndoList);
                                     //foreach (ResultInput resinput in resinfo.Inputs) {
@@ -2019,7 +2008,7 @@ namespace VisionModule {
                                 }
                                 foreach (Inspection insp in req.Inspections) {
                                     //if (insp.AuxiliaryInspection!=null) {
-                                    //    insp.AuxiliaryInspection.request = SelectedProject.RequestList.Find(n => n.Name == insp.AuxiliaryInspection.RequestName);
+                                    //    insp.AuxiliaryInspection.request = ((VisionProject)(VisionConfig.SelectedProject)).RequestList.Find(n => n.Name == insp.AuxiliaryInspection.RequestName);
 
                                     //}
                                     //insp.AuxiliaryInspection = insp.AuxiliaryInspection;
@@ -2042,29 +2031,29 @@ namespace VisionModule {
 
                         _ImageContainer.__roicontainer.SelectNone();
                         _ListInspForm.__ListRequests.Focus();
-                        _ListInspForm.__ListRequests.AddObjects(SelectedProject.RequestList);
+                        _ListInspForm.__ListRequests.AddObjects(((VisionProject)(VisionConfig.SelectedProject)).RequestList);
 
-                        //_ListInspForm.__auxinsp.DataBindings.Add(new Binding("Text",SelectedProject.SelectedRequest.SelectedInspection.AuxiliaryInspectionROIS
+                        //_ListInspForm.__auxinsp.DataBindings.Add(new Binding("Text",((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.AuxiliaryInspectionROIS
                         log.Status("Project loaded");
 
-                        SelectedProject.RequestList.OnUndoList += new DejaVu.Collections.Generic.UndoRedoList<Request>.UndoList(RequestList_OnUndoList);
+                        ((VisionProject)(VisionConfig.SelectedProject)).RequestList.OnUndoList += new DejaVu.Collections.Generic.UndoRedoList<Request>.UndoList(RequestList_OnUndoList);
 
 
                         //_ListInspForm.__comboListAuxROI.DataSource = StaticObjects.InspectionReferences;
 
-                        if (SelectedProject.RequestList.Count > 0) {
-                            SelectedProject.SelectedRequest = SelectedProject.RequestList.First();
+                        if (((VisionProject)(VisionConfig.SelectedProject)).RequestList.Count > 0) {
+                            ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest = ((VisionProject)(VisionConfig.SelectedProject)).RequestList.First();
                         } else {
-                            SelectedProject.SelectedRequest = null;
+                            ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest = null;
                         }
 
-                        this.Text = ModuleName+ " : " + SelectedProject.Name;
+                        this.Text = ModuleName+ " : " + ((VisionProject)(VisionConfig.SelectedProject)).Name;
 
 
 
-                        _ListInspForm.SelectedProject = SelectedProject;
-                        _ListROIForm.SelectedProject = SelectedProject;
-                        _ImageContainer.SelectedProject = SelectedProject;
+                        _ListInspForm.SelectedProject = ((VisionProject)(VisionConfig.SelectedProject));
+                        _ListROIForm.SelectedProject = ((VisionProject)(VisionConfig.SelectedProject));
+                        _ImageContainer.SelectedProject = ((VisionProject)(VisionConfig.SelectedProject));
 
 
                        
@@ -2080,11 +2069,11 @@ namespace VisionModule {
 
 
 
-                        _ListInspForm.__ListRequests.SelectedObject = SelectedProject.SelectedRequest;
-                        if (SelectedProject.SelectedRequest != null) {
-                            if (SelectedProject.SelectedRequest.SelectedInspection != null) {
-                                _ListInspForm.__listinspections.SelectedObject = SelectedProject.SelectedRequest.SelectedInspection;
-                                if (SelectedProject.SelectedRequest.SelectedInspection.ROIList.Count > 0) {
+                        _ListInspForm.__ListRequests.SelectedObject = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest;
+                        if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest != null) {
+                            if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection != null) {
+                                _ListInspForm.__listinspections.SelectedObject = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection;
+                                if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ROIList.Count > 0) {
                                     //SelectedProject.SelectedRequest.SelectedInspection.SelectedROI = SelectedProject.SelectedRequest.SelectedInspection.ROIList.First(); 
                                 }
                             }
@@ -2120,8 +2109,8 @@ namespace VisionModule {
 
         void PythonCapture_OnRemoteImage(Image<Bgr, byte> theimage) {
             if (this.InvokeRequired) {
-                SelectedProject.SelectedRequest.SelectedInspection.OriginalImageBgr = theimage;
-                SelectedProject.SelectedRequest.SelectedInspection.ResultImageBgr = theimage;
+                ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.OriginalImageBgr = theimage;
+                ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ResultImageBgr = theimage;
                 this.BeginInvoke(new MethodInvoker(delegate { UpdateResultImage(theimage.ToBitmap()); }));
             }
         }
@@ -2170,8 +2159,8 @@ namespace VisionModule {
             _viewinspections.OnCtrSelected += new EventHandler(_viewinspections_OnCtrSelected);
             _viewinspections.OnCtrDoubleClick += new EventHandler(_viewinspections_OnCtrDoubleClick);
 
-            if (SelectedProject.SelectedRequest != null) {
-                _ListInspForm.__listinspections.Objects = SelectedProject.SelectedRequest.Inspections;
+            if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest != null) {
+                _ListInspForm.__listinspections.Objects = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.Inspections;
 
             }
             
@@ -2186,7 +2175,7 @@ namespace VisionModule {
         void proc_OnFunctionNameChanged(String OldValue, ref String NewName) {
 
             String newnameVal = NewName;
-            foreach (Request req in SelectedProject.RequestList) {
+            foreach (Request req in ((VisionProject)(VisionConfig.SelectedProject)).RequestList) {
                 foreach (Inspection insp in req.Inspections) {
                     foreach (ROI roi in insp.ROIList) {
                         if (roi.ProcessingFunctions.Find(name => name.FunctionName == newnameVal) != null) {
@@ -2200,7 +2189,7 @@ namespace VisionModule {
             //if (therefpoint != null) {
             //    therefpoint.ReferencePointName = NewName;
             //}
-            _ListInspForm.__listRoi.RefreshObjects(SelectedProject.SelectedRequest.SelectedInspection.ROIList);
+            _ListInspForm.__listRoi.RefreshObjects(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.ROIList);
 
 
             ResultInfo theresultinfo = _ResultsConfiguration.__listinspResults.SelectedObject as ResultInfo;
@@ -2208,7 +2197,7 @@ namespace VisionModule {
                 _ResultsConfiguration.__listInputs.RefreshObjects(theresultinfo.Inputs);
             }
 
-            _ListROIForm.__RoiProcList.RefreshObjects(SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions);
+            _ListROIForm.__RoiProcList.RefreshObjects(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions);
         }
 
 
@@ -2222,9 +2211,9 @@ namespace VisionModule {
         }
 
         void RequestList_OnItemAdded(Request itemAdded) {
-            _ListInspForm.__ListRequests.Objects=SelectedProject.RequestList;
+            _ListInspForm.__ListRequests.Objects=((VisionProject)(VisionConfig.SelectedProject)).RequestList;
             _ListInspForm.__ListRequests.SelectedIndex = _ListInspForm.__ListRequests.GetItemCount() - 1;
-            SelectedProject.SelectedRequest = itemAdded;
+            ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest = itemAdded;
 
             itemAdded.OnRequestNameChanged += new Request.RequestNameChanged(newRequest_OnRequestNameChanged);
             itemAdded.OnSelectedInspectionChanged += new Request.SelectedInspectionChanged(_request_OnSelectedInspectionChanged);
@@ -2237,9 +2226,9 @@ namespace VisionModule {
         }
 
         void SelectedProject_OnRequestRemoved(Request request) {
-            _ListInspForm.__ListRequests.Objects = SelectedProject.RequestList;
+            _ListInspForm.__ListRequests.Objects = ((VisionProject)(VisionConfig.SelectedProject)).RequestList;
             _ListInspForm.__ListRequests.Refresh();
-            SelectedProject.SelectedRequest = (Request)_ListInspForm.__ListRequests.GetModelObject(_ListInspForm.__ListRequests.GetItemCount() - 1);
+            ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest = (Request)_ListInspForm.__ListRequests.GetModelObject(_ListInspForm.__ListRequests.GetItemCount() - 1);
         }
 
         void _roi_PropertyChanged(object sender, PropertyChangedEventArgs e) {
@@ -2253,11 +2242,11 @@ namespace VisionModule {
 
         void _request_OnInspectionRemoved(Inspection inspection) {
             _viewinspections.RemoveControl(inspection);
-            _ListInspForm.__listinspections.Objects = SelectedProject.SelectedRequest.Inspections.ToArray();
+            _ListInspForm.__listinspections.Objects = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.Inspections.ToArray();
 
             Inspection _newisnp = (Inspection)_ListInspForm.__listinspections.GetModelObject(_ListInspForm.__listinspections.GetItemCount() - 1);
             _ListInspForm.__listinspections.SelectObject(_newisnp);
-            SelectedProject.SelectedRequest.SelectedInspection = _newisnp;            
+            ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection = _newisnp;            
 
         }
 
@@ -2301,7 +2290,7 @@ namespace VisionModule {
                 int lastselected = _ListROIForm.__RoiProcList.SelectedIndex;
                 _ListROIForm.__RoiProcList.SelectedObject = null;
                 _ListROIForm.__RoiProcList.ClearObjects();
-                _ListROIForm.__RoiProcList.AddObjects(SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions);
+                _ListROIForm.__RoiProcList.AddObjects(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions);
 
                 
                 _ListROIForm.__RoiProcList.SelectedIndex = lastselected;
@@ -2331,7 +2320,7 @@ namespace VisionModule {
                 _ResultsConfiguration.__listinspResults.SelectedObject = null;
                 _ResultsConfiguration.__listinspResults.ClearObjects();
 
-                _ResultsConfiguration.__listinspResults.AddObjects(SelectedProject.SelectedRequest.Results);
+                _ResultsConfiguration.__listinspResults.AddObjects(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.Results);
                 _ResultsConfiguration.__listinspResults.SelectedIndex = lastselected;
             } catch (Exception exp) {
 
@@ -2360,7 +2349,7 @@ namespace VisionModule {
                 else {
                     Exclusive = UndoObject.Except(CurrentList).ToList();
                     foreach (ROI item in Exclusive) {
-                        item.UpdateROIShape(SelectedProject.SelectedRequest.SelectedInspection.InspLayer);
+                        item.UpdateROIShape(((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.InspLayer);
                     }
                 }
 
@@ -2662,7 +2651,7 @@ namespace VisionModule {
 
             try {
 
-                if (SelectedProject != null) {
+                if (((VisionProject)(VisionConfig.SelectedProject)) != null) {
 
 
 
@@ -2689,11 +2678,11 @@ namespace VisionModule {
 
                     _viewinspections.ClearControls();
 
-                    SelectedProject.SelectedRequest = null;
+                    ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest = null;
 
-                    SelectedProject.Dispose();
+                    ((VisionProject)(VisionConfig.SelectedProject)).Dispose();
 
-                    SelectedProject = null;                   
+                    VisionConfig.SelectedProject = null;                   
  
                    
                     _ListInspForm.__tabsInsp.Enabled = false;
@@ -2793,8 +2782,8 @@ namespace VisionModule {
                     Thread.Sleep(10);
                     SplashScreen.WindowLocation = new Point(SplashScreen.WindowLocation.X, SplashScreen.WindowLocation.Y - 100);
                     SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("Closing_application"), TypeOfMessage.Error);
-                    if (SelectedProject != null) {
-                        SelectedProject.Dispose();
+                    if (((VisionProject)(VisionConfig.SelectedProject)) != null) {
+                        ((VisionProject)(VisionConfig.SelectedProject)).Dispose();
                     }
 
 
@@ -2839,8 +2828,8 @@ namespace VisionModule {
         private void __btCapture_Click(object sender, EventArgs e) {
             try {
 
-                if (SelectedProject.SelectedRequest.SelectedInspection != null) {                    
-                    SelectedProject.SelectedRequest.SelectedInspection.Execute(null,true);
+                if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection != null) {                    
+                    ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.Execute(null,true);
 
 
                 }
@@ -2914,7 +2903,7 @@ namespace VisionModule {
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e) {
-            if (SelectedProject.SelectedRequest.SelectedInspection != null) {
+            if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection != null) {
                 
             }
         }
@@ -2964,7 +2953,7 @@ namespace VisionModule {
         private void lockToolStripMenuItem_Click(object sender, EventArgs e) {
             try {
 
-                SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.Locked = lockToolStripMenuItem.Checked;
+                ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.Locked = lockToolStripMenuItem.Checked;
 
             } catch (Exception exp) {
                 log.Error(exp);
@@ -3015,7 +3004,7 @@ namespace VisionModule {
             //btpressedtimer.Enabled = false;
             if (bt == null) return;
             Thread.Sleep(200);
-            Rectangle shape = SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ROIShape.ShapeEfectiveBounds;
+            Rectangle shape = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ROIShape.ShapeEfectiveBounds;
 
             if (bt.Name == "__btDOWN") {
                 if (ArrowPad.__checkedsize.Checked) {
@@ -3049,7 +3038,7 @@ namespace VisionModule {
                     shape.X++;
                 }
             }
-            SelectedProject.SelectedRequest.SelectedInspection.SelectedROI.ROIShape.ShapeEfectiveBounds = shape;
+            ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ROIShape.ShapeEfectiveBounds = shape;
         }
 
         private void __toolConfig_Click(object sender, EventArgs e) {
@@ -3080,7 +3069,7 @@ namespace VisionModule {
             }
             try {
 
-                SelectedProject.SelectedRequest.ProcessRequest(null, true, null);
+                ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.ProcessRequest(null, true, null);
 
             } catch (Exception exp) {
 
@@ -3094,7 +3083,7 @@ namespace VisionModule {
             }
             try {
 
-                SelectedProject.SelectedRequest.ProcessRequest(null, false, null);
+                ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.ProcessRequest(null, false, null);
 
             } catch (Exception exp) {
 
@@ -3108,7 +3097,7 @@ namespace VisionModule {
             }
             try {
 
-                SelectedProject.SelectedRequest.SelectedInspection.Execute(null,true);
+                ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.Execute(null,true);
 
             } catch (Exception exp) {
 
@@ -3123,7 +3112,7 @@ namespace VisionModule {
             try {
 
                 
-                    SelectedProject.SelectedRequest.SelectedInspection.Execute(null, false);
+                    ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.Execute(null, false);
                
 
             } catch (Exception exp) {
@@ -3190,6 +3179,9 @@ namespace VisionModule {
             get { return m_Restart; }
             set { m_Restart = value; }
         }
+
+        
+
     }
 
     internal static class SplashScreen {
