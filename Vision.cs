@@ -2377,7 +2377,8 @@ namespace VisionModule {
 
     public sealed class VisionSettings:ModuleSettings {
 
-        
+        public List<TCPServer> Servers { get; set; }
+
         private KPPLogger _log;
         [XmlIgnore, Browsable(false)]
         public KPPLogger log {

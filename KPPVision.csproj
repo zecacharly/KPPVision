@@ -415,8 +415,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Language\Epson.de.resx" />
-    <EmbeddedResource Include="Resources\Language\Epson.pt-PT.resx" />
     <EmbeddedResource Include="Resources\Language\Res.de.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
