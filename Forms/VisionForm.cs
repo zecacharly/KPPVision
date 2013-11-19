@@ -82,9 +82,9 @@ namespace VisionModule {
         #region  forms init
 
         ArrowPadControl ArrowPad = null;
-        ProjectOptionsForm _ProjectOptionsForm = new ProjectOptionsForm();
+        ProjectOptionsForm _ProjectOptionsForm = new ProjectOptionsForm(typeof(VisionProject));
         IOSettingsForm _IOSettingsForm = new IOSettingsForm();
-        ConfigurationsForm _ConfigurationsForm = new ConfigurationsForm();
+        ConfigurationsForm _ConfigurationsForm = new ConfigurationsForm(typeof(VisionProjects));
         ListInspForm _ListInspForm = new ListInspForm();
         ImageContainerForm _ImageContainer = new ImageContainerForm();
         //LogForm _LogForm = new LogForm();
@@ -254,7 +254,7 @@ namespace VisionModule {
                 VisionProjectsConfig.BackupFolderName = "Backup";
 
 
-                _ProjectOptionsForm._projsconf = VisionProjectsConfig;
+                _ProjectOptionsForm.Projsconf = VisionProjectsConfig;
                 _ProjectOptionsForm._projsfile = thefilepath;
                 _ProjectOptionsForm.__listprojects.Objects = VisionProjectsConfig.Projects.ToList();
                 log.Status("Projects file loaded");
@@ -1836,9 +1836,10 @@ namespace VisionModule {
                     VisionProject newselected = null;
 
                     if (int.TryParse(ProjectName, out prognumber)) {
-                        newselected = VisionProjectsConfig.Projects.Find(projname => projname.ProjectID == prognumber);
+
+                        newselected = (VisionProject)VisionProjectsConfig.Projects.Find(projname => projname.ProjectID == prognumber);
                     } else {
-                        newselected = VisionProjectsConfig.Projects.Find(projname => projname.Name == ProjectName);
+                        newselected = (VisionProject)VisionProjectsConfig.Projects.Find(projname => projname.Name == ProjectName);
                     }
 
                     if (newselected != null) {

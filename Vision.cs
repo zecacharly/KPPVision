@@ -2036,7 +2036,7 @@ namespace VisionModule {
     }
 
 
-    public sealed class VisionProjects {
+    public sealed class VisionProjects:ModuleProjects {
 
         #region -  Serialization attributes  -
 
@@ -2059,25 +2059,19 @@ namespace VisionModule {
         private static KPPLogger log = new KPPLogger(typeof(VisionProjects));
 
         [XmlAttribute]
-        public String Name { get; set; }
-
-        public string ModuleName {
-            get;
-            set;
-        }
+        public override String Name { get; set; }     
 
 
+        public override List<ModuleProject> Projects { get; set; }
 
-        public List<VisionProject> Projects { get; set; }
-
-
+        
 
         /// <summary>
         /// 
         /// </summary>
         public VisionProjects() {
             Name = "Vision Projects";
-            Projects = new List<VisionProject>();
+            Projects = new List<ModuleProject>();
         }
 
 
@@ -2377,7 +2371,8 @@ namespace VisionModule {
 
     public sealed class VisionSettings:ModuleSettings {
 
-        public List<TCPServer> Servers { get; set; }
+        [XmlAttribute]
+        public override String ProjectFileExtension { get; set; }
 
         private KPPLogger _log;
         [XmlIgnore, Browsable(false)]
@@ -2391,6 +2386,7 @@ namespace VisionModule {
             Name = "Vision Settings";
             Servers = new List<TCPServer>();
             ProjectFile = "";
+            ProjectFileExtension = ".VisionProjects";
         }
 
 

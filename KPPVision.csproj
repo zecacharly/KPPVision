@@ -151,18 +151,6 @@
     <Compile Include="Forms\ArrowPad.Designer.cs">
       <DependentUpon>ArrowPad.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ConfigurationsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ConfigurationsForm.designer.cs">
-      <DependentUpon>ConfigurationsForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Config\ProjectOptionsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Config\ProjectOptionsForm.Designer.cs">
-      <DependentUpon>ProjectOptionsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Config\SplashScreenForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -325,20 +313,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\ArrowPad.resx">
       <DependentUpon>ArrowPad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ConfigurationsForm.pt-PT.resx">
-      <DependentUpon>ConfigurationsForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ConfigurationsForm.resx">
-      <DependentUpon>ConfigurationsForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Config\ProjectOptionsForm.pt-PT.resx">
-      <DependentUpon>ProjectOptionsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Config\ProjectOptionsForm.resx">
-      <DependentUpon>ProjectOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Config\SplashScreenForm.resx">
       <DependentUpon>SplashScreenForm.cs</DependentUpon>
