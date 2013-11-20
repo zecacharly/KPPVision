@@ -134,7 +134,7 @@ namespace VisionModule {
                         //    }
                         //}
                       else if (caminfo == "DirectShowCamera") {
-                        return new DirectShowCameraCapture(((Inspection)context.Instance).SelectedProject);
+                        return new DirectShowCameraCapture();
                     } else if (caminfo == "uEyeCamera") {
 
                         return new uEyeCamera(((Inspection)context.Instance).SelectedProject);
@@ -2599,9 +2599,8 @@ namespace VisionModule {
 
 
             if (FrameImage != null) {
-                newimage = new Image<Bgr, byte>(FrameImage.Size);
-               
-                //FrameImage.CopyTo(newimage);
+                newimage = new Image<Bgr, byte>(FrameImage.Size);               
+                FrameImage.CopyTo(newimage);
             }
 
             Console.WriteLine("Capture Done");
@@ -2612,27 +2611,21 @@ namespace VisionModule {
         }
 
 
-        void Camera_ImageGrabbed(object sender, EventArgs e) {
-
-        }
+      
 
         public override string ToString() {
             return "Direct Show Capture";
         }
 
-        static int Globalid = -1;
-
-        int id;
-        public DirectShowCameraCapture(VisionProject selectedproject) {
-            // CamIndex = -1;
-            this.id = ++DirectShowCameraCapture.Globalid;
-            this.CameraName = "Direct Show input";
-            this.Camtype = CameraTypes.DirectShow;
-        }
+        //public DirectShowCameraCapture(VisionProject selectedproject) {
+ 
+        //    this.CameraName = "Direct Show input";
+        //    this.Camtype = CameraTypes.DirectShow;
+        //}
 
         public DirectShowCameraCapture() {
-            // CamIndex = -1;
-            this.id = ++DirectShowCameraCapture.Globalid;
+            
+            
             this.CameraName = "Direct Show input";
             this.Camtype = CameraTypes.DirectShow;
             
