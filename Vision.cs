@@ -2406,7 +2406,7 @@ namespace VisionModule {
 
         public List<TCPServer> Servers { get; set; }
 
-        private KPPLogger _log;
+        private static KPPLogger _log;
         [XmlIgnore, Browsable(false)]
         public KPPLogger log {
             get { return _log; }

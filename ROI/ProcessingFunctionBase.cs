@@ -757,7 +757,7 @@ namespace VisionModule {
         }
 
 
-        private KPPLogger m_log;
+        private static KPPLogger m_log;
         [XmlIgnore, Browsable(false)]
         public virtual KPPLogger log {
             get { return m_log; }

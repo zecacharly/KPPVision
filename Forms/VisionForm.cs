@@ -2765,13 +2765,13 @@ namespace VisionModule {
                     Thread.Sleep(10);
                     SplashScreen.WindowLocation = new Point(SplashScreen.WindowLocation.X, SplashScreen.WindowLocation.Y - 100);
                     SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("Closing_application"), TypeOfMessage.Error);
-                    if (((VisionProject)(VisionConfig.SelectedProject)) != null) {
-                        ((VisionProject)(VisionConfig.SelectedProject)).Dispose();
+
+                    CloseCurrentConfiguration(true);
+
+
+                    foreach (TCPServer item in VisionConfig.Servers) {
+                        item.StopListening();                        
                     }
-
-
-
-
                     SplashScreen.UdpateStatusTextWithStatus("[" + ModuleName + "] - " + this.GetResourceText("Stopping_remote_connection"), TypeOfMessage.Error);
 
 

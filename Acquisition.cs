@@ -2471,6 +2471,9 @@ namespace VisionModule {
 
 
                 }
+                else {
+                    Camera = null;
+                }
             } catch (Exception exp) {
 
             }
@@ -2592,6 +2595,9 @@ namespace VisionModule {
         //       private Boolean capture = false;
         public override Image<Bgr, Byte> GetImage() {
 
+            if (Camera==null) {
+                return null;
+            }
             waitImage.Reset();
             GotFrame = false;
             waitImage.WaitOne();
@@ -2819,7 +2825,7 @@ namespace VisionModule {
         public enum CameraTypes { Remote, DirectShow, CV, ICS, File, Inspection, Request, uEye, Undef }
         
 
-        private KPPLogger m_log;
+        private static KPPLogger m_log;
         [XmlIgnore,Browsable(false)]
         public virtual KPPLogger log {
             get { return m_log; }
