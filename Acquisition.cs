@@ -2010,27 +2010,27 @@ namespace VisionModule {
                     }
 
                 }
-                switch (UseChannel) {
-                    case Channel.Bgr:
-                        break;
-                    case Channel.Red:
-                        CvInvoke.cvCvtColor(outimage[2], outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                        break;
-                    case Channel.Green:
-                        CvInvoke.cvCvtColor(outimage[1], outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                        break;
-                    case Channel.Blue:
-                        CvInvoke.cvCvtColor(outimage[0], outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                        break;
-                    case Channel.Mono:
-                        //CvInvoke.cvCvtColor(outimage, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_BGR2GRAY);                        
-                        Image<Gray, Byte> grayimage = new Image<Gray, byte>(outimage.Size);
-                        grayimage.ConvertFrom<Bgr, Byte>(outimage);
-                        CvInvoke.cvCvtColor(grayimage, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                        break;
-                    default:
-                        break;
-                }
+                //switch (UseChannel) {
+                //    case Channel.Bgr:
+                //        break;
+                //    case Channel.Red:
+                //        CvInvoke.cvCvtColor(outimage[2], outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                //        break;
+                //    case Channel.Green:
+                //        CvInvoke.cvCvtColor(outimage[1], outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                //        break;
+                //    case Channel.Blue:
+                //        CvInvoke.cvCvtColor(outimage[0], outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                //        break;
+                //    case Channel.Mono:
+                //        //CvInvoke.cvCvtColor(outimage, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_BGR2GRAY);                        
+                //        Image<Gray, Byte> grayimage = new Image<Gray, byte>(outimage.Size);
+                //        grayimage.ConvertFrom<Bgr, Byte>(outimage);
+                //        CvInvoke.cvCvtColor(grayimage, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                //        break;
+                //    default:
+                //        break;
+                //}
 
                 _ICSCamera.Camera.ImageActiveBuffer.Unlock();
 
@@ -2600,27 +2600,7 @@ namespace VisionModule {
 
             if (FrameImage != null) {
                 newimage = new Image<Bgr, byte>(FrameImage.Size);
-                switch (UseChannel) {
-                    case Channel.Bgr:
-                        break;
-                    case Channel.Red:
-                        CvInvoke.cvCvtColor(FrameImage[2], newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                        break;
-                    case Channel.Green:
-                        CvInvoke.cvCvtColor(FrameImage[1], newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                        break;
-                    case Channel.Blue:
-                        CvInvoke.cvCvtColor(FrameImage[0], newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                        break;
-                    case Channel.Mono:
-                        //CvInvoke.cvCvtColor(outimage, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_BGR2GRAY);                        
-                        Image<Gray, Byte> grayimage = new Image<Gray, byte>(FrameImage.Size);
-                        grayimage.ConvertFrom<Bgr, Byte>(FrameImage);
-                        CvInvoke.cvCvtColor(grayimage, newimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                        break;
-                    default:
-                        break;
-                }
+               
                 //FrameImage.CopyTo(newimage);
             }
 
@@ -2887,12 +2867,12 @@ namespace VisionModule {
 
         }
 
-        private Channel _UseChannel = Channel.Bgr;
-        [XmlAttribute, DisplayName("Output channel")]
-        public virtual Channel UseChannel {
-            get { return _UseChannel; }
-            set { _UseChannel = value; }
-        }
+        //private Channel _UseChannel = Channel.Bgr;
+        //[XmlAttribute, DisplayName("Output channel")]
+        //public virtual Channel UseChannel {
+        //    get { return _UseChannel; }
+        //    set { _UseChannel = value; }
+        //}
 
 
 

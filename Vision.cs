@@ -924,6 +924,13 @@ namespace VisionModule {
 
         #endregion
 
+        private Channel _UseChannel = Channel.Bgr;
+        [XmlAttribute, DisplayName("Output channel")]
+        [Category("Aquisition Settings"), Description("Output Channel {BGR, Blue,Green, Red}")]
+        public Channel UseChannel {
+            get { return _UseChannel; }
+            set { _UseChannel = value; }
+        }
 
         #region Methods
 
@@ -1010,14 +1017,34 @@ namespace VisionModule {
                     }
 
                     OriginalImageBgr.ROI = Rectangle.Empty;
-
-
-                    if (OriginalImageBgr.Size == captured.Size) {
-                        captured.CopyTo(OriginalImageBgr);
-                    } else {
-                        OriginalImageBgr = new Image<Bgr, byte>(captured.Size);
-                        captured.CopyTo(OriginalImageBgr);
+                    if (OriginalImageBgr.Size != captured.Size) {
+                        OriginalImageBgr = new Image<Bgr, byte>(captured.Size);                        
                     }
+
+                    switch (UseChannel) {
+                        case Channel.Bgr:
+                            captured.CopyTo(OriginalImageBgr);
+                            break;
+                        case Channel.Red:
+                            CvInvoke.cvCvtColor(captured[2], OriginalImageBgr, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                            break;
+                        case Channel.Green:
+                            CvInvoke.cvCvtColor(captured[1], OriginalImageBgr, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                            break;
+                        case Channel.Blue:
+                            CvInvoke.cvCvtColor(captured[0], OriginalImageBgr, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                            break;
+                        case Channel.Mono:
+                            //CvInvoke.cvCvtColor(outimage, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_BGR2GRAY);                        
+                            Image<Gray, Byte> grayimage = new Image<Gray, byte>(captured.Size);
+                            grayimage.ConvertFrom<Bgr, Byte>(captured);
+                            CvInvoke.cvCvtColor(grayimage, OriginalImageBgr, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    
 
                     if (!(CaptureSource is InspectionCapture)) {
                         captured.Dispose();

@@ -523,10 +523,6 @@ namespace VisionModule {
                 #endregion
 
 
-
-                _ConfigurationsForm.__contextServers.ItemClicked += new ToolStripItemClickedEventHandler(__contextServers_ItemClicked);
-
-
                 _ConfigurationsForm.__contextServers.Opening += new CancelEventHandler(__contextServers_Opening);
 
 
@@ -691,19 +687,6 @@ namespace VisionModule {
             }
 
         }
-
-        void __contextServers_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
-            try {
-
-              
-            } catch (Exception exp) {
-                log.Error(exp);
-
-            }
-
-        }
-
-       
         void __btSave_Click(object sender, EventArgs e) {
             try {
                 VisionConfig.WriteConfigurationFile();
