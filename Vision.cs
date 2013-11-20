@@ -2372,9 +2372,13 @@ namespace VisionModule {
     public sealed class VisionSettings:ModuleSettings {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         [XmlAttribute]
         public override String ProjectFileExtension { get; set; }
 
+=======
+        
+>>>>>>> parent of 7beae96... Revision 3.0.2
 =======
         
 >>>>>>> parent of 7beae96... Revision 3.0.2
