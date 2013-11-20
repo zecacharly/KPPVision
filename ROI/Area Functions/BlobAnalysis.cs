@@ -266,7 +266,7 @@ namespace VisionModule {
                 Pass = false;
                 //ReferenceBlob = new BlobInfo();
 
-                throw new Exception("Teste5");
+              
                 NumBlobs = 0;
                 BlobsList.Clear();
              
@@ -416,8 +416,11 @@ namespace VisionModule {
                                 }
                             } else if (ResultsInROI == OutputResultType.orContours) {
                                 foreach (CvBlob blob in blobarray) {
-                                    ImageOut.Draw(blob.BoundingBox, new Bgr(Color.Yellow), 1);
-                                    ImageOut.Draw(new Cross2DF(blob.Centroid, 3, 3), new Bgr(Color.Yellow), 1);
+                                    using (MemStorage contourstorage = new MemStorage()) {
+                                        Contour<Point> contour = blob.GetContour(contourstorage);
+                                        ImageOut.Draw(contour, new Bgr(Color.Yellow), 1);
+                                        ImageOut.Draw(new Cross2DF(blob.Centroid, 3, 3), new Bgr(Color.Yellow), 1); 
+                                    }
                                 }
                             } else if (ResultsInROI== OutputResultType.orPreProcessing) {
                                 ImageOut.ROI = RoiRegion;
