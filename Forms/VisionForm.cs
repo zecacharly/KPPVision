@@ -1837,7 +1837,10 @@ namespace VisionModule {
                         }
 
                         VisionConfig.SelectedProject = newselected;
+
+
                         
+
                        // StaticObjects.((VisionProject)(VisionConfig.SelectedProject)) = ((VisionProject)(VisionConfig.SelectedProject));
                         _ListInspForm.SelectedProject = ((VisionProject)(VisionConfig.SelectedProject));
                         _ListROIForm.SelectedProject = ((VisionProject)(VisionConfig.SelectedProject));
@@ -1868,6 +1871,12 @@ namespace VisionModule {
 
                             _request.Inspections.OnUndoList += new DejaVu.Collections.Generic.UndoRedoList<Inspection>.UndoList(Inspections_OnUndoList);
                             _request.OnInspectionRemoved += new Request.InspectionRemoved(_request_OnInspectionRemoved);
+
+                            foreach (ResultInfo resinf in _request.Results) {
+                                foreach (ResultInput resinput in resinf.Inputs) {
+                                    resinput.Input.SelectedProject = newselected;
+                                }
+                            }
 
                             int i = 0;
                             foreach (Inspection _inspect in _request.Inspections) {                                
@@ -1959,7 +1968,7 @@ namespace VisionModule {
                                             item.OnFunctionNameChanged += new ProcessingFunctionBase.FunctionNameChanged(proc_OnFunctionNameChanged);
                                             item.OnUpdateResultImage += new ProcessingFunctionBase.UpdateResultImage(proc_OnUpdateResultImage);
                                             item.SelectedVisionProject = ((VisionProject)(VisionConfig.SelectedProject));
-
+                                            
 
                                         }
                                     }

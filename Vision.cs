@@ -267,8 +267,7 @@ namespace VisionModule {
     }
 
 
-    [TypeConverter(typeof(ExpandableObjectConverter)), EditorAttribute(typeof(InputReferenceSelector), typeof(UITypeEditor))]
-    [XmlInclude(typeof(LineSegment2D))]
+    [TypeConverter(typeof(ExpandableObjectConverter)), EditorAttribute(typeof(InputReferenceSelector), typeof(UITypeEditor))]   
     public class ResultReference {
 
         private Boolean _IsValid = false;
@@ -426,7 +425,21 @@ namespace VisionModule {
         //    ResultReferenceID = resid;
         //}
 
-        private VisionProject SelectedProject = null;
+        private VisionProject _SelectedProject = null;
+        [XmlIgnore,Browsable(false)]
+        public VisionProject SelectedProject {
+            get { return _SelectedProject; }
+            set {
+                if (_SelectedProject!=value) {
+                    _SelectedProject = value;
+                    if (value!=null) {
+                        UpdateValue();
+                    }
+                }
+            }
+        }
+
+
         public ResultReference(VisionProject selectedProject, Object resobj) {
             SelectedProject = selectedProject;
             if (resobj != null) {
@@ -1587,8 +1600,9 @@ namespace VisionModule {
             inspection.Dispose();
         }
 
-        private String ProcessResults() {
+        private List<String> ProcessResults() {
             StringBuilder sendstr = new StringBuilder();
+            List<String> sendresults = new List<string>();
             try {
                 _requestOK = false;
 
@@ -1618,8 +1632,9 @@ namespace VisionModule {
                         }
 
                     }
-                    sendstr.AppendLine("");
-                    Console.WriteLine(sendstr);
+                    //sendstr.Append("\n");
+                    sendresults.Add(sendstr.ToString());
+                    sendstr.Clear();
                     _requestOK = allok;
 
 
@@ -1633,10 +1648,10 @@ namespace VisionModule {
                 Console.WriteLine(exp);
                 log.Error(exp);
 
-                return "Results ERROR";
+               
             }
 
-            return sendstr.ToString();
+            return sendresults;
         }
 
 
@@ -1809,8 +1824,10 @@ namespace VisionModule {
 
 
             if (Sender is TCPServer) {
-
-                ((TCPServer)Sender).Client.Write(ProcessResults());
+                foreach (String item in ProcessResults()) {
+                    ((TCPServer)Sender).Client.Write(item);    
+                }
+                
 
             }
             //  OnRequestDone(this, ProcessResults());

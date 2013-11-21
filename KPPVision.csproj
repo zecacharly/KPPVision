@@ -348,6 +348,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CustomTextBox.resx" />
     <EmbeddedResource Include="Forms\ExposurePropertySet.resx" />
+    <EmbeddedResource Include="Forms\OutputResultConfForm.pt-PT.resx">
+      <DependentUpon>OutputResultConfForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\VisionForm.pt-PT.resx">
       <DependentUpon>VisionForm.cs</DependentUpon>
       <SubType>Designer</SubType>

@@ -10,7 +10,7 @@ using KPP.Core.Debug;
 using System.Reflection;
 using System.Globalization;
 using System.ComponentModel.Design.Serialization;
-
+using KPPAutomationCore;
 
 namespace VisionModule {
 
@@ -24,7 +24,15 @@ namespace VisionModule {
 
         public VisionProject SelectedProject = null;
 
-        public Type acceptType = null;
+        private Type _acceptType = null;
+
+        public Type acceptType {
+            get { return _acceptType; }
+            set { 
+                _acceptType = value; 
+            }
+        }
+
         public ResultReference ResultRef= null;
         private void OutputResultConfForm_Load(object sender, EventArgs e) {
             if (SelectedProject != null) {
@@ -211,8 +219,10 @@ namespace VisionModule {
                     if (acceptType.Name=="String") {
                         ResultRef.ResultReferenceID = "No value";                        
                     } else {
-                        Object newobj = Activator.CreateInstance(acceptType);
-                        ResultRef.ResultReferenceID = newobj;
+                        
+                            Object newobj = Activator.CreateInstance(acceptType);
+                            ResultRef.ResultReferenceID = newobj; 
+                       
                     }
 
                     
@@ -224,6 +234,13 @@ namespace VisionModule {
                     
                 }
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e) {
+            ResultRef.ResultReferenceID = null;
+            propertyGrid1.SelectedObject = ResultRef;
+            ResultRef.UpdateValue();
+            propertyGrid1.Refresh();
         }
     }
 }

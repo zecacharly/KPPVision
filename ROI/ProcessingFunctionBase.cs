@@ -280,7 +280,7 @@ namespace VisionModule {
 
 
         private ResultReference _InputList;
-        [Category("Pre-Processing"), TypeConverter(typeof(ExpandableObjectConverter)), DisplayName("Blobs List"), AcceptDrop(true), AcceptType(typeof(CustomCollection<>))]
+        [Category("Pre-Processing"), TypeConverter(typeof(ExpandableObjectConverter)), DisplayName("Blobs List"), AcceptDrop(true), AcceptType(typeof(CustomCollection<object>))]
         public ResultReference InputList {
             get { return _InputList; }
             set {
@@ -771,7 +771,34 @@ namespace VisionModule {
             }
         }
 
+        private void UpdateReferences(Object _theobject,VisionProject selectedproject) {
+            try {
+                Type myType = _theobject.GetType();
+                var systemTypes = myType.GetProperties().Select(t => t.PropertyType).Where(t => t.Namespace.Contains("System"));
+                List<Type> customtypes = myType.GetProperties().Select(t => t.PropertyType).Except(systemTypes).ToArray().ToList();
+                IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
 
+                foreach (PropertyInfo prop in props) {
+                    object propValue = prop.GetValue(_theobject, null);
+                    if (propValue != null) {
+                        if (customtypes.Contains(propValue.GetType())) {
+                            if (propValue is ResultReference) {
+
+                                ((ResultReference)propValue).SelectedProject = selectedproject;
+
+                            } else if (propValue is ProcessingFunctionBase) {
+                                UpdateReferences(propValue, selectedproject);
+                            }
+                        }
+
+                    }
+                    // Do something with propValue
+                }
+            } catch (Exception exp) {
+
+                log.Error(exp);
+            }
+        }
 
         private VisionProject _SelectedVisionProject;
         [XmlIgnore,Browsable(false)]
@@ -780,6 +807,10 @@ namespace VisionModule {
             set {
                 if (_SelectedVisionProject!=value) {
                     _SelectedVisionProject = value;
+
+                    UpdateReferences(this, value);
+
+
                     if (value!=null) {
                         ModuleName = _SelectedVisionProject.Name;
                     }
