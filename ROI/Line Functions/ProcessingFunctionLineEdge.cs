@@ -175,6 +175,8 @@ namespace VisionModule {
     [ProcessingFunction("Line Edge", "Line")]
     public class ProcessingFunctionLineEdge : ProcessingFunctionBase {
 
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionLineEdge));
+
         public ProcessingFunctionLineEdge() {
 
             

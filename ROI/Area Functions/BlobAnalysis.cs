@@ -194,6 +194,7 @@ namespace VisionModule {
     [ProcessingFunction("Blob Analysis", "Area")]
     public class BlobAnalysis : ProcessingFunctionBase {
 
+        private static KPPLogger log = new KPPLogger(typeof(BlobAnalysis));
 
         public BlobAnalysis() {
 

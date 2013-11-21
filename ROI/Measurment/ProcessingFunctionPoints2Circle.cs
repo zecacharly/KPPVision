@@ -17,7 +17,7 @@ using System.Drawing.Design;
 namespace VisionModule {
     [ProcessingFunction("Points 2 Circle", "Measurement")]
     public class ProcessingFunctionPoints2Circle: ProcessingFunctionBase {
-
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionPoints2Circle));
         public ProcessingFunctionPoints2Circle() {
 
             

@@ -19,10 +19,10 @@ namespace VisionModule {
     public class ProcessingFunctionLines : ProcessingFunctionBase {
 
         public ProcessingFunctionLines() {
-            log = new KPPLogger(typeof(ProcessingFunctionLines),name:base.ModuleName);
+          
         }
 
-        private static KPPLogger log ;
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionLines));
 
         private PointF _RectangleCenter = new PointF(0, 0);
 

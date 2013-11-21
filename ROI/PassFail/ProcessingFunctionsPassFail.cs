@@ -20,7 +20,7 @@ namespace VisionModule {
 
     [ProcessingFunction("Range", "Pass Fail")]
     public class ProcessingFunctionRange : ProcessingFunctionBase {
-
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionRange));
         public ProcessingFunctionRange() {
 
             

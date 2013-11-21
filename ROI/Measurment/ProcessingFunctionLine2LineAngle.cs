@@ -16,7 +16,7 @@ using System.Numerics;
 namespace VisionModule {
     [ProcessingFunction("Line 2 Line Angle", "Measurement")]
     public class ProcessingFunctionLine2LineAngle: ProcessingFunctionBase {
-
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionLine2LineAngle));
         public ProcessingFunctionLine2LineAngle() {
 
             

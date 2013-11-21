@@ -157,7 +157,7 @@ namespace VisionModule {
 
     [ProcessingFunction("Set Value", "Other")]
     public class SetValue : ProcessingFunctionBase {
-
+        private static KPPLogger log = new KPPLogger(typeof(SetValue));
         public SetValue() {
 
             
@@ -255,7 +255,7 @@ namespace VisionModule {
 
     [ProcessingFunction("Get Object from Array", "Array")]
     public class GetObject : ProcessingFunctionBase {
-
+        private static KPPLogger log = new KPPLogger(typeof(GetObject));
 
         public GetObject() {
 
@@ -757,12 +757,8 @@ namespace VisionModule {
         }
 
 
-        private static KPPLogger m_log;
-        [XmlIgnore, Browsable(false)]
-        public virtual KPPLogger log {
-            get { return m_log; }
-            //set { m_log = value; }
-        }
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionBase));
+       
 
         private String m_ModuleName;
         [XmlAttribute, Browsable(false)]
@@ -770,8 +766,7 @@ namespace VisionModule {
             get { return m_ModuleName; }
             set {
                 if (m_ModuleName != value) {
-                    m_ModuleName = value;
-                    m_log = m_log.SetNewLogger(this.GetType(), value);
+                    m_ModuleName = value;                    
                 }
             }
         }

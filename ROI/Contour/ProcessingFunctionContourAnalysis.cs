@@ -16,6 +16,8 @@ namespace VisionModule {
     [ProcessingFunction("Contour Analysis", "Contour")]
     public class ProcessingFunctionContourAnalysis : ProcessingFunctionBase {
 
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionContourAnalysis));
+
         public ProcessingFunctionContourAnalysis() {
             
         }

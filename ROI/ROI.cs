@@ -106,21 +106,9 @@ namespace VisionModule {
         public String ModuleName {
             get { return m_ModuleName; }
             set {
-                if (m_ModuleName != value) {
-
-                    log.SetNewLogger(this.GetType(), value);
+                if (m_ModuleName != value) {                  
 
                     m_ModuleName = value;
-
-                    //foreach (ROI item in ROIList) {
-                    //    item.
-                    //}
-
-
-                    //CaptureSource.ModuleName;
-
-
-
 
                 }
             }

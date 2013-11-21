@@ -221,6 +221,7 @@ namespace VisionModule {
 
     [ProcessingFunction("Circle Analysis","Circle")]
     public class ProcessingFunctionCircleAnalysis : ProcessingFunctionBase {
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionCircleAnalysis));
 
         public ProcessingFunctionCircleAnalysis() {
 
@@ -605,6 +606,8 @@ namespace VisionModule {
 
     [ProcessingFunction("Circle Edges", "Circle")]
     public class ProcessingFunctionCircleEdges : ProcessingFunctionBase {
+
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionCircleEdges));
 
         public ProcessingFunctionCircleEdges() {
             
@@ -1033,32 +1036,6 @@ namespace VisionModule {
         public int MaxEllipseArea { get; set; }
 
 
-        //[XmlAttribute]
-        //[Category("Pre-Processing"), Description("Min blob width"), DisplayName("Min blob width")]
-        //public int MinBlobWidth { get; set; }
-
-        //[XmlAttribute]
-        //[Category("Pre-Processing"), Description("Max blob width"), DisplayName("Max blob width")]
-        //public int MaxBlobWidth { get; set; }
-
-        //[XmlAttribute]
-        //[Category("Pre-Processing"), Description("Min blob heigth"), DisplayName("Min blob heigth")]
-        //public int MinBlobHeigth { get; set; }
-
-        //[XmlAttribute]
-        //[Category("Pre-Processing"), Description("Max blob heigth"), DisplayName("Max blob heigth")]
-        //public int MaxBlobHeigth { get; set; }
-
-        //ProcessingFunctionPixelanalysis _PixelAnalisys = new ProcessingFunctionPixelanalysis();
-        //[Category("Pre-Processing"), DisplayName("Pixel Analisys")]
-        //[TypeConverter(typeof(ExpandableObjectConverter))]
-        //public ProcessingFunctionPixelanalysis PixelAnalisys {
-        //    get { return _PixelAnalisys; }
-        //    set { _PixelAnalisys = value; }
-        //}
-
-
-
 
         public EllipseConstraint() {
 
@@ -1067,14 +1044,14 @@ namespace VisionModule {
 
     [ProcessingFunction("Ellipse Fitter", "Circle")]
     public class ProcessingFunctionEllipseFitter : ProcessingFunctionBase {
-
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionEllipseFitter));
         public ProcessingFunctionEllipseFitter() {
 
             
         }
 
+
         
-        //= new KPPLogger(typeof(ProcessingFunctionCircleAnalysis));
 
 
 

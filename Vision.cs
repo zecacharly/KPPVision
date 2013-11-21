@@ -573,8 +573,7 @@ namespace VisionModule {
             get { return m_ModuleName; }
             set {
                 if (m_ModuleName != value) {
-
-                    log=log.SetNewLogger(this.GetType(), value);
+                    
 
                     m_ModuleName = value;
 
@@ -1519,14 +1518,13 @@ namespace VisionModule {
     public class Request : IDisposable {
 
         private static KPPLogger log = new KPPLogger(typeof(Request));
+
         private String m_ModuleName;
         [XmlAttribute, Browsable(false)]
         public String ModuleName {
             get { return m_ModuleName; }
             set {
-                if (m_ModuleName != value) {
-
-                    log=log.SetNewLogger(this.GetType(), value);
+                if (m_ModuleName != value) {                    
 
                     m_ModuleName = value;
 
@@ -1934,7 +1932,7 @@ namespace VisionModule {
 
     public class VisionProject :ModuleProject {
 
-        
+        private static KPPLogger log = new KPPLogger(typeof(VisionProject));
 
         public delegate void SelectedRequestChanged(Request NewSelectedRequest);
 
@@ -1952,7 +1950,7 @@ namespace VisionModule {
             set {
                 if (m_ModuleName != value) {
 
-                    log = log.SetNewLogger(this.GetType(), value);
+                  
 
                     m_ModuleName = value;
                     foreach (Request req in RequestList) {
@@ -2049,7 +2047,7 @@ namespace VisionModule {
 
         public VisionProject() {
 
-            log = new KPPLogger(typeof(VisionProject), name: ModuleName);
+            
 
             Name = "Vision Project";
 
@@ -2406,15 +2404,11 @@ namespace VisionModule {
 
         public List<TCPServer> Servers { get; set; }
 
-        private static KPPLogger _log;
-        [XmlIgnore, Browsable(false)]
-        public KPPLogger log {
-            get { return _log; }
-            set { _log = value; }
-        }
+        private static KPPLogger log = new KPPLogger(typeof(VisionSettings));
+       
 
         public VisionSettings() {
-            log = new KPPLogger(typeof(VisionSettings));
+            
             Name = "Vision Settings";
             Servers = new List<TCPServer>();
             ProjectFile = "";
@@ -2429,8 +2423,7 @@ namespace VisionModule {
         /// <param name="path">The path.</param>
         /// <returns></returns>
         public static VisionSettings ReadConfigurationFile(string path) {
-            //log.Debug(String.Format("Load Xml file://{0}", path));
-            KPPLogger statlog = new KPPLogger(typeof(VisionSettings));
+            //log.Debug(String.Format("Load Xml file://{0}", path));            
             if (File.Exists(path)) {
                 VisionSettings result = null;
                 TextReader reader = null;
@@ -2443,7 +2436,7 @@ namespace VisionModule {
 
                     result = config;
                 } catch (Exception exp) {
-                    statlog.Error(exp);
+                    log.Error(exp);
                 } finally {
                     if (reader != null) {
                         reader.Close();
@@ -2460,15 +2453,14 @@ namespace VisionModule {
         /// <param name="childtype">The childtype.</param>
         /// <param name="xmlString">The XML string.</param>
         /// <returns></returns>
-        public static VisionSettings ReadConfigurationString(string xmlString) {
-            KPPLogger statlog= new KPPLogger(typeof(VisionSettings));
+        public static VisionSettings ReadConfigurationString(string xmlString) {            
             try {
                 XmlSerializer serializer = new XmlSerializer(typeof(VisionSettings));
                 VisionSettings config = serializer.Deserialize(new StringReader(xmlString)) as VisionSettings;
 
                 return config;
             } catch (Exception exp) {
-                statlog.Error(exp);
+                log.Error(exp);
             }
             return null;
         }

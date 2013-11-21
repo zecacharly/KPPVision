@@ -23,6 +23,8 @@ namespace VisionModule {
     [Serializable()]
     public class ProcessingFunctionPrePos : ProcessingFunctionBase {
 
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionPrePos));
+
         public ProcessingFunctionPrePos() {
             
         }

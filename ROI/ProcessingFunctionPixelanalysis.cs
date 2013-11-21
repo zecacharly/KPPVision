@@ -25,6 +25,8 @@ namespace VisionModule {
     [ProcessingFunction("Pixel Analysis", "Area")]
     public class ProcessingFunctionPixelanalysis : ProcessingFunctionBase {
 
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionPixelanalysis));
+
         public ProcessingFunctionPixelanalysis() {
             
         }

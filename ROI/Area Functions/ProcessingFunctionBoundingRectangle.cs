@@ -16,6 +16,8 @@ namespace VisionModule {
     [ProcessingFunction("Bounding Rectangle","Area")]
     public class ProcessingFunctionBoundingRectangle : ProcessingFunctionBase {
 
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionBoundingRectangle));
+
         public ProcessingFunctionBoundingRectangle() {
             
         }

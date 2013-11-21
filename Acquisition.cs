@@ -483,16 +483,16 @@ namespace VisionModule {
         public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) {
             return UITypeEditorEditStyle.DropDown;
         }
-
+        private static KPPLogger log = new KPPLogger(typeof(InterfaceValueSelector));
         // Displays the UI for value selection.
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
-            KPPLogger log;
+            
 
             if (!(context.Instance is ICSCameraCapture)) {
                 return value;
             }
             SelectedCamera = (ICSCameraCapture)context.Instance;
-            log = SelectedCamera.log;
+            
             try {
 
                 Box1.Items.Clear();
@@ -756,7 +756,7 @@ namespace VisionModule {
 
     public class uEyeCamera : BaseCapture {
 
-
+        private static KPPLogger log = new KPPLogger(typeof(uEyeCamera));
 
         
 
@@ -1275,9 +1275,9 @@ namespace VisionModule {
 
 
 
-        KPPLogger log;
+        private static KPPLogger log = new KPPLogger(typeof(ICScamera));
         public ICScamera(ICImagingControl icsCamera,String ModuleName) {
-            log.SetNewLogger(this.GetType(), ModuleName);
+            
             try {
                 _name = icsCamera.Device;
                 Camera = icsCamera;
@@ -1354,7 +1354,7 @@ namespace VisionModule {
 
     public class ICSCameraCapture : BaseCapture {
 
-        
+        private static KPPLogger log = new KPPLogger(typeof(ICSCameraCapture));
 
         void SetCamera(String value) {
             try {
@@ -2010,27 +2010,7 @@ namespace VisionModule {
                     }
 
                 }
-                //switch (UseChannel) {
-                //    case Channel.Bgr:
-                //        break;
-                //    case Channel.Red:
-                //        CvInvoke.cvCvtColor(outimage[2], outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                //        break;
-                //    case Channel.Green:
-                //        CvInvoke.cvCvtColor(outimage[1], outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                //        break;
-                //    case Channel.Blue:
-                //        CvInvoke.cvCvtColor(outimage[0], outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                //        break;
-                //    case Channel.Mono:
-                //        //CvInvoke.cvCvtColor(outimage, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_BGR2GRAY);                        
-                //        Image<Gray, Byte> grayimage = new Image<Gray, byte>(outimage.Size);
-                //        grayimage.ConvertFrom<Bgr, Byte>(outimage);
-                //        CvInvoke.cvCvtColor(grayimage, outimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                //        break;
-                //    default:
-                //        break;
-                //}
+               
 
                 _ICSCamera.Camera.ImageActiveBuffer.Unlock();
 
@@ -2649,8 +2629,8 @@ namespace VisionModule {
     }
 
     public class CVCameraCapture : BaseCapture {
-        
 
+        private static KPPLogger log = new KPPLogger(typeof(CVCameraCapture));
         decimal _CamIndex = -1;
         [XmlAttribute("Camera Index")]
         public decimal CamIndex {
@@ -2823,14 +2803,10 @@ namespace VisionModule {
 
 
         public enum CameraTypes { Remote, DirectShow, CV, ICS, File, Inspection, Request, uEye, Undef }
-        
 
-        private static KPPLogger m_log;
-        [XmlIgnore,Browsable(false)]
-        public virtual KPPLogger log {
-            get { return m_log; }
-            //set { m_log = value; }
-        }
+
+        private static KPPLogger log = new KPPLogger(typeof(BaseCapture));
+        
 
         private String m_ModuleName;
         [XmlAttribute, Browsable(false)]
@@ -2839,7 +2815,7 @@ namespace VisionModule {
             set {
                 if (m_ModuleName != value) {
                     m_ModuleName = value;
-                    m_log = m_log.SetNewLogger(this.GetType(), value);
+                    
                 }
             }
         }

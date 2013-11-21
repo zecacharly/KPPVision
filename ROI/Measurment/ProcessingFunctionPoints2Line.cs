@@ -68,6 +68,7 @@ namespace VisionModule {
     [ProcessingFunction("Points 2 Line", "Measurement")]
     public class ProcessingFunctionPoints2Line: ProcessingFunctionBase {
 
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionPoints2Line));
 
         public ProcessingFunctionPoints2Line() {
 
@@ -231,16 +232,7 @@ namespace VisionModule {
                     LineAngle = theangle;
                 }
 
-                //base.IdentRegion = new Image<Gray, byte>(new Size(Math.Abs(Line.P1.X - Line.P2.X), Math.Abs(Line.P1.Y - Line.P2.Y)));
-                //CvInvoke.cvLine(base.IdentRegion, Line.P1, Line.P2, new MCvScalar(255), 0, Emgu.CV.CvEnum.LINE_TYPE.CV_AA, 0);
-                    
-
-                //KPPMath.FindCircle(point1, point2, point3, out _Center, out _Rad);
-
-                //Distance = Math.Round(Math.Sqrt(Math.Pow(point2.X - point1.X, 2) + Math.Pow(point2.Y - point1.Y,2)),3);
-                //DistanceX = Math.Round(Math.Abs(point1.X-point2.X), 3);
-                //DistanceY = Math.Round(Math.Abs(point1.Y - point2.Y), 3);
-
+              
                 switch (ResultsInROI) {
                     case OutputResultType.orContours:
                         break;

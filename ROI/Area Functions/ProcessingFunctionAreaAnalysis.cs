@@ -124,6 +124,7 @@ namespace VisionModule {
     [ProcessingFunction("Area Analysis","Area")]
     public class ProcessingFunctionAreaAnalysis : ProcessingFunctionBase {
 
+        private static KPPLogger log = new KPPLogger(typeof(ProcessingFunctionAreaAnalysis));
 
         public ProcessingFunctionAreaAnalysis() {
 

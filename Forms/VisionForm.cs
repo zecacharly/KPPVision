@@ -55,10 +55,9 @@ namespace VisionModule {
 
         #region Fields
 
-        private static KPPLogger log;
+        private static KPPLogger log= new KPPLogger(typeof(VisionForm));
         private DeserializeDockContent m_deserializeDockContent;        
-        private NotifyIcon trayIcon;
-        private ContextMenu trayMenu;
+        
         [DllImport("User32.dll")]
         private static extern Int32 SetForegroundWindow(int hWnd);
 
@@ -276,7 +275,7 @@ namespace VisionModule {
 
         public void InitModule(String moduleName, String visionSettingsFile) {
             ModuleName = moduleName;
-            log = new KPPLogger(typeof(VisionForm), name: ModuleName);
+             
            
             
             try {
