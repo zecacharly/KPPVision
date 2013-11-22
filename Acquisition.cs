@@ -76,6 +76,7 @@ namespace VisionModule {
             //}
             //else {
             CamSource = (BaseCapture)((Inspection)context.Instance).CaptureSource;
+            VisionProject selectedproject=((Inspection)context.Instance).SelectedProject;
             // }
 
 
@@ -104,7 +105,7 @@ namespace VisionModule {
                     if (caminfo == "File") {
 
 
-                        FileCapture newfilecap = new FileCapture("New file location");
+                        FileCapture newfilecap = new FileCapture(selectedproject);
 
                         return newfilecap;
 
@@ -112,7 +113,7 @@ namespace VisionModule {
                     } else if (caminfo == "Inspection") {
 
 
-                        InspectionCapture newfilecap = new InspectionCapture(((Inspection)context.Instance).SelectedProject);
+                        InspectionCapture newfilecap = new InspectionCapture(selectedproject);
                         //newfilecap.OnCaptureInspectionNameChanged += new InspectionCapture.CaptureInspectionNameChanged(newInspcap_OnCaptureInspectionNameChanged); ;
 
                         return newfilecap;
@@ -120,10 +121,10 @@ namespace VisionModule {
 
                     } else if (caminfo == "ICSCamera") {
 
-                        return new ICSCameraCapture();
+                        return new ICSCameraCapture(selectedproject);
 
                     } else if (caminfo == "CVCamera") {
-                        return new CVCameraCapture(((Inspection)context.Instance).SelectedProject);
+                        return new CVCameraCapture(selectedproject);
                     }
                         //else if (caminfo is PythonRemoteCapture) {
                         //    if (CamSource != null) {
@@ -134,10 +135,10 @@ namespace VisionModule {
                         //    }
                         //}
                       else if (caminfo == "DirectShowCamera") {
-                        return new DirectShowCameraCapture();
+                          return new DirectShowCameraCapture(selectedproject);
                     } else if (caminfo == "uEyeCamera") {
 
-                        return new uEyeCamera(((Inspection)context.Instance).SelectedProject);
+                        return new uEyeCamera(selectedproject);
 
                     } else {
                         return value;
@@ -404,16 +405,15 @@ namespace VisionModule {
             
             Box1.Items.Clear();
 
-            foreach (Request req in selectedcap.InspectionSource.SelectedProject.RequestList) {
+            foreach (Request req in selectedcap.SelectedProject.RequestList) {
                 foreach (Inspection insp in req.Inspections) {
-                    if (insp.RequestID != selectedcap.InspectionSource.SelectedProject.SelectedRequest.ID) {
+                    if (insp.ID != selectedcap.SelectedProject.SelectedRequest.ID) {
                         Box1.Items.Add(insp);
                     } else {
-                        if (insp.Name != selectedcap.InspectionSource.SelectedProject.SelectedRequest.SelectedInspection.Name) {
+                        if (req.ID!=selectedcap.SelectedProject.SelectedRequest.ID) {
                             Box1.Items.Add(insp);
                         }
                     }
-
 
                 }
             }
@@ -2034,11 +2034,12 @@ namespace VisionModule {
             return "ICS:" + this.CameraName;
         }
 
-        //public ICSCameraCapture(VisionProject selectedProject){
-        //    _CameraName.OnMemberRedo += new UndoRedo<string>.MemberRedo(_CameraName_OnMemberRedo);
-        //    _CameraName.OnMemberUndo += new UndoRedo<string>.MemberUndo(_CameraName_OnMemberRedo);
-        //    Camtype = CameraTypes.ICS;
-        //}
+        public ICSCameraCapture(VisionProject selectedProject) {
+            base.SelectedProject = selectedProject;
+            _CameraName.OnMemberRedo += new UndoRedo<string>.MemberRedo(_CameraName_OnMemberRedo);
+            _CameraName.OnMemberUndo += new UndoRedo<string>.MemberUndo(_CameraName_OnMemberRedo);
+            Camtype = CameraTypes.ICS;
+        }
 
         public ICSCameraCapture() {
 
@@ -2058,7 +2059,7 @@ namespace VisionModule {
 
         public ICSCameraCapture(String DeviceName) {
 
-
+            
             CameraName = DeviceName;
 
         }
@@ -2127,11 +2128,13 @@ namespace VisionModule {
             return FileLoc;
         }
 
-        public FileCapture(String name){
-            CameraName = name;
+
+        public FileCapture(VisionProject selectedProject) {
+            base.SelectedProject = selectedProject;            
             FileLoc = "Select file location";
+            CameraName = FileLoc;
             this.Camtype = CameraTypes.File;
-            //SpecialFunctions.ChageAttributeValue<ReadOnlyAttribute>(this, "CameraName", "isReadOnly", false);
+            
 
 
         }
@@ -2239,7 +2242,7 @@ namespace VisionModule {
 
 
         String _CameraName = "";
-        [XmlAttribute, DisplayName("Camera Name"), ReadOnly(false)]
+        [XmlAttribute, DisplayName("Camera Name"), ReadOnly(true)]
         public override String CameraName {
             get {
                 return _CameraName;
@@ -2369,8 +2372,9 @@ namespace VisionModule {
 
         }
 
-        public InspectionCapture(String name, VisionProject selectedproject){
-            CameraName = name;
+        public InspectionCapture( VisionProject selectedproject){
+            base.SelectedProject = selectedproject;            
+            CameraName ="Select Inspection";
 
             this.Camtype = CameraTypes.Inspection;
             //SpecialFunctions.ChageAttributeValue<ReadOnlyAttribute>(this, "CameraName", "isReadOnly", false);
@@ -2378,15 +2382,7 @@ namespace VisionModule {
 
         }
 
-        public InspectionCapture(VisionProject selectedproject) {
-
-            CameraName = "Select Inspection";
-
-            this.Camtype = CameraTypes.Inspection;
-            //SpecialFunctions.ChageAttributeValue<ReadOnlyAttribute>(this, "CameraName", "isReadOnly", false);
-
-
-        }
+        
 
 
         public InspectionCapture() {
@@ -2603,11 +2599,11 @@ namespace VisionModule {
             return "Direct Show Capture";
         }
 
-        //public DirectShowCameraCapture(VisionProject selectedproject) {
- 
-        //    this.CameraName = "Direct Show input";
-        //    this.Camtype = CameraTypes.DirectShow;
-        //}
+        public DirectShowCameraCapture(VisionProject selectedproject) {
+            base.SelectedProject = selectedproject;
+            this.CameraName = "Direct Show input";
+            this.Camtype = CameraTypes.DirectShow;
+        }
 
         public DirectShowCameraCapture() {
             
@@ -2766,6 +2762,7 @@ namespace VisionModule {
         }
 
         public CVCameraCapture(VisionProject selectedproject) {
+            base.SelectedProject = selectedproject;
         }
 
         public CVCameraCapture() {
@@ -2789,7 +2786,7 @@ namespace VisionModule {
 
 
 
-    //[XmlInclude(typeof(RemoteCameraCapture))]
+    
     [XmlInclude(typeof(DirectShowCameraCapture))]
     [XmlInclude(typeof(CVCameraCapture))]
     [XmlInclude(typeof(ICSCameraCapture))]
@@ -2835,8 +2832,8 @@ namespace VisionModule {
             }
         }
 
-
-
+        [XmlIgnore,Browsable(false)]
+        public VisionProject SelectedProject;
 
         public virtual void UpdateSource() {
 

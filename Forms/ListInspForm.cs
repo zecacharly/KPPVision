@@ -766,7 +766,7 @@ namespace VisionModule {
                 if (dlgResult == System.Windows.Forms.DialogResult.Yes) {
 
 
-                    SelectedProject.SelectedRequest.AddInspection();
+                    SelectedProject.SelectedRequest.AddInspection(SelectedProject);
 
 
 

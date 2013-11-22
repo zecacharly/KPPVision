@@ -82,7 +82,7 @@ namespace VisionModule {
 
         ArrowPadControl ArrowPad = null;
         ProjectOptionsForm _ProjectOptionsForm = new ProjectOptionsForm();
-        IOSettingsForm _IOSettingsForm = new IOSettingsForm();
+        
         ConfigurationsForm _ConfigurationsForm = new ConfigurationsForm();
         ListInspForm _ListInspForm = new ListInspForm();
         ImageContainerForm _ImageContainer = new ImageContainerForm();
@@ -318,6 +318,8 @@ namespace VisionModule {
 
                 VisionConfig.DockFile = Path.Combine(Path.GetDirectoryName(visionSettingsFile),ModuleName+".dock");
 
+                PhidgetsIO.InitializePhidgets();
+
                 if (File.Exists(VisionConfig.DockFile))
                     try {
                         __dockPanel1.LoadFromXml(VisionConfig.DockFile, m_deserializeDockContent);
@@ -509,7 +511,7 @@ namespace VisionModule {
                 //this.Activate();
 
 
-
+                //PhidgetsIO.InitializePhidgets();
 
 
                 #region Android
@@ -1889,15 +1891,16 @@ namespace VisionModule {
                                 _inspect.UpdateInspection();
                                 if (_inspect.CaptureSource != null) {
                                     _inspect.CaptureSource.UpdateSource();
+                                    _inspect.CaptureSource.ModuleName = ModuleName;
                                 }
-                                _inspect.CaptureSource.ModuleName = ModuleName;
+                                
                                 Inspections_OnItemAdded(_inspect);
 
-
+                                
 
                                 if (_inspect.CaptureSource is InspectionCapture) {
                                     InspectionCapture cap = _inspect.CaptureSource as InspectionCapture;
-
+                                    cap.SelectedProject = _inspect.SelectedProject;
                                     List<String> SourceInfo = cap.InspectionName.Split(new Char[] { '.' }, StringSplitOptions.None).ToList();
                                     if (SourceInfo.Count == 2) {
                                         Request thereq = ((VisionProject)(VisionConfig.SelectedProject)).RequestList.Find(r => r.ID == int.Parse(SourceInfo[1]));

@@ -56,6 +56,12 @@ namespace VisionModule {
             get { return _Angle; }            
         }
 
+        private Double _Vertices = -1;
+        [UseInRef(true), AllowDrag(true), UseInResultInput(true)]
+        public Double Vertices {
+            get { return _Vertices; }
+        }
+
         private Rectangle _BoundingBox = Rectangle.Empty;
         [DisplayName("Bounding Box")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -111,10 +117,17 @@ namespace VisionModule {
             set { _PixelDeviation = value; }
         }
 
-        public BlobInfo(CvBlob blob, Rectangle RoiRegion, ProcessingFunctionPixelanalysis pixelanalisys) {
-
+        private CvBlob _Blob;
+        [XmlIgnore,Browsable(false)]
+        public CvBlob Blob {
+            get { return _Blob; }
             
+        }
 
+        public BlobInfo(CvBlob blob, Rectangle RoiRegion, ProcessingFunctionPixelanalysis pixelanalisys,Double vertices=-1) {
+
+            _Blob = blob;
+            _Vertices = vertices;
             _Area = blob.Area;
             _ID= blob.Label.ToString();
             //Translate
@@ -148,6 +161,17 @@ namespace VisionModule {
 
    [TypeConverter(typeof(ExpandableObjectConverter))]
    public class BlobConstraint {
+
+
+       
+       private ShapeType _Shape = ShapeType.None;
+       [XmlAttribute]
+       [Category("Pre-Processing"), Description("Filter shapes"), DisplayName("Shape")]
+       public ShapeType Shape {
+           get { return _Shape; }
+           set { _Shape = value; }
+       }
+
 
 
        [XmlAttribute]
@@ -351,36 +375,65 @@ namespace VisionModule {
 
                             List<CvBlob> blobarray = blobs.Values.ToList();
 
-                            List<CvBlob> newbloblist = new List<CvBlob>();
+                            //List<CvBlob> newbloblist = new List<CvBlob>();
 
                             foreach (CvBlob blob in blobarray) {
                                 if (blob.BoundingBox.Left != grayimage.ROI.Left && blob.BoundingBox.Top != grayimage.ROI.Top && blob.BoundingBox.Right != grayimage.ROI.Right && blob.BoundingBox.Bottom != grayimage.ROI.Bottom) {
                                     if (blob.BoundingBox.Width > BlobSettings.MinBlobWidth && blob.BoundingBox.Width < BlobSettings.MaxBlobWidth &&
                                         blob.BoundingBox.Height > BlobSettings.MinBlobHeigth && blob.BoundingBox.Height < BlobSettings.MaxBlobHeigth) {
-                                        newbloblist.Add(blob);
+                                        //newbloblist.Add(blob);
                                         Image<Gray, Byte> BlobImage = new Image<Gray, byte>(blob.BoundingBox.Size);
                                         originalgrayimage.ROI = blob.BoundingBox;
                                         originalgrayimage.CopyTo(BlobImage);
-
+                                        Boolean goodblob = false;
+                                        Double vertices = -1;
                                         Image<Gray, Byte> mask = new Image<Gray, byte>(grayimage.Size);
                                         using (MemStorage mem = new MemStorage()) {
 
                                             Contour<Point> ctr = blob.GetContour(mem);
-                                            //Seq<Point> pts = new Seq<Point>(mem);
-                                            //foreach (Point item in ctr) {
-                                            //    pts.Push(item);
-                                            //}
-                                            //mask.Draw(pts.ToArray(), true,new Gray(128), 2);
+                                            
                                             mask.Draw(ctr, new Gray(255), -1);
                                             //mask.Erode(2);
                                             mask.ROI = blob.BoundingBox;
                                             Image<Gray, Byte> Finalmask = new Image<Gray, byte>(blob.BoundingBox.Size);
                                             mask.CopyTo(Finalmask);
-                                            //Finalmask.Save("D:\\temp2.bmp");
+                                           
                                             BlobSettings.PixelAnalisys.MaskImage = Finalmask;
+
+                                            using (MemStorage ctr_storage= new MemStorage()) {
+                                               Contour<Point> approxed_ctr=ctr.ApproxPoly(1,ctr_storage);
+                                               if (ResultsInROI == OutputResultType.orContours) {
+                                                   ImageOut.Draw(approxed_ctr, new Bgr(Color.Red), 2);
+                                               }
+                                               switch (BlobSettings.Shape) {
+                                                   case ShapeType.Circle:
+                                                       ctr.GetShape(ShapeType.Circle,ImageOut);
+
+                                                       break;
+                                                   case ShapeType.Rectangle:
+                                                       break;
+                                                   case ShapeType.Triangle:
+                                                       break;
+                                                   case ShapeType.Polygon:
+                                                       break;
+                                                   case ShapeType.None:
+                                                       goodblob = true;
+                                                       break;
+                                                   default:
+                                                       goodblob = true;
+                                                       break;
+                                               }
+
+                                            }
+
                                         }
                                         BlobSettings.PixelAnalisys.Process(new Image<Bgr, byte>(BlobImage.ToBitmap()), new Image<Bgr, byte>(BlobImage.ToBitmap()), Rectangle.Empty);
-                                        BlobsList.Add(new BlobInfo(blob, RoiRegion, BlobSettings.PixelAnalisys));
+
+
+
+                                        if (goodblob) {
+                                            BlobsList.Add(new BlobInfo(blob, RoiRegion, BlobSettings.PixelAnalisys, vertices)); 
+                                        }
                                     }
                                 }
 
@@ -411,16 +464,16 @@ namespace VisionModule {
 
                             if (ResultsInROI == OutputResultType.orResults) {
 
-                                foreach (CvBlob blob in newbloblist) {
-                                    ImageOut.Draw(blob.BoundingBox, new Bgr(Color.Green), 1);
-                                    ImageOut.Draw(new Cross2DF(blob.Centroid, 3, 3), new Bgr(Color.Green), 1);
+                                foreach (BlobInfo blobinf in BlobsList) {
+                                    ImageOut.Draw(blobinf.BoundingBox, new Bgr(Color.Green), 1);
+                                    ImageOut.Draw(new Cross2DF(blobinf.Center, 3, 3), new Bgr(Color.Green), 1);
                                 }
                             } else if (ResultsInROI == OutputResultType.orContours) {
-                                foreach (CvBlob blob in blobarray) {
+                                foreach (BlobInfo blobinf in BlobsList) {
                                     using (MemStorage contourstorage = new MemStorage()) {
-                                        Contour<Point> contour = blob.GetContour(contourstorage);
+                                        Contour<Point> contour = blobinf.Blob.GetContour(contourstorage);
                                         ImageOut.Draw(contour, new Bgr(Color.Yellow), 1);
-                                        ImageOut.Draw(new Cross2DF(blob.Centroid, 3, 3), new Bgr(Color.Yellow), 1); 
+                                        ImageOut.Draw(new Cross2DF(blobinf.Blob.Centroid, 3, 3), new Bgr(Color.Yellow), 1); 
                                     }
                                 }
                             } else if (ResultsInROI== OutputResultType.orPreProcessing) {
@@ -431,7 +484,7 @@ namespace VisionModule {
 
 
 
-                            NumBlobs = newbloblist.Count();
+                            NumBlobs = BlobsList.Count;
                         } catch (DllNotFoundException exp) {
                             log.Error(exp);
                             return false;

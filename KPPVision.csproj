@@ -212,12 +212,6 @@
     <Compile Include="Forms\InspImageCtrl.designer.cs">
       <DependentUpon>InspImageCtrl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\IOSettingsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\IOSettingsForm.designer.cs">
-      <DependentUpon>IOSettingsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\KeyPad.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -369,12 +363,6 @@
     <EmbeddedResource Include="Forms\InspectionsForm.resx" />
     <EmbeddedResource Include="Forms\InspImageCtrl.resx">
       <DependentUpon>InspImageCtrl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\IOSettingsForm.pt-PT.resx">
-      <DependentUpon>IOSettingsForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\IOSettingsForm.resx">
-      <DependentUpon>IOSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\KeyPad.resx" />
     <EmbeddedResource Include="Forms\ListInspForm.pt-PT.resx">

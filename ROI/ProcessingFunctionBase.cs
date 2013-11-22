@@ -715,8 +715,53 @@ namespace VisionModule {
 
     public enum TypeOfThreshold { Normal, Inverted, Adaptive, None }
 
+    public enum ShapeType {Circle,Rectangle,Triangle,Polygon,None}
 
-    
+    public static class ExtenstionFunctions {
+        public static ShapeDefinition GetShape(this Contour<Point> contour,ShapeType shapetype,Image<Bgr,Byte> DrawImage) {
+            switch (shapetype) {
+                case ShapeType.Circle:
+                    PointF center= new PointF();
+                    float radius=-1;
+                    Boolean goodfit=CvInvoke.cvMinEnclosingCircle(contour.Ptr, out center, out radius);
+                    DrawImage.Draw(new CircleF(center, radius-2), new Bgr(Color.Blue), 2);
+                    int totalcount = 0;
+                    for (int i = 0; i < contour.Total; i++) {
+                        Point pt = contour[i];
+                        Double rad = Math.Sqrt(Math.Pow((pt.X - center.X), 2) + Math.Pow((pt.Y - center.Y), 2));
+                        if (rad >= radius - 3 && rad <= radius +1) {
+                            totalcount++;
+                        }
+                    }
+                    Double fit = (Double)totalcount / (Double)contour.Total;
+
+                    if (goodfit) {
+                        
+                    }
+                    break;
+                case ShapeType.Rectangle:
+                    break;
+                case ShapeType.Triangle:
+                    break;
+                case ShapeType.Polygon:
+                    break;
+                case ShapeType.None:
+                    break;
+                default:
+                    break;
+            }
+
+            return new ShapeDefinition();
+        }
+
+    }
+
+    public class ShapeDefinition{
+        
+        public ShapeDefinition(){
+
+        }
+    }
 
     #region Includes
     [XmlInclude(typeof(ProcessingFunctionConstant))]    
@@ -746,7 +791,8 @@ namespace VisionModule {
     [Serializable()]
     public abstract class ProcessingFunctionBase : ICloneable, IDisposable {
 
-       
+        
+
         static public double ConvertToRadians(double angle) {
             return (Math.PI / 180) * angle;
         }

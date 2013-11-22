@@ -659,28 +659,12 @@ namespace VisionModule {
         [XmlIgnore, Browsable(false)]
         public VisionProject SelectedProject = null;
 
-        private int _UseIO = -1;
-        [XmlAttribute]
-        public int UseIO {
-            get { return _UseIO; }
-            set { _UseIO = value; }
-        }
+       
 
         private int _ID;
         private Boolean _active = true;
         private ROI _selectedroi = null;
 
-
-
-
-
-
-
-
-
-        //[XmlIgnore]
-        //[Browsable(false)]
-        //public Object  = null;
 
         [XmlIgnore]
         public Layer InspLayer = null;
@@ -996,14 +980,24 @@ namespace VisionModule {
 
 
 
+
+        private PhidgetsIO _phidgetsIO = new PhidgetsIO();
+        [TypeConverter(typeof(ExpandableObjectConverter)), Category("IO")]
+        public PhidgetsIO phidgetsIO {
+            get { return _phidgetsIO; }
+            set {               
+                _phidgetsIO = value; 
+            }
+        }
+
         public void CaptureImage(Object Sender) {
 
             try {
 
 
-                if (UseIO > -1) {
+                if (phidgetsIO.PreInspectionOutput > -1) {
 
-                    if (PhidgetsIO.SendCommand("SET_OUT", new String[] { UseIO.ToString(), "ON" })) {
+                    if (phidgetsIO.SendCommand("SET_OUT", new String[] {phidgetsIO.PreInspectionOutput.ToString(), "ON" })) {
                         Thread.Sleep(25);
                     }
                 }
@@ -1067,8 +1061,8 @@ namespace VisionModule {
 
                 }
 
-                if (UseIO > -1) {
-                    PhidgetsIO.SendCommand("SET_OUT", new String[] { UseIO.ToString(), "OFF" });
+                if (phidgetsIO.PreInspectionOutput > -1) {
+                    phidgetsIO.SendCommand("SET_OUT", new String[] { phidgetsIO.PreInspectionOutput.ToString(), "OFF" });
                 }
 
                 if (OnCaptureDone != null) {
@@ -1491,9 +1485,13 @@ namespace VisionModule {
                 }
 
             }
-            if (UseIO > -1) {
-                PhidgetsIO.SendCommand("SET_OUT", new String[] { UseIO.ToString(), "OFF" });
+
+            if (phidgetsIO.PreInspectionOutput > -1) {
+                phidgetsIO.SendCommand("SET_OUT", new String[] { phidgetsIO.PreInspectionOutput.ToString(), "OFF" });
             }
+
+            phidgetsIO.Disconnect();
+
             SelectedROI = null;
 
         }
@@ -1656,13 +1654,13 @@ namespace VisionModule {
 
 
 
-        public void AddInspection() {
+        public void AddInspection(VisionProject selectedproject) {
 
 
 
             try {
 
-                // this. 
+                 
                 int id = -1;
                 for (int i = 0; i < Inspections.Count + 1; i++) {
                     if (!Inspections.Exists(insp => insp.ID == i)) {
@@ -1676,6 +1674,7 @@ namespace VisionModule {
                 Inspection newInsp = new Inspection("NewInspection", id);
                 newInsp.InspPos = id + 1;
                 newInsp.RequestName = this.Name;
+                newInsp.SelectedProject = selectedproject;
                 if (!UndoRedoManager.IsCommandStarted) {
                     using (UndoRedoManager.Start("new Inspection added:" + Name)) {
                         Inspections.Add(newInsp);
@@ -2423,6 +2422,7 @@ namespace VisionModule {
 
         private static KPPLogger log = new KPPLogger(typeof(VisionSettings));
        
+
 
         public VisionSettings() {
             

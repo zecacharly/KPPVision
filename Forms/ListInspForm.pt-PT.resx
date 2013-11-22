@@ -118,14 +118,32 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="__propertyGridinsp.Size" type="System.Drawing.Size, System.Drawing">
-    <value>443, 202</value>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>463, 614</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>465, 616</value>
+  </data>
+  <data name="__tabsInspconf.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 363</value>
+  </data>
+  <data name="__tabsInspconf.Size" type="System.Drawing.Size, System.Drawing">
+    <value>457, 234</value>
   </data>
   <data name="tabPage3.Size" type="System.Drawing.Size, System.Drawing">
     <value>449, 208</value>
   </data>
   <data name="tabPage3.Text" xml:space="preserve">
     <value>Configuração da inspeção</value>
+  </data>
+  <data name="__propertyGridinsp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>443, 202</value>
+  </data>
+  <data name="tabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>449, 208</value>
+  </data>
+  <data name="tabPage2.Text" xml:space="preserve">
+    <value>ROI's da inspeção</value>
   </data>
   <data name="__olvROIName.Text" xml:space="preserve">
     <value>Nome</value>
@@ -149,36 +167,23 @@
   <data name="__olvNopart.Width" type="System.Int32, mscorlib">
     <value>120</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="resource.Text" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="__listRoi.Size" type="System.Drawing.Size, System.Drawing">
+    <value>443, 202</value>
   </data>
-  <data name="tabPage2.Text" xml:space="preserve">
-    <value>ROI's da inspeção</value>
-  </data>
-  <data name="olvColumn1.Text" xml:space="preserve">
-    <value>Nome</value>
-  </data>
-  <data name="resource.Text1" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="tabPage4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>449, 208</value>
   </data>
   <data name="tabPage4.Text" xml:space="preserve">
     <value>ROI's Auxiliares</value>
   </data>
-  <data name="__tabsInspconf.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 363</value>
+  <data name="__ListAuxROIS.Size" type="System.Drawing.Size, System.Drawing">
+    <value>443, 202</value>
   </data>
-  <data name="__tabsInspconf.Size" type="System.Drawing.Size, System.Drawing">
-    <value>457, 234</value>
-  </data>
-  <data name="olvColumn2.Text" xml:space="preserve">
+  <data name="olvColumn1.Text" xml:space="preserve">
     <value>Nome</value>
   </data>
-  <data name="resource.Text2" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="__ListRequests.Size" type="System.Drawing.Size, System.Drawing">
-    <value>443, 142</value>
+  <data name="__tabsRequest.Size" type="System.Drawing.Size, System.Drawing">
+    <value>457, 174</value>
   </data>
   <data name="Requeststab.Size" type="System.Drawing.Size, System.Drawing">
     <value>449, 148</value>
@@ -186,26 +191,11 @@
   <data name="Requeststab.Text" xml:space="preserve">
     <value>Pedidos</value>
   </data>
-  <data name="__tabsRequest.Size" type="System.Drawing.Size, System.Drawing">
-    <value>457, 174</value>
-  </data>
-  <data name="_olvInspName.Text" xml:space="preserve">
+  <data name="olvColumn2.Text" xml:space="preserve">
     <value>Nome</value>
   </data>
-  <data name="olvColumnInsppos.Text" xml:space="preserve">
-    <value>Posição</value>
-  </data>
-  <data name="resource.Text3" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="__listinspections.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="__ListRequests.Size" type="System.Drawing.Size, System.Drawing">
     <value>443, 142</value>
-  </data>
-  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>449, 148</value>
-  </data>
-  <data name="tabPage1.Text" xml:space="preserve">
-    <value>Inspeção</value>
   </data>
   <data name="__tabsInsp.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 183</value>
@@ -213,11 +203,20 @@
   <data name="__tabsInsp.Size" type="System.Drawing.Size, System.Drawing">
     <value>457, 174</value>
   </data>
-  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>463, 614</value>
+  <data name="tabPage1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>449, 148</value>
   </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>465, 616</value>
+  <data name="tabPage1.Text" xml:space="preserve">
+    <value>Inspeção</value>
+  </data>
+  <data name="_olvInspName.Text" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="olvColumnInsppos.Text" xml:space="preserve">
+    <value>Posição</value>
+  </data>
+  <data name="__listinspections.Size" type="System.Drawing.Size, System.Drawing">
+    <value>443, 142</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>465, 616</value>
