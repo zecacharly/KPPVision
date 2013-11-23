@@ -379,7 +379,7 @@ namespace VisionModule {
                                 checkshape.RelativeDistortionLimit = 0.1f;
                                 checkshape.MinAcceptableDistortion= 0.6f;
                                 ShapeType shape=checkshape.CheckShapeType(edgePoints);
-                                item.
+                                
                                 if (shape== ShapeType.Circle) {
                                     if (true) {
                                         
