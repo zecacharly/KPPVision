@@ -121,6 +121,9 @@
     <Reference Include="KPP Core">
       <HintPath>..\_External\KPP Core\KPP Core.dll</HintPath>
     </Reference>
+    <Reference Include="Net.Kniaz.LMA">
+      <HintPath>..\_External\LMA\bin\Release\Net.Kniaz.LMA.dll</HintPath>
+    </Reference>
     <Reference Include="ObjectListView">
       <HintPath>..\_External\ObjectListView.dll</HintPath>
     </Reference>
@@ -262,6 +265,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ROI\AForge\ShapeChecker.cs" />
     <Compile Include="Vision.cs" />
     <Compile Include="Forms\OutputResultConfForm.cs">
       <SubType>Form</SubType>

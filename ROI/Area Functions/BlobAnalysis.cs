@@ -168,7 +168,7 @@ namespace VisionModule {
 
 
 
-        private ShapeType _Shape = ShapeType.None;
+        private ShapeType _Shape = ShapeType.Unknown;
         [XmlAttribute]
         [Category("Pre-Processing"), Description("Filter shapes"), DisplayName("Shape")]
         public ShapeType Shape {
@@ -365,88 +365,31 @@ namespace VisionModule {
                         }
 
                         try {
-                            //BlobCounterBase bc = new BlobCounter();
-                            //bc.FilterBlobs = true;
-                            //bc.MinWidth = 5;
-                            //bc.MinHeight = 5;
-                            //// set ordering options
-                            //bc.ObjectsOrder = ObjectsOrder.Size;
-                            //// process binary image
-                            //bc.ProcessImage(grayimage.ToBitmap());
-                            //Blob[] blobs2 = bc.GetObjectsInformation();
-                            //// extract the biggest blob
-                            //if (blobs2.Length > 0) {
-                            //    bc.ExtractBlobsImage(grayimage.ToBitmap(), blobs2[0], true);
-                            //}
 
-                            Bitmap image = grayimage.ToBitmap();
-                         
-                            //BlobCounter blobCounter = new BlobCounter();
-                            //blobCounter.ProcessImage(image);
-                            //Blob[] blobs2 = blobCounter.GetObjectsInformation();
-
-                            //// create convex hull searching algorithm
-                            //GrahamConvexHull hullFinder = new GrahamConvexHull();
-
-                          
-
-                            //// process each blob
-                            //foreach (Blob blob in blobs2) {
-                            //    List<IntPoint> leftPoints=new List<IntPoint>(), rightPoints= new List<IntPoint>(), edgePoints= new List<IntPoint>();
-
-                            //    // get blob's edge points
-                            //    blobCounter.GetBlobsLeftAndRightEdges(blob,
-                            //        out leftPoints, out rightPoints);
-
-                            //    edgePoints.AddRange(leftPoints);
-                            //    edgePoints.AddRange(rightPoints);
-
-                            //    // blob's convex hull
-                            //    List<IntPoint> hull = hullFinder.FindHull(edgePoints);
-                                
-                             
-                            //}
-
-
-                            // create instance of blob counter
-                            float minAcceptableDistortion = 0.5f;
-                            float relativeDistortionLimit = 0.03f;
-
-                            BlobCounter blobCounter = new BlobCounter();
+                            #region AFORGE
+                                Bitmap image= grayimage.ToBitmap();
+                              BlobCounter blobCounter = new BlobCounter();
                             // process input image
                             blobCounter.ProcessImage(image);
                             // get information about detected objects
                             Blob[] blobs2 = blobCounter.GetObjectsInformation();
-
+                            SimpleShapeChecker checkshape = new SimpleShapeChecker();
                             foreach (Blob item in blobs2) {
                                 List<IntPoint> edgePoints = blobCounter.GetBlobsEdgePoints(item);
-
-
-                                // get bounding rectangle of the points list
-                                IntPoint minXY, maxXY;
-                                PointsCloud.GetBoundingRectangle(edgePoints, out minXY, out maxXY);
-                                // get cloud's size
-                                IntPoint cloudSize = maxXY - minXY;
-                                // calculate center point
-                                DoublePoint center = minXY + (DoublePoint)cloudSize / 2;
-                                // calculate radius
-                                float radius = ((float)cloudSize.X + cloudSize.Y) / 4;
-
-                                // calculate mean distance between provided edge points
-                                // and estimated circle's edge
-                                float meanDistance = 0;
-
-                                for (int i = 0, n = edgePoints.Count; i < n; i++) {
-                                    meanDistance += Math.Abs(
-                                        (float)center.DistanceTo(edgePoints[i]) - radius);
+                                checkshape.RelativeDistortionLimit = 0.1f;
+                                checkshape.MinAcceptableDistortion= 0.6f;
+                                ShapeType shape=checkshape.CheckShapeType(edgePoints);
+                                item.
+                                if (shape== ShapeType.Circle) {
+                                    if (true) {
+                                        
+                                    }
                                 }
-                                meanDistance /= edgePoints.Count;
-
-                                float maxDitance = ((float)cloudSize.X + cloudSize.Y) / 2 *relativeDistortionLimit;
-
                             }
 
-
+                            
+                            
+                            #endregion
 
 
 
@@ -497,17 +440,13 @@ namespace VisionModule {
                                                 }
                                                 switch (BlobSettings.Shape) {
                                                     case ShapeType.Circle:
-                                                        ctr.GetShape(ShapeType.Circle, ImageOut);
+
+                                                        
 
                                                         break;
-                                                    case ShapeType.Rectangle:
+                                                    case ShapeType.Quadrilateral:
                                                         break;
                                                     case ShapeType.Triangle:
-                                                        break;
-                                                    case ShapeType.Polygon:
-                                                        break;
-                                                    case ShapeType.None:
-                                                        goodblob = true;
                                                         break;
                                                     default:
                                                         goodblob = true;
