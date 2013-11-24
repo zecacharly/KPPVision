@@ -170,13 +170,11 @@ namespace VisionModule {
             set { _Shape = value; }
         }
 
-        [XmlAttribute]
-        [Category("Pre-Processing"), Description("Min acceptable shape distortion"), DisplayName("Acceptable Distortion")]
-        public float MinShapeDistortion { get; set; }
+     
 
         [XmlAttribute]
-        [Category("Pre-Processing"), Description("Min acceptable relative shape distortion"), DisplayName("Relative Distortion")]
-        public float RelShapeDistortion { get; set; }
+        [Category("Pre-Processing"), Description("Acceptable shape distortion (0-100%)"), DisplayName("Distortion")]
+        public float ShapeDistortion { get; set; }
 
 
         [XmlAttribute]
@@ -450,8 +448,8 @@ namespace VisionModule {
                                                         continue;
                                                     }
                                                     SimpleShapeChecker checkshape = new SimpleShapeChecker();
-                                                    checkshape.RelativeDistortionLimit = BlobSettings.RelShapeDistortion;
-                                                    checkshape.MinAcceptableDistortion = BlobSettings.MinShapeDistortion;
+                                                    checkshape.RelativeDistortionLimit = BlobSettings.ShapeDistortion/100;
+                                                    
 
                                                     ShapeType shape = checkshape.CheckShapeType(edgePoints);
 
