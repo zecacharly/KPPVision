@@ -60,12 +60,6 @@ namespace VisionModule {
             get { return _Angle; }
         }
 
-        private Double _Vertices = -1;
-        [UseInRef(true), AllowDrag(true), UseInResultInput(true)]
-        public Double Vertices {
-            get { return _Vertices; }
-        }
-
         private Rectangle _BoundingBox = Rectangle.Empty;
         [DisplayName("Bounding Box")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -128,10 +122,10 @@ namespace VisionModule {
 
         }
 
-        public BlobInfo(CvBlob blob, Rectangle RoiRegion, ProcessingFunctionPixelanalysis pixelanalisys, Double vertices = -1) {
+        public BlobInfo(CvBlob blob, Rectangle RoiRegion, ProcessingFunctionPixelanalysis pixelanalisys) {
 
             _Blob = blob;
-            _Vertices = vertices;
+        
             _Area = blob.Area;
             _ID = blob.Label.ToString();
             //Translate
@@ -176,6 +170,13 @@ namespace VisionModule {
             set { _Shape = value; }
         }
 
+        [XmlAttribute]
+        [Category("Pre-Processing"), Description("Min acceptable shape distortion"), DisplayName("Acceptable Distortion")]
+        public float MinShapeDistortion { get; set; }
+
+        [XmlAttribute]
+        [Category("Pre-Processing"), Description("Min acceptable relative shape distortion"), DisplayName("Relative Distortion")]
+        public float RelShapeDistortion { get; set; }
 
 
         [XmlAttribute]
@@ -367,25 +368,26 @@ namespace VisionModule {
                         try {
 
                             #region AFORGE
-                                Bitmap image= grayimage.ToBitmap();
-                              BlobCounter blobCounter = new BlobCounter();
-                            // process input image
-                            blobCounter.ProcessImage(image);
-                            // get information about detected objects
-                            Blob[] blobs2 = blobCounter.GetObjectsInformation();
-                            SimpleShapeChecker checkshape = new SimpleShapeChecker();
-                            foreach (Blob item in blobs2) {
-                                List<IntPoint> edgePoints = blobCounter.GetBlobsEdgePoints(item);
-                                checkshape.RelativeDistortionLimit = 0.1f;
-                                checkshape.MinAcceptableDistortion= 0.6f;
-                                ShapeType shape=checkshape.CheckShapeType(edgePoints);
+                            //    Bitmap image= grayimage.ToBitmap();
+                            //  BlobCounter blobCounter = new BlobCounter();
+                            //// process input image
+                            //blobCounter.ProcessImage(image);
+                            //// get information about detected objects
+                            //Blob[] blobs2 = blobCounter.GetObjectsInformation();
+                            //SimpleShapeChecker checkshape = new SimpleShapeChecker();
+                            //foreach (Blob item in blobs2) {
+                            //    List<IntPoint> edgePoints = blobCounter.GetBlobsEdgePoints(item);
+                            //    if (edgePoints.Count<10) {
+                            //        continue;
+                            //    }
+                            //    checkshape.RelativeDistortionLimit = 0.1f;
+                            //    checkshape.MinAcceptableDistortion= 0.7f;
+                            //    ShapeType shape=checkshape.CheckShapeType(edgePoints);
                                 
-                                if (shape== ShapeType.Circle) {
-                                    if (true) {
-                                        
-                                    }
-                                }
-                            }
+                            //    if (shape== ShapeType.Circle) {
+                            //        ImageOut.Draw(item.Rectangle, new Bgr(Color.Green),2);
+                            //    }
+                            //}
 
                             
                             
@@ -405,6 +407,7 @@ namespace VisionModule {
                                 blobs.FilterByArea(BlobSettings.MinBlobArea, BlobSettings.MaxBlobArea);
                             }
 
+                            
 
                             List<CvBlob> blobarray = blobs.Values.ToList();
 
@@ -419,7 +422,7 @@ namespace VisionModule {
                                         originalgrayimage.ROI = blob.BoundingBox;
                                         originalgrayimage.CopyTo(BlobImage);
                                         Boolean goodblob = false;
-                                        Double vertices = -1;
+
                                         Image<Gray, Byte> mask = new Image<Gray, byte>(grayimage.Size);
                                         using (MemStorage mem = new MemStorage()) {
 
@@ -433,48 +436,66 @@ namespace VisionModule {
 
                                             BlobSettings.PixelAnalisys.MaskImage = Finalmask;
 
-                                            using (MemStorage ctr_storage = new MemStorage()) {
-                                                Contour<System.Drawing.Point> approxed_ctr = ctr.ApproxPoly(1, ctr_storage);
-                                                if (ResultsInROI == OutputResultType.orContours) {
-                                                    ImageOut.Draw(approxed_ctr, new Bgr(Color.Red), 2);
-                                                }
-                                                switch (BlobSettings.Shape) {
-                                                    case ShapeType.Circle:
 
+
+
+                                            switch (BlobSettings.Shape) {
+                                                case ShapeType.Circle:
+                                                    List<IntPoint> edgePoints = new List<IntPoint>();
+                                                    foreach (System.Drawing.Point item in ctr) {
+                                                        edgePoints.Add(new IntPoint(item.X, item.Y));
+                                                    }
+
+                                                    if (edgePoints.Count < 10) {
+                                                        continue;
+                                                    }
+                                                    SimpleShapeChecker checkshape = new SimpleShapeChecker();
+                                                    checkshape.RelativeDistortionLimit = BlobSettings.RelShapeDistortion;
+                                                    checkshape.MinAcceptableDistortion = BlobSettings.MinShapeDistortion;
+
+                                                    ShapeType shape = checkshape.CheckShapeType(edgePoints);
+
+                                                    if (shape == ShapeType.Circle) {
+                                                        ImageOut.Draw(blob.BoundingBox, new Bgr(Color.Green), 2);
+
+                                                        Double CircleArea = checkshape.Radius * checkshape.Radius * Math.PI;
+                                                        Double ContourArea = ctr.Area;
+
+                                                        Double dist = checkshape.MeanDistance;
                                                         
 
-                                                        break;
-                                                    case ShapeType.Quadrilateral:
-                                                        break;
-                                                    case ShapeType.Triangle:
-                                                        break;
-                                                    default:
                                                         goodblob = true;
-                                                        break;
-                                                }
+                                                    }
 
+
+                                                    break;
+                                                case ShapeType.Quadrilateral:
+                                                    break;
+                                                case ShapeType.Triangle:
+                                                    break;
+                                                default:
+                                                    goodblob = true;
+                                                    break;
+                                            }                                            
+
+
+
+                                            if (goodblob) {
+                                                BlobSettings.PixelAnalisys.Process(new Image<Bgr, byte>(BlobImage.ToBitmap()), new Image<Bgr, byte>(BlobImage.ToBitmap()), Rectangle.Empty);
+                                                BlobsList.Add(new BlobInfo(blob, RoiRegion, BlobSettings.PixelAnalisys));
                                             }
-
-                                        }
-                                        BlobSettings.PixelAnalisys.Process(new Image<Bgr, byte>(BlobImage.ToBitmap()), new Image<Bgr, byte>(BlobImage.ToBitmap()), Rectangle.Empty);
-
-
-
-                                        if (goodblob) {
-                                            BlobsList.Add(new BlobInfo(blob, RoiRegion, BlobSettings.PixelAnalisys, vertices));
                                         }
                                     }
+
+
+
                                 }
-
-
-
-
 
 
                             }
 
                             var ordered = from v in BlobsList.ToList()
-                                          orderby v.Center.X, v.Center.Y
+                                          orderby v.Area descending
                                           select v;
 
                             var orderedList = ordered.ToList();

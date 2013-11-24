@@ -15,6 +15,20 @@ namespace VisionModule {
         private float angleError = 7;
         private float lengthError = 0.1f;
 
+        private float _maxDistance;
+
+        public float MaxDistance {
+            get { return _maxDistance; }
+            private set { _maxDistance = value; }
+        }
+
+        private float _MeanDistance = 0;
+
+        public float MeanDistance {
+            get { return _MeanDistance; }
+            private set { _MeanDistance = value; }
+        }
+
         /// <summary>
         /// Minimum value of allowed shapes' distortion.
         /// </summary>
@@ -115,6 +129,21 @@ namespace VisionModule {
             return ShapeType.Unknown;
         }
 
+        private Point _Center;
+
+        public Point Center {
+            get { return _Center; }
+            private set { _Center = value; }
+        }
+
+
+        float _Radius;
+
+        public float Radius {
+            get { return _Radius; }
+            private set { _Radius = value; }
+        }
+
         /// <summary>
         /// Check if the specified set of points form a circle shape.
         /// </summary>
@@ -129,10 +158,9 @@ namespace VisionModule {
         /// shape is less than 8.</note></para></remarks>
         /// 
         public bool IsCircle(List<IntPoint> edgePoints) {
-            Point center;
-            float radius;
+            
 
-            return IsCircle(edgePoints, out center, out radius);
+            return IsCircle(edgePoints, out _Center, out _Radius);
         }
 
         /// <summary>
@@ -169,17 +197,17 @@ namespace VisionModule {
             radius = ((float)cloudSize.X + cloudSize.Y) / 4;
 
             // calculate mean distance between provided edge points and estimated circle’s edge
-            float meanDistance = 0;
+            
 
             for (int i = 0, n = edgePoints.Count; i < n; i++) {
-                meanDistance += (float)Math.Abs(center.DistanceTo(edgePoints[i]) - radius);
+                MeanDistance += (float)Math.Abs(center.DistanceTo(edgePoints[i]) - radius);
             }
-            meanDistance /= edgePoints.Count;
+            
+            MeanDistance /= edgePoints.Count;
 
-            float maxDitance = Math.Max(minAcceptableDistortion,
-                ((float)cloudSize.X + cloudSize.Y) / 2 * relativeDistortionLimit);
+            MaxDistance = Math.Max(minAcceptableDistortion,((float)cloudSize.X + cloudSize.Y) / 2 * relativeDistortionLimit);
 
-            return (meanDistance <= maxDitance);
+            return (MeanDistance <= MaxDistance);
         }
 
         /// <summary>
@@ -395,7 +423,7 @@ namespace VisionModule {
             }
 
             // calculate distances between edge points and polygon sides
-            float meanDistance = 0;
+            
 
             for (int i = 0, n = edgePoints.Count; i < n; i++) {
                 float minDistance = float.MaxValue;
@@ -413,19 +441,19 @@ namespace VisionModule {
                         minDistance = distance;
                 }
 
-                meanDistance += minDistance;
+                MeanDistance += minDistance;
             }
-            meanDistance /= edgePoints.Count;
+            MeanDistance /= edgePoints.Count;
 
             // get bounding rectangle of the corners list
             IntPoint minXY, maxXY;
             PointsCloud.GetBoundingRectangle(corners, out minXY, out maxXY);
             IntPoint rectSize = maxXY - minXY;
 
-            float maxDitance = Math.Max(minAcceptableDistortion,
+            float maxDistance = Math.Max(minAcceptableDistortion,
                 ((float)rectSize.X + rectSize.Y) / 2 * relativeDistortionLimit);
 
-            return (meanDistance <= maxDitance);
+            return (MeanDistance <= maxDistance);
         }
 
         // Get optimized quadrilateral area
