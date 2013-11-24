@@ -170,11 +170,20 @@ namespace VisionModule {
             set { _Shape = value; }
         }
 
-     
 
+        private float _ShapeDistortion = 50;
         [XmlAttribute]
         [Category("Pre-Processing"), Description("Acceptable shape distortion (0-100%)"), DisplayName("Distortion")]
-        public float ShapeDistortion { get; set; }
+        public float ShapeDistortion {
+            get {
+                return _ShapeDistortion;
+            }
+            set {
+                if (_ShapeDistortion!=value) {
+                    _ShapeDistortion = Math.Max(0, Math.Min(100, value)); 
+                }
+            }
+        }
 
 
         [XmlAttribute]
