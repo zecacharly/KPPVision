@@ -231,7 +231,7 @@ namespace VisionModule {
 
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
 
 
 
@@ -333,12 +333,14 @@ namespace VisionModule {
 
 
                 log.Error(exp);
+
+                return false;
             }
 
 
 
             ImageIn.ROI = Rectangle.Empty;
-            return Pass;
+            return true;
         }
 
     }

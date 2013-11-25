@@ -26,6 +26,8 @@ namespace VisionModule {
 
     public enum CircleTypes { From3Points,FromCenterRadius }
 
+
+
     public class CircleInfo {
 
 
@@ -385,7 +387,7 @@ namespace VisionModule {
 
             try {
 
-                Pass = false;
+                
 
                 if (circleInfo.CircleCenter!=null) {
                     circleInfo.CircleCenter.UpdateValue();
@@ -419,7 +421,7 @@ namespace VisionModule {
 
 
 
-                switch (base.ImagePreProc1.UseChannel) {
+                switch (ImagePreProc1.UseChannel) {
                     case Channel.Bgr:
                         break;
                     case Channel.Red:
@@ -502,7 +504,7 @@ namespace VisionModule {
                 }
                 else {
                     if (circleInfo.CirclePt1 == circleInfo.CirclePt2 || circleInfo.CirclePt2 == circleInfo.CirclePt3) {
-                        return Pass;
+                        return false;
                     }
                     float rad;
                     PointF cent= new PointF();
@@ -589,17 +591,16 @@ namespace VisionModule {
                 mask_arcFilled.Dispose();
                 roiImage.Dispose();
                 grayimage.Dispose();
-            } catch (Exception exp) {
-
-                
+            } catch (Exception exp) {                
                 log.Error(exp);
+                return false;
             }
 
 
 
             
             
-            return Pass;
+            return true;
         }
 
     }
@@ -686,7 +687,7 @@ namespace VisionModule {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
 
-                Pass = false;
+        
 
 
                 Image<Bgr, byte> roiImage = new Image<Bgr, byte>(RoiRegion.Size);
@@ -697,7 +698,7 @@ namespace VisionModule {
 
 
 
-                switch (base.ImagePreProc1.UseChannel) {
+                switch (ImagePreProc1.UseChannel) {
                     case Channel.Bgr:
                         break;
                     case Channel.Red:
@@ -731,14 +732,14 @@ namespace VisionModule {
                 grayimage._Dilate(ImagePreProc1.Dilate);
 
 
-                if (base.ImagePreProc1.UseChannel != Channel.Bgr) {
-                    switch (base.ImagePreProc1.ThresholdType) {
+                if (ImagePreProc1.UseChannel != Channel.Bgr) {
+                    switch (ImagePreProc1.ThresholdType) {
                         case TypeOfThreshold.Normal:
-                            grayimage = grayimage.ThresholdBinary(new Gray(base.ImagePreProc1.Threshold), new Gray(255));
+                            grayimage = grayimage.ThresholdBinary(new Gray(ImagePreProc1.Threshold), new Gray(255));
 
                             break;
                         case TypeOfThreshold.Inverted:
-                            grayimage = grayimage.ThresholdBinaryInv(new Gray(base.ImagePreProc1.Threshold), new Gray(255));
+                            grayimage = grayimage.ThresholdBinaryInv(new Gray(ImagePreProc1.Threshold), new Gray(255));
 
                             break;
                         default:
@@ -747,7 +748,7 @@ namespace VisionModule {
                 }
 
                 //            
-                if (base.ImagePreProc1.UseChannel != Channel.Bgr) {
+                if (ImagePreProc1.UseChannel != Channel.Bgr) {
 
                     circleInfo.CircleCenter.UpdateValue();
                     circleInfo.MainCircleRad.UpdateValue();
@@ -953,11 +954,12 @@ namespace VisionModule {
             } catch (Exception exp) {
                 
                 log.Error(exp);
+                return false;
             }
 
 
 
-            return Pass;
+            return true;
 
 
         }
@@ -1114,7 +1116,7 @@ namespace VisionModule {
 
             try {
                 EllipsesFound.Clear();
-                Pass = false;
+                
 
                 //Point Center = 
 
@@ -1133,7 +1135,7 @@ namespace VisionModule {
 
 
 
-                switch (base.ImagePreProc1.UseChannel) {
+                switch (ImagePreProc1.UseChannel) {
                     case Channel.Bgr:
                         break;
                     case Channel.Red:
@@ -1153,19 +1155,19 @@ namespace VisionModule {
                         break;
                 }
 
-                if (base.ImagePreProc1.UseChannel != Channel.Bgr) {
-                    switch (base.ImagePreProc1.ThresholdType) {
+                if (ImagePreProc1.UseChannel != Channel.Bgr) {
+                    switch (ImagePreProc1.ThresholdType) {
                         case TypeOfThreshold.Normal:
-                            grayimage._ThresholdBinary(new Gray(base.ImagePreProc1.Threshold), new Gray(255));
+                            grayimage._ThresholdBinary(new Gray(ImagePreProc1.Threshold), new Gray(255));
 
                             break;
                         case TypeOfThreshold.Inverted:
-                            grayimage._ThresholdBinaryInv(new Gray(base.ImagePreProc1.Threshold), new Gray(255));
+                            grayimage._ThresholdBinaryInv(new Gray(ImagePreProc1.Threshold), new Gray(255));
 
                             break;
                         case TypeOfThreshold.Adaptive:
 
-                            CvInvoke.cvCanny(grayimage, grayimage, base.ImagePreProc1.Threshold, base.ImagePreProc1.ThresholdLink, base.ImagePreProc1.ApertureSize);
+                            CvInvoke.cvCanny(grayimage, grayimage, ImagePreProc1.Threshold, ImagePreProc1.ThresholdLink, ImagePreProc1.ApertureSize);
 
                             break;
                         default:
@@ -1193,11 +1195,11 @@ namespace VisionModule {
 
 
 
-                        if (currentContour.Perimeter > base.ContourPreProc1.MinContourLength && currentContour.Perimeter < base.ContourPreProc1.MaxContourLength) {
+                        if (currentContour.Perimeter > ContourPreProc1.MinContourLength && currentContour.Perimeter < ContourPreProc1.MaxContourLength) {
 
                             Boolean isOnEdge = false;
 
-                            if (base.ContourPreProc1.RemoveTouchingROIEdges) {
+                            if (ContourPreProc1.RemoveTouchingROIEdges) {
 
                                 if (currentContour.BoundingRectangle.Left == 1 || currentContour.BoundingRectangle.Top == 1)
                                     isOnEdge = true;
@@ -1210,7 +1212,7 @@ namespace VisionModule {
                             if (isOnEdge == false) {
 
 
-                                if ((currentContour.Area > base.ContourPreProc1.MinArea) && (currentContour.Area < base.ContourPreProc1.MaxArea)) {
+                                if ((currentContour.Area > ContourPreProc1.MinArea) && (currentContour.Area < ContourPreProc1.MaxArea)) {
 
 
                                     if (ResultsInROI == OutputResultType.orContours) {
@@ -1322,19 +1324,271 @@ namespace VisionModule {
                 roiImage.Dispose();
                 grayimage.Dispose();
 
-            } catch (Exception exp) {
-
-                
+            } catch (Exception exp) {                
                 log.Error(exp);
+                return false;
             }
 
 
 
          
-            return Pass;
+            return true;
         }
 
     }
 
-   
+
+    [ProcessingFunction("Circle Fitter", "Circle")]
+    public class CircleFitter : ProcessingFunctionBase {
+
+        private static KPPLogger log = new KPPLogger(typeof(CircleFitter));
+
+        public CircleFitter() {
+            ContourPreProc1 = new ContourPreProc();
+
+        }
+
+
+        //= new KPPLogger(typeof(ProcessingFunctionBoundingRectangle));
+
+
+        #region Pre-Processing
+
+        [TypeConverter(typeof(ExpandableObjectConverter)), DisplayName("Contour"), Category("Pre-Processing"), Browsable(true)]
+        public override ContourPreProc ContourPreProc1 {
+            get;
+            set;
+        }
+
+        #endregion
+
+
+
+        #region Post Processing
+
+
+
+
+
+
+
+
+        #endregion
+
+        public override void UpdateRegionToHighligth(object Region) {
+            if (Region is BlobInfo) {
+                BlobInfo blobinf = Region as BlobInfo;
+                base.IdentRegion = new Image<Gray, byte>(base.BaseRoi.Size);
+                base.IdentRegion.Draw(blobinf.BoundingBox, new Gray(255), 2);
+            }
+        }
+
+        public override Boolean Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
+            try {
+                base.Process(ImageIn, ImageOut, RoiRegion);
+                
+
+                Image<Bgr, byte> roiImage = new Image<Bgr, byte>(RoiRegion.Size);
+                ImageIn.ROI = RoiRegion;
+                ImageOut.ROI = RoiRegion;
+                ImageIn.CopyTo(roiImage);
+
+
+
+                try {
+
+                    Image<Gray, Byte> grayimage = new Image<Gray, Byte>(roiImage.Size);
+                    Image<Gray, Byte> originalgrayimage = new Image<Gray, Byte>(roiImage.Size);
+
+
+
+                    switch (ImagePreProc1.UseChannel) {
+                        case Channel.Bgr:
+                            break;
+                        case Channel.Red:
+                            grayimage = roiImage[0];
+                            break;
+                        case Channel.Green:
+                            grayimage = roiImage[1];
+                            break;
+                        case Channel.Blue:
+                            grayimage = roiImage[2];
+                            break;
+                        case Channel.Mono:
+                            CvInvoke.cvCvtColor(roiImage, grayimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_BGR2GRAY);
+                            break;
+                        default:
+                            CvInvoke.cvCvtColor(roiImage, grayimage, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_BGR2GRAY);
+                            break;
+                    }
+
+
+
+                    grayimage.CopyTo(originalgrayimage);
+
+
+                    //Grayimage.ROI = Rectangle.Empty;
+
+
+                    //Grayimage.CopyTo(ThresholdImage);
+                    grayimage._Erode(ImagePreProc1.Erode);
+                    grayimage._Dilate(ImagePreProc1.Dilate);
+
+                    if (ImagePreProc1.UseChannel != Channel.Bgr) {
+                        switch (ImagePreProc1.ThresholdType) {
+                            case TypeOfThreshold.Normal:
+                                grayimage._ThresholdBinary(new Gray(ImagePreProc1.Threshold), new Gray(255));
+
+                                break;
+                            case TypeOfThreshold.Inverted:
+                                grayimage._ThresholdBinaryInv(new Gray(ImagePreProc1.Threshold), new Gray(255));
+
+                                break;
+                            case TypeOfThreshold.Adaptive:
+
+                                CvInvoke.cvCanny(grayimage, grayimage, ImagePreProc1.Threshold, ImagePreProc1.ThresholdLink, ImagePreProc1.ApertureSize);
+
+                                break;
+                            default:
+                                break;
+                        }
+
+                        try {
+
+
+                            using (MemStorage storage = new MemStorage()) {
+
+                                List<Contour<Point>> largestContours = new List<Contour<Point>>();
+
+                                for (Contour<Point> contours = grayimage.FindContours(Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_NONE,
+                                       Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_LIST, storage);
+                                       contours != null;
+                                       contours = contours.HNext) {
+                                    Contour<Point> currentContour = contours;//. ApproxPoly(contours.Perimeter * 0.05, storage);
+
+
+                                    if (currentContour.Perimeter > ContourPreProc1.MinContourLength && currentContour.Perimeter < ContourPreProc1.MaxContourLength) {
+
+                                        Boolean isOnEdge = false;
+
+                                        if (ContourPreProc1.RemoveTouchingROIEdges) {
+
+                                            if (currentContour.BoundingRectangle.Left == 1 || currentContour.BoundingRectangle.Top == 1)
+                                                isOnEdge = true;
+
+                                            if (currentContour.BoundingRectangle.Right >= roiImage.Width - 1 || currentContour.BoundingRectangle.Bottom >= roiImage.Height - 1)
+                                                isOnEdge = true;
+
+                                        }
+
+                                        if (isOnEdge == false) {
+
+
+                                            if ((currentContour.Area > ContourPreProc1.MinArea) && (currentContour.Area < ContourPreProc1.MaxArea)) {
+
+
+                                                if (ResultsInROI == OutputResultType.orContours)
+                                                    ImageOut.Draw(currentContour, new Bgr(Color.Blue), 1);
+
+
+                                                if (ResultsInROI == OutputResultType.orResults) {
+                                                    //ImageOut.Draw(currentContour, new Bgr(Color.Green), 1);
+                                                    //ImageOut.Draw(currentContour.GetMinAreaRect(), new Bgr(Color.Salmon), 1);
+
+                                                }
+
+
+                                                largestContours.Add(currentContour);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                foreach (Contour<Point> ctr in largestContours) {
+                                    List<AForge.IntPoint> pts= new List<AForge.IntPoint>();
+                                    List<PointF> ptsf= new List<PointF>();
+                                    foreach (Point item in ctr) {
+                                        pts.Add(new AForge.IntPoint(item.X, item.Y));
+                                        ptsf.Add(new PointF(item.X, item.Y));
+                                    }
+
+                                    CircleFit teste1 = new CircleFit();
+                                    RansacCircle teste = new RansacCircle(0.2,0.95);
+                                    EstimatedCircle estimated =teste.Estimate(pts);
+                                    //CircleFit teste2 = new CircleFit();
+                                    teste1.initialize(ptsf.ToArray());
+                                    ImageOut.Draw(new CircleF(teste1.getCenter(),(float)teste1.getRadius()), new Bgr(Color.Yellow), 1);
+                                    teste1.minimize(20, 0.1, 0.1);
+                                    ImageOut.Draw(new CircleF(teste1.getCenter(), (float)teste1.getRadius()), new Bgr(Color.Green), 1);
+                                    //if (estimated!=null) {
+                                    //    //teste2.initialize(ptsf.ToArray(), new PointF(estimated.Origin.X, estimated.Origin.Y));
+                                    //    //teste2.minimize(100, 2, 2);
+                                    //    foreach (AForge.Point item in teste.InliersPoints) {
+                                    //        ImageOut.Draw(new Cross2DF(new PointF(item.X,item.Y),2,2), new Bgr(Color.Yellow), 1);
+                                    //    }
+                                    //    ImageOut.Draw(new CircleF(new PointF(estimated.Origin.X, estimated.Origin.Y), (float)estimated.Radius), new Bgr(Color.Green), 1);
+
+                                    //    //ImageOut.Draw(new CircleF(teste2.getCenter(), (float)teste2.getRadius()), new Bgr(Color.Red), 1);
+
+                                    //}
+                                    
+                                    
+                                }
+
+                                if (ResultsInROI == OutputResultType.orResults) {
+
+
+                                } else if (ResultsInROI == OutputResultType.orContours) {
+
+                                } else if (ResultsInROI == OutputResultType.orPreProcessing) {
+                                    ImageOut.ROI = RoiRegion;
+                                    CvInvoke.cvCvtColor(grayimage, ImageOut, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                                    ImageOut.ROI = Rectangle.Empty;
+                                }
+
+
+
+
+                            }
+                        } catch (DllNotFoundException exp) {
+                            log.Error(exp);
+                            return false;
+                        }
+
+
+                        grayimage.Dispose();
+                        originalgrayimage.Dispose();
+
+                    }
+                }
+                catch (Exception exp) {
+                    log.Error(exp);
+                    return false;
+                }
+
+
+
+
+                roiImage.Dispose();
+
+
+            }
+            catch (Exception exp) {
+                
+                log.Error(exp);
+                return false;
+            }
+
+
+
+
+            return true;
+
+
+        }
+
+
+    }
+
+
 }

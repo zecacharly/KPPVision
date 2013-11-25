@@ -204,16 +204,16 @@ namespace VisionModule {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
                 Line = new LineSegment2D();
-                Pass = false;
+                
                 if (Point1==null || Point2==null ) {
-                    return Pass;
+                    return false;
                 }
 
                 Point1.UpdateValue();
                 Point2.UpdateValue();
 
                 if (!(Point1.ResultOutput is PointF) || !(Point2.ResultOutput is PointF)) {
-                    return Pass;
+                    return false;
                 }
 
                 PointF point1 = (PointF)Point1.ResultOutput;
@@ -268,7 +268,7 @@ namespace VisionModule {
 
 
 
-           return Pass;
+           return true;
 
 
         }

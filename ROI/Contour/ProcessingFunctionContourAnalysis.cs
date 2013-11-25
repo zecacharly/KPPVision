@@ -231,6 +231,7 @@ namespace VisionModule {
             } catch (Exception exp) {
                 
                 log.Error(this.FunctionName,exp);
+                return false;
             }
 
 
@@ -238,7 +239,7 @@ namespace VisionModule {
 
 
 
-            return Pass;
+            return true;
         }
 
 

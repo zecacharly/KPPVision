@@ -274,7 +274,7 @@ namespace VisionModule {
         public override bool Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
                 EdgeLocation = new PointF(0, 0);
                 MaxGradient= -1;
                 Image<Bgr, byte> roiImage = new Image<Bgr, byte>(RoiRegion.Size);
@@ -570,13 +570,14 @@ namespace VisionModule {
                 grayimage.Dispose();
 
             } catch (Exception exp) {
-                //ROIBitmapOut = ImageOut.ToBitmap();
+                
                 log.Error( exp);
+                return false;
             }
 
 
 
-            return Pass;
+            return true;
 
 
         }

@@ -86,10 +86,10 @@ namespace VisionModule {
         public override bool Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
 
                 if (Value1 == null || Out == null) {
-                    return Pass;
+                    return false;
                 }
                 Value1.UpdateValue();
             
@@ -98,7 +98,7 @@ namespace VisionModule {
 
                 }
                 else {
-                    return Pass;
+                    return false;
                 }
 
                 //Double value1 = (Double)Value1.ResultOutput;
@@ -121,7 +121,7 @@ namespace VisionModule {
 
 
 
-            return Pass;
+            return true;
 
 
         }
@@ -220,10 +220,10 @@ namespace VisionModule {
         public override bool Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
                 
                 if (Value1 == null || Value2== null) {
-                    return Pass;
+                    return false;
                 }
                 Value1.UpdateValue();
                 Value2.UpdateValue();
@@ -231,7 +231,7 @@ namespace VisionModule {
                 if (Value1.ResultOutput is Double &&  Value2.ResultOutput is Double) {
                     
                 } else {
-                    return Pass;
+                    return false;
                 }
 
                 //Double value1 = (Double)Value1.ResultOutput;
@@ -250,11 +250,12 @@ namespace VisionModule {
             } catch (Exception exp) {
                 
                 log.Error( exp);
+                return false;
             }
 
 
 
-            return Pass;
+            return true;
 
 
         }
@@ -362,10 +363,10 @@ namespace VisionModule {
 
          public override bool Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
              try {
-                 Pass = false;
+                 
                  base.Process(ImageIn, ImageOut, RoiRegion);
                  if (Value1 == null || Value2 == null) {
-                     return Pass;
+                     return false;
                  }
                  Value1.UpdateValue();
                  Value2.UpdateValue();
@@ -373,97 +374,11 @@ namespace VisionModule {
                  if (Value1.ResultOutput is Double && Value2.ResultOutput is Double) {
                      
                  } else {
-                     return Pass;
+                     return false;
 
                  }
 
-                 //if (ProcessCondition!="") {
-                 //    "If(Value1>123)"
-                 //}
-                 //Boolean conditionvalid = false;
-
-                 //try {
-                 //    switch (ProcessCondition.Condition) {
-                 //        case TestConditions.Equal:
-                 //            break;
-                 //        case TestConditions.Greater:
-
-                 //            Double val1=0;
-                 //            Double val2=0;
-
-                 //            if (ProcessCondition.Input1 is String) {
-                 //                PropertyInfo propinf = this.GetType().GetProperty((String)ProcessCondition.Input1);
-                 //                if (propinf != null) {
-                 //                    ResultReference resref = (ResultReference)propinf.GetValue(this, null);
-                 //                    val1 = (Double)resref.ResultOutput;
-                 //                    conditionvalid = true;
-                 //                } else {
-                 //                    var converter = TypeDescriptor.GetConverter(typeof(Double));
-                 //                    if (converter.CanConvertTo(typeof(Double))) {
-                 //                        val1 = (Double)converter.ConvertTo(ProcessCondition.Input1, typeof(Double));
-                 //                        conditionvalid = true;
-                 //                    }
-                 //                }
-                 //            }
-                 //            if (conditionvalid) {
-                 //                conditionvalid = false;
-                                
-                 //                if (ProcessCondition.Input2 is String) {
-                 //                    PropertyInfo propinf = this.GetType().GetProperty((String)ProcessCondition.Input2);
-                 //                    if (propinf != null) {
-                 //                        ResultReference resref = (ResultReference)propinf.GetValue(this, null);
-                 //                        val2 = (Double)resref.ResultOutput;
-                 //                        conditionvalid = true;
-                 //                    } else {
-                 //                        var converter = TypeDescriptor.GetConverter(typeof(Double));
-                 //                        if (converter.CanConvertTo(typeof(Double))) {
-                 //                            val2 = (Double)converter.ConvertTo(ProcessCondition.Input2, typeof(Double));
-                 //                            conditionvalid = true;
-                 //                        }
-                 //                    }
-                 //                }
-                 //            }
-
-                 //            if (conditionvalid) {
-                 //                if (val1>val2) {
-                 //                    if (ProcessCondition.Process!="") {
-                 //                        String[] processstrings = ProcessCondition.Process.Split(new String[] { "=" }, StringSplitOptions.None);
-
-                 //                        if (processstrings.Count()==2) {
-                 //                            PropertyInfo propinf = this.GetType().GetProperty((String)processstrings[0]);
-                 //                            if (propinf != null) {
-                 //                               ResultReference resref = (ResultReference)propinf.GetValue(this, null);
-                                                 
-                 //                                String[] setstrings = ProcessCondition.Process.Split(new String[] { "-" }, StringSplitOptions.None);
-                 //                                if (setstrings.Count()==2){
-
-	
-                 //                               PropertyInfo propinf2 = this.GetType().GetProperty((String)strs2[1]);
-                 //                            if (propinf != null) {
-                 //                               resref.ResultOutput;
-                                         
-                                     
-                 //                            }    }
-
-                 //                        //if (strs.Count()>) {
-                                             
-                 //                        //}
-                 //                    }
-                 //                }
-                 //            }
-
-
-
-                 //            break;
-                 //        case TestConditions.Less:
-                 //            break;
-                 //        default:
-                 //            break;
-                 //    }
-                 //} catch (Exception exp) {
-
-                 //    log.Error(exp);
-                 //}
+                
 
                  Sub = (Double)Value1.ResultOutput - (Double)Value2.ResultOutput;
                  Sub = Math.Round(Sub, 2);
@@ -474,11 +389,12 @@ namespace VisionModule {
              } catch (Exception exp) {
                  
                  log.Error(this.FunctionName,exp);
+                 return false;
              }
 
 
 
-             return false;
+             return true;
 
 
          }
@@ -571,10 +487,10 @@ namespace VisionModule {
 
          public override bool Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
              try {
-                 Pass = false;
+                 
                  base.Process(ImageIn, ImageOut, RoiRegion);
                  if (Value1 == null || Value2 == null) {
-                     return Pass;
+                     return false;
                  }
                  Value1.UpdateValue();
                  Value2.UpdateValue();
@@ -582,7 +498,7 @@ namespace VisionModule {
                  if (Value1.ResultOutput is Double && Value2.ResultOutput is Double) {
                      
                  } else {
-                     return Pass;
+                     return false;
                  }
 
 
@@ -592,12 +508,12 @@ namespace VisionModule {
 
              } catch (Exception exp) {
                  
-                 log.Error(this.FunctionName,exp);
+                 log.Error(exp);
              }
 
 
 
-             return Pass;
+             return false;
 
 
          }

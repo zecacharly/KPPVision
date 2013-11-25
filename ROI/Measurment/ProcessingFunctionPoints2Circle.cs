@@ -119,9 +119,9 @@ namespace VisionModule {
         public override bool Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
                 if (Point1==null || Point2==null || Point3== null) {
-                    return Pass;
+                    return false;
                 }
 
                 Point1.UpdateValue();
@@ -129,7 +129,7 @@ namespace VisionModule {
                 Point3.UpdateValue();
 
                 if (!(Point1.ResultOutput is PointF) || !(Point2.ResultOutput is PointF) || !(Point3.ResultOutput is PointF)) {
-                    return Pass;
+                    return false;
                 }
 
                 PointF point1 = (PointF)Point1.ResultOutput;
@@ -143,7 +143,7 @@ namespace VisionModule {
                 Double.TryParse(radfloat.ToString(), out _Rad);
 
                 if (double.IsNaN(_Center.X) || double.IsNaN(_Center.Y)) {
-                    return Pass;
+                    return false;
                 }
 
                 //Distance = Math.Round(Math.Sqrt(Math.Pow(point2.X - point1.X, 2) + Math.Pow(point2.Y - point1.Y,2)),3);
@@ -184,7 +184,7 @@ namespace VisionModule {
 
 
 
-           return Pass;
+           return false;
 
 
         }

@@ -229,12 +229,12 @@ namespace VisionModule {
 
         
 
-        private Boolean _noPartCheck = false;
+        //private Boolean _noPartCheck = false;
 
-        public Boolean NoPartCheck {
-            get { return _noPartCheck; }
-            set { _noPartCheck = value; }
-        }
+        //public Boolean NoPartCheck {
+        //    get { return _noPartCheck; }
+        //    set { _noPartCheck = value; }
+        //}
 
 
     

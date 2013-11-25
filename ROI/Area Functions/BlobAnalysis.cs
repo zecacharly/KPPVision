@@ -300,9 +300,7 @@ namespace VisionModule {
         public override Boolean Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
-                //ReferenceBlob = new BlobInfo();
-
+                
 
                 NumBlobs = 0;
                 BlobsList.Clear();
@@ -557,8 +555,8 @@ namespace VisionModule {
                     }
                 }
                 catch (Exception exp) {
-
-                    log.Error(this.FunctionName, exp);
+                    log.Error(exp);
+                    return false;
                 }
 
 
@@ -569,14 +567,15 @@ namespace VisionModule {
 
             }
             catch (Exception exp) {
-                Console.WriteLine(exp);
+                
                 log.Error(exp);
+                return false;
             }
 
 
 
 
-            return Pass;
+            return true;
 
 
         }

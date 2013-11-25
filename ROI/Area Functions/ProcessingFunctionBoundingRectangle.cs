@@ -141,7 +141,7 @@ namespace VisionModule {
         public override Boolean Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
                 Area = -1;
                 Width = -1;
                 Heigth = -1;
@@ -359,7 +359,7 @@ namespace VisionModule {
             
 
             //return base.Process(ImageIn, ImageOut, RoiRegion);
-            return Pass;
+            return true;
 
         }
 

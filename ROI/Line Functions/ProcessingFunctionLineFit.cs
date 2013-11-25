@@ -63,7 +63,7 @@ namespace VisionModule {
             try {
 
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
                 Image<Bgr, byte> roiImage = new Image<Bgr, byte>(RoiRegion.Size);
                 ImageIn.ROI = RoiRegion;
                 ImageOut.ROI = RoiRegion;
@@ -193,7 +193,8 @@ namespace VisionModule {
                             int minSamples = (int)20;
                             double probability = (double)0.950;
                             double errorThreshold = (double)1;
-
+                             
+                            
                             // Create a RANSAC algorithm to fit a simple linear regression
                             var ransac = new RANSAC<SimpleLinearRegression>(minSamples);
                             ransac.Probability = probability;
@@ -303,12 +304,14 @@ namespace VisionModule {
 
             } catch (Exception exp) {
 
-                log.Error(this.FunctionName,exp);
+                log.Error(exp);
+
+                return false;
             }
 
 
 
-            return Pass;
+            return true;
 
 
         }

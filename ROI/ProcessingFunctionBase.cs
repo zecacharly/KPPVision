@@ -219,17 +219,17 @@ namespace VisionModule {
         public override Boolean Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
                 Output = null;
 
                 if (Input == null) {
-                    return Pass;
+                    return false;
                 }
 
                 Input.UpdateValue();
 
                 if (Output == null) {
-                    return Pass;
+                    return false;
                 }
                 Output.UpdateValue();
 
@@ -237,13 +237,14 @@ namespace VisionModule {
                 
 
             } catch (Exception exp) {
-
+                log.Error(exp);
+                return false;
             }
 
 
 
 
-            return Pass;
+            return true;
 
 
         }
@@ -321,11 +322,11 @@ namespace VisionModule {
         public override Boolean Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
                 OutputObject = null;
 
                 if (InputList == null) {
-                    return Pass;
+                    return false;
                 }
 
                 InputList.UpdateValue();
@@ -334,7 +335,7 @@ namespace VisionModule {
 
                 if (!(InputList.ResultOutput is CollectionBase)) {
 
-                    return Pass;
+                    return false;
                 }
                 try {
                     CollectionBase collection = InputList.ResultOutput as CollectionBase;
@@ -350,21 +351,23 @@ namespace VisionModule {
                     
                     
                 } catch (Exception exp) {
-                    if (true) {
-                        
-                    }
+                    log.Error(exp);
+                    return false;
+
+                         
                 }
 
               
 
             } catch (Exception exp) {
-
+                log.Error(exp);
+                return false;
             }
 
 
 
 
-            return Pass;
+            return true;
 
 
         }
@@ -773,6 +776,7 @@ namespace VisionModule {
     [XmlInclude(typeof(ProcessingFunctionEllipseFitter))]
     [XmlInclude(typeof(ProcessingFunctionTest))]
     [XmlInclude(typeof(SetValue))]
+    [XmlInclude(typeof(CircleFitter))]
     #endregion    
     [Serializable()]
     public abstract class ProcessingFunctionBase : ICloneable, IDisposable {
@@ -851,12 +855,7 @@ namespace VisionModule {
         }
 
 
-        [XmlAttribute,DisplayName("Min count"), Category("Pass Fail Settings"), Description("Min pixel count inside contour")]
-        public virtual double Mincount { get; set; }
-
-        [XmlAttribute, DisplayName("Max count"), Category("Pass Fail Settings"), Description("Max pixel count inside contour")]
-        public virtual double Maxcount { get; set; }
-
+        
 
 
 
@@ -1102,13 +1101,7 @@ namespace VisionModule {
             }
 
         }
-
-
-
-
-
-        protected Boolean Pass;
-
+               
 
         public virtual void UpdateRegionToHighligth(Object Region) {
 
@@ -1148,11 +1141,12 @@ namespace VisionModule {
 
               
             } catch (Exception exp) {
-                
+                log.Error(exp);
+                return false;
                 
             }
 
-            return Pass;
+            return true;
         }
 
       

@@ -266,6 +266,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ROI\AForge\ShapeChecker.cs" />
+    <Compile Include="ROI\Circle Funtions\CircleFitting.cs" />
+    <Compile Include="ROI\Measurment\CircleFitter.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Vision.cs" />
     <Compile Include="Forms\OutputResultConfForm.cs">
       <SubType>Form</SubType>
@@ -301,7 +305,6 @@
       <DependentUpon>BitmapOutProperty.cs</DependentUpon>
     </Compile>
     <Compile Include="ROI\Math\ProcessingFunctionsMath.cs" />
-    <Compile Include="ROI\Measurment\CircleFitter.cs" />
     <Compile Include="ROI\Measurment\ProcessingFunctionLine2LineAngle.cs" />
     <Compile Include="ROI\Measurment\ProcessingFunctionPoints2Circle.cs" />
     <Compile Include="ROI\Measurment\ProcessingFunctionPoints2Line.cs" />

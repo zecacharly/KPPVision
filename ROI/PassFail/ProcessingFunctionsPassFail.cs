@@ -139,16 +139,16 @@ namespace VisionModule {
         public override bool Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
                 Out = FailOutput;
                 if (Input == null ) {
-                    return Pass;
+                    return false;
                 }
                 Input.UpdateValue();
 
 
                 if (!(Input.ResultOutput is Double)) {
-                    return Pass;
+                    return false;
                 }
 
                 //Double value1 = (Double)Value1.ResultOutput;
@@ -180,7 +180,7 @@ namespace VisionModule {
 
 
 
-            return Pass;
+            return true;
 
 
         }

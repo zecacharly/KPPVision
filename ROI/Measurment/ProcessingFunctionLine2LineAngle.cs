@@ -120,16 +120,16 @@ namespace VisionModule {
         public override bool Process(Image<Bgr, byte> ImageIn, Image<Bgr, byte> ImageOut, Rectangle RoiRegion) {
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
                 if (Line1==null || Line2==null ) {
-                    return Pass;
+                    return false;
                 }
 
                 Line1.UpdateValue();
                 Line2.UpdateValue();
 
                 if (!(Line1.ResultOutput is LineSegment2D) || !(Line2.ResultOutput is LineSegment2D)) {
-                    return Pass;
+                    return false;
                 }
 
                 LineSegment2D line1 = (LineSegment2D)Line1.ResultOutput;
@@ -157,7 +157,7 @@ namespace VisionModule {
 
 
 
-           return Pass;
+           return true;
 
 
         }

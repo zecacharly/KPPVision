@@ -1337,41 +1337,6 @@ namespace VisionModule {
             return null;
         }
 
-        void SendProjectToRemote(TCPClientConnection client, Boolean Confirm = false) {
-
-           
-
-            Confirm = true;
-            if (Confirm) {
-                DialogResult dlgResult = MessageBox.Show("Send project to remote application?", "Confirm option", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dlgResult == System.Windows.Forms.DialogResult.Yes) {
-                    Confirm = false;
-                }
-            }
-
-            if (!Confirm) {
-
-                if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI!=null) {
-                    Rectangle shaperect = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ROIShape.ShapeEfectiveBounds;
-                    
-                    client.Write("SETROI|"+((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.Name+"|"+shaperect.X + "|" + shaperect.Y + "|" + shaperect.Width + "|" + shaperect.Height + "\n\r");
-                    Thread.Sleep(10);
-                    if (((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions.Count>0) {
-                        int thresh = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions[0].ImagePreProc1.Threshold;
-                        client.Write("SETTHRESHOLD|" + ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.Name +"|" +thresh.ToString() + "\n\r");                        
-                        double minval = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions[0].Mincount;
-                        double maxval = ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.ProcessingFunctions[0].Maxcount;
-                        client.Write("SETMINMAX|" + ((VisionProject)(VisionConfig.SelectedProject)).SelectedRequest.SelectedInspection.SelectedROI.Name + "|" + minval.ToString() + "|" + maxval.ToString() + "\n\r");
-                        Thread.Sleep(10);
-                    }
-                }
-                //String serializedProjects = IOFunctions.SerializeObject<VisionProjects>(_projconfig);                                
-
-            }
-
-        }
-
-        
         
         
 

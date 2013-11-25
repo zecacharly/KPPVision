@@ -1170,7 +1170,7 @@ namespace VisionModule {
 
         private void ProcessInspection(Object Sender) {
 
-            Boolean inspres = false;
+            //Boolean inspres = false;
 
 
             if (OriginalImageBgr != null) {
@@ -1201,16 +1201,16 @@ namespace VisionModule {
 
 
 
-                        Boolean roi_pass = roilist[i].ProcessRoi(OriginalImageBgr, ResultImageBgr);
+                        //Boolean roi_pass = roilist[i].ProcessRoi(OriginalImageBgr, ResultImageBgr);
+                        roilist[i].ProcessRoi(OriginalImageBgr, ResultImageBgr);
+
+                        //if (roi_pass && roilist[i].NoPartCheck) {
+
+                        //    inspres = true;
+                        //    break;
 
 
-                        if (roi_pass && roilist[i].NoPartCheck) {
-
-                            inspres = true;
-                            break;
-
-
-                        }
+                        //}
                     }
 
 
@@ -1224,18 +1224,16 @@ namespace VisionModule {
 
                     for (int i = 0; i < roiauxlist.Count(); i++) {
 
+                        //Boolean roi_pass = roiauxlist[i].ProcessRoi(OriginalImageBgr, ResultImageBgr);
+                        roiauxlist[i].ProcessRoi(OriginalImageBgr, ResultImageBgr);
+
+                        //if (roi_pass && roiauxlist[i].NoPartCheck) {
+
+                        //    inspres = true;
+                        //    break;
 
 
-                        Boolean roi_pass = roiauxlist[i].ProcessRoi(OriginalImageBgr, ResultImageBgr);
-
-
-                        if (roi_pass && roiauxlist[i].NoPartCheck) {
-
-                            inspres = true;
-                            break;
-
-
-                        }
+                        //}
                     }
 
 
@@ -1243,11 +1241,12 @@ namespace VisionModule {
                 }
 
 
-                if (inspres) {
-                    if (Sender is TCPServer) {
-                        ((TCPServer)Sender).Client.Write("NOPART");
-                    }
-                }
+                //if (inspres) {
+                //    if (Sender is TCPServer) {
+                //        ((TCPServer)Sender).Client.Write("NOPART");
+                //    }
+                //}
+
                 ResultImageBgr.ROI = Rectangle.Empty;
 
 

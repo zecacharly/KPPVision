@@ -202,19 +202,19 @@ namespace VisionModule {
 
             try {
                 base.Process(ImageIn, ImageOut, RoiRegion);
-                Pass = false;
+                
                 //if (OnGetPreposInfo!=null) {                
                 //        OnGetPreposInfo(this);                                    
                 //}
                 if (RefOrigX==null || RefOrigY==null) {
-                    return Pass;
+                    return false;
                 }
 
                 RefOrigX.UpdateValue();
                 RefOrigY.UpdateValue();
 
                 if (!(RefOrigX.ResultOutput is PointF) || !(RefOrigY.ResultOutput is PointF)) {
-                    return Pass;
+                    return false;
                 }
 
                 PointF thepointx = (PointF)RefOrigX.ResultOutput;
@@ -243,7 +243,7 @@ namespace VisionModule {
                 if (OnNewPrepos!=null) {
                     OnNewPrepos(this);
                 }
-                return Pass;
+                return true;
             } catch (Exception exp) {
 
                 log.Error(exp);
