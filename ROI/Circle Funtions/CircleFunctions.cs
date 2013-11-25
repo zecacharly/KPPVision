@@ -18,6 +18,7 @@ using KPP.Controls.Winforms.ImageEditorObjs;
 using System.Diagnostics;
 using DejaVu;
 using KPPAutomationCore;
+using Accord.Statistics.Models.Regression.Linear;
 
 
 
@@ -1511,26 +1512,17 @@ namespace VisionModule {
                                         pts.Add(new AForge.IntPoint(item.X, item.Y));
                                         ptsf.Add(new PointF(item.X, item.Y));
                                     }
-
+                                    
                                     CircleFit teste1 = new CircleFit();
-                                    RansacCircle teste = new RansacCircle(0.2,0.95);
+                                    RansacCircle teste = new RansacCircle(1,0.95);
                                     EstimatedCircle estimated =teste.Estimate(pts);
-                                    //CircleFit teste2 = new CircleFit();
-                                    teste1.initialize(ptsf.ToArray());
-                                    ImageOut.Draw(new CircleF(teste1.getCenter(),(float)teste1.getRadius()), new Bgr(Color.Yellow), 1);
-                                    teste1.minimize(20, 0.1, 0.1);
-                                    ImageOut.Draw(new CircleF(teste1.getCenter(), (float)teste1.getRadius()), new Bgr(Color.Green), 1);
-                                    //if (estimated!=null) {
-                                    //    //teste2.initialize(ptsf.ToArray(), new PointF(estimated.Origin.X, estimated.Origin.Y));
-                                    //    //teste2.minimize(100, 2, 2);
-                                    //    foreach (AForge.Point item in teste.InliersPoints) {
-                                    //        ImageOut.Draw(new Cross2DF(new PointF(item.X,item.Y),2,2), new Bgr(Color.Yellow), 1);
-                                    //    }
-                                    //    ImageOut.Draw(new CircleF(new PointF(estimated.Origin.X, estimated.Origin.Y), (float)estimated.Radius), new Bgr(Color.Green), 1);
+                                    if (estimated != null) {
+                                        foreach (AForge.Point item in teste.InliersPoints) {
+                                            ImageOut.Draw(new Cross2DF(new PointF(item.X, item.Y), 2, 2), new Bgr(Color.Yellow), 1);
+                                        }
+                                        ImageOut.Draw(new CircleF(new PointF(estimated.Origin.X, estimated.Origin.Y), (float)estimated.Radius), new Bgr(Color.Green), 1);
 
-                                    //    //ImageOut.Draw(new CircleF(teste2.getCenter(), (float)teste2.getRadius()), new Bgr(Color.Red), 1);
-
-                                    //}
+                                    }
                                     
                                     
                                 }

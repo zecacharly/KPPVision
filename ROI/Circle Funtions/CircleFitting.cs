@@ -13,8 +13,7 @@ namespace VisionModule{
     public class RansacCircle {
         private RANSAC<EstimatedCircle> ransac;
         private int[] inliers;
-        private IntPoint[] _InliersPoints;
-
+        
         public AForge.Point[] InliersPoints {
             get { 
                 return points.Submatrix(inliers); 
@@ -29,12 +28,14 @@ namespace VisionModule{
         public int[] Inliers { get { return inliers; } }
 
         public RansacCircle(double threshold, double probability) {
-            ransac = new RANSAC<EstimatedCircle>(6, threshold,probability);
+            ransac = new RANSAC<EstimatedCircle>(3, threshold,probability);
             ransac.Fitting = definecircle;
             ransac.Distances = distance;
+            
             ransac.Degenerate = degenerate;
-            //ransac.
-            //Ransac.MaxEvaluations = 2000;
+            ransac.MaxEvaluations = 5000;
+            
+            
             if (Ransac.MaxSamplings ==10) {
                 
             }
@@ -59,8 +60,9 @@ namespace VisionModule{
 
             this.d2 = new double[points.Length];
             this.points = points;
-            int numiter = 0;
+            
             Double fitted = 0;
+            double lastfit = fitted;
             EstimatedCircle circle = null;
             do {
                 ransac.Compute(points.Length, out inliers);
@@ -71,11 +73,12 @@ namespace VisionModule{
 
                 
                 fitted = (Double)inlierspoints / (Double)totalpoints;
-                
-                numiter++;
-            } while (false);
 
-            //if (fitted<0.5) {
+                break;    
+                
+            } while (true);
+
+            //if (fitted < 0.4) {
             //    return null;
             //}
 
@@ -84,15 +87,21 @@ namespace VisionModule{
         }
 
         private EstimatedCircle definecircle(int[] x) {
-           // System.Diagnostics.Debug.Assert(x.Length == 3);
-            return new EstimatedCircle(points[x[0]], points[x[1]], points[x[2]]);
+
+
+            return FitCircle(points.Submatrix(x));
+            //return new EstimatedCircle(points[x[0]], points[x[1]], points[x[2]]);
         }
 
-        private int[] distance(EstimatedCircle c, double t) {            
+        private int[] distance(EstimatedCircle c, double t) {
+
+            d2 = new double[points.Length];
+
             for (int i = 0; i < points.Length; i++)
                 d2[i] = c.DistanceToPoint(points[i]);
 
             return Matrix.Find(d2, z => z < t);
+
         }
 
         private bool degenerate(int[] indices) {
@@ -146,9 +155,17 @@ namespace VisionModule{
             if (points.Length == 3)
                 return new EstimatedCircle(points[0], points[1], points[2]);
 
-            
+
+            //CircleFit fitter = new CircleFit();
+
+            //PointF[] pts = Array.ConvertAll<AForge.Point, PointF>(points, p => new PointF(p.X, p.Y));
+
+            //fitter.initialize(pts);
+            //fitter.minimize(20, 0.00001, 0.00001);
+
             //return null;
             return FitCircle(points);
+            //return new EstimatedCircle(new AForge.Point(fitter.getCenter().X, fitter.getCenter().Y), (float)fitter.getRadius());
         }
     }
 
