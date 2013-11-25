@@ -318,7 +318,8 @@ namespace VisionModule {
 
                 VisionConfig.DockFile = Path.Combine(Path.GetDirectoryName(visionSettingsFile),ModuleName+".dock");
 
-                PhidgetsIO.InitializePhidgets();
+                
+
 
                 if (File.Exists(VisionConfig.DockFile))
                     try {
@@ -523,6 +524,7 @@ namespace VisionModule {
                 //AndroidServer.Start();
                 #endregion
 
+                
 
                 _ConfigurationsForm.__contextServers.Opening += new CancelEventHandler(__contextServers_Opening);
 
@@ -542,6 +544,7 @@ namespace VisionModule {
 
             }
         }
+
 
 
         private void MainForm_Load(object sender, EventArgs e) {
