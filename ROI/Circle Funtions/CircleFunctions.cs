@@ -32,47 +32,39 @@ namespace VisionModule {
     public class CircleInfo {
 
 
-        UndoRedo<CircleTypes> _CircleType = new UndoRedo<CircleTypes>(CircleTypes.FromCenterRadius);
+        CircleTypes _CircleType = CircleTypes.From3Points;
         [Category("Pre-Processing"), Description("Circle type"), DisplayName("Circle Type")]
         public CircleTypes CircleType {
-            get { return _CircleType.Value; }
+            get { return _CircleType; }
             set {
-                if (!UndoRedoManager.IsCommandStarted) {
-                    switch (value) {
-                        case CircleTypes.FromCenterRadius:
-                            this.ChangeAttributeValue<BrowsableAttribute>("CircleCenter", "browsable", true);
-                            this.ChangeAttributeValue<BrowsableAttribute>("MainCircleRad", "browsable", true);
-                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt1", "browsable", false);
-                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt2", "browsable", false);
-                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt3", "browsable", false);
-                            break;
-                        case CircleTypes.From3Points:
-                            this.ChangeAttributeValue<BrowsableAttribute>("CircleCenter", "browsable", false);
-                            this.ChangeAttributeValue<BrowsableAttribute>("MainCircleRad", "browsable", false);
-                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt1", "browsable", true);
-                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt2", "browsable", true);
-                            this.ChangeAttributeValue<BrowsableAttribute>("CirclePt3", "browsable", true);
-                            break;
-                        default:
-                            break;
-                    }
 
-                    using (UndoRedoManager.Start("Circle type changed to: " + value.ToString())) {
-                        _CircleType.Value = value;
-                        UndoRedoManager.Commit();
-                        
-                       
-
-                        
-                        
-
-                    }
+                switch (value) {
+                    case CircleTypes.FromCenterRadius:
+                        this.ChangeAttributeValue<BrowsableAttribute>("CircleCenter", "browsable", true);
+                        this.ChangeAttributeValue<BrowsableAttribute>("MainCircleRad", "browsable", true);
+                        this.ChangeAttributeValue<BrowsableAttribute>("CirclePt1", "browsable", false);
+                        this.ChangeAttributeValue<BrowsableAttribute>("CirclePt2", "browsable", false);
+                        this.ChangeAttributeValue<BrowsableAttribute>("CirclePt3", "browsable", false);
+                        break;
+                    case CircleTypes.From3Points:
+                        this.ChangeAttributeValue<BrowsableAttribute>("CircleCenter", "browsable", false);
+                        this.ChangeAttributeValue<BrowsableAttribute>("MainCircleRad", "browsable", false);
+                        this.ChangeAttributeValue<BrowsableAttribute>("CirclePt1", "browsable", true);
+                        this.ChangeAttributeValue<BrowsableAttribute>("CirclePt2", "browsable", true);
+                        this.ChangeAttributeValue<BrowsableAttribute>("CirclePt3", "browsable", true);
+                        break;
+                    default:
+                        break;
                 }
-                else {
-                    _CircleType.Value = value;
-                }
+
+                _CircleType = value;
+               
+
+
+
             }
-        }
+        }              
+
 
         UndoRedo<ResultReference> _CircleCenter = new UndoRedo<ResultReference>();
         [Category("Pre-Processing"), Description("Circle center value"), DisplayName("Circle Center"),Browsable(true)]
@@ -218,8 +210,14 @@ namespace VisionModule {
             return "Circle info";
         }
 
+        public CircleInfo(VisionProject selected) {
+            SelectedVisionProject = selected;
+        }
+
         public CircleInfo() {
         }
+        [XmlIgnore,Browsable(false)]
+        public VisionProject SelectedVisionProject { get; set; }
     }
 
     [ProcessingFunction("Circle Analysis","Circle")]
@@ -231,7 +229,22 @@ namespace VisionModule {
             
         }
 
-        
+
+        private VisionProject _SelectedVisionProject;
+        [XmlIgnore, Browsable(false)]
+        public override VisionProject SelectedVisionProject {
+            get { return _SelectedVisionProject; }
+            set {
+                if (_SelectedVisionProject != value) {
+                    _SelectedVisionProject = value;
+                    if (circleInfo!=null) {
+                        circleInfo.SelectedVisionProject = value;
+                    }                  
+
+                }
+            }
+        }
+
 
 
         public delegate void ProcessingFunctionDone(Image<Bgr, byte> ImageOut);
@@ -240,7 +253,7 @@ namespace VisionModule {
         
 
         #region Public Properties
-
+        
         CircleInfo _circleinfo = new CircleInfo();
 
 
@@ -248,7 +261,11 @@ namespace VisionModule {
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public CircleInfo circleInfo {
             get { return _circleinfo; }
-            set { _circleinfo = value; }
+            set {
+                if (_circleinfo!=value) {
+                    _circleinfo = value; 
+                }
+            }
         }
 
 
@@ -394,6 +411,18 @@ namespace VisionModule {
                     circleInfo.CircleCenter.UpdateValue();
                 }
 
+                if (circleInfo.CirclePt1!=null) {
+                    circleInfo.CirclePt1.UpdateValue();
+                }
+
+                if (circleInfo.CirclePt2 != null) {
+                    circleInfo.CirclePt2.UpdateValue();
+                }
+
+                if (circleInfo.CirclePt3 != null) {
+                    circleInfo.CirclePt3.UpdateValue();
+                }
+
                 if (circleInfo.CircleAngleStart!=null) {
                     circleInfo.CircleAngleStart.UpdateValue();
                 }
@@ -509,7 +538,7 @@ namespace VisionModule {
                     }
                     float rad;
                     PointF cent= new PointF();
-                    KPPMath.FindCircle((PointF)circleInfo.CirclePt1.ResultOutput, (PointF)circleInfo.CirclePt2.ResultOutput, (PointF)circleInfo.CirclePt3.ResultOutput, out cent, out rad);
+                    KPPMath.FindCircle((Point)circleInfo.CirclePt1.ResultOutput, (Point)circleInfo.CirclePt2.ResultOutput, (Point)circleInfo.CirclePt3.ResultOutput, out cent, out rad);
                     center.X = (int)cent.X;
                     center.Y = (int)cent.Y;
                     radius = (int)rad;
@@ -1339,6 +1368,8 @@ namespace VisionModule {
     }
 
 
+    public enum CircleFittingMethod {Ransac,LMS}
+
     [ProcessingFunction("Circle Fitter", "Circle")]
     public class CircleFitter : ProcessingFunctionBase {
 
@@ -1361,15 +1392,59 @@ namespace VisionModule {
             set;
         }
 
+        private CircleFittingMethod _FittingMethod = CircleFittingMethod.Ransac;
+        [XmlAttribute]
+        [DisplayName("Fitting Method"), Category("Pre-Processing"), Browsable(true)]
+        public CircleFittingMethod FittingMethod {
+            get { return _FittingMethod; }
+            set { _FittingMethod = value; }
+        }
+
+
+        private double _DistanceThreshold = 0.5;
+        [XmlAttribute]
+        [DisplayName("Distance Threshold"), Category("Pre-Processing"), Browsable(true)]
+        public double DistanceThreshold {
+            get { return _DistanceThreshold; }
+            set { _DistanceThreshold = value; }
+        }
+
+        private double _AcceptanceLevel = 0.5;
+        [XmlAttribute]
+        [DisplayName("Acceptance Level"), Category("Pre-Processing"), Browsable(true)]
+        public double AcceptanceLevel {
+            get { return _AcceptanceLevel; }
+            set { _AcceptanceLevel = value; }
+        }
+
         #endregion
 
 
 
         #region Post Processing
 
+        [XmlIgnore]
+        [UseInResultInput(true), AllowDrag(true), Category("Post-Processing"), Description("Number of circles fitted"), DisplayName("Number Circles"), ReadOnly(true), Browsable(true)]
+        public Double NumCircles { get; set; }
 
 
+        private CustomCollection<CircleFitted> _CirclesList = new CustomCollection<CircleFitted>();
+        [Category("Post-Processing"), TypeConverter(typeof(ExpandableObjectConverter)), XmlIgnore, ReadOnly(true), DisplayName("Circles List")]
+        public CustomCollection<CircleFitted> CirclesList {
+            get { return _CirclesList; }
+            set { _CirclesList = value; }
+        }
 
+        
+
+
+        //private double _FittingLevel = -1;
+        //[XmlIgnore]
+        //[Category("Post-Processing"), Description("Fitting level "), DisplayName("Fitting")]
+        //public double FittingLevel {
+        //    get { return _FittingLevel; }
+            
+        //}
 
 
 
@@ -1423,14 +1498,14 @@ namespace VisionModule {
                             break;
                     }
 
-
+                    //CvInvoke.cvCopyMakeBorder(grayimage.Ptr, grayimage.Ptr, new Point(0, 0), Emgu.CV.CvEnum.BORDER_TYPE.REPLICATE, new MCvScalar(0));
 
                     grayimage.CopyTo(originalgrayimage);
 
 
                     //Grayimage.ROI = Rectangle.Empty;
 
-
+                    
                     //Grayimage.CopyTo(ThresholdImage);
                     grayimage._Erode(ImagePreProc1.Erode);
                     grayimage._Dilate(ImagePreProc1.Dilate);
@@ -1459,88 +1534,115 @@ namespace VisionModule {
 
                             using (MemStorage storage = new MemStorage()) {
 
-                                List<Contour<Point>> largestContours = new List<Contour<Point>>();
+                                using (MemStorage onedgestorage = new MemStorage()) {
 
-                                for (Contour<Point> contours = grayimage.FindContours(Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_NONE,
-                                       Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_LIST, storage);
-                                       contours != null;
-                                       contours = contours.HNext) {
-                                    Contour<Point> currentContour = contours;//. ApproxPoly(contours.Perimeter * 0.05, storage);
+                                    List<Contour<Point>> largestContours = new List<Contour<Point>>();
 
-
-                                    if (currentContour.Perimeter > ContourPreProc1.MinContourLength && currentContour.Perimeter < ContourPreProc1.MaxContourLength) {
-
-                                        Boolean isOnEdge = false;
-
-                                        if (ContourPreProc1.RemoveTouchingROIEdges) {
-
-                                            if (currentContour.BoundingRectangle.Left == 1 || currentContour.BoundingRectangle.Top == 1)
-                                                isOnEdge = true;
-
-                                            if (currentContour.BoundingRectangle.Right >= roiImage.Width - 1 || currentContour.BoundingRectangle.Bottom >= roiImage.Height - 1)
-                                                isOnEdge = true;
-
-                                        }
-
-                                        if (isOnEdge == false) {
+                                    for (Contour<Point> contours = grayimage.FindContours(Emgu.CV.CvEnum.CHAIN_APPROX_METHOD.CV_CHAIN_APPROX_NONE,
+                                           Emgu.CV.CvEnum.RETR_TYPE.CV_RETR_LIST, storage);
+                                           contours != null;
+                                           contours = contours.HNext) {
+                                        Contour<Point> currentContour = contours;//. ApproxPoly(contours.Perimeter * 0.05, storage);
 
 
-                                            if ((currentContour.Area > ContourPreProc1.MinArea) && (currentContour.Area < ContourPreProc1.MaxArea)) {
+                                        if (currentContour.Perimeter > ContourPreProc1.MinContourLength && currentContour.Perimeter < ContourPreProc1.MaxContourLength) {
+
+                                            Boolean isOnEdge = false;
+
+                                            if (ContourPreProc1.RemoveTouchingROIEdges) {
+
+                                                //if (currentContour.BoundingRectangle.Left == 1 || currentContour.BoundingRectangle.Top == 1)
+                                                //    isOnEdge = true;
+
+                                                //if (currentContour.BoundingRectangle.Right >= roiImage.Width - 1 || currentContour.BoundingRectangle.Bottom >= roiImage.Height - 1)
+                                                //    isOnEdge = true;
 
 
-                                                if (ResultsInROI == OutputResultType.orContours)
-                                                    ImageOut.Draw(currentContour, new Bgr(Color.Blue), 1);
 
-
-                                                if (ResultsInROI == OutputResultType.orResults) {
-                                                    //ImageOut.Draw(currentContour, new Bgr(Color.Green), 1);
-                                                    //ImageOut.Draw(currentContour.GetMinAreaRect(), new Bgr(Color.Salmon), 1);
+                                                Contour<Point> ctr2 = new Contour<Point>(onedgestorage);
+                                                Point[] onedge = currentContour.Where(p => (p.X != 1 && p.Y != 1 && p.X != roiImage.Width - 2 && p.Y != roiImage.Height - 2)).ToArray();
+                                                if (onedge != null) {
+                                                    ctr2.PushMulti(onedge, Emgu.CV.CvEnum.BACK_OR_FRONT.FRONT);
+                                                    largestContours.Add(ctr2);
+                                                    isOnEdge = true;
+                                                    if (ResultsInROI == OutputResultType.orContours)
+                                                        ImageOut.DrawPolyline(ctr2.ToArray(),false, new Bgr(Color.Blue), 1);
 
                                                 }
 
+                                            }
 
-                                                largestContours.Add(currentContour);
+
+
+                                            if (isOnEdge == false) {
+
+
+                                                if ((currentContour.Area > ContourPreProc1.MinArea) && (currentContour.Area < ContourPreProc1.MaxArea)) {
+
+
+                                                    if (ResultsInROI == OutputResultType.orContours)
+                                                        ImageOut.Draw(currentContour, new Bgr(Color.Blue), 1);
+
+
+                                                    if (ResultsInROI == OutputResultType.orResults) {
+                                                        //ImageOut.Draw(currentContour, new Bgr(Color.Green), 1);
+                                                        //ImageOut.Draw(currentContour.GetMinAreaRect(), new Bgr(Color.Salmon), 1);
+
+                                                    }
+
+
+                                                    largestContours.Add(currentContour);
+                                                }
                                             }
                                         }
                                     }
-                                }
+                                    //grayimage.
 
-                                foreach (Contour<Point> ctr in largestContours) {
-                                    List<AForge.IntPoint> pts= new List<AForge.IntPoint>();
-                                    List<PointF> ptsf= new List<PointF>();
-                                    foreach (Point item in ctr) {
-                                        pts.Add(new AForge.IntPoint(item.X, item.Y));
-                                        ptsf.Add(new PointF(item.X, item.Y));
-                                    }
-                                    
-                                    CircleFit teste1 = new CircleFit();
-                                    RansacCircle teste = new RansacCircle(1,0.95);
-                                    EstimatedCircle estimated =teste.Estimate(pts);
-                                    if (estimated != null) {
-                                        foreach (AForge.Point item in teste.InliersPoints) {
-                                            ImageOut.Draw(new Cross2DF(new PointF(item.X, item.Y), 2, 2), new Bgr(Color.Yellow), 1);
+                                    _CirclesList.Clear();
+                                    foreach (Contour<Point> ctr in largestContours) {
+
+                                        switch (FittingMethod) {
+                                            case CircleFittingMethod.Ransac:
+
+
+                                                RansacCircle ransaccircle = new RansacCircle(DistanceThreshold, 0.95);
+                                                ransaccircle.Compute(ctr.ToArray(), AcceptanceLevel);
+
+                                                if (ransaccircle.CircleFound) {
+                                                    _CirclesList.Add(ransaccircle);
+                                                    foreach (PointF item in ransaccircle.Inliers) {
+                                                        ImageOut.Draw(new Cross2DF(new PointF(item.X, item.Y), 2, 2), new Bgr(Color.Yellow), 1);
+                                                    }
+                                                    if (ResultsInROI == OutputResultType.orResults) {
+                                                        ImageOut.Draw(new CircleF(ransaccircle.CircleCenter, (float)ransaccircle.CircleRadius), new Bgr(Color.Green), 1);
+                                                    }
+                                                }
+
+                                                break;
+                                            case CircleFittingMethod.LMS:
+                                                break;
+                                            default:
+                                                break;
                                         }
-                                        ImageOut.Draw(new CircleF(new PointF(estimated.Origin.X, estimated.Origin.Y), (float)estimated.Radius), new Bgr(Color.Green), 1);
+
+
+
 
                                     }
-                                    
-                                    
+                                    NumCircles = _CirclesList.Count;
+                                    if (ResultsInROI == OutputResultType.orResults) {
+
+
+                                    } else if (ResultsInROI == OutputResultType.orContours) {
+
+                                    } else if (ResultsInROI == OutputResultType.orPreProcessing) {
+                                        ImageOut.ROI = RoiRegion;
+                                        CvInvoke.cvCvtColor(grayimage, ImageOut, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
+                                        ImageOut.ROI = Rectangle.Empty;
+                                    }
+
+
                                 }
-
-                                if (ResultsInROI == OutputResultType.orResults) {
-
-
-                                } else if (ResultsInROI == OutputResultType.orContours) {
-
-                                } else if (ResultsInROI == OutputResultType.orPreProcessing) {
-                                    ImageOut.ROI = RoiRegion;
-                                    CvInvoke.cvCvtColor(grayimage, ImageOut, Emgu.CV.CvEnum.COLOR_CONVERSION.CV_GRAY2BGR);
-                                    ImageOut.ROI = Rectangle.Empty;
-                                }
-
-
-
-
                             }
                         } catch (DllNotFoundException exp) {
                             log.Error(exp);

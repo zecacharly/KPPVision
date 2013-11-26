@@ -6,26 +6,79 @@ using Accord.MachineLearning;
 using AForge;
 using Accord.Math;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace VisionModule{
 
+    [TypeConverter(typeof(Customconverter<CircleFitted>))]
+    public class CircleFitted {
 
-    public class RansacCircle {
+        private PointF[] _Inliers;
+        [Browsable(false)]
+        public PointF[] Inliers {
+            get {                
+                return _Inliers; 
+            
+            }
+            protected set { _Inliers = value; }
+        }
+
+        private Boolean _CircleFound = false;
+        [Browsable(false)]
+        public Boolean CircleFound {
+            get { return _CircleFound; }
+            protected set { _CircleFound = value; }
+        }
+
+        private Double _Fitting = -1;
+        public Double Fitting {
+            get { return _Fitting; }
+            protected set { _Fitting = value; }
+        }
+
+        private Double _CircleRadius = -1;
+        [DisplayName("Radius")]
+        public Double CircleRadius {
+            get { return _CircleRadius; }
+            protected set { _CircleRadius = value; }
+        }
+
+        private PointF _CircleCenter= PointF.Empty;
+        [DisplayName("Center")]
+        public PointF CircleCenter {
+            get { return _CircleCenter; }
+            protected set { _CircleCenter = value; }
+        }
+
+        public virtual void Compute<T>(T[] pts, Double acceptanceLevel) {
+
+        }
+
+        public CircleFitted() { 
+        
+        }
+    }
+
+
+
+    public class RansacCircle : CircleFitted {
+
         private RANSAC<EstimatedCircle> ransac;
         private int[] inliers;
         
-        public AForge.Point[] InliersPoints {
-            get { 
-                return points.Submatrix(inliers); 
-            }
+        //public AForge.Point[] InliersPoints {
+        //    get { 
+        //        return points.Submatrix(inliers); 
+        //    }
             
-        }
+        //}
 
         private AForge.Point[] points;
         private double[] d2;
-
+        [Browsable(false)]
         public RANSAC<EstimatedCircle> Ransac { get { return this.ransac; } }
-        public int[] Inliers { get { return inliers; } }
+       
+        
 
         public RansacCircle(double threshold, double probability) {
             ransac = new RANSAC<EstimatedCircle>(3, threshold,probability);
@@ -35,55 +88,96 @@ namespace VisionModule{
             ransac.Degenerate = degenerate;
             ransac.MaxEvaluations = 5000;
             
-            
-            if (Ransac.MaxSamplings ==10) {
-                
+           
+        }
+
+
+
+        public override void Compute<T>(T[] pts, Double acceptanceLevel) {
+            if (typeof(T) == typeof(PointF)) {
+                PointF[] ptsf = pts as PointF[];
+                points = Array.ConvertAll<PointF, AForge.Point>(ptsf, p => new AForge.Point(p.X, p.Y));
+            } else if (typeof(T) == typeof(System.Drawing.Point)) {
+                System.Drawing.Point[] ptsf = pts as System.Drawing.Point[];
+                points = Array.ConvertAll<System.Drawing.Point, AForge.Point>(ptsf, p => new AForge.Point(p.X, p.Y));
+            } else {
+                return;
             }
-            //ransac.Samples = 3;
+
+            Estimate(acceptanceLevel);
         }
 
-        public EstimatedCircle Estimate(IEnumerable<IntPoint> points) {
-            return Estimate(points.Select(p => new AForge.Point(p.X, p.Y)).ToArray());
-        }
 
-        public EstimatedCircle Estimate(IEnumerable<AForge.Point> points) {
-            return Estimate(points.ToArray());
-        }
+        //private EstimatedCircle Estimate(IEnumerable<IntPoint> points) {
+        //    return Estimate(points.Select(p => new AForge.Point(p.X, p.Y)).ToArray());
+        //}
 
-        public EstimatedCircle Estimate(IntPoint[] points) {
-            return Estimate(points.Apply(p => new AForge.Point(p.X, p.Y)));
-        }
+        //private EstimatedCircle Estimate(IEnumerable<AForge.Point> points) {
+        //    return Estimate(points.ToArray());
+        //}
 
-        public EstimatedCircle Estimate(AForge.Point[] points) {
+        //private EstimatedCircle Estimate(IntPoint[] points) {
+        //    return Estimate(points.Apply(p => new AForge.Point(p.X, p.Y)));
+        //}
+
+        private EstimatedCircle Estimate(Double acceptanceLevel) {
             if (points.Length < 3)
                 throw new ArgumentException("At least three points are required to fit a circle");
 
             this.d2 = new double[points.Length];
-            this.points = points;
-            
+            //this.points = points;
+            base.CircleFound = false;
             Double fitted = 0;
             double lastfit = fitted;
-            EstimatedCircle circle = null;
+            
+            EstimatedCircle lastcircle = null;
+            int numiter = 0;
             do {
                 ransac.Compute(points.Length, out inliers);
-                circle = fitting(points.Submatrix(inliers));
 
+                base.Inliers = Array.ConvertAll<AForge.Point, PointF>(points.Submatrix(inliers), p => new PointF(p.X, p.Y));
+                EstimatedCircle circle = null;
+                circle = fitting(points.Submatrix(inliers));
+                
                 int totalpoints = points.Count();
                 int inlierspoints = Inliers.Count();
 
                 
                 fitted = (Double)inlierspoints / (Double)totalpoints;
 
-                break;    
-                
-            } while (true);
+                if (fitted > lastfit) {
+                    lastcircle = circle;
+                    lastfit = fitted;
+                } else {
+                    numiter++;
+                }
 
+
+
+
+
+            } while (numiter < 5 && fitted<acceptanceLevel);
+
+            //if (numiter>5) {
+            //    base.CircleFound = false;
+            //    base.CircleCenter = PointF.Empty;
+            //    base.CircleRadius = -1;
+            //    return null;
+            //}
+            base.CircleFound = true;
+            base.CircleCenter = new PointF(lastcircle.Origin.X, lastcircle.Origin.Y);
+            base.CircleRadius = lastcircle.Radius;
+            base.Fitting = Math.Round(lastfit * 100,3);
             //if (fitted < 0.4) {
             //    return null;
             //}
 
-            return circle;
+            return lastcircle;
             
+        }
+
+        public override string ToString() {
+            return "Ransac Fitted Circle";
         }
 
         private EstimatedCircle definecircle(int[] x) {
@@ -122,7 +216,7 @@ namespace VisionModule{
             return p1 == p2 || p2 == p3 || p1 == p3;
         }
 
-        public static EstimatedCircle FitCircle(AForge.Point[] points) {
+        private static EstimatedCircle FitCircle(AForge.Point[] points) {
             double[,] A = new double[points.Count(), 3];
             double[,] Y = new double[points.Count(), 1];
 
@@ -156,15 +250,7 @@ namespace VisionModule{
             if (points.Length == 3)
                 return new EstimatedCircle(points[0], points[1], points[2]);
 
-
-            //CircleFit fitter = new CircleFit();
-
-            //PointF[] pts = Array.ConvertAll<AForge.Point, PointF>(points, p => new PointF(p.X, p.Y));
-
-            //fitter.initialize(pts);
-            //fitter.minimize(20, 0.00001, 0.00001);
-
-            //return null;
+ 
             return FitCircle(points);
             //return new EstimatedCircle(new AForge.Point(fitter.getCenter().X, fitter.getCenter().Y), (float)fitter.getRadius());
         }
