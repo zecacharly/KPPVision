@@ -100,7 +100,8 @@ namespace VisionModule{
             for (int i = 0; i < points.Length; i++)
                 d2[i] = c.DistanceToPoint(points[i]);
 
-            return Matrix.Find(d2, z => z < t);
+            int[] teste = Matrix.Find(d2, z => z < t);
+            return teste;
 
         }
 
