@@ -70,6 +70,10 @@ namespace VisionModule {
 
     public class KPPMath {
 
+        internal static void FindCircle(Point a, Point b, Point c, out PointF center, out float radius) {
+            FindCircle(new PointF((float)a.X, (float)a.Y), new PointF((float)b.X, (float)b.Y), new PointF((float)c.X, (float)c.Y), out center, out radius);
+        }
+
         // Find a circle through the three points.
         internal static void FindCircle(PointF a, PointF b, PointF c, out PointF center, out float radius) {
             // Get the perpendicular bisector of (x1, y1) and (x2, y2).

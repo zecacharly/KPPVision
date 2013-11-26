@@ -838,7 +838,7 @@ namespace VisionModule {
 
         private VisionProject _SelectedVisionProject;
         [XmlIgnore,Browsable(false)]
-        public VisionProject SelectedVisionProject {
+        public virtual VisionProject SelectedVisionProject {
             get { return _SelectedVisionProject; }
             set {
                 if (_SelectedVisionProject!=value) {

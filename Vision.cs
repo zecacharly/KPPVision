@@ -90,7 +90,7 @@ namespace VisionModule {
         // Displays the UI for value selection.
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, System.IServiceProvider provider, object value) {
 
-            ProcessingFunctionBase procbase = context.Instance as ProcessingFunctionBase;
+            VisionProject selected = (VisionProject)context.Instance.GetPropertyValue("visionproject");
 
             AttributeCollection attrs = context.PropertyDescriptor.Attributes;
 
@@ -117,7 +117,7 @@ namespace VisionModule {
 
             if (edSvc != null) {
 
-                _outputresultform.SelectedProject = procbase.SelectedVisionProject;
+                _outputresultform.SelectedProject = selected;
                 _outputresultform.acceptType = resultType;
                 _outputresultform.ResultRef = (value as ResultReference);
                 if (edSvc.ShowDialog(_outputresultform) == DialogResult.OK) {

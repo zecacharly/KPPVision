@@ -191,10 +191,19 @@ namespace VisionModule {
             
             InitializeComponent();
 
+            KPPExtensions.OnAttributeValueChanged+=new AttributeValueChanged(KPPFuctions_OnAttributeValueChanged);
           
 
            
         }
+
+        void KPPFuctions_OnAttributeValueChanged(object obj) {
+            _ListInspForm.Refresh();
+            _ListROIForm.Refresh();
+
+        }
+
+        
 
 
 
