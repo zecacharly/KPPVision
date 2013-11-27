@@ -2548,16 +2548,30 @@ namespace VisionModule {
                 _GotFrame = value;
             }
         }
+
+
+        private int framecount = 0;
+        private int _ValidFrameCount = 0;
+        [XmlAttribute,DisplayName("Frame Count"),Description("Number of frames before capture image")]
+        public int ValidFrameCount {
+            get { return _ValidFrameCount; }
+            set { _ValidFrameCount = value; }
+        }
+
         void _Camera_NewFrame(object sender, NewFrameEventArgs eventArgs) {
             try {
                 if (GotFrame == false) {
-
-                    if (FrameImage != null) {
-                        FrameImage.Dispose();
+                    if (framecount >= ValidFrameCount) {
+                        framecount = 0;
+                        if (FrameImage != null) {
+                            FrameImage.Dispose();
+                        }
+                        FrameImage = new Image<Bgr, byte>(eventArgs.Frame);
+                        GotFrame = true;
+                        waitImage.Set(); 
+                    } else {
+                        framecount++;
                     }
-                    FrameImage = new Image<Bgr, byte>(eventArgs.Frame);
-                    GotFrame = true;
-                    waitImage.Set();
                 }
             } catch (Exception exp) {
 
@@ -2895,44 +2909,6 @@ namespace VisionModule {
 
         
 
-        //private VisionProject m_SelectedProject = null;
-        //[XmlIgnore,Browsable(false)]
-        //public virtual VisionProject SelectedProject {
-        //    get { return m_SelectedProject; }
-        //    set { 
-        //        m_SelectedProject = value;
-        //        if (value!=null) {
-        //            ModuleName = m_SelectedProject.ModuleName;
-        //        }
-        //    }
-        //}
-
-
-        //public BaseCapture(String name,VisionProject selectedProject) {
-        //    try {
-        //        SelectedProject = selectedProject;
-        //        CameraName = name;
-
-        //    } catch (Exception exp) {
-
-        //        log.Error(exp);
-        //    }
-
-
-        //}
-
-        //public BaseCapture(VisionProject selectedProject) {
-        //    try {
-        //        SelectedProject = selectedProject;
-
-
-        //    } catch (Exception exp) {
-
-        //        log.Error(exp);
-        //    }
-
-
-        //}
 
 
         public BaseCapture() {
